@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MovieF - Xem phim trực tuyến</title>
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="index.html">movie<span>F</span></a>
+      <nav>
+        <a href="index.html" class="active">Trang chủ</a>
+        <a href="detail.html?id=3">Phim lẻ</a>
+        <a href="detail.html?id=5">Phim bộ</a>
+        <a href="#">Thể loại</a>
+      </nav>
+      <div class="search-bar">
+        <input type="text" placeholder="Tìm phim..." id="searchInput" />
+      </div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <h1>Khám phá thế giới <em>điện ảnh</em> cùng MovieF</h1>
+        <p>Hàng nghìn bộ phim hot nhất, mới nhất được cập nhật mỗi ngày. Xem ngay, hoàn toàn miễn phí!</p>
+        <a href="detail.html?id=3" class="btn">Xem phim ngay</a>
+        <a href="detail.html?id=10" class="btn btn-outline">Khám phá thêm</a>
+      </div>
+      <div class="hero-img">
+        <img src="https://picsum.photos/seed/movief/900/500" alt="Banner phim" />
+      </div>
+    </section>
+
+    <main class="container">
+      <div class="section-title">
+        <h2>Phim mới cập nhật</h2>
+        <a href="#">Xem tất cả &rarr;</a>
+      </div>
+      <div class="grid" id="movieGrid"></div>
+    </main>
+
+    <footer>&copy; 2026 MovieF. Xây dựng để luyện tập - mọi sở hữu thuộc về tác giả. &nbsp;|&nbsp; <a href="admin.html" style="color: var(--muted)">Quản trị</a></footer>
+
+    <script src="assets/movies.js"></script>
+    <script>
+      const grid = document.getElementById("movieGrid");
+      const searchInput = document.getElementById("searchInput");
+
+      function render(list) {
+        grid.innerHTML = list.length ? list.map(movieCard).join("") : '<p class="empty">Không tìm thấy phim nào.</p>';
+      }
+
+      searchInput.addEventListener("input", () => {
+        const q = searchInput.value.trim().toLowerCase();
+        render(allMovies.filter((m) => m.title.toLowerCase().includes(q)));
+      });
+
+      const allMovies = loadState().all;
+      render(allMovies);
+    </script>
+  </body>
+</html>
