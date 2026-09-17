@@ -1,0 +1,1097 @@
+<!doctype html>
+
+<html class="dark" lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @layer base {
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          overscroll-behavior: none;
+        }
+        main > :first-child {
+          margin-top: 0 !important;
+        }
+        main > :last-child {
+          margin-bottom: 0 !important;
+        }
+      }
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+    <link rel="stylesheet" href="../src/css/output.css" />
+  </head>
+  <body
+    class="bg-surface-container-lowest font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container"
+  >
+    <header
+      id="header"
+      class="fixed top-0 left-0 right-0 w-full z-50 bg-surface-container-lowest/85 backdrop-blur-xl border-b border-white/5"
+    ></header>
+    <main class="w-full pt-20 bg-surface-container-lowest min-h-screen">
+      <div class="flex flex-col w-full">
+        <!-- Cinematic Ambient Backdrop Wrapper -->
+        <div
+          class="relative w-full bg-surface-container-lowest px-gutter-mobile md:px-margin pt-space-md pb-space-xl overflow-hidden"
+        >
+          <!-- Ambient Light Spill Behind Player -->
+          <div
+            class="absolute top-12 left-1/2 -translate-x-1/2 w-3/4 h-96 bg-primary-container/10 blur-[140px] pointer-events-none rounded-full"
+          ></div>
+          <!-- MAIN CINEMATIC THEATER VIEW (PLAYER) -->
+          <div class="relative w-full max-w-[1560px] mx-auto group select-none">
+            <!-- Video Container 16:9 -->
+            <div
+              class="relative w-full aspect-video rounded-xl overflow-hidden bg-surface-container-low shadow-2xl transition-all duration-300"
+              id="videoContainer"
+            >
+              <!-- Video Keyframe Simulation / Cinematic Still -->
+              <img
+                class="w-full h-full object-cover transform scale-100 group-hover:scale-[1.01] transition-transform duration-700 ease-out"
+                data-alt="Epic wide cinematic shot from Dune Part Two, featuring Paul Atreides and Chani standing atop a gigantic sand dune during golden hour on Arrakis, massive spice harvester in atmospheric dusty background, photorealistic 8k film grain, warm amber and deep obsidian cinema contrast"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCg_k0f3SdGqygGzzFcu5kfcYNNBmZaZu1vn0ta6rG_1qYHsbLpSONG39deKFLiPQIiFNKW4oh-DS2e0wzVUpaBa4z2qjhYtuLXCXfqvcGaM2pYwa-kY6oaLJNpW3NSgTTX2jYuOEnTprp14poQ0xlRBRbAydHE9GErUapC363aj4wbG0UUjftoIK5iPzchKuE3pK46QY9a_1cw6bg_e-q87FodZtQ6bq_2_AJ4PT4O-BTAx2PYnX4V"
+              />
+              <!-- Top Scrim / Title Overlay on Hover -->
+              <div
+                class="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-surface-container-lowest/90 via-surface-container-lowest/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none flex items-start justify-between p-space-md md:p-space-lg"
+              >
+                <div class="flex items-center gap-space-sm">
+                  <span
+                    class="px-2.5 py-1 rounded bg-primary-container text-on-primary-container font-label-caps text-label-caps uppercase tracking-wider"
+                    >Đang chiếu</span
+                  >
+                  <span
+                    class="font-title-md text-title-md text-on-surface drop-shadow-md"
+                    >Dune: Hành Tinh Cát - Phần Hai (2024)</span
+                  >
+                </div>
+                <div class="flex items-center gap-space-xs pointer-events-auto">
+                  <button
+                    class="px-3 py-1.5 rounded-lg bg-surface-container/80 hover:bg-surface-container-high text-on-surface font-label-md text-label-md backdrop-blur-md transition-colors flex items-center gap-1.5"
+                  >
+                    <span class="material-symbols-outlined text-sm">cast</span>
+                    <span class="hidden sm:inline">Chromecast</span>
+                  </button>
+                  <button
+                    class="w-8 h-8 rounded-lg bg-surface-container/80 hover:bg-surface-container-high text-on-surface flex items-center justify-center backdrop-blur-md transition-colors"
+                  >
+                    <span class="material-symbols-outlined text-base"
+                      >picture_in_picture_alt</span
+                    >
+                  </button>
+                </div>
+              </div>
+              <!-- Center Big Play/Buffering Micro-Interactivity -->
+              <div
+                class="absolute inset-0 flex items-center justify-center pointer-events-none"
+              >
+                <button
+                  class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-surface-container-lowest/70 backdrop-blur-md flex items-center justify-center text-on-surface shadow-2xl opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 pointer-events-auto hover:bg-primary-container hover:text-on-primary-container"
+                  id="centerPlayBtn"
+                >
+                  <span
+                    class="material-symbols-outlined text-4xl md:text-5xl ml-1"
+                    id="centerPlayIcon"
+                    style="font-variation-settings: &quot;FILL&quot; 1"
+                    >play_arrow</span
+                  >
+                </button>
+              </div>
+              <!-- Bottom Controls Gradient Scrim -->
+              <div
+                class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/70 to-transparent pt-20 pb-space-sm md:pb-space-md px-space-md md:px-space-lg flex flex-col justify-end opacity-90 group-hover:opacity-100 transition-opacity duration-300"
+              >
+                <!-- Seekbar Timeline with Hover Preview Slot -->
+                <div
+                  class="relative w-full flex flex-col justify-end py-2 cursor-pointer group/seek"
+                  id="progressTrackContainer"
+                >
+                  <!-- Hover Thumbnail Preview Box -->
+                  <div
+                    class="absolute bottom-6 left-1/2 -translate-x-1/2 hidden group-hover/seek:flex flex-col items-center pointer-events-none"
+                    id="seekThumbnail"
+                  >
+                    <div
+                      class="w-40 h-24 rounded-lg overflow-hidden bg-surface-container-high shadow-xl p-1 bg-surface-container-lowest"
+                    >
+                      <img
+                        class="w-full h-full object-cover rounded"
+                        data-alt="Cinematic frame capture from Dune Part Two showing sandworm emerging in the desert, golden sunset sand lighting, motion blur preview"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-RXq_zJKkp_TkQNp83L2_9uZYma1axDP_if4JYjc2Ho2RMKvXOBKFwxfBJGV_qNPW8XffI4d0GLuBXuJrvphALL505wyHyfpM_sZTOxLrS_qIr42K5jZ9VzLCUwl8gdLpey4iJrbkXS1qIF9zN62L9fTcGV2mQzglRfzDmsUcXCIofSVSrcuwTNcTNri3w6ZGnh5RLE0V-iFbQTFvG_3TMmxGqBgGHfa4IdPgX_WWledkoDcv6QkP"
+                      />
+                    </div>
+                    <span
+                      class="mt-1 px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-label-md text-label-md shadow-md"
+                      >01:14:32</span
+                    >
+                  </div>
+                  <!-- Progress Bar Track -->
+                  <div
+                    class="relative w-full h-1.5 group-hover/seek:h-2.5 rounded-full bg-surface-container-highest/60 backdrop-blur transition-all overflow-hidden flex items-center"
+                  >
+                    <!-- Buffer Cache Bar -->
+                    <div
+                      class="absolute top-0 bottom-0 left-0 bg-surface-variant w-[65%] rounded-full"
+                    ></div>
+                    <!-- Active Played Bar (Dune Red Accent) -->
+                    <div
+                      class="absolute top-0 bottom-0 left-0 bg-primary-container w-[45%] rounded-full shadow-[0_0_12px_rgba(229,9,20,0.8)]"
+                      id="videoProgressBar"
+                    ></div>
+                  </div>
+                  <!-- Draggable Scrubber Head -->
+                  <div
+                    class="absolute left-[45%] top-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 bg-on-surface rounded-full shadow-lg opacity-0 group-hover/seek:opacity-100 transition-opacity"
+                  ></div>
+                </div>
+                <!-- Bottom Control Bar Items -->
+                <div
+                  class="flex items-center justify-between mt-space-xs text-on-surface"
+                >
+                  <!-- Left Controls: Play, Skips, Volume, Timestamp -->
+                  <div class="flex items-center gap-space-xs sm:gap-space-sm">
+                    <button
+                      class="w-10 h-10 rounded-lg hover:bg-surface-container/60 flex items-center justify-center transition-colors"
+                      id="togglePlayBtn"
+                    >
+                      <span
+                        class="material-symbols-outlined text-2xl"
+                        id="playStateIcon"
+                        style="font-variation-settings: &quot;FILL&quot; 1"
+                        >pause</span
+                      >
+                    </button>
+                    <button
+                      class="w-9 h-9 rounded-lg hover:bg-surface-container/60 flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors"
+                      title="Lùi 10 giây"
+                    >
+                      <span class="material-symbols-outlined text-xl"
+                        >replay_10</span
+                      >
+                    </button>
+                    <button
+                      class="w-9 h-9 rounded-lg hover:bg-surface-container/60 flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors"
+                      title="Tua 10 giây"
+                    >
+                      <span class="material-symbols-outlined text-xl"
+                        >forward_10</span
+                      >
+                    </button>
+                    <!-- Volume Control -->
+                    <div class="flex items-center gap-1.5 group/vol ml-1">
+                      <button
+                        class="w-9 h-9 rounded-lg hover:bg-surface-container/60 flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors"
+                        id="muteBtn"
+                      >
+                        <span
+                          class="material-symbols-outlined text-xl"
+                          id="volIcon"
+                          >volume_up</span
+                        >
+                      </button>
+                      <div
+                        class="w-0 overflow-hidden group-hover/vol:w-20 transition-all duration-200 flex items-center pr-2"
+                      >
+                        <input
+                          class="w-full h-1 bg-surface-variant accent-primary-container rounded cursor-pointer"
+                          max="100"
+                          min="0"
+                          type="range"
+                          value="85"
+                        />
+                      </div>
+                    </div>
+                    <!-- Time display -->
+                    <div
+                      class="hidden sm:flex items-center font-label-md text-label-md text-on-surface-variant ml-2"
+                    >
+                      <span class="text-on-surface font-medium">01:14:32</span>
+                      <span class="mx-1.5 opacity-40">/</span>
+                      <span>02:46:00</span>
+                    </div>
+                  </div>
+                  <!-- Right Controls: Resolution, Audio/Subtitles, Speed, Fullscreen -->
+                  <div class="flex items-center gap-1 sm:gap-space-xs">
+                    <!-- Quality Badge Switcher -->
+                    <div class="relative group/menu">
+                      <button
+                        class="px-2.5 py-1 rounded bg-surface-container/80 hover:bg-surface-container-high text-on-surface font-label-caps text-label-caps flex items-center gap-1 transition-colors"
+                      >
+                        <span
+                          class="w-1.5 h-1.5 rounded-full bg-primary-container"
+                        ></span>
+                        <span id="currentQuality">4K UHD</span>
+                        <span class="material-symbols-outlined text-xs"
+                          >expand_more</span
+                        >
+                      </button>
+                      <div
+                        class="absolute bottom-full right-0 mb-2 w-32 py-1.5 rounded-lg bg-surface-container-low shadow-2xl backdrop-blur-xl hidden group-hover/menu:flex flex-col z-20"
+                      >
+                        <button
+                          class="px-3 py-1.5 text-left font-label-md text-label-md text-primary-container font-semibold hover:bg-surface-container flex items-center justify-between"
+                        >
+                          <span>4K 2160p</span>
+                          <span class="material-symbols-outlined text-xs"
+                            >check</span
+                          >
+                        </button>
+                        <button
+                          class="px-3 py-1.5 text-left font-label-md text-label-md text-on-surface hover:bg-surface-container"
+                        >
+                          1080p FHD
+                        </button>
+                        <button
+                          class="px-3 py-1.5 text-left font-label-md text-label-md text-on-surface hover:bg-surface-container"
+                        >
+                          720p HD
+                        </button>
+                        <button
+                          class="px-3 py-1.5 text-left font-label-md text-label-md text-on-surface-variant hover:bg-surface-container"
+                        >
+                          Auto (Tự động)
+                        </button>
+                      </div>
+                    </div>
+                    <!-- Subtitles Selector -->
+                    <div class="relative group/subs">
+                      <button
+                        class="px-2.5 py-1 rounded bg-surface-container/80 hover:bg-surface-container-high text-on-surface font-label-caps text-label-caps flex items-center gap-1 transition-colors"
+                      >
+                        <span class="material-symbols-outlined text-sm"
+                          >subtitles</span
+                        >
+                        <span>Vietsub</span>
+                      </button>
+                      <div
+                        class="absolute bottom-full right-0 mb-2 w-36 py-1.5 rounded-lg bg-surface-container-low shadow-2xl backdrop-blur-xl hidden group-hover/subs:flex flex-col z-20"
+                      >
+                        <button
+                          class="px-3 py-1.5 text-left font-label-md text-label-md text-primary-container font-semibold hover:bg-surface-container flex items-center justify-between"
+                        >
+                          <span>Tiếng Việt</span>
+                          <span class="material-symbols-outlined text-xs"
+                            >check</span
+                          >
+                        </button>
+                        <button
+                          class="px-3 py-1.5 text-left font-label-md text-label-md text-on-surface hover:bg-surface-container"
+                        >
+                          Tiếng Anh
+                        </button>
+                        <button
+                          class="px-3 py-1.5 text-left font-label-md text-label-md text-on-surface-variant hover:bg-surface-container"
+                        >
+                          Tắt phụ đề
+                        </button>
+                      </div>
+                    </div>
+                    <!-- Speed Controller -->
+                    <button
+                      class="w-9 h-9 rounded-lg hover:bg-surface-container/60 flex items-center justify-center font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface transition-colors"
+                      title="Tốc độ phát"
+                    >
+                      1.0x
+                    </button>
+                    <!-- Fullscreen Toggle -->
+                    <button
+                      class="w-9 h-9 rounded-lg hover:bg-surface-container/60 flex items-center justify-center text-on-surface transition-colors ml-1"
+                      id="fullscreenBtn"
+                      title="Toàn màn hình"
+                    >
+                      <span class="material-symbols-outlined text-xl"
+                        >fullscreen</span
+                      >
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- MAIN MOVIE INFORMATION & ACTION PANEL -->
+          <div class="w-full max-w-[1560px] mx-auto mt-space-lg">
+            <div
+              class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg lg:gap-space-xl"
+            >
+              <!-- Left 8 Cols: Movie Metadata, Servers, Storyline -->
+              <div class="lg:col-span-8 flex flex-col gap-space-md">
+                <!-- Title & Badges Header -->
+                <div class="flex flex-col gap-2">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <span
+                      class="px-2.5 py-0.5 rounded-full bg-secondary/15 text-secondary font-label-caps text-label-caps uppercase tracking-wide"
+                      >Chiếu Rạp Bom Tấn</span
+                    >
+                    <span
+                      class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-caps text-label-caps"
+                      >Phần 2</span
+                    >
+                    <span
+                      class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-caps text-label-caps"
+                      >Bản Gốc 4K IMAX</span
+                    >
+                  </div>
+                  <h1
+                    class="font-headline-xl text-headline-xl text-on-surface font-extrabold tracking-tight"
+                  >
+                    Dune: Hành Tinh Cát - Phần Hai
+                  </h1>
+                  <p
+                    class="font-title-sm text-title-sm text-on-surface-variant"
+                  >
+                    Tập Full HD Vietsub • Dune: Part Two (2024)
+                  </p>
+                </div>
+                <!-- Specs Matrix -->
+                <div
+                  class="flex flex-wrap items-center gap-y-2 gap-x-4 font-body-sm text-body-sm text-on-surface-variant py-space-xs"
+                >
+                  <div
+                    class="flex items-center gap-1.5 px-2.5 py-1 rounded bg-secondary/10 text-secondary font-semibold"
+                  >
+                    <span
+                      class="material-symbols-outlined text-base"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >star</span
+                    >
+                    <span>8.9 IMDb</span>
+                  </div>
+                  <span>2024</span>
+                  <span class="w-1 h-1 rounded-full bg-surface-variant"></span>
+                  <span>166 phút</span>
+                  <span class="w-1 h-1 rounded-full bg-surface-variant"></span>
+                  <span>Khoa học viễn tưởng, Hành động, Phiêu lưu</span>
+                  <span class="w-1 h-1 rounded-full bg-surface-variant"></span>
+                  <span
+                    class="px-1.5 py-0.5 rounded bg-surface-container text-on-surface font-label-caps text-label-caps"
+                    >T16</span
+                  >
+                </div>
+                <!-- Fast Action Buttons Bar -->
+                <div
+                  class="flex flex-wrap items-center gap-space-sm pt-space-xs"
+                >
+                  <button
+                    class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-title-sm text-title-sm transition-all shadow-sm group"
+                  >
+                    <span
+                      class="material-symbols-outlined text-lg text-primary group-hover:scale-110 transition-transform"
+                      >favorite</span
+                    >
+                    <span>Thêm vào danh sách</span>
+                  </button>
+                  <button
+                    class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-title-sm text-title-sm transition-all shadow-sm group"
+                  >
+                    <span
+                      class="material-symbols-outlined text-lg text-secondary group-hover:scale-110 transition-transform"
+                      >star</span
+                    >
+                    <span>Đánh giá phim (8.9)</span>
+                  </button>
+                  <button
+                    class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-title-sm text-title-sm transition-all shadow-sm"
+                  >
+                    <span
+                      class="material-symbols-outlined text-lg text-on-surface-variant"
+                      >share</span
+                    >
+                    <span>Chia sẻ</span>
+                  </button>
+                  <button
+                    class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-error font-title-sm text-title-sm transition-all shadow-sm ml-auto"
+                  >
+                    <span class="material-symbols-outlined text-lg"
+                      >report</span
+                    >
+                    <span class="hidden sm:inline">Báo lỗi đường truyền</span>
+                  </button>
+                </div>
+                <!-- Server Streaming Selector Box -->
+                <div
+                  class="mt-space-sm p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-sm shadow-md"
+                >
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                      <span
+                        class="material-symbols-outlined text-primary-container text-xl"
+                        >dns</span
+                      >
+                      <span
+                        class="font-title-sm text-title-sm text-on-surface font-semibold"
+                        >Chọn nguồn phát tín hiệu (Server)</span
+                      >
+                    </div>
+                    <span
+                      class="font-label-caps text-label-caps text-on-surface-variant"
+                      >Tốc độ mượt mà nhất</span
+                    >
+                  </div>
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-space-sm">
+                    <!-- Server VIP 1 (Active) -->
+                    <button
+                      class="relative flex items-center justify-between p-space-sm rounded-lg bg-primary-container text-on-primary-container shadow-lg font-title-sm text-title-sm text-left group overflow-hidden"
+                    >
+                      <div class="flex items-center gap-2.5">
+                        <span
+                          class="w-2.5 h-2.5 rounded-full bg-white animate-pulse"
+                        ></span>
+                        <div class="flex flex-col">
+                          <span class="font-bold">Server VIP 1</span>
+                          <span class="text-[11px] opacity-90 leading-tight"
+                            >Khuyên dùng • 4K Ultra Fast</span
+                          >
+                        </div>
+                      </div>
+                      <span class="material-symbols-outlined text-lg"
+                        >check_circle</span
+                      >
+                    </button>
+                    <!-- Server VIP 2 -->
+                    <button
+                      class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-title-sm text-title-sm text-left transition-colors"
+                    >
+                      <div class="flex items-center gap-2.5">
+                        <span
+                          class="w-2.5 h-2.5 rounded-full bg-secondary"
+                        ></span>
+                        <div class="flex flex-col">
+                          <span class="font-semibold">Server VIP 2</span>
+                          <span
+                            class="text-[11px] text-on-surface-variant leading-tight"
+                            >Dự phòng • 1080p FHD</span
+                          >
+                        </div>
+                      </div>
+                      <span
+                        class="material-symbols-outlined text-base text-on-surface-variant"
+                        >chevron_right</span
+                      >
+                    </button>
+                    <!-- Server 3 -->
+                    <button
+                      class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-title-sm text-title-sm text-left transition-colors"
+                    >
+                      <div class="flex items-center gap-2.5">
+                        <span
+                          class="w-2.5 h-2.5 rounded-full bg-surface-variant"
+                        ></span>
+                        <div class="flex flex-col">
+                          <span class="font-semibold">Server Dự phòng</span>
+                          <span
+                            class="text-[11px] text-on-surface-variant leading-tight"
+                            >Tốc độ tiêu chuẩn • 720p</span
+                          >
+                        </div>
+                      </div>
+                      <span
+                        class="material-symbols-outlined text-base text-on-surface-variant"
+                        >chevron_right</span
+                      >
+                    </button>
+                  </div>
+                </div>
+                <!-- Film Synopsis / Details -->
+                <div class="mt-space-xs flex flex-col gap-2">
+                  <span
+                    class="font-title-sm text-title-sm text-on-surface font-semibold"
+                    >Tóm tắt nội dung</span
+                  >
+                  <p
+                    class="font-body-md text-body-md text-on-surface-variant leading-relaxed"
+                  >
+                    Paul Atreides hợp nhất với Chani và người Fremen trong khi
+                    tìm kiếm sự trả thù chống lại những kẻ đã hủy diệt gia tộc
+                    của anh. Đứng trước sự lựa chọn giữa tình yêu của cuộc đời
+                    mình và số phận của vũ trụ đã biết, Paul nỗ lực ngăn chặn
+                    một tương lai khủng khiếp mà chỉ anh mới có thể nhìn thấy
+                    trước qua các thị kiến bí ẩn của loài cát Arrakis.
+                  </p>
+                </div>
+              </div>
+              <!-- Right 4 Cols: Cast, Director & Quick Technical Specs Card -->
+              <div class="lg:col-span-4 flex flex-col gap-space-md">
+                <div
+                  class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-md shadow-md"
+                >
+                  <span
+                    class="font-title-sm text-title-sm text-on-surface font-bold"
+                    >Thông tin chi tiết</span
+                  >
+                  <div class="flex flex-col gap-3 font-body-sm text-body-sm">
+                    <div class="flex items-start justify-between">
+                      <span class="text-on-surface-variant">Đạo diễn:</span>
+                      <span class="text-on-surface font-medium text-right"
+                        >Denis Villeneuve</span
+                      >
+                    </div>
+                    <div class="flex items-start justify-between">
+                      <span class="text-on-surface-variant"
+                        >Diễn viên chính:</span
+                      >
+                      <span
+                        class="text-on-surface font-medium text-right max-w-[200px]"
+                        >Timothée Chalamet, Zendaya, Rebecca Ferguson, Javier
+                        Bardem</span
+                      >
+                    </div>
+                    <div class="flex items-start justify-between">
+                      <span class="text-on-surface-variant">Quốc gia:</span>
+                      <span class="text-on-surface font-medium text-right"
+                        >Hoa Kỳ, Canada</span
+                      >
+                    </div>
+                    <div class="flex items-start justify-between">
+                      <span class="text-on-surface-variant">Âm thanh:</span>
+                      <span class="text-on-surface font-medium text-right"
+                        >Dolby Atmos, 5.1 Surround</span
+                      >
+                    </div>
+                    <div class="flex items-start justify-between">
+                      <span class="text-on-surface-variant"
+                        >Chất lượng nguồn:</span
+                      >
+                      <span class="text-secondary font-semibold text-right"
+                        >4K HDR10+ / Vision</span
+                      >
+                    </div>
+                  </div>
+                  <!-- Cast Avatars Rail Mini -->
+                  <div class="pt-space-xs flex flex-col gap-2">
+                    <span
+                      class="font-label-caps text-label-caps text-on-surface-variant uppercase"
+                      >Diễn viên tiêu biểu</span
+                    >
+                    <div
+                      class="flex items-center gap-space-xs overflow-x-auto pb-1"
+                    >
+                      <div
+                        class="flex flex-col items-center flex-shrink-0 w-14 text-center"
+                      >
+                        <img
+                          class="w-12 h-12 rounded-full object-cover shadow"
+                          data-alt="Close up portrait photo of actor Timothee Chalamet with cinematic moody lighting on dark slate studio backdrop"
+                          src="https://lh3.googleusercontent.com/aida-public/AB6AXuDB9PmDd5AuidhDjsPeIQP6ynpeD_a8XsIp9V9R7eoj3lFej3uIuVNEh5s9HTirBvX_KdRJZspfUIw5TTpVuA_WYolsNI-IsNptcSXmRZgcrcN5VDdJfXOJtP8dfZGZzHkJQLY7uVv-aGkshWxFHdN5kBnzvLkdEZsD1ymPwYIqMbrJhBreHnq1Clo2c_P34GYdfTyukCu3-JOPEF6DTRhHB01jdUywlJrz1cP8pO8_D2tPpIaMe-LE"
+                        />
+                        <span
+                          class="text-[11px] text-on-surface font-medium mt-1 truncate w-full"
+                          >Timothée</span
+                        >
+                      </div>
+                      <div
+                        class="flex flex-col items-center flex-shrink-0 w-14 text-center"
+                      >
+                        <img
+                          class="w-12 h-12 rounded-full object-cover shadow"
+                          data-alt="Portrait photography of Zendaya looking intense with dramatic studio lighting and dark elegant backdrop"
+                          src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLUQ4EY1kzvNzfkDenczowvzfnItUJ6v2_sn5x6RNAHPosowTZU5YV106CsKPSU7zR3JUO2MvA-veTvPyMfhvsxGqBJ30LjBn3nyyuITeJnMuHJAe3j7KudV2BYqTXn76rl_iW5aN221XSln6ROXT_MjfvW0x7_vbmRSDV3Zl1y0gK0f4INGVzrG0wexMbMnsGNEso9n6pNjIUlcTSqBDJqK33E76MSPKXW9N0xBtuLCkHot7_ZWrm"
+                        />
+                        <span
+                          class="text-[11px] text-on-surface font-medium mt-1 truncate w-full"
+                          >Zendaya</span
+                        >
+                      </div>
+                      <div
+                        class="flex flex-col items-center flex-shrink-0 w-14 text-center"
+                      >
+                        <img
+                          class="w-12 h-12 rounded-full object-cover shadow"
+                          data-alt="Studio portrait of Rebecca Ferguson with sharp cinematic expression and deep contrast"
+                          src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_KzMKUkfdUgq3h-XpczMAxqgvXRI1dWr1f1Y32ou57JsCuoinYTP3zwZvTz7VihgFpbENCrAPaElqEf6buAaUOc8FWUq5LiVeplzvWxU282kHC-C0tXsxaewAzwzY9FoNorX4hqxfueEVvCC8YGHZ6fOEfqNJ-_43C9-UESDRey5ZYX4BTrcjFXeZ7zg1K8gU-AhyHOJf23jHu4CWcs48EaaT1tR3eL3nYzAwd_r90wlO8aUzoPK_"
+                        />
+                        <span
+                          class="text-[11px] text-on-surface font-medium mt-1 truncate w-full"
+                          >Rebecca</span
+                        >
+                      </div>
+                      <div
+                        class="flex flex-col items-center flex-shrink-0 w-14 text-center"
+                      >
+                        <img
+                          class="w-12 h-12 rounded-full object-cover shadow"
+                          data-alt="Portrait photo of Austin Butler with edgy dramatic cinematic lighting on black backdrop"
+                          src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJTKKAIbzzo6_wNJc7oi6II4y3Ggc03u3uJiFvUfrKhiWAAUHIP9-69otzTG1eUsxzpNqvNhoING2Mc0J5qrufsVANWIXbwvRfLD6A_sTRh4B8CWmjmumLJBzTdM8VQCUqXgvWD_HN78FOEHK2uCXIQ_AGUG4zbqbe9Klj9ZvUneW0l0nI_hipp_2dvC0y0PollJfgJZ8zXiYyrjjbCVddWasHUbVLkK2g9TQ82k2htTTkZ1IEqz_l"
+                        />
+                        <span
+                          class="text-[11px] text-on-surface font-medium mt-1 truncate w-full"
+                          >Austin B.</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- VIP Cinema Upgrade Card -->
+                <div
+                  class="relative overflow-hidden p-space-md rounded-xl bg-gradient-to-br from-surface-container to-surface-container-high shadow-lg flex items-center justify-between gap-space-sm"
+                >
+                  <div class="flex flex-col gap-1">
+                    <span
+                      class="font-label-caps text-label-caps text-secondary uppercase font-bold tracking-wider"
+                      >Trải nghiệm đỉnh cao</span
+                    >
+                    <span
+                      class="font-title-sm text-title-sm text-on-surface font-bold"
+                      >Gói MovieF CineVIP</span
+                    >
+                    <span
+                      class="font-body-sm text-body-sm text-on-surface-variant text-xs"
+                      >Mở khóa âm thanh vòm Dolby Atmos không nén</span
+                    >
+                  </div>
+                  <button
+                    class="px-3.5 py-2 rounded-lg bg-secondary text-on-secondary font-title-sm text-title-sm font-semibold flex-shrink-0 hover:bg-secondary-fixed transition-colors"
+                  >
+                    Nâng cấp
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- RECOMMENDED MOVIES (PHIM ĐỀ XUẤT CHO BẠN) -->
+          <div class="w-full max-w-[1560px] mx-auto mt-space-xl pt-space-md">
+            <!-- Section Title & Navigation -->
+            <div class="flex items-end justify-between mb-space-md">
+              <div class="flex flex-col gap-1">
+                <div class="flex items-center gap-2">
+                  <span
+                    class="w-1.5 h-6 rounded-full bg-primary-container"
+                  ></span>
+                  <h2
+                    class="font-headline-md text-headline-md text-on-surface font-bold tracking-tight"
+                  >
+                    Phim đề xuất cho bạn
+                  </h2>
+                </div>
+                <p
+                  class="font-body-sm text-body-sm text-on-surface-variant ml-3.5"
+                >
+                  Cùng thể loại Khoa học viễn tưởng &amp; Không gian kỳ vĩ
+                </p>
+              </div>
+              <div class="flex items-center gap-space-xs">
+                <button
+                  class="w-9 h-9 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center transition-colors"
+                  id="recScrollLeft"
+                >
+                  <span class="material-symbols-outlined text-lg"
+                    >arrow_back</span
+                  >
+                </button>
+                <button
+                  class="w-9 h-9 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center transition-colors"
+                  id="recScrollRight"
+                >
+                  <span class="material-symbols-outlined text-lg"
+                    >arrow_forward</span
+                  >
+                </button>
+              </div>
+            </div>
+            <!-- Grid of 5 Recommended Movie Cards -->
+            <div
+              class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-space-md overflow-x-auto pb-space-sm scroll-smooth"
+              id="recSlider"
+            >
+              <!-- Card 1: Interstellar -->
+              <div
+                class="group relative flex flex-col bg-surface-container-low rounded-xl overflow-hidden shadow-md hover:-translate-y-1.5 transition-all duration-300"
+              >
+                <div
+                  class="relative w-full aspect-[2/3] overflow-hidden bg-surface-container"
+                >
+                  <img
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    data-alt="Vertical movie poster for Interstellar featuring an astronaut standing on an ice planet under a black cosmic sky with glowing Saturn rings, cinematic high resolution art"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAzLN832naGc4RU33rWcYiPGwL90kOimTAqgp2yovrUSgVFSwpHgBWYt0dkcxU_H94r3E18fKhj-fxVCEtFGwfhK44i53CINEuYJ2i7cRqBbd4JfziVUkPiaeZWfgN3Ptxngw_QLbaW3A5KA2B0uALqsGnsTEnjAF6x5f-7YnwpHazU6P3VKLTHKU2oWYeHnzRWuQPHqHxsCozumpv81S7fjKYa9y-ynXGHPrnppQr_hx0vaKY_ll8"
+                  />
+                  <div
+                    class="absolute top-2 left-2 px-1.5 py-0.5 rounded bg-surface-container-lowest/80 text-secondary font-label-caps text-label-caps backdrop-blur flex items-center gap-1"
+                  >
+                    <span
+                      class="material-symbols-outlined text-xs"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >star</span
+                    >
+                    <span>8.7</span>
+                  </div>
+                  <div
+                    class="absolute top-2 right-2 px-1.5 py-0.5 rounded bg-surface-container-lowest/80 text-on-surface font-label-caps text-label-caps uppercase backdrop-blur"
+                  >
+                    4K UHD
+                  </div>
+                  <!-- Quick Play Button Hover Overlay -->
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                  >
+                    <span
+                      class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-xl transform scale-90 group-hover:scale-100 transition-transform"
+                    >
+                      <span
+                        class="material-symbols-outlined text-2xl ml-0.5"
+                        style="font-variation-settings: &quot;FILL&quot; 1"
+                        >play_arrow</span
+                      >
+                    </span>
+                  </div>
+                </div>
+                <div class="p-space-sm flex flex-col gap-1">
+                  <span
+                    class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
+                    >Hố Đen Tử Thần</span
+                  >
+                  <span
+                    class="font-body-sm text-body-sm text-on-surface-variant text-xs"
+                    >Interstellar (2014)</span
+                  >
+                  <div
+                    class="flex items-center gap-2 mt-1 text-[11px] text-on-surface-variant"
+                  >
+                    <span>169 phút</span>
+                    <span>•</span>
+                    <span>Vietsub</span>
+                  </div>
+                </div>
+              </div>
+              <!-- Card 2: Blade Runner 2049 -->
+              <div
+                class="group relative flex flex-col bg-surface-container-low rounded-xl overflow-hidden shadow-md hover:-translate-y-1.5 transition-all duration-300"
+              >
+                <div
+                  class="relative w-full aspect-[2/3] overflow-hidden bg-surface-container"
+                >
+                  <img
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    data-alt="Cinematic movie poster for Blade Runner 2049 with vivid neon cyan and amber haze, lone detective walking in front of a giant holographic statue, futuristic cyberpunk aesthetic"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBG-apd9tErAXi1J5l33p6XaWLN5Dp3RxOVvbCMvnqPzSjKPCKmtM9uI9RvU5fPNbdFSrADwwgb2PNzD3Wc5csSscsnmcNLu3-U0Uxl89ommNAiiZsmh9IlFNuSYr4muWHypJiYCIkBwqG_a5LvIxrIGXh8ckkWZm6I4AynUSHxRXh28ZKJ4vrCqRZ9G0Fd-PzHm5HBHw8qoyWOYt7TgNw7qn1KVzD2h5dbPo43RvqOHRoc_99HrEeg"
+                  />
+                  <div
+                    class="absolute top-2 left-2 px-1.5 py-0.5 rounded bg-surface-container-lowest/80 text-secondary font-label-caps text-label-caps backdrop-blur flex items-center gap-1"
+                  >
+                    <span
+                      class="material-symbols-outlined text-xs"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >star</span
+                    >
+                    <span>8.0</span>
+                  </div>
+                  <div
+                    class="absolute top-2 right-2 px-1.5 py-0.5 rounded bg-surface-container-lowest/80 text-on-surface font-label-caps text-label-caps uppercase backdrop-blur"
+                  >
+                    4K UHD
+                  </div>
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                  >
+                    <span
+                      class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-xl transform scale-90 group-hover:scale-100 transition-transform"
+                    >
+                      <span
+                        class="material-symbols-outlined text-2xl ml-0.5"
+                        style="font-variation-settings: &quot;FILL&quot; 1"
+                        >play_arrow</span
+                      >
+                    </span>
+                  </div>
+                </div>
+                <div class="p-space-sm flex flex-col gap-1">
+                  <span
+                    class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
+                    >Tội Phạm Nhân Bản 2049</span
+                  >
+                  <span
+                    class="font-body-sm text-body-sm text-on-surface-variant text-xs"
+                    >Blade Runner 2049 (2017)</span
+                  >
+                  <div
+                    class="flex items-center gap-2 mt-1 text-[11px] text-on-surface-variant"
+                  >
+                    <span>164 phút</span>
+                    <span>•</span>
+                    <span>Vietsub</span>
+                  </div>
+                </div>
+              </div>
+              <!-- Card 3: The Creator -->
+              <div
+                class="group relative flex flex-col bg-surface-container-low rounded-xl overflow-hidden shadow-md hover:-translate-y-1.5 transition-all duration-300"
+              >
+                <div
+                  class="relative w-full aspect-[2/3] overflow-hidden bg-surface-container"
+                >
+                  <img
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    data-alt="Vertical movie poster for The Creator sci-fi film showing a futuristic orbital space station beam pointing to earth with cybernetic child in serene Asian landscape, breathtaking scale"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsOUFJJcFTMRu5euQz-AWT60bNHfWeLWY2aqjNLZ1mvZpD-xkbCmpZwsWpE2kGAm9bCX98UwdcWSHchZsCVoFRo-Obi5MjVk7liXMFTwssdi-xFvqCshk51oOY6ocR_zRpl2-zo3ROYSFM4wfdgd4z5NWeRtNZiotyXKxfxTw6gksiHxo7z3Pi4HCoIyl5icFr1BcKb5i9qGDz-9kyOUsjO6YCx4uBjY2dpEEgN9GQjeu-CjoMNWAr"
+                  />
+                  <div
+                    class="absolute top-2 left-2 px-1.5 py-0.5 rounded bg-surface-container-lowest/80 text-secondary font-label-caps text-label-caps backdrop-blur flex items-center gap-1"
+                  >
+                    <span
+                      class="material-symbols-outlined text-xs"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >star</span
+                    >
+                    <span>7.2</span>
+                  </div>
+                  <div
+                    class="absolute top-2 right-2 px-1.5 py-0.5 rounded bg-surface-container-lowest/80 text-on-surface font-label-caps text-label-caps uppercase backdrop-blur"
+                  >
+                    FHD
+                  </div>
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                  >
+                    <span
+                      class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-xl transform scale-90 group-hover:scale-100 transition-transform"
+                    >
+                      <span
+                        class="material-symbols-outlined text-2xl ml-0.5"
+                        style="font-variation-settings: &quot;FILL&quot; 1"
+                        >play_arrow</span
+                      >
+                    </span>
+                  </div>
+                </div>
+                <div class="p-space-sm flex flex-col gap-1">
+                  <span
+                    class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
+                    >Kẻ Kiến Tạo</span
+                  >
+                  <span
+                    class="font-body-sm text-body-sm text-on-surface-variant text-xs"
+                    >The Creator (2023)</span
+                  >
+                  <div
+                    class="flex items-center gap-2 mt-1 text-[11px] text-on-surface-variant"
+                  >
+                    <span>133 phút</span>
+                    <span>•</span>
+                    <span>Vietsub</span>
+                  </div>
+                </div>
+              </div>
+              <!-- Card 4: Dune: Part One -->
+              <div
+                class="group relative flex flex-col bg-surface-container-low rounded-xl overflow-hidden shadow-md hover:-translate-y-1.5 transition-all duration-300"
+              >
+                <div
+                  class="relative w-full aspect-[2/3] overflow-hidden bg-surface-container"
+                >
+                  <img
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    data-alt="Vertical movie poster for Dune Part One featuring Paul Atreides walking across vast desert with ornithopter ships flying across the burning sky, minimalist cinematic styling"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDn6MBHYdsIDEQs5SRd1ZfZhJo7N7GABZXwzioEywQ5m8I8-oyt4zQw5a9xpbQGv3I4Y2OqaadYPsfS3qrPyf-ILbm_FpyUAI3TQ6Dwfplvleq6e6vyc7hOsBf11wPJM2DPYtn6DAL7wn4_-um6gpVAB1Bn6ca90ZeXsBvGaHFZ7mhr6DcaIug5BqS1FJKw0xndgxmqLEf62o0m65omHdp5A5Fd5VKag0i_l7nnANtjVQ_VZw7WCSEv"
+                  />
+                  <div
+                    class="absolute top-2 left-2 px-1.5 py-0.5 rounded bg-surface-container-lowest/80 text-secondary font-label-caps text-label-caps backdrop-blur flex items-center gap-1"
+                  >
+                    <span
+                      class="material-symbols-outlined text-xs"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >star</span
+                    >
+                    <span>8.1</span>
+                  </div>
+                  <div
+                    class="absolute top-2 right-2 px-1.5 py-0.5 rounded bg-surface-container-lowest/80 text-on-surface font-label-caps text-label-caps uppercase backdrop-blur"
+                  >
+                    4K UHD
+                  </div>
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                  >
+                    <span
+                      class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-xl transform scale-90 group-hover:scale-100 transition-transform"
+                    >
+                      <span
+                        class="material-symbols-outlined text-2xl ml-0.5"
+                        style="font-variation-settings: &quot;FILL&quot; 1"
+                        >play_arrow</span
+                      >
+                    </span>
+                  </div>
+                </div>
+                <div class="p-space-sm flex flex-col gap-1">
+                  <span
+                    class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
+                    >Dune: Hành Tinh Cát - Phần Một</span
+                  >
+                  <span
+                    class="font-body-sm text-body-sm text-on-surface-variant text-xs"
+                    >Dune: Part One (2021)</span
+                  >
+                  <div
+                    class="flex items-center gap-2 mt-1 text-[11px] text-on-surface-variant"
+                  >
+                    <span>155 phút</span>
+                    <span>•</span>
+                    <span>Thuyết Minh / Sub</span>
+                  </div>
+                </div>
+              </div>
+              <!-- Card 5: Arrival -->
+              <div
+                class="group relative flex flex-col bg-surface-container-low rounded-xl overflow-hidden shadow-md hover:-translate-y-1.5 transition-all duration-300"
+              >
+                <div
+                  class="relative w-full aspect-[2/3] overflow-hidden bg-surface-container"
+                >
+                  <img
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    data-alt="Vertical movie poster of Arrival featuring a massive vertical elliptical alien shell hovering silently over a foggy green Montana meadow under moody gray skies"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHbtNuosNCg91SdQ1TDuormqjY8PzDN0NtmieHJtnOGgsUcATHyVYbQ_y6CDV1-PcXL-gKC51txc6WGopFqXMRdZPmyPPdoiakAVfDkhPOAcTSmv350ivgyXftJCjLybxPLpySCSbdFevLeWCspQ28RShRwVefrjwWGS0H55--nHkvRFBZCWdCY0utHHcbN2057Rc-hI4oEhjcGBo-qfMhA9UXR3sMSnNKz3eWMyuJenuu2L_Bk8XH"
+                  />
+                  <div
+                    class="absolute top-2 left-2 px-1.5 py-0.5 rounded bg-surface-container-lowest/80 text-secondary font-label-caps text-label-caps backdrop-blur flex items-center gap-1"
+                  >
+                    <span
+                      class="material-symbols-outlined text-xs"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >star</span
+                    >
+                    <span>7.9</span>
+                  </div>
+                  <div
+                    class="absolute top-2 right-2 px-1.5 py-0.5 rounded bg-surface-container-lowest/80 text-on-surface font-label-caps text-label-caps uppercase backdrop-blur"
+                  >
+                    FHD
+                  </div>
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                  >
+                    <span
+                      class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-xl transform scale-90 group-hover:scale-100 transition-transform"
+                    >
+                      <span
+                        class="material-symbols-outlined text-2xl ml-0.5"
+                        style="font-variation-settings: &quot;FILL&quot; 1"
+                        >play_arrow</span
+                      >
+                    </span>
+                  </div>
+                </div>
+                <div class="p-space-sm flex flex-col gap-1">
+                  <span
+                    class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
+                    >Cuộc Đổ Bộ Bí Ẩn</span
+                  >
+                  <span
+                    class="font-body-sm text-body-sm text-on-surface-variant text-xs"
+                    >Arrival (2016)</span
+                  >
+                  <div
+                    class="flex items-center gap-2 mt-1 text-[11px] text-on-surface-variant"
+                  >
+                    <span>116 phút</span>
+                    <span>•</span>
+                    <span>Vietsub</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (function initVideoPlayer() {
+          let isPlaying = true;
+          let isMuted = false;
+
+          const playBtn = document.getElementById("togglePlayBtn");
+          const centerPlayBtn = document.getElementById("centerPlayBtn");
+          const playStateIcon = document.getElementById("playStateIcon");
+          const centerPlayIcon = document.getElementById("centerPlayIcon");
+          const muteBtn = document.getElementById("muteBtn");
+          const volIcon = document.getElementById("volIcon");
+          const fullscreenBtn = document.getElementById("fullscreenBtn");
+          const videoContainer = document.getElementById("videoContainer");
+          const progressTrackContainer = document.getElementById(
+            "progressTrackContainer",
+          );
+          const progressBar = document.getElementById("videoProgressBar");
+
+          function togglePlayback() {
+            isPlaying = !isPlaying;
+            const icon = isPlaying ? "pause" : "play_arrow";
+            if (playStateIcon) playStateIcon.textContent = icon;
+            if (centerPlayIcon) centerPlayIcon.textContent = icon;
+          }
+
+          if (playBtn) playBtn.addEventListener("click", togglePlayback);
+          if (centerPlayBtn)
+            centerPlayBtn.addEventListener("click", togglePlayback);
+
+          if (muteBtn && volIcon) {
+            muteBtn.addEventListener("click", function () {
+              isMuted = !isMuted;
+              volIcon.textContent = isMuted ? "volume_off" : "volume_up";
+            });
+          }
+
+          if (fullscreenBtn && videoContainer) {
+            fullscreenBtn.addEventListener("click", function () {
+              if (!document.fullscreenElement) {
+                videoContainer.requestFullscreen().catch((err) => {
+                  console.log(err.message);
+                });
+              } else {
+                document.exitFullscreen();
+              }
+            });
+          }
+
+          // Scrubbing timeline click simulation
+          if (progressTrackContainer && progressBar) {
+            progressTrackContainer.addEventListener("click", function (e) {
+              const rect = progressTrackContainer.getBoundingClientRect();
+              const clickPos = Math.max(
+                0,
+                Math.min(e.clientX - rect.left, rect.width),
+              );
+              const percentage = (clickPos / rect.width) * 100;
+              progressBar.style.width = percentage + "%";
+            });
+          }
+
+          // Recommendation rail controls
+          const recSlider = document.getElementById("recSlider");
+          const recScrollLeft = document.getElementById("recScrollLeft");
+          const recScrollRight = document.getElementById("recScrollRight");
+
+          if (recSlider && recScrollLeft && recScrollRight) {
+            recScrollLeft.addEventListener("click", () => {
+              recSlider.scrollBy({ left: -320, behavior: "smooth" });
+            });
+            recScrollRight.addEventListener("click", () => {
+              recSlider.scrollBy({ left: 320, behavior: "smooth" });
+            });
+          }
+        })();
+      </script>
+    </main>
+    <footer
+      id="footer"
+      class="w-full bg-surface-container-low border-t border-white/5 mt-space-xl"
+    ></footer>
+  </body>
+</html>
