@@ -1,0 +1,1724 @@
+<!doctype html>
+
+<html class="dark" lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Material Symbols -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS của project -->
+    <link rel="stylesheet" href="../src/css/output.css" />
+
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        overscroll-behavior: none;
+      }
+
+      main > :first-child {
+        margin-top: 0 !important;
+      }
+
+      main > :last-child {
+        margin-bottom: 0 !important;
+      }
+
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+  </head>
+  <body class="bg-surface font-body-md text-on-surface min-h-screen">
+    <aside
+      class="fixed left-0 top-0 h-full w-64 bg-surface-container-low z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"
+    >
+      <div class="flex flex-col flex-1 overflow-y-auto">
+        <div
+          class="h-16 px-space-md flex items-center gap-space-sm bg-surface-container-low/50"
+        >
+          <img
+            alt="Brand logo. - Primary color: #e50914
+- Font: plusJakartaSans
+- Mode: dark
+- Roundness: rounded-md
+"
+            class="h-8 w-auto object-contain"
+            src="../public/images/logo/logo.svg"
+          /><span
+            class="font-headline-sm text-headline-sm font-bold tracking-tight text-on-surface"
+            >Movie<span class="text-primary-container">F</span></span
+          ><span
+            class="ml-auto bg-surface-container-highest text-on-surface-variant font-label-caps text-label-caps px-space-xs py-0.5 rounded"
+            >ADMIN</span
+          >
+        </div>
+        <div class="px-space-md py-space-sm">
+          <a
+            class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            data-path="client-website"
+            href="#"
+            ><span
+              class="material-symbols-outlined text-primary-container text-base"
+              >open_in_new</span
+            ><span class="font-title-sm text-title-sm"
+              >Trang người dùng</span
+            ></a
+          >
+        </div>
+        <div class="px-space-md pt-space-xs pb-space-xs">
+          <span
+            class="font-label-caps text-label-caps text-on-surface-variant/60 uppercase"
+            >Quản trị hệ thống</span
+          >
+        </div>
+        <nav
+          class="flex flex-col gap-1 px-space-md flex-1"
+          data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg"
+        >
+          <a
+            class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all"
+            data-path="dashboard"
+            href="#"
+            ><span class="material-symbols-outlined text-xl">dashboard</span
+            ><span class="font-title-sm text-title-sm">Dashboard</span></a
+          ><a
+            aria-current="page"
+            class="flex items-center gap-space-sm px-space-md py-space-sm transition-all bg-primary-container text-on-primary-container font-semibold rounded-lg"
+            data-path="quan-ly-phim"
+            href="#"
+            ><span class="material-symbols-outlined text-xl">movie</span
+            ><span class="font-title-sm text-title-sm">Quản lý phim</span></a
+          ><a
+            class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all"
+            data-path="the-loai"
+            href="#"
+            ><span class="material-symbols-outlined text-xl">category</span
+            ><span class="font-title-sm text-title-sm">Thể loại</span></a
+          ><a
+            class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all"
+            data-path="nguoi-dung"
+            href="#"
+            ><span class="material-symbols-outlined text-xl">group</span
+            ><span class="font-title-sm text-title-sm">Người dùng</span></a
+          ><a
+            class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all"
+            data-path="danh-gia"
+            href="#"
+            ><span class="material-symbols-outlined text-xl">star</span
+            ><span class="font-title-sm text-title-sm">Đánh giá</span></a
+          ><a
+            class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all"
+            data-path="binh-luan"
+            href="#"
+            ><span class="material-symbols-outlined text-xl">forum</span
+            ><span class="font-title-sm text-title-sm">Bình luận</span></a
+          ><a
+            class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all"
+            data-path="thong-ke"
+            href="#"
+            ><span class="material-symbols-outlined text-xl">monitoring</span
+            ><span class="font-title-sm text-title-sm">Thống kê</span></a
+          ><a
+            class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all"
+            data-path="cai-dat"
+            href="#"
+            ><span class="material-symbols-outlined text-xl">settings</span
+            ><span class="font-title-sm text-title-sm">Cài đặt</span></a
+          >
+        </nav>
+      </div>
+      <div class="p-space-md bg-surface-container-lowest/80">
+        <div
+          class="flex items-center gap-space-sm p-space-sm rounded-lg bg-surface-container-low"
+        >
+          <img
+            alt="Profile"
+            class="w-8 h-8 rounded-full object-cover"
+            src="https://lh3.googleusercontent.com/aida/AEtjO1U0_WeREXlsW21uASPbJPP_lxP_gmAQ8JRvUnAaxrdOBoxPeo7MCeWJwKvpGT08QRMwxmEcuplw-uaF8cOaM7vJoxu3YCTk2z9BMckBNQiBalEdIorObjSYlSRAj8OxWP5tQdukk9hfx2LM7uUVj8CJBIEBszAG8vS250KGfjZYD8dHUdPyXPjWnBvdCmjTEhX8do4_F5iPk1mkHGdNDbYIByEB-dAtsNyoe4B0A4B0snAw4aDQKtosPA"
+          />
+          <div class="flex flex-col min-w-0 flex-1">
+            <span class="font-title-sm text-title-sm text-on-surface truncate"
+              >Admin MovieF</span
+            ><span
+              class="font-label-md text-label-md text-on-surface-variant truncate"
+              >superadmin@movief.vn</span
+            >
+          </div>
+          <button
+            aria-label="Đăng xuất"
+            class="text-on-surface-variant hover:text-on-surface transition-colors"
+            type="button"
+          >
+            <span class="material-symbols-outlined text-lg">logout</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+    <div class="pl-64 flex flex-col min-h-screen">
+      <header
+        class="fixed top-0 left-64 right-0 h-16 bg-surface/80 backdrop-blur-xl z-40 shadow-[0_1px_8px_rgba(0,0,0,0.04)] px-space-lg flex items-center justify-between gap-space-md"
+      >
+        <div class="flex items-center gap-space-sm">
+          <span class="font-label-md text-label-md text-on-surface-variant"
+            >MovieF Admin</span
+          ><span class="text-on-surface-variant/40">/</span
+          ><span class="font-title-sm text-title-sm text-on-surface capitalize"
+            >Hệ thống</span
+          >
+        </div>
+        <div class="flex items-center gap-space-lg flex-1 max-w-lg mx-space-lg">
+          <div class="relative w-full flex items-center">
+            <span
+              class="material-symbols-outlined absolute left-3 text-on-surface-variant text-lg pointer-events-none"
+              >search</span
+            ><input
+              class="w-full bg-surface-container-low text-on-surface font-body-sm text-body-sm pl-10 pr-space-md py-2 rounded-lg placeholder:text-on-surface-variant/60 focus:outline-none focus:bg-surface-container"
+              placeholder="Tìm kiếm phim, thành viên, giao dịch..."
+              type="text"
+            />
+          </div>
+        </div>
+        <div class="flex items-center gap-space-md">
+          <button
+            aria-label="Thông báo"
+            class="relative p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            type="button"
+          >
+            <span class="material-symbols-outlined text-xl">notifications</span
+            ><span
+              class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary-container ring-2 ring-surface"
+            ></span>
+          </button>
+          <div class="flex items-center gap-space-sm pl-space-sm">
+            <img
+              alt="Profile"
+              class="w-8 h-8 rounded-full object-cover"
+              src="https://lh3.googleusercontent.com/aida/AEtjO1U0_WeREXlsW21uASPbJPP_lxP_gmAQ8JRvUnAaxrdOBoxPeo7MCeWJwKvpGT08QRMwxmEcuplw-uaF8cOaM7vJoxu3YCTk2z9BMckBNQiBalEdIorObjSYlSRAj8OxWP5tQdukk9hfx2LM7uUVj8CJBIEBszAG8vS250KGfjZYD8dHUdPyXPjWnBvdCmjTEhX8do4_F5iPk1mkHGdNDbYIByEB-dAtsNyoe4B0A4B0snAw4aDQKtosPA"
+            /><span
+              class="font-title-sm text-title-sm text-on-surface hidden sm:inline-block"
+              >Quản trị viên</span
+            >
+          </div>
+        </div>
+      </header>
+      <main class="w-full pt-16 bg-surface px-space-lg py-space-lg flex-1">
+        <div class="flex flex-col w-full">
+          <!-- Dynamic Notification Toast -->
+          <div
+            class="fixed top-20 right-8 z-50 flex items-center gap-space-sm bg-surface-container-high px-space-md py-space-sm rounded-lg shadow-xl translate-y-0 opacity-100 transition-all duration-300 pointer-events-auto"
+            id="toastNotification"
+          >
+            <div
+              class="w-8 h-8 rounded-full bg-primary-container/20 flex items-center justify-center"
+            >
+              <span class="material-symbols-outlined text-primary text-xl"
+                >check_circle</span
+              >
+            </div>
+            <div class="flex flex-col">
+              <span class="font-title-sm text-title-sm text-on-surface"
+                >Cập nhật thành công</span
+              >
+              <span class="font-body-sm text-body-sm text-on-surface-variant"
+                >Cập nhật danh sách phim và dữ liệu nguồn phát hoàn tất.</span
+              >
+            </div>
+            <button
+              aria-label="Đóng thông báo"
+              class="ml-space-md text-on-surface-variant hover:text-on-surface transition-colors p-1"
+              onclick="document.getElementById('toastNotification').remove()"
+            >
+              <span class="material-symbols-outlined text-sm">close</span>
+            </button>
+          </div>
+          <!-- Header Section with Distinct Visual Weight -->
+          <section
+            class="flex flex-col md:flex-row md:items-end justify-between gap-space-md pb-space-lg"
+          >
+            <div class="flex flex-col gap-1 max-w-2xl">
+              <div
+                class="flex items-center gap-space-xs text-on-surface-variant"
+              >
+                <span
+                  class="font-label-caps text-label-caps uppercase tracking-wider text-primary"
+                  >Catalog Core</span
+                >
+                <span class="text-on-surface-variant/40">/</span>
+                <span
+                  class="font-label-caps text-label-caps uppercase tracking-wider"
+                  >Thư viện chiếu</span
+                >
+              </div>
+              <h1
+                class="font-headline-xl text-headline-xl text-on-surface tracking-tight"
+              >
+                Quản lý phim
+              </h1>
+              <p class="font-body-md text-body-md text-on-surface-variant">
+                Quản lý danh sách, thông tin, phân loại và nguồn phát của 120 bộ
+                phim trong hệ thống.
+              </p>
+            </div>
+            <!-- Action Group -->
+            <div class="flex flex-wrap items-center gap-space-sm">
+              <button
+                class="flex items-center gap-space-xs px-space-md py-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-title-sm text-title-sm shadow-sm transition-all duration-200"
+                type="button"
+              >
+                <span class="material-symbols-outlined text-lg">tune</span>
+                <span>Bộ lọc nâng cao</span>
+              </button>
+              <button
+                class="flex items-center gap-space-xs px-space-md py-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-title-sm text-title-sm shadow-sm transition-all duration-200"
+                type="button"
+              >
+                <span class="material-symbols-outlined text-lg"
+                  >file_upload</span
+                >
+                <span>Nhập từ JSON</span>
+              </button>
+              <button
+                class="flex items-center gap-space-xs px-space-md py-2.5 rounded-lg bg-primary-container text-on-primary-container font-title-sm text-title-sm shadow-md hover:bg-primary-container/90 transition-all duration-200 shadow-primary-container/20 hover:shadow-primary-container/40"
+                type="button"
+              >
+                <span class="material-symbols-outlined text-lg font-bold"
+                  >add</span
+                >
+                <span>Thêm phim mới</span>
+              </button>
+            </div>
+          </section>
+          <!-- Metrics Bar Spark Overview (Decorative Richness) -->
+          <section
+            class="grid grid-cols-2 lg:grid-cols-4 gap-space-md mb-space-lg"
+          >
+            <div
+              class="bg-surface-container-low p-space-md rounded-xl flex items-center justify-between shadow-sm"
+            >
+              <div class="flex flex-col">
+                <span
+                  class="font-label-caps text-label-caps uppercase text-on-surface-variant"
+                  >Tổng số tựa phim</span
+                >
+                <span
+                  class="font-headline-md text-headline-md text-on-surface mt-1"
+                  >120</span
+                >
+                <span
+                  class="font-label-md text-label-md text-primary flex items-center gap-0.5 mt-0.5"
+                >
+                  <span class="material-symbols-outlined text-xs"
+                    >arrow_upward</span
+                  >
+                  +4 tuần này
+                </span>
+              </div>
+              <div
+                class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center"
+              >
+                <span class="material-symbols-outlined text-2xl text-on-surface"
+                  >movie</span
+                >
+              </div>
+            </div>
+            <div
+              class="bg-surface-container-low p-space-md rounded-xl flex items-center justify-between shadow-sm"
+            >
+              <div class="flex flex-col">
+                <span
+                  class="font-label-caps text-label-caps uppercase text-on-surface-variant"
+                  >Chuẩn 4K Ultra HD</span
+                >
+                <span
+                  class="font-headline-md text-headline-md text-on-surface mt-1"
+                  >84</span
+                >
+                <span
+                  class="font-label-md text-label-md text-on-surface-variant mt-0.5"
+                  >Chiếm 70% danh mục</span
+                >
+              </div>
+              <div
+                class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center"
+              >
+                <span class="material-symbols-outlined text-2xl text-secondary"
+                  >hd</span
+                >
+              </div>
+            </div>
+            <div
+              class="bg-surface-container-low p-space-md rounded-xl flex items-center justify-between shadow-sm"
+            >
+              <div class="flex flex-col">
+                <span
+                  class="font-label-caps text-label-caps uppercase text-on-surface-variant"
+                  >Tổng lượt xem tuần</span
+                >
+                <span
+                  class="font-headline-md text-headline-md text-on-surface mt-1"
+                  >68,230</span
+                >
+                <span
+                  class="font-label-md text-label-md text-primary flex items-center gap-0.5 mt-0.5"
+                >
+                  <span class="material-symbols-outlined text-xs"
+                    >trending_up</span
+                  >
+                  +14.2% lưu lượng
+                </span>
+              </div>
+              <div
+                class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center"
+              >
+                <svg
+                  class="w-12 h-6 text-primary"
+                  fill="none"
+                  viewbox="0 0 100 40"
+                >
+                  <path
+                    d="M0 35 Q 25 15, 50 25 T 100 5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-width="3"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+            <div
+              class="bg-surface-container-low p-space-md rounded-xl flex items-center justify-between shadow-sm"
+            >
+              <div class="flex flex-col">
+                <span
+                  class="font-label-caps text-label-caps uppercase text-on-surface-variant"
+                  >Điểm IMDb trung bình</span
+                >
+                <span
+                  class="font-headline-md text-headline-md text-on-surface mt-1"
+                  >8.2<span
+                    class="text-on-surface-variant font-title-sm text-title-sm"
+                    >/10</span
+                  ></span
+                >
+                <span
+                  class="font-label-md text-label-md text-secondary flex items-center gap-0.5 mt-0.5"
+                >
+                  <span class="material-symbols-outlined text-xs">star</span>
+                  Rất tích cực
+                </span>
+              </div>
+              <div
+                class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center"
+              >
+                <span class="material-symbols-outlined text-2xl text-secondary"
+                  >auto_awesome</span
+                >
+              </div>
+            </div>
+          </section>
+          <!-- Filter & Search Command Panel -->
+          <section
+            class="bg-surface-container-low p-space-md rounded-xl shadow-md mb-space-md flex flex-col gap-space-md"
+          >
+            <div
+              class="grid grid-cols-1 md:grid-cols-12 gap-space-sm items-center"
+            >
+              <!-- Search Field -->
+              <div class="md:col-span-4 relative flex items-center">
+                <span
+                  class="material-symbols-outlined absolute left-3 text-on-surface-variant text-lg pointer-events-none"
+                  >search</span
+                >
+                <input
+                  class="w-full bg-surface-container text-on-surface font-body-sm text-body-sm pl-10 pr-space-md py-2.5 rounded-lg placeholder:text-on-surface-variant/50 focus:outline-none focus:bg-surface-container-high transition-all"
+                  placeholder="Tìm kiếm theo tên phim, đạo diễn, diễn viên..."
+                  type="text"
+                />
+              </div>
+              <!-- Filter: The Loai -->
+              <div class="md:col-span-2">
+                <div class="relative">
+                  <select
+                    class="w-full appearance-none bg-surface-container text-on-surface font-body-sm text-body-sm px-space-md py-2.5 rounded-lg pr-8 cursor-pointer focus:outline-none focus:bg-surface-container-high transition-all"
+                  >
+                    <option>Thể loại: Tất cả</option>
+                    <option>Khoa học viễn tưởng</option>
+                    <option>Hành động</option>
+                    <option>Tâm lý &amp; Lịch sử</option>
+                    <option>Hoạt hình</option>
+                    <option>Tội phạm</option>
+                  </select>
+                  <span
+                    class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-base"
+                    >expand_more</span
+                  >
+                </div>
+              </div>
+              <!-- Filter: Trang Thai -->
+              <div class="md:col-span-2">
+                <div class="relative">
+                  <select
+                    class="w-full appearance-none bg-surface-container text-on-surface font-body-sm text-body-sm px-space-md py-2.5 rounded-lg pr-8 cursor-pointer focus:outline-none focus:bg-surface-container-high transition-all"
+                  >
+                    <option>Trạng thái: Tất cả</option>
+                    <option>Đang chiếu</option>
+                    <option>Bản nháp</option>
+                    <option>Tạm ẩn</option>
+                  </select>
+                  <span
+                    class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-base"
+                    >expand_more</span
+                  >
+                </div>
+              </div>
+              <!-- Filter: Nam -->
+              <div class="md:col-span-2">
+                <div class="relative">
+                  <select
+                    class="w-full appearance-none bg-surface-container text-on-surface font-body-sm text-body-sm px-space-md py-2.5 rounded-lg pr-8 cursor-pointer focus:outline-none focus:bg-surface-container-high transition-all"
+                  >
+                    <option>Năm: Tất cả</option>
+                    <option>2024</option>
+                    <option>2023</option>
+                    <option>2022</option>
+                    <option>2021</option>
+                    <option>Cũ hơn</option>
+                  </select>
+                  <span
+                    class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-base"
+                    >expand_more</span
+                  >
+                </div>
+              </div>
+              <!-- Filter: Dinh Dang -->
+              <div class="md:col-span-2">
+                <div class="relative">
+                  <select
+                    class="w-full appearance-none bg-surface-container text-on-surface font-body-sm text-body-sm px-space-md py-2.5 rounded-lg pr-8 cursor-pointer focus:outline-none focus:bg-surface-container-high transition-all"
+                  >
+                    <option>Định dạng: Tất cả</option>
+                    <option>4K UHD</option>
+                    <option>4K HDR</option>
+                    <option>1080p FHD</option>
+                    <option>HD Vietsub</option>
+                  </select>
+                  <span
+                    class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-base"
+                    >expand_more</span
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- Sub-row: Selection Context & Results Counter -->
+            <div
+              class="flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm pt-2"
+            >
+              <div class="flex items-center gap-space-sm">
+                <span
+                  class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface font-label-md text-label-md"
+                >
+                  <span
+                    class="w-2 h-2 rounded-full bg-primary-container"
+                  ></span>
+                  Bộ lọc đang kích hoạt
+                </span>
+                <button
+                  class="text-on-surface-variant hover:text-on-surface font-title-sm text-title-sm underline decoration-on-surface-variant/40 hover:decoration-on-surface transition-colors"
+                  type="button"
+                >
+                  Đặt lại bộ lọc
+                </button>
+              </div>
+              <div
+                class="font-label-md text-label-md text-on-surface-variant/80"
+              >
+                Đang hiển thị
+                <span class="text-on-surface font-semibold">1-8</span> trên tổng
+                số <span class="text-on-surface font-semibold">120</span> phim
+              </div>
+            </div>
+          </section>
+          <!-- Movie Catalog Data Table Container -->
+          <section
+            class="bg-surface-container-low rounded-xl shadow-xl overflow-hidden flex flex-col"
+          >
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <!-- Table Header -->
+                <thead>
+                  <tr
+                    class="bg-surface-container-lowest text-on-surface-variant font-label-caps text-label-caps uppercase tracking-wider"
+                  >
+                    <th
+                      class="py-space-md pl-space-md pr-space-xs w-12 text-center"
+                      scope="col"
+                    >
+                      <label
+                        class="relative flex items-center justify-center cursor-pointer"
+                      >
+                        <input
+                          class="peer sr-only"
+                          id="selectAllCheckbox"
+                          type="checkbox"
+                        />
+                        <span
+                          class="w-4 h-4 rounded bg-surface-container flex items-center justify-center peer-checked:bg-primary-container transition-colors"
+                        >
+                          <span
+                            class="material-symbols-outlined text-xs text-on-primary-container opacity-0 peer-checked:opacity-100 font-bold"
+                            >check</span
+                          >
+                        </span>
+                      </label>
+                    </th>
+                    <th class="py-space-md px-space-md" scope="col">Phim</th>
+                    <th class="py-space-md px-space-md" scope="col">
+                      Thể loại
+                    </th>
+                    <th class="py-space-md px-space-md" scope="col">
+                      Thời lượng
+                    </th>
+                    <th class="py-space-md px-space-md" scope="col">
+                      Chất lượng
+                    </th>
+                    <th class="py-space-md px-space-md" scope="col">
+                      Lượt xem
+                    </th>
+                    <th class="py-space-md px-space-md" scope="col">
+                      Đánh giá
+                    </th>
+                    <th class="py-space-md px-space-md" scope="col">
+                      Trạng thái
+                    </th>
+                    <th
+                      class="py-space-md px-space-md text-right pr-space-lg"
+                      scope="col"
+                    >
+                      Thao tác
+                    </th>
+                  </tr>
+                </thead>
+                <!-- Table Body -->
+                <tbody
+                  class="divide-y-0 text-on-surface font-body-sm text-body-sm"
+                >
+                  <!-- Row 1: Dune 2 -->
+                  <tr
+                    class="bg-surface-container-low hover:bg-surface-container transition-colors group"
+                  >
+                    <td class="py-3.5 pl-space-md pr-space-xs text-center">
+                      <label
+                        class="relative flex items-center justify-center cursor-pointer"
+                      >
+                        <input
+                          class="movie-row-checkbox peer sr-only"
+                          type="checkbox"
+                        />
+                        <span
+                          class="w-4 h-4 rounded bg-surface-container-high flex items-center justify-center peer-checked:bg-primary-container transition-colors"
+                        >
+                          <span
+                            class="material-symbols-outlined text-xs text-on-primary-container opacity-0 peer-checked:opacity-100 font-bold"
+                            >check</span
+                          >
+                        </span>
+                      </label>
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <div class="flex items-center gap-space-sm">
+                        <div
+                          class="relative w-12 h-16 rounded overflow-hidden flex-shrink-0 bg-surface-container-highest shadow-sm"
+                        >
+                          <img
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            data-alt="Official dark cinematic film poster of Dune Part Two showcasing golden desert sand dunes under a burning atmospheric red eclipse sun, epic sci-fi aesthetic, hyperrealistic high detail"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4jrXvM-0Q8tHQ_oNDzo3YIjb0NKt5yCfevzR-EmecwX_nIQgYH_QIz7Sf4O8HEQKhw7ECymqs7LJ7pdLdQDmOqBb_PE-tLhad3sw8Gd_cSVUALgvTkD7GkgkcZaKjVWYGNbGEweEWhfS9oiaZS2RjRPc0BAZrIs6E8-x75SlFe-6-gidmosQwLvDbf-is-LHgG2JX2tw6ZMEA3K8Qo34NPQ8jAwPFl4I6mCy1cSkG1UMFdZTtmDQQ"
+                          />
+                        </div>
+                        <div class="flex flex-col min-w-0">
+                          <span
+                            class="font-title-sm text-title-sm text-on-surface truncate group-hover:text-primary transition-colors"
+                            >Dune: Hành Tinh Cát 2</span
+                          >
+                          <div
+                            class="flex items-center gap-1.5 text-on-surface-variant font-label-md text-label-md mt-0.5"
+                          >
+                            <span class="text-on-surface">2024</span>
+                            <span>•</span>
+                            <span class="truncate">Denis Villeneuve</span>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <span
+                        class="px-2.5 py-1 rounded-full bg-surface-container-high font-label-md text-label-md text-on-surface-variant"
+                        >Khoa học viễn tưởng</span
+                      >
+                    </td>
+                    <td
+                      class="py-3.5 px-space-md font-label-md text-label-md text-on-surface-variant"
+                    >
+                      166 phút
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <span
+                        class="px-2 py-0.5 rounded bg-primary-container/15 text-primary font-label-caps text-label-caps font-bold tracking-wide"
+                        >4K UHD</span
+                      >
+                    </td>
+                    <td class="py-3.5 px-space-md font-title-sm text-title-sm">
+                      18,450
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <div
+                        class="flex items-center gap-1 text-secondary font-title-sm text-title-sm"
+                      >
+                        <span class="material-symbols-outlined text-base"
+                          >star</span
+                        >
+                        <span>8.9</span>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <span
+                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-highest text-on-surface font-label-md text-label-md"
+                      >
+                        <span
+                          class="w-1.5 h-1.5 rounded-full bg-primary"
+                        ></span>
+                        Đang chiếu
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-space-md text-right pr-space-lg">
+                      <div
+                        class="inline-flex items-center gap-1 text-on-surface-variant"
+                      >
+                        <button
+                          class="p-1.5 rounded hover:bg-surface-container-highest hover:text-on-surface transition-colors"
+                          title="Xem chi tiết"
+                          type="button"
+                        >
+                          <span class="material-symbols-outlined text-lg"
+                            >visibility</span
+                          >
+                        </button>
+                        <button
+                          class="p-1.5 rounded hover:bg-surface-container-highest hover:text-on-surface transition-colors"
+                          title="Chỉnh sửa"
+                          type="button"
+                        >
+                          <span class="material-symbols-outlined text-lg"
+                            >edit</span
+                          >
+                        </button>
+                        <button
+                          class="p-1.5 rounded hover:bg-error/20 hover:text-error transition-colors"
+                          title="Xóa"
+                          type="button"
+                        >
+                          <span class="material-symbols-outlined text-lg"
+                            >delete</span
+                          >
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Row 2: Oppenheimer -->
+                  <tr
+                    class="bg-surface-container-lowest/30 hover:bg-surface-container transition-colors group"
+                  >
+                    <td class="py-3.5 pl-space-md pr-space-xs text-center">
+                      <label
+                        class="relative flex items-center justify-center cursor-pointer"
+                      >
+                        <input
+                          class="movie-row-checkbox peer sr-only"
+                          type="checkbox"
+                        />
+                        <span
+                          class="w-4 h-4 rounded bg-surface-container-high flex items-center justify-center peer-checked:bg-primary-container transition-colors"
+                        >
+                          <span
+                            class="material-symbols-outlined text-xs text-on-primary-container opacity-0 peer-checked:opacity-100 font-bold"
+                            >check</span
+                          >
+                        </span>
+                      </label>
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <div class="flex items-center gap-space-sm">
+                        <div
+                          class="relative w-12 h-16 rounded overflow-hidden flex-shrink-0 bg-surface-container-highest shadow-sm"
+                        >
+                          <img
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            data-alt="Dramatic film poster of Oppenheimer in dark silhouette against a massive fiery orange nuclear particle blast, high cinematic contrast, 35mm film texture"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiwRaCFHm-fQD_mIx3vGyEeCxQmoIks7sYx6dDTS4-kzfwtiCUvyzoWCR8y-PYe5aAqRvHDoOR27tNeLojpqpRKKnuNO89Vvv0lgT-swyp0Po0uxDhI6F4COxXLRpMeLSac73qrbL5PAZZ4Ozpm348tABvs8jXeh28cCmzjXR2GI7jZhyJCXqrvdUfCORdnTHtNpRx31FoohHpjPPjhp6zX2Vsy-pP_p1BcSvP42nqE-JlL8_hfpCl"
+                          />
+                        </div>
+                        <div class="flex flex-col min-w-0">
+                          <span
+                            class="font-title-sm text-title-sm text-on-surface truncate group-hover:text-primary transition-colors"
+                            >Oppenheimer</span
+                          >
+                          <div
+                            class="flex items-center gap-1.5 text-on-surface-variant font-label-md text-label-md mt-0.5"
+                          >
+                            <span class="text-on-surface">2023</span>
+                            <span>•</span>
+                            <span class="truncate">Christopher Nolan</span>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <span
+                        class="px-2.5 py-1 rounded-full bg-surface-container-high font-label-md text-label-md text-on-surface-variant"
+                        >Lịch sử, Tâm lý</span
+                      >
+                    </td>
+                    <td
+                      class="py-3.5 px-space-md font-label-md text-label-md text-on-surface-variant"
+                    >
+                      180 phút
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <span
+                        class="px-2 py-0.5 rounded bg-primary-container/15 text-primary font-label-caps text-label-caps font-bold tracking-wide"
+                        >4K UHD</span
+                      >
+                    </td>
+                    <td class="py-3.5 px-space-md font-title-sm text-title-sm">
+                      14,200
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <div
+                        class="flex items-center gap-1 text-secondary font-title-sm text-title-sm"
+                      >
+                        <span class="material-symbols-outlined text-base"
+                          >star</span
+                        >
+                        <span>8.9</span>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <span
+                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-highest text-on-surface font-label-md text-label-md"
+                      >
+                        <span
+                          class="w-1.5 h-1.5 rounded-full bg-primary"
+                        ></span>
+                        Đang chiếu
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-space-md text-right pr-space-lg">
+                      <div
+                        class="inline-flex items-center gap-1 text-on-surface-variant"
+                      >
+                        <button
+                          class="p-1.5 rounded hover:bg-surface-container-highest hover:text-on-surface transition-colors"
+                          title="Xem chi tiết"
+                          type="button"
+                        >
+                          <span class="material-symbols-outlined text-lg"
+                            >visibility</span
+                          >
+                        </button>
+                        <button
+                          class="p-1.5 rounded hover:bg-surface-container-highest hover:text-on-surface transition-colors"
+                          title="Chỉnh sửa"
+                          type="button"
+                        >
+                          <span class="material-symbols-outlined text-lg"
+                            >edit</span
+                          >
+                        </button>
+                        <button
+                          class="p-1.5 rounded hover:bg-error/20 hover:text-error transition-colors"
+                          title="Xóa"
+                          type="button"
+                        >
+                          <span class="material-symbols-outlined text-lg"
+                            >delete</span
+                          >
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Row 3: The Batman -->
+                  <tr
+                    class="bg-surface-container-low hover:bg-surface-container transition-colors group"
+                  >
+                    <td class="py-3.5 pl-space-md pr-space-xs text-center">
+                      <label
+                        class="relative flex items-center justify-center cursor-pointer"
+                      >
+                        <input
+                          class="movie-row-checkbox peer sr-only"
+                          type="checkbox"
+                        />
+                        <span
+                          class="w-4 h-4 rounded bg-surface-container-high flex items-center justify-center peer-checked:bg-primary-container transition-colors"
+                        >
+                          <span
+                            class="material-symbols-outlined text-xs text-on-primary-container opacity-0 peer-checked:opacity-100 font-bold"
+                            >check</span
+                          >
+                        </span>
+                      </label>
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <div class="flex items-center gap-space-sm">
+                        <div
+                          class="relative w-12 h-16 rounded overflow-hidden flex-shrink-0 bg-surface-container-highest shadow-sm"
+                        >
+                          <img
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            data-alt="Gritty atmospheric red and jet-black noir movie poster of The Batman in rain-slicked Gotham alleyway, intense shadow play, modern cinematic comic adaptation"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJ5KCKBIE7m8twvl0AyvxFCtlX_t6ZMa29dTgeQa6TqLbazDOzA5O5DIketv3UwOCO-Tyzn5L0VoCYPgPHhiatvo1yRCZhbtzL-XqVYJrqUeP7S0tndIyRKKhbeVrtQYcGfBHaTFaTSLQGhxwJcE0R8P8n18Gr-v7fBV1721GFMxdhEffZaNJM_KAoLvD8d4aAx6jmwJYlUy3YBmgsz07IbrFZhqWMvYME8e_c06dGYiAYrQA_2cQR"
+                          />
+                        </div>
+                        <div class="flex flex-col min-w-0">
+                          <span
+                            class="font-title-sm text-title-sm text-on-surface truncate group-hover:text-primary transition-colors"
+                            >The Batman</span
+                          >
+                          <div
+                            class="flex items-center gap-1.5 text-on-surface-variant font-label-md text-label-md mt-0.5"
+                          >
+                            <span class="text-on-surface">2022</span>
+                            <span>•</span>
+                            <span class="truncate">Matt Reeves</span>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <span
+                        class="px-2.5 py-1 rounded-full bg-surface-container-high font-label-md text-label-md text-on-surface-variant"
+                        >Hành động, Tội phạm</span
+                      >
+                    </td>
+                    <td
+                      class="py-3.5 px-space-md font-label-md text-label-md text-on-surface-variant"
+                    >
+                      176 phút
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <span
+                        class="px-2 py-0.5 rounded bg-primary-container/15 text-primary font-label-caps text-label-caps font-bold tracking-wide"
+                        >4K UHD</span
+                      >
+                    </td>
+                    <td class="py-3.5 px-space-md font-title-sm text-title-sm">
+                      11,800
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <div
+                        class="flex items-center gap-1 text-secondary font-title-sm text-title-sm"
+                      >
+                        <span class="material-symbols-outlined text-base"
+                          >star</span
+                        >
+                        <span>8.6</span>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <span
+                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-highest text-on-surface font-label-md text-label-md"
+                      >
+                        <span
+                          class="w-1.5 h-1.5 rounded-full bg-primary"
+                        ></span>
+                        Đang chiếu
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-space-md text-right pr-space-lg">
+                      <div
+                        class="inline-flex items-center gap-1 text-on-surface-variant"
+                      >
+                        <button
+                          class="p-1.5 rounded hover:bg-surface-container-highest hover:text-on-surface transition-colors"
+                          title="Xem chi tiết"
+                          type="button"
+                        >
+                          <span class="material-symbols-outlined text-lg"
+                            >visibility</span
+                          >
+                        </button>
+                        <button
+                          class="p-1.5 rounded hover:bg-surface-container-highest hover:text-on-surface transition-colors"
+                          title="Chỉnh sửa"
+                          type="button"
+                        >
+                          <span class="material-symbols-outlined text-lg"
+                            >edit</span
+                          >
+                        </button>
+                        <button
+                          class="p-1.5 rounded hover:bg-error/20 hover:text-error transition-colors"
+                          title="Xóa"
+                          type="button"
+                        >
+                          <span class="material-symbols-outlined text-lg"
+                            >delete</span
+                          >
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Row 4: Interstellar -->
+                  <tr
+                    class="bg-surface-container-lowest/30 hover:bg-surface-container transition-colors group"
+                  >
+                    <td class="py-3.5 pl-space-md pr-space-xs text-center">
+                      <label
+                        class="relative flex items-center justify-center cursor-pointer"
+                      >
+                        <input
+                          class="movie-row-checkbox peer sr-only"
+                          type="checkbox"
+                        />
+                        <span
+                          class="w-4 h-4 rounded bg-surface-container-high flex items-center justify-center peer-checked:bg-primary-container transition-colors"
+                        >
+                          <span
+                            class="material-symbols-outlined text-xs text-on-primary-container opacity-0 peer-checked:opacity-100 font-bold"
+                            >check</span
+                          >
+                        </span>
+                      </label>
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <div class="flex items-center gap-space-sm">
+                        <div
+                          class="relative w-12 h-16 rounded overflow-hidden flex-shrink-0 bg-surface-container-highest shadow-sm"
+                        >
+                          <img
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            data-alt="Gargantua black hole bending cosmic starlight in deep space, interstellar spaceship orbiting event horizon, deep space exploration aesthetic"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzqBCXicoof2XmOg_0Y1qsmyGyby7Wr_mmytxd4e8fkdUo22rbpSN2aaitymZAccjGDmaqBtU87mdlg5Q4OYQiiywFEBrbmA31Yn0XoNqU_aTz0jzRkqbLshWfcq_m0pddYFQgOtSfEx5Nt9LdyLQx9hHHj2wb5GtMxl3SNf3_42iqpnPJEYsw4EzoxhSSw6bAdu8Lwh4noavHaizbyk9fK-J9NQKx4uRJwAkMV8kB01a4lvcH_ULj"
+                          />
+                        </div>
+                        <div class="flex flex-col min-w-0">
+                          <span
+                            class="font-title-sm text-title-sm text-on-surface truncate group-hover:text-primary transition-colors"
+                            >Interstellar: Hố Đen Tử Thần</span
+                          >
+                          <div
+                            class="flex items-center gap-1.5 text-on-surface-variant font-label-md text-label-md mt-0.5"
+                          >
+                            <span class="text-on-surface">2014</span>
+                            <span>•</span>
+                            <span class="truncate">Christopher Nolan</span>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <span
+                        class="px-2.5 py-1 rounded-full bg-surface-container-high font-label-md text-label-md text-on-surface-variant"
+                        >Viễn tưởng</span
+                      >
+                    </td>
+                    <td
+                      class="py-3.5 px-space-md font-label-md text-label-md text-on-surface-variant"
+                    >
+                      169 phút
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <span
+                        class="px-2 py-0.5 rounded bg-primary-container/15 text-primary font-label-caps text-label-caps font-bold tracking-wide"
+                        >4K UHD</span
+                      >
+                    </td>
+                    <td class="py-3.5 px-space-md font-title-sm text-title-sm">
+                      9,950
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <div
+                        class="flex items-center gap-1 text-secondary font-title-sm text-title-sm"
+                      >
+                        <span class="material-symbols-outlined text-base"
+                          >star</span
+                        >
+                        <span>8.7</span>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <span
+                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-highest text-on-surface font-label-md text-label-md"
+                      >
+                        <span
+                          class="w-1.5 h-1.5 rounded-full bg-primary"
+                        ></span>
+                        Đang chiếu
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-space-md text-right pr-space-lg">
+                      <div
+                        class="inline-flex items-center gap-1 text-on-surface-variant"
+                      >
+                        <button
+                          class="p-1.5 rounded hover:bg-surface-container-highest hover:text-on-surface transition-colors"
+                          title="Xem chi tiết"
+                          type="button"
+                        >
+                          <span class="material-symbols-outlined text-lg"
+                            >visibility</span
+                          >
+                        </button>
+                        <button
+                          class="p-1.5 rounded hover:bg-surface-container-highest hover:text-on-surface transition-colors"
+                          title="Chỉnh sửa"
+                          type="button"
+                        >
+                          <span class="material-symbols-outlined text-lg"
+                            >edit</span
+                          >
+                        </button>
+                        <button
+                          class="p-1.5 rounded hover:bg-error/20 hover:text-error transition-colors"
+                          title="Xóa"
+                          type="button"
+                        >
+                          <span class="material-symbols-outlined text-lg"
+                            >delete</span
+                          >
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Row 5: Matrix Resurrections -->
+                  <tr
+                    class="bg-surface-container-low hover:bg-surface-container transition-colors group"
+                  >
+                    <td class="py-3.5 pl-space-md pr-space-xs text-center">
+                      <label
+                        class="relative flex items-center justify-center cursor-pointer"
+                      >
+                        <input
+                          class="movie-row-checkbox peer sr-only"
+                          type="checkbox"
+                        />
+                        <span
+                          class="w-4 h-4 rounded bg-surface-container-high flex items-center justify-center peer-checked:bg-primary-container transition-colors"
+                        >
+                          <span
+                            class="material-symbols-outlined text-xs text-on-primary-container opacity-0 peer-checked:opacity-100 font-bold"
+                            >check</span
+                          >
+                        </span>
+                      </label>
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <div class="flex items-center gap-space-sm">
+                        <div
+                          class="relative w-12 h-16 rounded overflow-hidden flex-shrink-0 bg-surface-container-highest shadow-sm"
+                        >
+                          <img
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            data-alt="Digital green rain cybernetic code cascading over dark leather silhouette figure, futuristic sci-fi Matrix movie poster art"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrhdzP4xZeNxrWVE3jXXKlffBlhTJTOFJ8U_I1pZnKjlsQygsq9ADib-G72B9b88zoZREFzXDTMoOmYtqrFfmpuqnvTN-KdGwPKvY-HZuYZnvmTsFhROBcWZGgiABizRXq0yRS3zAgfQkyyNhf2oTklo6coIzXxsRKklYmlnQHVAuEHjH8w5fII6J0JUuXtXVWSNrFRVYq1zzicfEFhev-dyNxtNwMWH0nIcO43OmurS8fk7NwHl95"
+                          />
+                        </div>
+                        <div class="flex flex-col min-w-0">
+                          <span
+                            class="font-title-sm text-title-sm text-on-surface truncate group-hover:text-primary transition-colors"
+                            >Ma Trận: Tái Sinh</span
+                          >
+                          <div
+                            class="flex items-center gap-1.5 text-on-surface-variant font-label-md text-label-md mt-0.5"
+                          >
+                            <span class="text-on-surface">2021</span>
+                            <span>•</span>
+                            <span class="truncate">Lana Wachowski</span>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <span
+                        class="px-2.5 py-1 rounded-full bg-surface-container-high font-label-md text-label-md text-on-surface-variant"
+                        >Hành động, Viễn tưởng</span
+                      >
+                    </td>
+                    <td
+                      class="py-3.5 px-space-md font-label-md text-label-md text-on-surface-variant"
+                    >
+                      148 phút
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <span
+                        class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-label-caps text-label-caps font-bold tracking-wide"
+                        >4K HDR</span
+                      >
+                    </td>
+                    <td class="py-3.5 px-space-md font-title-sm text-title-sm">
+                      6,100
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <div
+                        class="flex items-center gap-1 text-secondary font-title-sm text-title-sm"
+                      >
+                        <span class="material-symbols-outlined text-base"
+                          >star</span
+                        >
+                        <span>8.4</span>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <span
+                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-highest text-on-surface font-label-md text-label-md"
+                      >
+                        <span
+                          class="w-1.5 h-1.5 rounded-full bg-primary"
+                        ></span>
+                        Đang chiếu
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-space-md text-right pr-space-lg">
+                      <div
+                        class="inline-flex items-center gap-1 text-on-surface-variant"
+                      >
+                        <button
+                          class="p-1.5 rounded hover:bg-surface-container-highest hover:text-on-surface transition-colors"
+                          title="Xem chi tiết"
+                          type="button"
+                        >
+                          <span class="material-symbols-outlined text-lg"
+                            >visibility</span
+                          >
+                        </button>
+                        <button
+                          class="p-1.5 rounded hover:bg-surface-container-highest hover:text-on-surface transition-colors"
+                          title="Chỉnh sửa"
+                          type="button"
+                        >
+                          <span class="material-symbols-outlined text-lg"
+                            >edit</span
+                          >
+                        </button>
+                        <button
+                          class="p-1.5 rounded hover:bg-error/20 hover:text-error transition-colors"
+                          title="Xóa"
+                          type="button"
+                        >
+                          <span class="material-symbols-outlined text-lg"
+                            >delete</span
+                          >
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Row 6: The Boy and the Heron -->
+                  <tr
+                    class="bg-surface-container-lowest/30 hover:bg-surface-container transition-colors group"
+                  >
+                    <td class="py-3.5 pl-space-md pr-space-xs text-center">
+                      <label
+                        class="relative flex items-center justify-center cursor-pointer"
+                      >
+                        <input
+                          class="movie-row-checkbox peer sr-only"
+                          type="checkbox"
+                        />
+                        <span
+                          class="w-4 h-4 rounded bg-surface-container-high flex items-center justify-center peer-checked:bg-primary-container transition-colors"
+                        >
+                          <span
+                            class="material-symbols-outlined text-xs text-on-primary-container opacity-0 peer-checked:opacity-100 font-bold"
+                            >check</span
+                          >
+                        </span>
+                      </label>
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <div class="flex items-center gap-space-sm">
+                        <div
+                          class="relative w-12 h-16 rounded overflow-hidden flex-shrink-0 bg-surface-container-highest shadow-sm"
+                        >
+                          <img
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            data-alt="Ethereal hand-painted Studio Ghibli style anime illustration of a grey heron bird flying across misty emerald forest waters, deep whimsical lighting"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBshrZdy89O4ga7n2oMh9_PanMMarPdMYHiHDIpa-kbxLUzrmFDIjFhyjvh3aExEaHsPQKBmxL6tNXPOFzVPDx8Y9pAbm01bbfJQLF9L99QQFmZwaj_JEHzGP1IHIUtR1ft5hsZK1fD8_WTzIwsSjsIPbnv3FnTYmZ783eXOglSiiOrIhLVorhZiJlABI0tdPkWcMyLEQsWD-EoR_41NZSiBvYCimbju9vqRnXgNQWFn4o9iujBeM83"
+                          />
+                        </div>
+                        <div class="flex flex-col min-w-0">
+                          <span
+                            class="font-title-sm text-title-sm text-on-surface truncate group-hover:text-primary transition-colors"
+                            >Thiếu Niên Và Chim Diệc</span
+                          >
+                          <div
+                            class="flex items-center gap-1.5 text-on-surface-variant font-label-md text-label-md mt-0.5"
+                          >
+                            <span class="text-on-surface">2023</span>
+                            <span>•</span>
+                            <span class="truncate">Hayao Miyazaki</span>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <span
+                        class="px-2.5 py-1 rounded-full bg-surface-container-high font-label-md text-label-md text-on-surface-variant"
+                        >Hoạt hình</span
+                      >
+                    </td>
+                    <td
+                      class="py-3.5 px-space-md font-label-md text-label-md text-on-surface-variant"
+                    >
+                      124 phút
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <span
+                        class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-caps text-label-caps font-semibold tracking-wide"
+                        >HD Vietsub</span
+                      >
+                    </td>
+                    <td class="py-3.5 px-space-md font-title-sm text-title-sm">
+                      5,430
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <div
+                        class="flex items-center gap-1 text-secondary font-title-sm text-title-sm"
+                      >
+                        <span class="material-symbols-outlined text-base"
+                          >star</span
+                        >
+                        <span>8.5</span>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <span
+                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-highest text-on-surface font-label-md text-label-md"
+                      >
+                        <span
+                          class="w-1.5 h-1.5 rounded-full bg-primary"
+                        ></span>
+                        Đang chiếu
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-space-md text-right pr-space-lg">
+                      <div
+                        class="inline-flex items-center gap-1 text-on-surface-variant"
+                      >
+                        <button
+                          class="p-1.5 rounded hover:bg-surface-container-highest hover:text-on-surface transition-colors"
+                          title="Xem chi tiết"
+                          type="button"
+                        >
+                          <span class="material-symbols-outlined text-lg"
+                            >visibility</span
+                          >
+                        </button>
+                        <button
+                          class="p-1.5 rounded hover:bg-surface-container-highest hover:text-on-surface transition-colors"
+                          title="Chỉnh sửa"
+                          type="button"
+                        >
+                          <span class="material-symbols-outlined text-lg"
+                            >edit</span
+                          >
+                        </button>
+                        <button
+                          class="p-1.5 rounded hover:bg-error/20 hover:text-error transition-colors"
+                          title="Xóa"
+                          type="button"
+                        >
+                          <span class="material-symbols-outlined text-lg"
+                            >delete</span
+                          >
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Row 7: The Creator -->
+                  <tr
+                    class="bg-surface-container-low hover:bg-surface-container transition-colors group"
+                  >
+                    <td class="py-3.5 pl-space-md pr-space-xs text-center">
+                      <label
+                        class="relative flex items-center justify-center cursor-pointer"
+                      >
+                        <input
+                          class="movie-row-checkbox peer sr-only"
+                          type="checkbox"
+                        />
+                        <span
+                          class="w-4 h-4 rounded bg-surface-container-high flex items-center justify-center peer-checked:bg-primary-container transition-colors"
+                        >
+                          <span
+                            class="material-symbols-outlined text-xs text-on-primary-container opacity-0 peer-checked:opacity-100 font-bold"
+                            >check</span
+                          >
+                        </span>
+                      </label>
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <div class="flex items-center gap-space-sm">
+                        <div
+                          class="relative w-12 h-16 rounded overflow-hidden flex-shrink-0 bg-surface-container-highest shadow-sm"
+                        >
+                          <img
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            data-alt="Futuristic cybernetic child robot looking toward floating ring-shaped space station in cloudy sunset sky, melancholic post-apocalyptic film poster"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7vAyxQh4GE6cXds71djD4fovnW0GbqHaGsFPBm4VsGjYfQ1p0-wuHWLhgjigDbQM5TU8r91wRghsibtvuRd2ltUxYf2gWds8Awf0u7n2y5rxwYehjH6OamZPmWUChYBcWi3ZB9IK4I1Aw0Bs-CpDU706TjQSjNRblREORG_nBfeQ3LgRPt7_04Li1_GZF5VzxrDEuG8Jf6qjyY6H0R3DM-pxKj08gqoVBE49n2TbL8lPdIRZslWd5"
+                          />
+                        </div>
+                        <div class="flex flex-col min-w-0">
+                          <span
+                            class="font-title-sm text-title-sm text-on-surface truncate group-hover:text-primary transition-colors"
+                            >Kẻ Kiến Tạo (The Creator)</span
+                          >
+                          <div
+                            class="flex items-center gap-1.5 text-on-surface-variant font-label-md text-label-md mt-0.5"
+                          >
+                            <span class="text-on-surface">2023</span>
+                            <span>•</span>
+                            <span class="truncate">Gareth Edwards</span>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <span
+                        class="px-2.5 py-1 rounded-full bg-surface-container-high font-label-md text-label-md text-on-surface-variant"
+                        >Viễn tưởng</span
+                      >
+                    </td>
+                    <td
+                      class="py-3.5 px-space-md font-label-md text-label-md text-on-surface-variant"
+                    >
+                      133 phút
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <span
+                        class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-label-caps text-label-caps font-semibold tracking-wide"
+                        >1080p FHD</span
+                      >
+                    </td>
+                    <td class="py-3.5 px-space-md font-title-sm text-title-sm">
+                      4,210
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <div
+                        class="flex items-center gap-1 text-secondary font-title-sm text-title-sm"
+                      >
+                        <span class="material-symbols-outlined text-base"
+                          >star</span
+                        >
+                        <span>7.2</span>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <span
+                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-highest text-on-surface font-label-md text-label-md"
+                      >
+                        <span
+                          class="w-1.5 h-1.5 rounded-full bg-primary"
+                        ></span>
+                        Đang chiếu
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-space-md text-right pr-space-lg">
+                      <div
+                        class="inline-flex items-center gap-1 text-on-surface-variant"
+                      >
+                        <button
+                          class="p-1.5 rounded hover:bg-surface-container-highest hover:text-on-surface transition-colors"
+                          title="Xem chi tiết"
+                          type="button"
+                        >
+                          <span class="material-symbols-outlined text-lg"
+                            >visibility</span
+                          >
+                        </button>
+                        <button
+                          class="p-1.5 rounded hover:bg-surface-container-highest hover:text-on-surface transition-colors"
+                          title="Chỉnh sửa"
+                          type="button"
+                        >
+                          <span class="material-symbols-outlined text-lg"
+                            >edit</span
+                          >
+                        </button>
+                        <button
+                          class="p-1.5 rounded hover:bg-error/20 hover:text-error transition-colors"
+                          title="Xóa"
+                          type="button"
+                        >
+                          <span class="material-symbols-outlined text-lg"
+                            >delete</span
+                          >
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Row 8: Arrival -->
+                  <tr
+                    class="bg-surface-container-lowest/30 hover:bg-surface-container transition-colors group"
+                  >
+                    <td class="py-3.5 pl-space-md pr-space-xs text-center">
+                      <label
+                        class="relative flex items-center justify-center cursor-pointer"
+                      >
+                        <input
+                          class="movie-row-checkbox peer sr-only"
+                          type="checkbox"
+                        />
+                        <span
+                          class="w-4 h-4 rounded bg-surface-container-high flex items-center justify-center peer-checked:bg-primary-container transition-colors"
+                        >
+                          <span
+                            class="material-symbols-outlined text-xs text-on-primary-container opacity-0 peer-checked:opacity-100 font-bold"
+                            >check</span
+                          >
+                        </span>
+                      </label>
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <div class="flex items-center gap-space-sm">
+                        <div
+                          class="relative w-12 h-16 rounded overflow-hidden flex-shrink-0 bg-surface-container-highest shadow-sm"
+                        >
+                          <img
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            data-alt="Monolithic oval alien spacecraft hovering over a mist covered green mountain meadow, pale eerie cinematic light, thoughtful sci-fi poster"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmMDTryfHuq_OthODCZKGPYyoL_D-mSfKldSW9F8j2YDn8ROLAK88iy8OFAyE1-Nvu3fVEw6JOPL4jgDF3THe-uVgXJ3tlIousBrb6h6YZdRGlChbFe6izxABsIXrEodFO3PIkjl3bAoaJUmeR-H4vcU51EKn8fmFaPV3ERdMyBYcEiQLK-tejMy7AzA4BMkg-uS9ZnA4tmmpxl_Q4HErKxkb23_ZMbYCCC4kLMo3NIbLvI9jKogXz"
+                          />
+                        </div>
+                        <div class="flex flex-col min-w-0">
+                          <span
+                            class="font-title-sm text-title-sm text-on-surface truncate group-hover:text-primary transition-colors"
+                            >Cuộc Đổ Bộ Bí Ẩn (Arrival)</span
+                          >
+                          <div
+                            class="flex items-center gap-1.5 text-on-surface-variant font-label-md text-label-md mt-0.5"
+                          >
+                            <span class="text-on-surface">2016</span>
+                            <span>•</span>
+                            <span class="truncate">Denis Villeneuve</span>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <span
+                        class="px-2.5 py-1 rounded-full bg-surface-container-high font-label-md text-label-md text-on-surface-variant"
+                        >Viễn tưởng</span
+                      >
+                    </td>
+                    <td
+                      class="py-3.5 px-space-md font-label-md text-label-md text-on-surface-variant"
+                    >
+                      116 phút
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <span
+                        class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-label-caps text-label-caps font-semibold tracking-wide"
+                        >1080p FHD</span
+                      >
+                    </td>
+                    <td class="py-3.5 px-space-md font-title-sm text-title-sm">
+                      7,890
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <div
+                        class="flex items-center gap-1 text-secondary font-title-sm text-title-sm"
+                      >
+                        <span class="material-symbols-outlined text-base"
+                          >star</span
+                        >
+                        <span>7.9</span>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-space-md">
+                      <span
+                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-highest text-on-surface font-label-md text-label-md"
+                      >
+                        <span
+                          class="w-1.5 h-1.5 rounded-full bg-primary"
+                        ></span>
+                        Đang chiếu
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-space-md text-right pr-space-lg">
+                      <div
+                        class="inline-flex items-center gap-1 text-on-surface-variant"
+                      >
+                        <button
+                          class="p-1.5 rounded hover:bg-surface-container-highest hover:text-on-surface transition-colors"
+                          title="Xem chi tiết"
+                          type="button"
+                        >
+                          <span class="material-symbols-outlined text-lg"
+                            >visibility</span
+                          >
+                        </button>
+                        <button
+                          class="p-1.5 rounded hover:bg-surface-container-highest hover:text-on-surface transition-colors"
+                          title="Chỉnh sửa"
+                          type="button"
+                        >
+                          <span class="material-symbols-outlined text-lg"
+                            >edit</span
+                          >
+                        </button>
+                        <button
+                          class="p-1.5 rounded hover:bg-error/20 hover:text-error transition-colors"
+                          title="Xóa"
+                          type="button"
+                        >
+                          <span class="material-symbols-outlined text-lg"
+                            >delete</span
+                          >
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- Pagination & Catalog Range Controls -->
+            <div
+              class="p-space-md bg-surface-container-lowest/80 flex flex-col sm:flex-row items-center justify-between gap-space-md"
+            >
+              <!-- Left: Batch Operations & Per Page -->
+              <div class="flex items-center gap-space-md">
+                <div class="flex items-center gap-2">
+                  <span
+                    class="font-body-sm text-body-sm text-on-surface-variant"
+                    >Hiển thị</span
+                  >
+                  <select
+                    class="bg-surface-container text-on-surface font-label-md text-label-md px-2.5 py-1.5 rounded cursor-pointer focus:outline-none focus:bg-surface-container-high"
+                  >
+                    <option>8 / trang</option>
+                    <option>16 / trang</option>
+                    <option>32 / trang</option>
+                    <option>50 / trang</option>
+                  </select>
+                </div>
+                <span class="text-on-surface-variant/40">|</span>
+                <span
+                  class="font-label-md text-label-md text-on-surface-variant"
+                >
+                  1 - 8 của
+                  <span class="text-on-surface font-bold">120</span> phim
+                </span>
+              </div>
+              <!-- Right: Pagination Buttons -->
+              <div class="flex items-center gap-1">
+                <!-- Previous -->
+                <button
+                  aria-label="Trang trước"
+                  class="flex items-center justify-center w-8 h-8 rounded bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors disabled:opacity-40"
+                  disabled=""
+                  type="button"
+                >
+                  <span class="material-symbols-outlined text-base"
+                    >chevron_left</span
+                  >
+                </button>
+                <!-- Pages -->
+                <button
+                  class="flex items-center justify-center w-8 h-8 rounded bg-primary-container text-on-primary-container font-title-sm text-title-sm"
+                  type="button"
+                >
+                  1
+                </button>
+                <button
+                  class="flex items-center justify-center w-8 h-8 rounded bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-title-sm text-title-sm transition-colors"
+                  type="button"
+                >
+                  2
+                </button>
+                <button
+                  class="flex items-center justify-center w-8 h-8 rounded bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-title-sm text-title-sm transition-colors"
+                  type="button"
+                >
+                  3
+                </button>
+                <button
+                  class="flex items-center justify-center w-8 h-8 rounded bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-title-sm text-title-sm transition-colors"
+                  type="button"
+                >
+                  4
+                </button>
+                <span
+                  class="px-1 text-on-surface-variant/50 font-title-sm text-title-sm"
+                  >...</span
+                >
+                <button
+                  class="flex items-center justify-center w-8 h-8 rounded bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-title-sm text-title-sm transition-colors"
+                  type="button"
+                >
+                  15
+                </button>
+                <!-- Next -->
+                <button
+                  aria-label="Trang tiếp"
+                  class="flex items-center justify-center w-8 h-8 rounded bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+                  type="button"
+                >
+                  <span class="material-symbols-outlined text-base"
+                    >chevron_right</span
+                  >
+                </button>
+              </div>
+            </div>
+          </section>
+          <!-- Interactive Select All and Toast Logic Script -->
+          <!-- <script>
+            (function () {
+              const selectAll = document.getElementById("selectAllCheckbox");
+              const rowCheckboxes = document.querySelectorAll(
+                ".movie-row-checkbox",
+              );
+
+              if (selectAll) {
+                selectAll.addEventListener("change", function () {
+                  rowCheckboxes.forEach((cb) => {
+                    cb.checked = selectAll.checked;
+                  });
+                });
+              }
+
+              // Auto dismiss toast after 6 seconds
+              const toast = document.getElementById("toastNotification");
+              if (toast) {
+                setTimeout(() => {
+                  toast.style.opacity = "0";
+                  toast.style.transform = "translateY(-12px)";
+                  setTimeout(() => toast.remove(), 350);
+                }, 6000);
+              }
+            })();
+          </script> -->
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
+<script type="module" src="./../js/admin/users.js"></script>

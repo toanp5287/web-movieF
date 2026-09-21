@@ -1,0 +1,665 @@
+{
+  "roles": [
+    {
+      "id": "1",
+      "name": "admin",
+      "displayName": "Quản trị viên",
+      "description": "Quản lý toàn bộ hệ thống MovieF",
+      "permissions": [
+        "dashboard.view",
+        "movie.view",
+        "movie.create",
+        "movie.update",
+        "movie.delete",
+        "genre.view",
+        "genre.create",
+        "genre.update",
+        "genre.delete",
+        "user.view",
+        "user.create",
+        "user.update",
+        "user.delete",
+        "review.view",
+        "review.delete"
+      ]
+    },
+    {
+      "id": "2",
+      "name": "staff",
+      "displayName": "Nhân viên",
+      "description": "Quản lý nội dung phim và đánh giá",
+      "permissions": [
+        "movie.view",
+        "movie.create",
+        "movie.update",
+        "genre.view",
+        "genre.create",
+        "genre.update",
+        "review.view",
+        "review.delete"
+      ]
+    },
+    {
+      "id": "3",
+      "name": "viewer",
+      "displayName": "Người xem",
+      "description": "Người dùng xem phim và sử dụng các chức năng cá nhân",
+      "permissions": [
+        "movie.view",
+        "genre.view",
+        "favorite.manage",
+        "history.manage",
+        "review.create",
+        "review.update",
+        "review.delete",
+        "profile.update"
+      ]
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "username": "admin",
+      "email": "admin@movief.com",
+      "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+      "fullname": "MovieF Admin",
+      "avatar": "images/avatar/admin.png",
+      "roleId": 1,
+      "status": "active",
+      "createdAt": "2026-09-01"
+    },
+    {
+      "id": "2",
+      "username": "staff01",
+      "email": "staff01@movief.com",
+      "password": "123456",
+      "fullname": "Nguyen Van Staff",
+      "avatar": "images/avatar/default.png",
+      "roleId": 2,
+      "status": "active",
+      "createdAt": "2026-09-02"
+    },
+    {
+      "id": "3",
+      "username": "vinh123",
+      "email": "vinh@gmail.com",
+      "password": "123456",
+      "fullname": "Pham Quang Vinh",
+      "avatar": "images/avatar/default.png",
+      "roleId": 3,
+      "status": "active",
+      "createdAt": "2026-09-03"
+    },
+    {
+      "id": "4",
+      "username": "nguyenanh",
+      "email": "nguyenanh@gmail.com",
+      "password": "123456",
+      "fullname": "Nguyen Anh",
+      "avatar": "images/avatar/default.png",
+      "roleId": 3,
+      "status": "active",
+      "createdAt": "2026-09-04"
+    },
+    {
+      "id": "5",
+      "username": "user05",
+      "email": "user05@gmail.com",
+      "password": "123456",
+      "fullname": "Le Minh",
+      "avatar": "images/avatar/default.png",
+      "roleId": 3,
+      "status": "active",
+      "createdAt": "2026-09-05"
+    },
+    {
+      "id": "6",
+      "username": "blocked01",
+      "email": "blocked@gmail.com",
+      "password": "123456",
+      "fullname": "Blocked User",
+      "avatar": "images/avatar/default.png",
+      "roleId": 3,
+      "status": "inactive",
+      "createdAt": "2026-09-06"
+    },
+    {
+      "id": "8TZCZPkPe4Q",
+      "fullname": "pham quang vinh",
+      "email": "toanp5287@gmail.com",
+      "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+      "roleId": 3,
+      "status": "active",
+      "createdAt": "2026-09-19T10:00:16.816Z"
+    },
+    {
+      "id": "a5R4eWSFIyI",
+      "fullname": "pham quang vinh1",
+      "email": "toanp5288@gmail.com",
+      "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+      "roleId": 3,
+      "status": "active",
+      "createdAt": "2026-09-19T10:15:52.764Z"
+    },
+    {
+      "id": "gwOpqgFMQWY",
+      "fullname": "pham quang vinh1",
+      "email": "toanp5289@gmail.com",
+      "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+      "roleId": 3,
+      "status": "active",
+      "createdAt": "2026-09-19T10:21:36.507Z"
+    },
+    {
+      "id": "dDXZ_yPg0gE",
+      "fullname": "pham quang vinh4",
+      "email": "toanp528722@gmail.com",
+      "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+      "roleId": 3,
+      "status": "active",
+      "createdAt": "2026-09-19T10:26:08.842Z"
+    },
+    {
+      "id": "DewJuy53BrE",
+      "fullname": "pham quang vinh",
+      "email": "toanp5287j@gmail.com",
+      "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+      "roleId": 3,
+      "status": "active",
+      "createdAt": "2026-09-19T10:27:07.122Z"
+    }
+  ],
+  "genres": [
+    {
+      "id": "1",
+      "name": "Hành động",
+      "slug": "hanh-dong",
+      "status": "active"
+    },
+    {
+      "id": "2",
+      "name": "Tình cảm",
+      "slug": "tinh-cam",
+      "status": "active"
+    },
+    {
+      "id": "3",
+      "name": "Hài",
+      "slug": "hai",
+      "status": "active"
+    },
+    {
+      "id": "4",
+      "name": "Kinh dị",
+      "slug": "kinh-di",
+      "status": "active"
+    },
+    {
+      "id": "5",
+      "name": "Khoa học viễn tưởng",
+      "slug": "khoa-hoc-vien-tuong",
+      "status": "active"
+    },
+    {
+      "id": "6",
+      "name": "Hoạt hình",
+      "slug": "hoat-hinh",
+      "status": "active"
+    },
+    {
+      "id": "7",
+      "name": "Phiêu lưu",
+      "slug": "phieu-luu",
+      "status": "active"
+    },
+    {
+      "id": "8",
+      "name": "Tâm lý",
+      "slug": "tam-ly",
+      "status": "active"
+    }
+  ],
+  "movies": [
+    {
+      "id": "1",
+      "title": "Avengers: Endgame",
+      "slug": "avengers-endgame",
+      "description": "Các siêu anh hùng chiến đấu để bảo vệ vũ trụ sau những sự kiện thảm khốc.",
+      "poster": "images/movies/endgame.jpg",
+      "backdrop": "images/movies/endgame-bg.jpg",
+      "year": 2019,
+      "duration": 181,
+      "country": "USA",
+      "director": "Anthony Russo, Joe Russo",
+      "actors": ["Robert Downey Jr.", "Chris Evans", "Mark Ruffalo"],
+      "trailer": "videos/trailer/endgame.mp4",
+      "video": "videos/movies/endgame.mp4",
+      "status": "published",
+      "views": 15240,
+      "createdAt": "2026-09-01"
+    },
+    {
+      "id": "2",
+      "title": "Spider-Man: No Way Home",
+      "slug": "spider-man-no-way-home",
+      "description": "Peter Parker đối mặt với những kẻ thù đến từ các vũ trụ khác.",
+      "poster": "images/movies/spiderman.jpg",
+      "backdrop": "images/movies/spiderman-bg.jpg",
+      "year": 2021,
+      "duration": 148,
+      "country": "USA",
+      "director": "Jon Watts",
+      "actors": ["Tom Holland", "Zendaya", "Benedict Cumberbatch"],
+      "trailer": "videos/trailer/spiderman.mp4",
+      "video": "videos/movies/spiderman.mp4",
+      "status": "published",
+      "views": 12450,
+      "createdAt": "2026-09-02"
+    },
+    {
+      "id": "3",
+      "title": "Interstellar",
+      "slug": "interstellar",
+      "description": "Một nhóm phi hành gia thực hiện nhiệm vụ tìm kiếm hành tinh mới cho nhân loại.",
+      "poster": "images/movies/interstellar.jpg",
+      "backdrop": "images/movies/interstellar-bg.jpg",
+      "year": 2014,
+      "duration": 169,
+      "country": "USA",
+      "director": "Christopher Nolan",
+      "actors": ["Matthew McConaughey", "Anne Hathaway", "Jessica Chastain"],
+      "trailer": "videos/trailer/interstellar.mp4",
+      "video": "videos/movies/interstellar.mp4",
+      "status": "published",
+      "views": 18420,
+      "createdAt": "2026-09-03"
+    },
+    {
+      "id": "4",
+      "title": "Your Name",
+      "slug": "your-name",
+      "description": "Hai người xa lạ kết nối với nhau thông qua những giấc mơ kỳ lạ.",
+      "poster": "images/movies/your-name.jpg",
+      "backdrop": "images/movies/your-name-bg.jpg",
+      "year": 2016,
+      "duration": 106,
+      "country": "Japan",
+      "director": "Makoto Shinkai",
+      "actors": ["Ryunosuke Kamiki", "Mone Kamishiraishi"],
+      "trailer": "videos/trailer/your-name.mp4",
+      "video": "videos/movies/your-name.mp4",
+      "status": "published",
+      "views": 9860,
+      "createdAt": "2026-09-04"
+    },
+    {
+      "id": "5",
+      "title": "The Conjuring",
+      "slug": "the-conjuring",
+      "description": "Một gia đình chuyển đến căn nhà mới và gặp những hiện tượng kỳ bí.",
+      "poster": "images/movies/conjuring.jpg",
+      "backdrop": "images/movies/conjuring-bg.jpg",
+      "year": 2013,
+      "duration": 112,
+      "country": "USA",
+      "director": "James Wan",
+      "actors": ["Vera Farmiga", "Patrick Wilson", "Lili Taylor"],
+      "trailer": "videos/trailer/conjuring.mp4",
+      "video": "videos/movies/conjuring.mp4",
+      "status": "published",
+      "views": 7340,
+      "createdAt": "2026-09-05"
+    },
+    {
+      "id": "6",
+      "title": "Toy Story 4",
+      "slug": "toy-story-4",
+      "description": "Woody và những người bạn bước vào một cuộc phiêu lưu mới.",
+      "poster": "images/movies/toy-story-4.jpg",
+      "backdrop": "images/movies/toy-story-4-bg.jpg",
+      "year": 2019,
+      "duration": 100,
+      "country": "USA",
+      "director": "Josh Cooley",
+      "actors": ["Tom Hanks", "Tim Allen", "Annie Potts"],
+      "trailer": "videos/trailer/toy-story-4.mp4",
+      "video": "videos/movies/toy-story-4.mp4",
+      "status": "published",
+      "views": 6420,
+      "createdAt": "2026-09-06"
+    },
+    {
+      "id": "7",
+      "title": "Dune: Part Two",
+      "slug": "dune-part-two",
+      "description": "Paul Atreides tiếp tục hành trình cùng người dân Arrakis.",
+      "poster": "images/movies/dune-2.jpg",
+      "backdrop": "images/movies/dune-2-bg.jpg",
+      "year": 2024,
+      "duration": 166,
+      "country": "USA",
+      "director": "Denis Villeneuve",
+      "actors": ["Timothee Chalamet", "Zendaya", "Rebecca Ferguson"],
+      "trailer": "videos/trailer/dune-2.mp4",
+      "video": "videos/movies/dune-2.mp4",
+      "status": "published",
+      "views": 11320,
+      "createdAt": "2026-09-07"
+    },
+    {
+      "id": "8",
+      "title": "La La Land",
+      "slug": "la-la-land",
+      "description": "Câu chuyện tình yêu giữa một nhạc sĩ và một nữ diễn viên trẻ tại Los Angeles.",
+      "poster": "images/movies/la-la-land.jpg",
+      "backdrop": "images/movies/la-la-land-bg.jpg",
+      "year": 2016,
+      "duration": 128,
+      "country": "USA",
+      "director": "Damien Chazelle",
+      "actors": ["Ryan Gosling", "Emma Stone"],
+      "trailer": "videos/trailer/la-la-land.mp4",
+      "video": "videos/movies/la-la-land.mp4",
+      "status": "published",
+      "views": 8120,
+      "createdAt": "2026-09-08"
+    },
+    {
+      "id": "9",
+      "title": "Inside Out 2",
+      "slug": "inside-out-2",
+      "description": "Riley bước vào tuổi thiếu niên và trải qua những cảm xúc mới.",
+      "poster": "images/movies/inside-out-2.jpg",
+      "backdrop": "images/movies/inside-out-2-bg.jpg",
+      "year": 2024,
+      "duration": 96,
+      "country": "USA",
+      "director": "Kelsey Mann",
+      "actors": ["Amy Poehler", "Maya Hawke", "Kensington Tallman"],
+      "trailer": "videos/trailer/inside-out-2.mp4",
+      "video": "videos/movies/inside-out-2.mp4",
+      "status": "published",
+      "views": 15600,
+      "createdAt": "2026-09-09"
+    },
+    {
+      "id": "10",
+      "title": "The Batman",
+      "slug": "the-batman",
+      "description": "Batman điều tra những bí ẩn và tội ác xảy ra tại Gotham.",
+      "poster": "images/movies/the-batman.jpg",
+      "backdrop": "images/movies/the-batman-bg.jpg",
+      "year": 2022,
+      "duration": 176,
+      "country": "USA",
+      "director": "Matt Reeves",
+      "actors": ["Robert Pattinson", "Zoë Kravitz", "Paul Dano"],
+      "trailer": "videos/trailer/the-batman.mp4",
+      "video": "videos/movies/the-batman.mp4",
+      "status": "published",
+      "views": 10450,
+      "createdAt": "2026-09-10"
+    }
+  ],
+  "movieGenres": [
+    {
+      "id": "1",
+      "movieId": 1,
+      "genreId": 1
+    },
+    {
+      "id": "2",
+      "movieId": 1,
+      "genreId": 5
+    },
+    {
+      "id": "3",
+      "movieId": 1,
+      "genreId": 7
+    },
+    {
+      "id": "4",
+      "movieId": 2,
+      "genreId": 1
+    },
+    {
+      "id": "5",
+      "movieId": 2,
+      "genreId": 5
+    },
+    {
+      "id": "6",
+      "movieId": 2,
+      "genreId": 7
+    },
+    {
+      "id": "7",
+      "movieId": 3,
+      "genreId": 5
+    },
+    {
+      "id": "8",
+      "movieId": 3,
+      "genreId": 7
+    },
+    {
+      "id": "9",
+      "movieId": 3,
+      "genreId": 8
+    },
+    {
+      "id": "10",
+      "movieId": 4,
+      "genreId": 2
+    },
+    {
+      "id": "11",
+      "movieId": 4,
+      "genreId": 6
+    },
+    {
+      "id": "12",
+      "movieId": 5,
+      "genreId": 4
+    },
+    {
+      "id": "13",
+      "movieId": 5,
+      "genreId": 8
+    },
+    {
+      "id": "14",
+      "movieId": 6,
+      "genreId": 3
+    },
+    {
+      "id": "15",
+      "movieId": 6,
+      "genreId": 6
+    },
+    {
+      "id": "16",
+      "movieId": 7,
+      "genreId": 1
+    },
+    {
+      "id": "17",
+      "movieId": 7,
+      "genreId": 5
+    },
+    {
+      "id": "18",
+      "movieId": 7,
+      "genreId": 7
+    },
+    {
+      "id": "19",
+      "movieId": 8,
+      "genreId": 2
+    },
+    {
+      "id": "20",
+      "movieId": 8,
+      "genreId": 3
+    },
+    {
+      "id": "21",
+      "movieId": 9,
+      "genreId": 3
+    },
+    {
+      "id": "22",
+      "movieId": 9,
+      "genreId": 6
+    },
+    {
+      "id": "23",
+      "movieId": 10,
+      "genreId": 1
+    },
+    {
+      "id": "24",
+      "movieId": 10,
+      "genreId": 8
+    }
+  ],
+  "favorites": [
+    {
+      "id": "1",
+      "userId": 3,
+      "movieId": 1,
+      "createdAt": "2026-09-12"
+    },
+    {
+      "id": "2",
+      "userId": 3,
+      "movieId": 3,
+      "createdAt": "2026-09-13"
+    },
+    {
+      "id": "3",
+      "userId": 3,
+      "movieId": 7,
+      "createdAt": "2026-09-14"
+    },
+    {
+      "id": "4",
+      "userId": 4,
+      "movieId": 4,
+      "createdAt": "2026-09-14"
+    },
+    {
+      "id": "5",
+      "userId": 4,
+      "movieId": 9,
+      "createdAt": "2026-09-15"
+    },
+    {
+      "id": "6",
+      "userId": 5,
+      "movieId": 2,
+      "createdAt": "2026-09-16"
+    }
+  ],
+  "histories": [
+    {
+      "id": "1",
+      "userId": 3,
+      "movieId": 1,
+      "progress": 3600,
+      "watchedAt": "2026-09-18T10:30:00"
+    },
+    {
+      "id": "2",
+      "userId": 3,
+      "movieId": 3,
+      "progress": 5200,
+      "watchedAt": "2026-09-18T13:20:00"
+    },
+    {
+      "id": "3",
+      "userId": 3,
+      "movieId": 7,
+      "progress": 2400,
+      "watchedAt": "2026-09-17T20:15:00"
+    },
+    {
+      "id": "4",
+      "userId": 4,
+      "movieId": 4,
+      "progress": 3100,
+      "watchedAt": "2026-09-17T19:30:00"
+    },
+    {
+      "id": "5",
+      "userId": 4,
+      "movieId": 9,
+      "progress": 1800,
+      "watchedAt": "2026-09-16T21:00:00"
+    },
+    {
+      "id": "6",
+      "userId": 5,
+      "movieId": 2,
+      "progress": 4200,
+      "watchedAt": "2026-09-18T15:00:00"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "1",
+      "userId": 3,
+      "movieId": 1,
+      "rating": 5,
+      "comment": "Phim rất hay, phần cuối cực kỳ cảm xúc.",
+      "status": "visible",
+      "createdAt": "2026-09-12"
+    },
+    {
+      "id": "2",
+      "userId": 3,
+      "movieId": 3,
+      "rating": 5,
+      "comment": "Nội dung rất cuốn hút và hình ảnh đẹp.",
+      "status": "visible",
+      "createdAt": "2026-09-13"
+    },
+    {
+      "id": "3",
+      "userId": 4,
+      "movieId": 4,
+      "rating": 5,
+      "comment": "Một bộ phim hoạt hình rất cảm động.",
+      "status": "visible",
+      "createdAt": "2026-09-14"
+    },
+    {
+      "id": "4",
+      "userId": 4,
+      "movieId": 9,
+      "rating": 4,
+      "comment": "Phim vui và phù hợp để xem cùng gia đình.",
+      "status": "visible",
+      "createdAt": "2026-09-15"
+    },
+    {
+      "id": "5",
+      "userId": 5,
+      "movieId": 2,
+      "rating": 5,
+      "comment": "Phần Spider-Man này rất hấp dẫn.",
+      "status": "visible",
+      "createdAt": "2026-09-16"
+    },
+    {
+      "id": "6",
+      "userId": 5,
+      "movieId": 5,
+      "rating": 4,
+      "comment": "Không khí phim khá đáng sợ.",
+      "status": "visible",
+      "createdAt": "2026-09-17"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

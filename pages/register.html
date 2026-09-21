@@ -61,7 +61,7 @@
 - Roundness: rounded-md
 "
             class="h-8 w-auto object-contain"
-            src="https://lh3.googleusercontent.com/aida/AEtjO1XgJRY5QdVp8zDpzf1mFOmGjXNLXw21Q2_otM66x1IkEqoJQ0ngnHGjUvtxDxkbXAQdZYIQgXWOXYDGF_1nm9PISDU_BbDSrZtDIeKmXPAy46qr5S0SOqfEtpRWUvUsL4Pt0d1IXZxYfoe03Gq7rsNSKObniuc8ydEX_PyX6VzKZtmkxUbtEbhaPrpU3zk7cEmYtIzson_UrvbtZfC3nLaXkV8LXWhVZUM5Wm-pL0qBy3yHcqH8_rxnvqw"
+            src="../public/images/logo/logo.svg"
           /><span
             class="font-headline-md text-headline-md text-on-surface font-bold tracking-tight"
             >MovieF</span
@@ -161,11 +161,7 @@
                 </span>
               </div>
             </div>
-            <form
-              class="space-y-4"
-              id="register-form"
-              onsubmit="event.preventDefault()"
-            >
+            <form class="space-y-4" id="registerForm">
               <div class="space-y-1.5 text-left">
                 <label
                   class="block font-title-sm text-title-sm text-on-surface-variant font-medium"
@@ -180,6 +176,7 @@
                     class="w-full bg-surface-container-highest/50 text-on-surface placeholder:text-on-surface-variant/50 font-body-md text-body-md pl-11 pr-4 py-3 rounded-xl transition-all duration-200 outline-none focus:bg-surface-container-high"
                     placeholder="Nguyễn Văn A"
                     required=""
+                    id="formName"
                     type="text"
                   />
                 </div>
@@ -198,6 +195,7 @@
                     class="w-full bg-surface-container-highest/50 text-on-surface placeholder:text-on-surface-variant/50 font-body-md text-body-md pl-11 pr-4 py-3 rounded-xl transition-all duration-200 outline-none focus:bg-surface-container-high"
                     placeholder="example@movief.vn"
                     required=""
+                    id="formEmail"
                     type="email"
                   />
                 </div>
@@ -515,3 +513,5 @@
     </footer>
   </body>
 </html>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="module" src="./../js/custumer/auth.js"></script>
