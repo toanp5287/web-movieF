@@ -1,8 +1,17 @@
 {
   "rewrites": [
-    { "source": "/", "destination": "/index.html" },
-    { "source": "/admin", "destination": "/src/admin/index.html" },
+    { "source": "/", "destination": "/src/pages/home.html" },
+    { "source": "/admin", "destination": "/src/admin/movies.html" },
     { "source": "/movies", "destination": "/src/pages/movies.html" },
-    { "source": "/movie-detail", "destination": "/src/pages/movie-detail.html" }
+    {
+      "source": "/movie-detail",
+      "destination": "/src/pages/movie-detail.html"
+    },
+    { "source": "/watch", "destination": "/src/pages/watch.html" },
+    { "source": "/favorite", "destination": "/src/pages/favorite.html" },
+    { "source": "/genres", "destination": "/src/pages/genres.html" },
+    { "source": "/profile", "destination": "/src/pages/profile.html" },
+    { "source": "/login", "destination": "/src/pages/login.html" },
+    { "source": "/register", "destination": "/src/pages/register.html" }
   ]
 }
