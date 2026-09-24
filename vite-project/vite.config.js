@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import tailwindcss from "@tailwindcss/vite";
+import { resolve } from "path";
 
 export default defineConfig({
   plugins: [
@@ -11,13 +12,10 @@ export default defineConfig({
           const rawUrl = req.url ? req.url.split("?")[0] : "";
           const path = rawUrl.replace(/\/$/, "") || "/";
 
-          // Ánh xạ URL sang các file thực tế trong thư mục src/
           const routes = {
             "/admin": "/src/admin/index.html",
             "/movies": "/src/pages/movies.html",
             "/movie-detail": "/src/pages/movie-detail.html",
-            // Nếu bạn có trang xem phim riêng thì thêm dòng dưới:
-            // "/watch": "/src/pages/watch.html",
           };
 
           if (routes[path]) {
@@ -32,4 +30,14 @@ export default defineConfig({
       },
     },
   ],
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, "index.html"),
+        admin: resolve(__dirname, "src/admin/index.html"),
+        movies: resolve(__dirname, "src/pages/movies.html"),
+        movieDetail: resolve(__dirname, "src/pages/movie-detail.html"),
+      },
+    },
+  },
 });
