@@ -6,7 +6,6 @@ export default defineConfig({
   plugins: [
     tailwindcss(),
 
-    // Chỉ dùng khi chạy npm run dev
     {
       name: "rewrite-routes",
       configureServer(server) {
