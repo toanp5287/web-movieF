@@ -1,0 +1,1765 @@
+<!doctype html>
+
+<html class="dark" lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @layer base {
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          overscroll-behavior: none;
+        }
+        main > :first-child {
+          margin-top: 0 !important;
+        }
+        main > :last-child {
+          margin-bottom: 0 !important;
+        }
+      }
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body
+    class="bg-surface-container-lowest font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container"
+  >
+    <header
+      class="fixed top-0 left-0 right-0 w-full z-50 bg-surface-container-lowest/85 backdrop-blur-xl border-b border-white/5"
+      id="header"
+    >
+      <div
+        class="h-20 w-full px-gutter-mobile md:px-margin flex items-center justify-between gap-space-md"
+      >
+        <div class="flex items-center gap-space-lg lg:gap-space-xl">
+          <a
+            class="flex items-center gap-space-sm group"
+            data-path="trang-chu"
+            href="#"
+          >
+            <img
+              alt="MovieF Logo"
+              class="h-8 w-auto object-contain"
+              src="/images/logo/logo.svg"
+            />
+            <span
+              class="font-headline-md text-headline-md tracking-tight text-on-surface font-extrabold hidden sm:inline-block group-hover:text-primary transition-colors"
+            >
+              Movie<span class="text-primary-container">F</span>
+            </span>
+          </a>
+          <nav
+            class="hidden md:flex items-center gap-space-md lg:gap-space-lg"
+            data-active-classes="text-on-surface font-semibold"
+          >
+            <a
+              class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors py-space-xs"
+              data-path="trang-chu"
+              href="/"
+            >
+              Trang chủ
+            </a>
+            <a
+              class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors py-space-xs"
+              data-path="phim"
+              href="/movies"
+            >
+              Phim
+            </a>
+            <a
+              class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors py-space-xs"
+              data-path="the-loai"
+              href="/genres"
+            >
+              Thể loại
+            </a>
+            <a
+              class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors py-space-xs"
+              data-path="top-phim"
+              href="#"
+            >
+              Top phim
+            </a>
+          </nav>
+        </div>
+        <div class="flex items-center gap-space-sm sm:gap-space-md">
+          <div class="relative hidden sm:flex items-center">
+            <span
+              class="material-symbols-outlined absolute left-3 text-on-surface-variant text-lg pointer-events-none"
+            >
+              search
+            </span>
+            <input
+              class="w-48 lg:w-72 pl-9 pr-space-md py-space-xs bg-surface-container-low text-on-surface placeholder-on-surface-variant font-body-sm text-body-sm rounded-lg border border-white/10 focus:outline-none focus:border-outline focus:ring-1 focus:ring-outline transition-all"
+              placeholder="Tìm kiếm phim, diễn viên..."
+              type="text"
+            />
+          </div>
+          <button
+            class="sm:hidden flex items-center justify-center p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+            type="button"
+          >
+            <span class="material-symbols-outlined text-xl">search</span>
+          </button>
+          <button
+            class="relative flex items-center justify-center p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+            type="button"
+          >
+            <span class="material-symbols-outlined text-2xl"
+              >notifications</span
+            >
+            <span
+              class="absolute top-1.5 right-1.5 w-2 h-2 bg-primary-container rounded-full ring-2 ring-surface-container-lowest"
+            ></span>
+          </button>
+          <div
+            class="flex items-center gap-space-xs pl-space-xs"
+            id="user"
+          ></Fdiv>
+        </div>
+      </div>
+    </header>
+    <main class="w-full pt-20 bg-surface-container-lowest min-h-screen">
+      <div class="flex flex-col w-full">
+        <!-- Hero Section with Dramatic Cinematic Atmosphere -->
+        <section
+          class="relative w-full -mt-20 pt-24 min-h-[942px] flex items-center justify-start overflow-hidden bg-surface-container-lowest"
+        >
+          <!-- Cinematic Hero Image Backdrop -->
+          <div
+            class="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105 transform origin-center transition-transform duration-1000 ease-out"
+            data-alt="Epic sci-fi desert landscape at twilight with a massive celestial ring in the dark obsidian sky, two silhouetted figures on a colossal sand dune, cinematic amber dusk light glinting on armor, volumetric atmospheric spice dust floating, 8k theater quality composition with deep black shadows"
+            style="
+              background-image: url(&quot;/images/backgrounds/hero.jpg&quot;);
+            "
+          ></div>
+          <!-- Multi-layered Cinematic Gradients for Seamless Canvas Bleed -->
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-surface-container-lowest via-surface-container-lowest/80 to-transparent z-10 w-full lg:w-3/4"
+          ></div>
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/40 to-transparent z-10"
+          ></div>
+          <div
+            class="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-surface-container-lowest/90 to-transparent z-10"
+          ></div>
+          <div
+            class="absolute -left-20 bottom-10 w-96 h-96 rounded-full bg-primary-container/15 blur-[120px] pointer-events-none z-10"
+          ></div>
+          <!-- Hero Content Body -->
+          <div
+            class="relative z-20 w-full px-gutter-mobile md:px-margin max-w-5xl py-space-xl flex flex-col gap-space-md"
+          >
+            <!-- Franchise Tag / Overline -->
+            <div class="flex items-center gap-space-sm text-secondary">
+              <span class="material-symbols-outlined text-sm">stars</span>
+              <span
+                class="font-label-caps text-label-caps uppercase tracking-widest text-secondary font-bold"
+                >Bom Tấn Điện Ảnh Độc Quyền</span
+              >
+            </div>
+            <!-- Main Masterpiece Title -->
+            <h1
+              class="font-display-hero text-display-hero-mobile md:text-display-hero text-on-surface tracking-tight font-extrabold leading-[1.05] drop-shadow-2xl"
+            >
+              DUNE: HÀNH TINH CÁT<br />
+              <span
+                class="text-transparent bg-clip-text bg-gradient-to-r from-on-surface via-primary to-secondary"
+                >PHẦN HAI</span
+              >
+            </h1>
+            <!-- Meta Badges Array -->
+            <div
+              class="flex flex-wrap items-center gap-space-xs sm:gap-space-sm pt-space-xs"
+            >
+              <span
+                class="px-space-sm py-0.5 rounded bg-surface-container-highest text-on-surface font-label-caps text-label-caps tracking-wider uppercase font-bold shadow-sm"
+              >
+                4K ULTRA HD
+              </span>
+              <span
+                class="flex items-center gap-1 px-space-sm py-0.5 rounded bg-secondary-container/20 text-secondary font-label-caps text-label-caps font-bold shadow-sm"
+              >
+                <span
+                  class="material-symbols-outlined text-xs"
+                  style="font-variation-settings: &quot;FILL&quot; 1"
+                  >star</span
+                >
+                IMDb 8.9
+              </span>
+              <span
+                class="px-space-sm py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-caps text-label-caps"
+              >
+                2024
+              </span>
+              <span
+                class="px-space-sm py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-caps text-label-caps"
+              >
+                2h 46m
+              </span>
+              <span
+                class="px-space-sm py-0.5 rounded bg-surface-container text-on-surface-variant font-body-sm text-body-sm"
+              >
+                Khoa học viễn tưởng • Phiêu lưu
+              </span>
+            </div>
+            <!-- Compelling Cinematic Synopsis -->
+            <p
+              class="font-body-lg text-body-md md:text-body-lg text-on-surface-variant max-w-2xl leading-relaxed line-clamp-3 md:line-clamp-none drop-shadow"
+            >
+              Paul Atreides hợp nhất cùng Chani và tộc người Fremen khi anh dấn
+              thân vào hành trình báo thù những kẻ đã tàn phá gia tộc mình. Đứng
+              trước sự lựa chọn giữa tình yêu của đời mình và vận mệnh của cả vũ
+              trụ, anh buộc phải ngăn chặn một tương lai đen tối mà chỉ mình anh
+              có thể thấy trước.
+            </p>
+            <!-- Action Button Group -->
+            <div class="flex flex-wrap items-center gap-space-md pt-space-sm">
+              <a
+                class="inline-flex items-center justify-center gap-space-sm px-space-lg py-3 rounded-xl bg-primary-container text-on-primary-container font-title-sm text-title-sm hover:opacity-95 shadow-[0_0_24px_-2px_rgba(229,9,20,0.5)] transform hover:scale-[1.03] active:scale-[0.98] transition-all duration-200 select-none"
+                href="/watch"
+              >
+                <span
+                  class="material-symbols-outlined text-xl shrink-0"
+                  style="font-variation-settings: &quot;FILL&quot; 1"
+                  >play_arrow</span
+                >
+                <span>Xem phim ngay</span>
+              </a>
+              <button
+                class="flex items-center gap-space-sm px-space-lg py-3 rounded-xl bg-surface-container-high/80 backdrop-blur-md text-on-surface hover:bg-surface-bright font-title-sm text-title-sm shadow-md transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
+                type="button"
+              >
+                <span class="material-symbols-outlined text-xl"
+                  >smart_display</span
+                >
+                <span>Xem trailer</span>
+              </button>
+              <button
+                aria-label="Thêm vào danh sách yêu thích"
+                class="w-12 h-12 rounded-xl bg-surface-container-high/80 backdrop-blur-md text-on-surface-variant hover:text-primary hover:bg-surface-bright flex items-center justify-center shadow-md transform hover:scale-[1.05] active:scale-[0.98] transition-all duration-200"
+                type="button"
+              >
+                <span class="material-symbols-outlined text-xl"
+                  >bookmark_add</span
+                >
+              </button>
+            </div>
+          </div>
+        </section>
+        <!-- Content Rails Container -->
+        <div
+          class="w-full flex flex-col gap-space-xl px-gutter-mobile md:px-margin -mt-10 relative z-30 pb-space-xl"
+        >
+          <!-- Section 2: Tiếp tục xem (Continue Watching - 16:9 Aspect Cards with Progress Bar) -->
+          <section class="flex flex-col gap-space-md">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-space-sm">
+                <span
+                  class="w-1.5 h-5 bg-primary-container rounded-full"
+                ></span>
+                <h2
+                  class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight"
+                >
+                  Tiếp tục xem
+                </h2>
+              </div>
+              <a
+                class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface flex items-center gap-1 transition-colors"
+                href="#"
+              >
+                <span>Xem tất cả</span>
+                <span class="material-symbols-outlined text-base"
+                  >arrow_forward</span
+                >
+              </a>
+            </div>
+            <div
+              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-space-md"
+            >
+              <!-- Card 1: Spider-Man -->
+              <a href="/watch">
+                <div
+                  class="group relative bg-surface-container rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
+                >
+                  <div
+                    class="relative aspect-video w-full overflow-hidden bg-surface-container-high"
+                  >
+                    <div
+                      class="w-full h-full bg-cover bg-center transform group-hover:scale-105 transition-transform duration-500"
+                      data-alt="Spider-Man swinging through an intricate vibrant neon multiverse cityscape with glowing red and violet hues, dynamic comic book action art style, intense cinematic lighting"
+                      style="
+                        background-image: url(&quot;/images/movies/spiderverse.jpg&quot;);
+                      "
+                    ></div>
+                    <div
+                      class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-black/30"
+                    ></div>
+                    <!-- Quick Play Button Overlay -->
+                    <div
+                      class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-surface-container-lowest/40 backdrop-blur-xs"
+                    >
+                      <button
+                        class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_0_20px_rgba(229,9,20,0.6)] transform scale-90 group-hover:scale-100 transition-transform"
+                        type="button"
+                      >
+                        <span
+                          class="material-symbols-outlined text-2xl"
+                          style="font-variation-settings: &quot;FILL&quot; 1"
+                          >play_arrow</span
+                        >
+                      </button>
+                    </div>
+                    <!-- Timestamp Badge -->
+                    <span
+                      class="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-surface-container-lowest/90 font-label-caps text-label-caps text-on-surface font-mono"
+                    >
+                      01:20:45 / 02:20:00
+                    </span>
+                  </div>
+                  <!-- Progress Bar -->
+                  <div class="w-full h-1 bg-surface-container-highest">
+                    <div
+                      class="h-full bg-primary-container rounded-r-full shadow-[0_0_8px_rgba(229,9,20,0.8)]"
+                      style="width: 65%"
+                    ></div>
+                  </div>
+                  <div
+                    class="p-space-md flex items-center justify-between gap-space-sm bg-surface-container"
+                  >
+                    <div class="min-w-0 flex-1">
+                      <h3
+                        class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
+                      >
+                        Spider-Man: Across the Spider-Verse
+                      </h3>
+                      <p
+                        class="font-body-sm text-body-sm text-on-surface-variant truncate"
+                      >
+                        Hoạt hình • Hành động • Còn 59 phút
+                      </p>
+                    </div>
+                    <button
+                      class="w-8 h-8 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface flex items-center justify-center shrink-0"
+                      type="button"
+                    >
+                      <span class="material-symbols-outlined text-lg"
+                        >more_vert</span
+                      >
+                    </button>
+                  </div>
+                </div></a
+              >
+
+              <!-- Card 2: The Batman -->
+              <div
+                class="group relative bg-surface-container rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
+              >
+                <div
+                  class="relative aspect-video w-full overflow-hidden bg-surface-container-high"
+                >
+                  <div
+                    class="w-full h-full bg-cover bg-center transform group-hover:scale-105 transition-transform duration-500"
+                    data-alt="Dark gritty rain-soaked Gotham alley with the Batman in heavy tactical carbon armor silhouetted against glowing neon crimson flares, atmospheric noir crime aesthetic"
+                    style="
+                      background-image: url(&quot;/images/movies/the-batman.jpg&quot;);
+                    "
+                  ></div>
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-black/30"
+                  ></div>
+                  <div
+                    class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-surface-container-lowest/40 backdrop-blur-xs"
+                  >
+                    <button
+                      class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_0_20px_rgba(229,9,20,0.6)] transform scale-90 group-hover:scale-100 transition-transform"
+                      type="button"
+                    >
+                      <span
+                        class="material-symbols-outlined text-2xl"
+                        style="font-variation-settings: &quot;FILL&quot; 1"
+                        >play_arrow</span
+                      >
+                    </button>
+                  </div>
+                  <span
+                    class="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-surface-container-lowest/90 font-label-caps text-label-caps text-on-surface font-mono"
+                  >
+                    00:45:10 / 02:56:00
+                  </span>
+                </div>
+                <!-- Progress Bar -->
+                <div class="w-full h-1 bg-surface-container-highest">
+                  <div
+                    class="h-full bg-primary-container rounded-r-full shadow-[0_0_8px_rgba(229,9,20,0.8)]"
+                    style="width: 25%"
+                  ></div>
+                </div>
+                <div
+                  class="p-space-md flex items-center justify-between gap-space-sm bg-surface-container"
+                >
+                  <div class="min-w-0 flex-1">
+                    <h3
+                      class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
+                    >
+                      The Batman
+                    </h3>
+                    <p
+                      class="font-body-sm text-body-sm text-on-surface-variant truncate"
+                    >
+                      Hành động • Tâm lý tội phạm • Còn 2h 10m
+                    </p>
+                  </div>
+                  <button
+                    class="w-8 h-8 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface flex items-center justify-center shrink-0"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined text-lg"
+                      >more_vert</span
+                    >
+                  </button>
+                </div>
+              </div>
+              <!-- Card 3: Oppenheimer -->
+              <div
+                class="group relative bg-surface-container rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hidden lg:block"
+              >
+                <div
+                  class="relative aspect-video w-full overflow-hidden bg-surface-container-high"
+                >
+                  <div
+                    class="w-full h-full bg-cover bg-center transform group-hover:scale-105 transition-transform duration-500"
+                    data-alt="Dramatic close-up portrait of J Robert Oppenheimer in fedora silhouette against an immense fiery atomic reaction wave, orange and ember particles swirling, high contrast cinema lighting"
+                    style="
+                      background-image: url(&quot;/images/movies/oppenheimer.jpg&quot;);
+                    "
+                  ></div>
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-black/30"
+                  ></div>
+                  <div
+                    class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-surface-container-lowest/40 backdrop-blur-xs"
+                  >
+                    <button
+                      class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_0_20px_rgba(229,9,20,0.6)] transform scale-90 group-hover:scale-100 transition-transform"
+                      type="button"
+                    >
+                      <span
+                        class="material-symbols-outlined text-2xl"
+                        style="font-variation-settings: &quot;FILL&quot; 1"
+                        >play_arrow</span
+                      >
+                    </button>
+                  </div>
+                  <span
+                    class="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-surface-container-lowest/90 font-label-caps text-label-caps text-on-surface font-mono"
+                  >
+                    02:15:30 / 03:00:00
+                  </span>
+                </div>
+                <!-- Progress Bar -->
+                <div class="w-full h-1 bg-surface-container-highest">
+                  <div
+                    class="h-full bg-primary-container rounded-r-full shadow-[0_0_8px_rgba(229,9,20,0.8)]"
+                    style="width: 75%"
+                  ></div>
+                </div>
+                <div
+                  class="p-space-md flex items-center justify-between gap-space-sm bg-surface-container"
+                >
+                  <div class="min-w-0 flex-1">
+                    <h3
+                      class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
+                    >
+                      Oppenheimer
+                    </h3>
+                    <p
+                      class="font-body-sm text-body-sm text-on-surface-variant truncate"
+                    >
+                      Lịch sử • Tiểu sử • Còn 45 phút
+                    </p>
+                  </div>
+                  <button
+                    class="w-8 h-8 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface flex items-center justify-center shrink-0"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined text-lg"
+                      >more_vert</span
+                    >
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- Section 3: Phim thịnh hành (Trending Now - 2:3 Vertical Posters with Glow & Zoom) -->
+          <section class="flex flex-col gap-space-md">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-space-sm">
+                <span class="w-1.5 h-5 bg-secondary rounded-full"></span>
+                <h2
+                  class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight"
+                >
+                  Phim thịnh hành trong tuần
+                </h2>
+                <span
+                  class="hidden sm:inline-block px-2 py-0.5 rounded-full bg-surface-container text-secondary font-label-caps text-label-caps font-semibold"
+                  >Top 10 MovieF</span
+                >
+              </div>
+              <div class="flex items-center gap-space-xs">
+                <button
+                  class="w-8 h-8 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center transition-colors"
+                  type="button"
+                >
+                  <span class="material-symbols-outlined text-base"
+                    >chevron_left</span
+                  >
+                </button>
+                <button
+                  class="w-8 h-8 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center transition-colors"
+                  type="button"
+                >
+                  <span class="material-symbols-outlined text-base"
+                    >chevron_right</span
+                  >
+                </button>
+              </div>
+            </div>
+            <!-- Poster Grid (5 items) -->
+            <div
+              class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-space-md"
+            >
+              <!-- Trending Item 1 -->
+              <div
+                class="group relative flex flex-col gap-space-xs cursor-pointer"
+              >
+                <!-- Poster Container -->
+                <div
+                  class="relative w-full aspect-[2/3] rounded-xl overflow-hidden bg-surface-container shadow-xl transition-all duration-300 transform group-hover:-translate-y-2 group-hover:shadow-[0_16px_32px_-8px_rgba(229,9,20,0.3)]"
+                >
+                  <!-- 1. Background Image -->
+                  <div
+                    class="w-full h-full bg-cover bg-center transform group-hover:scale-110 transition-transform duration-500"
+                    style="
+                      background-image: url(&quot;/images/movies/interstellar.jpg&quot;);
+                    "
+                  ></div>
+
+                  <!-- 2. Dark Gradient Overlay (Thêm pointer-events-none để không chặn click) -->
+                  <div
+                    class="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity"
+                  ></div>
+
+                  <!-- 3. Rating Badge (Thêm pointer-events-none) -->
+                  <div
+                    class="pointer-events-none absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-1 shadow-md"
+                  >
+                    <span
+                      class="material-symbols-outlined text-xs text-secondary"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >star</span
+                    >
+                    <span
+                      class="font-label-caps text-label-caps font-bold text-on-surface"
+                      >9.1</span
+                    >
+                  </div>
+
+                  <!-- 4. Hover Play Button (Thêm pointer-events-none) -->
+                  <div
+                    class="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  >
+                    <div
+                      class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_0_24px_rgba(229,9,20,0.8)] transform scale-75 group-hover:scale-100 transition-all"
+                    >
+                      <span
+                        class="material-symbols-outlined text-2xl"
+                        style="font-variation-settings: &quot;FILL&quot; 1"
+                        >play_arrow</span
+                      >
+                    </div>
+                  </div>
+
+                  <!-- 5. Thẻ <a> phủ toàn bộ diện tích poster (z-10 để luôn nhận click) -->
+                  <a
+                    href="/movie-detail"
+                    aria-label="Xem chi tiết Interstellar"
+                    class="absolute inset-0 z-10 block"
+                  ></a>
+                </div>
+
+                <!-- Movie Title (Gắn kèm link chi tiết) -->
+                <h3 class="font-title-sm text-title-sm font-semibold truncate">
+                  <a
+                    href="/movie-detail"
+                    class="text-on-surface hover:text-primary transition-colors block truncate"
+                  >
+                    Interstellar
+                  </a>
+                </h3>
+
+                <!-- Meta Info -->
+                <div
+                  class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant"
+                >
+                  <span>2014</span>
+                  <span>•</span>
+                  <span class="truncate">Khoa học viễn tưởng</span>
+                </div>
+              </div>
+              <!-- Trending Item 2 -->
+              <div
+                class="group relative flex flex-col gap-space-xs cursor-pointer"
+              >
+                <div
+                  class="relative w-full aspect-[2/3] rounded-xl overflow-hidden bg-surface-container shadow-xl transition-all duration-300 transform group-hover:-translate-y-2 group-hover:shadow-[0_16px_32px_-8px_rgba(229,9,20,0.3)]"
+                >
+                  <div
+                    class="w-full h-full bg-cover bg-center transform group-hover:scale-110 transition-transform duration-500"
+                    data-alt="Moody cinematic portrait of a trench coat detective standing in neon rain in Cyberpunk 2049 style, glowing holograms in backdrop, moody teal and orange filmic lighting"
+                    style="
+                      background-image: url(&quot;/images/movies/blade-runner-2049.jpg&quot;);
+                    "
+                  ></div>
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity"
+                  ></div>
+                  <div
+                    class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-1 shadow-md"
+                  >
+                    <span
+                      class="material-symbols-outlined text-xs text-secondary"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >star</span
+                    >
+                    <span
+                      class="font-label-caps text-label-caps font-bold text-on-surface"
+                      >8.8</span
+                    >
+                  </div>
+                  <div
+                    class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  >
+                    <div
+                      class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_0_24px_rgba(229,9,20,0.8)] transform scale-75 group-hover:scale-100 transition-all"
+                    >
+                      <span
+                        class="material-symbols-outlined text-2xl"
+                        style="font-variation-settings: &quot;FILL&quot; 1"
+                        >play_arrow</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <h3
+                  class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
+                >
+                  Blade Runner 2049
+                </h3>
+                <div
+                  class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant"
+                >
+                  <span>2017</span>
+                  <span>•</span>
+                  <span class="truncate">Hành động • Viễn tưởng</span>
+                </div>
+              </div>
+              <!-- Trending Item 3 -->
+              <div
+                class="group relative flex flex-col gap-space-xs cursor-pointer"
+              >
+                <div
+                  class="relative w-full aspect-[2/3] rounded-xl overflow-hidden bg-surface-container shadow-xl transition-all duration-300 transform group-hover:-translate-y-2 group-hover:shadow-[0_16px_32px_-8px_rgba(229,9,20,0.3)]"
+                >
+                  <div
+                    class="w-full h-full bg-cover bg-center transform group-hover:scale-110 transition-transform duration-500"
+                    data-alt="Dramatic high contrast black and white portrait of a mob godfather sitting in shadowy leather arm chair holding a drink, intense cinematic lighting, Italian mafia aesthetic"
+                    style="
+                      background-image: url(&quot;/images/movies/godfather.jpg&quot;);
+                    "
+                  ></div>
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity"
+                  ></div>
+                  <div
+                    class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-1 shadow-md"
+                  >
+                    <span
+                      class="material-symbols-outlined text-xs text-secondary"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >star</span
+                    >
+                    <span
+                      class="font-label-caps text-label-caps font-bold text-on-surface"
+                      >9.2</span
+                    >
+                  </div>
+                  <div
+                    class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  >
+                    <div
+                      class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_0_24px_rgba(229,9,20,0.8)] transform scale-75 group-hover:scale-100 transition-all"
+                    >
+                      <span
+                        class="material-symbols-outlined text-2xl"
+                        style="font-variation-settings: &quot;FILL&quot; 1"
+                        >play_arrow</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <h3
+                  class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
+                >
+                  The Godfather
+                </h3>
+                <div
+                  class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant"
+                >
+                  <span>1972</span>
+                  <span>•</span>
+                  <span class="truncate">Tội phạm • Kịch tính</span>
+                </div>
+              </div>
+              <!-- Trending Item 4 -->
+              <div
+                class="group relative flex flex-col gap-space-xs cursor-pointer"
+              >
+                <div
+                  class="relative w-full aspect-[2/3] rounded-xl overflow-hidden bg-surface-container shadow-xl transition-all duration-300 transform group-hover:-translate-y-2 group-hover:shadow-[0_16px_32px_-8px_rgba(229,9,20,0.3)]"
+                >
+                  <div
+                    class="w-full h-full bg-cover bg-center transform group-hover:scale-110 transition-transform duration-500"
+                    data-alt="Intense theatrical poster of the Joker standing on wet city asphalt with green hair and vibrant red suit against city night lights, gritty realism"
+                    style="
+                      background-image: url(&quot;/images/movies/joker.jpg&quot;);
+                    "
+                  ></div>
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity"
+                  ></div>
+                  <div
+                    class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-1 shadow-md"
+                  >
+                    <span
+                      class="material-symbols-outlined text-xs text-secondary"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >star</span
+                    >
+                    <span
+                      class="font-label-caps text-label-caps font-bold text-on-surface"
+                      >8.5</span
+                    >
+                  </div>
+                  <div
+                    class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  >
+                    <div
+                      class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_0_24px_rgba(229,9,20,0.8)] transform scale-75 group-hover:scale-100 transition-all"
+                    >
+                      <span
+                        class="material-symbols-outlined text-2xl"
+                        style="font-variation-settings: &quot;FILL&quot; 1"
+                        >play_arrow</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <h3
+                  class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
+                >
+                  Joker: Folie à Deux
+                </h3>
+                <div
+                  class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant"
+                >
+                  <span>2024</span>
+                  <span>•</span>
+                  <span class="truncate">Tâm lý • Âm nhạc</span>
+                </div>
+              </div>
+              <!-- Trending Item 5 -->
+              <div
+                class="group relative flex flex-col gap-space-xs cursor-pointer"
+              >
+                <div
+                  class="relative w-full aspect-[2/3] rounded-xl overflow-hidden bg-surface-container shadow-xl transition-all duration-300 transform group-hover:-translate-y-2 group-hover:shadow-[0_16px_32px_-8px_rgba(229,9,20,0.3)]"
+                >
+                  <div
+                    class="w-full h-full bg-cover bg-center transform group-hover:scale-110 transition-transform duration-500"
+                    data-alt="Epic medieval warlord with obsidian dragon armor and glowing runic claymore overlooking a frozen battle valley under auroras, cinematic high fantasy movie art"
+                    style="
+                      background-image: url(&quot;/images/movies/house-of-the-dragon.jpg&quot;);
+                    "
+                  ></div>
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity"
+                  ></div>
+                  <div
+                    class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-1 shadow-md"
+                  >
+                    <span
+                      class="material-symbols-outlined text-xs text-secondary"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >star</span
+                    >
+                    <span
+                      class="font-label-caps text-label-caps font-bold text-on-surface"
+                      >8.7</span
+                    >
+                  </div>
+                  <div
+                    class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  >
+                    <div
+                      class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_0_24px_rgba(229,9,20,0.8)] transform scale-75 group-hover:scale-100 transition-all"
+                    >
+                      <span
+                        class="material-symbols-outlined text-2xl"
+                        style="font-variation-settings: &quot;FILL&quot; 1"
+                        >play_arrow</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <h3
+                  class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
+                >
+                  House of the Dragon
+                </h3>
+                <div
+                  class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant"
+                >
+                  <span>2024</span>
+                  <span>•</span>
+                  <span class="truncate">Giả tưởng • Phiêu lưu</span>
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- Section 4: Phim mới cập nhật (New Releases with 'Mới' and 'Vietsub HD' tags) -->
+          <section class="flex flex-col gap-space-md">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-space-sm">
+                <span
+                  class="w-1.5 h-5 bg-tertiary-container rounded-full"
+                ></span>
+                <h2
+                  class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight"
+                >
+                  Phim mới cập nhật
+                </h2>
+              </div>
+              <div class="flex items-center gap-space-xs">
+                <span
+                  class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider hidden sm:inline-block"
+                  >Cập nhật hôm nay: 24 tập mới</span
+                >
+              </div>
+            </div>
+            <div
+              class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-space-md"
+            >
+              <!-- New Release 1 -->
+              <div class="group flex flex-col gap-space-xs cursor-pointer">
+                <div
+                  class="relative w-full aspect-[2/3] rounded-xl overflow-hidden bg-surface-container shadow-md transition-all duration-300 group-hover:-translate-y-1.5"
+                >
+                  <div
+                    class="w-full h-full bg-cover bg-center transform group-hover:scale-105 transition-transform duration-300"
+                    data-alt="Futuristic mech warrior standing on the edge of a rainy neon skyscraper with giant Japanese kanji billboards, cyberpunk dark moody cinema style"
+                    style="
+                      background-image: url(&quot;/images/movies/ghost-in-the-shell.jpg&quot;);
+                    "
+                  ></div>
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-black/40"
+                  ></div>
+                  <!-- Badges -->
+                  <div
+                    class="absolute top-2.5 left-2.5 flex flex-col gap-1 items-start"
+                  >
+                    <span
+                      class="px-2 py-0.5 rounded bg-primary-container text-on-primary-container font-label-caps text-label-caps font-bold uppercase shadow"
+                    >
+                      Mới
+                    </span>
+                    <span
+                      class="px-2 py-0.5 rounded bg-surface-container-high/90 backdrop-blur-sm text-on-surface font-label-caps text-label-caps font-medium"
+                    >
+                      Vietsub HD
+                    </span>
+                  </div>
+                  <span
+                    class="absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded bg-surface-container-lowest/80 text-on-surface-variant font-label-caps text-label-caps font-mono"
+                  >
+                    Tập 12/12
+                  </span>
+                </div>
+                <h3
+                  class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
+                >
+                  Ghost in the Shell: SAC
+                </h3>
+                <p
+                  class="font-body-sm text-body-sm text-on-surface-variant truncate"
+                >
+                  Hành động • Anime
+                </p>
+              </div>
+              <!-- New Release 2 -->
+              <div class="group flex flex-col gap-space-xs cursor-pointer">
+                <div
+                  class="relative w-full aspect-[2/3] rounded-xl overflow-hidden bg-surface-container shadow-md transition-all duration-300 group-hover:-translate-y-1.5"
+                >
+                  <div
+                    class="w-full h-full bg-cover bg-center transform group-hover:scale-105 transition-transform duration-300"
+                    data-alt="Deep ocean submersible facing an enormous glowing bioluminescent sea titan creature in the abyss, moody volumetric turquoise lighting"
+                    style="
+                      background-image: url(&quot;/images/movies/the-abyss.jpg&quot;);
+                    "
+                  ></div>
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-black/40"
+                  ></div>
+                  <div
+                    class="absolute top-2.5 left-2.5 flex flex-col gap-1 items-start"
+                  >
+                    <span
+                      class="px-2 py-0.5 rounded bg-primary-container text-on-primary-container font-label-caps text-label-caps font-bold uppercase shadow"
+                    >
+                      Mới
+                    </span>
+                    <span
+                      class="px-2 py-0.5 rounded bg-surface-container-high/90 backdrop-blur-sm text-on-surface font-label-caps text-label-caps font-medium"
+                    >
+                      Vietsub HD
+                    </span>
+                  </div>
+                  <span
+                    class="absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded bg-surface-container-lowest/80 text-on-surface-variant font-label-caps text-label-caps font-mono"
+                  >
+                    1h 52m
+                  </span>
+                </div>
+                <h3
+                  class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
+                >
+                  The Abyss: Reborn
+                </h3>
+                <p
+                  class="font-body-sm text-body-sm text-on-surface-variant truncate"
+                >
+                  Kỳ bí • Viễn tưởng
+                </p>
+              </div>
+              <!-- New Release 3 -->
+              <div class="group flex flex-col gap-space-xs cursor-pointer">
+                <div
+                  class="relative w-full aspect-[2/3] rounded-xl overflow-hidden bg-surface-container shadow-md transition-all duration-300 group-hover:-translate-y-1.5"
+                >
+                  <div
+                    class="w-full h-full bg-cover bg-center transform group-hover:scale-105 transition-transform duration-300"
+                    data-alt="High stakes racing sports cars speeding across Tokyo highway at midnight with neon motion blur and sparks flying from tires, cinematic speed"
+                    style="
+                      background-image: url(&quot;/images/movies/tokyo-drift.jpg&quot;);
+                    "
+                  ></div>
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-black/40"
+                  ></div>
+                  <div
+                    class="absolute top-2.5 left-2.5 flex flex-col gap-1 items-start"
+                  >
+                    <span
+                      class="px-2 py-0.5 rounded bg-primary-container text-on-primary-container font-label-caps text-label-caps font-bold uppercase shadow"
+                    >
+                      Mới
+                    </span>
+                    <span
+                      class="px-2 py-0.5 rounded bg-surface-container-high/90 backdrop-blur-sm text-on-surface font-label-caps text-label-caps font-medium"
+                    >
+                      Vietsub HD
+                    </span>
+                  </div>
+                  <span
+                    class="absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded bg-surface-container-lowest/80 text-on-surface-variant font-label-caps text-label-caps font-mono"
+                  >
+                    2h 14m
+                  </span>
+                </div>
+                <h3
+                  class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
+                >
+                  Tokyo Drift: Redline
+                </h3>
+                <p
+                  class="font-body-sm text-body-sm text-on-surface-variant truncate"
+                >
+                  Hành động • Đua xe
+                </p>
+              </div>
+              <!-- New Release 4 -->
+              <div class="group flex flex-col gap-space-xs cursor-pointer">
+                <div
+                  class="relative w-full aspect-[2/3] rounded-xl overflow-hidden bg-surface-container shadow-md transition-all duration-300 group-hover:-translate-y-1.5"
+                >
+                  <div
+                    class="w-full h-full bg-cover bg-center transform group-hover:scale-105 transition-transform duration-300"
+                    data-alt="Gothic vampire countess standing on an ancient Transylvanian castle balcony under an ominous crimson blood moon, dark fantasy horror mood"
+                    style="
+                      background-image: url(&quot;/images/movies/crimson-nocturne.jpg&quot;);
+                    "
+                  ></div>
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-black/40"
+                  ></div>
+                  <div
+                    class="absolute top-2.5 left-2.5 flex flex-col gap-1 items-start"
+                  >
+                    <span
+                      class="px-2 py-0.5 rounded bg-primary-container text-on-primary-container font-label-caps text-label-caps font-bold uppercase shadow"
+                    >
+                      Mới
+                    </span>
+                    <span
+                      class="px-2 py-0.5 rounded bg-surface-container-high/90 backdrop-blur-sm text-on-surface font-label-caps text-label-caps font-medium"
+                    >
+                      Vietsub HD
+                    </span>
+                  </div>
+                  <span
+                    class="absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded bg-surface-container-lowest/80 text-on-surface-variant font-label-caps text-label-caps font-mono"
+                  >
+                    Tập 06/08
+                  </span>
+                </div>
+                <h3
+                  class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
+                >
+                  Crimson Nocturne
+                </h3>
+                <p
+                  class="font-body-sm text-body-sm text-on-surface-variant truncate"
+                >
+                  Kinh dị • Giả tưởng
+                </p>
+              </div>
+              <!-- New Release 5 -->
+              <div class="group flex flex-col gap-space-xs cursor-pointer">
+                <div
+                  class="relative w-full aspect-[2/3] rounded-xl overflow-hidden bg-surface-container shadow-md transition-all duration-300 group-hover:-translate-y-1.5"
+                >
+                  <div
+                    class="w-full h-full bg-cover bg-center transform group-hover:scale-105 transition-transform duration-300"
+                    data-alt="Victorian courtroom drama with an impassioned defense attorney addressing the jury under grand stained glass windows, cinematic dust motes in sunbeams"
+                    style="
+                      background-image: url(&quot;/images/movies/the-last-verdict.jpg&quot;);
+                    "
+                  ></div>
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-black/40"
+                  ></div>
+                  <div
+                    class="absolute top-2.5 left-2.5 flex flex-col gap-1 items-start"
+                  >
+                    <span
+                      class="px-2 py-0.5 rounded bg-primary-container text-on-primary-container font-label-caps text-label-caps font-bold uppercase shadow"
+                    >
+                      Mới
+                    </span>
+                    <span
+                      class="px-2 py-0.5 rounded bg-surface-container-high/90 backdrop-blur-sm text-on-surface font-label-caps text-label-caps font-medium"
+                    >
+                      Vietsub HD
+                    </span>
+                  </div>
+                  <span
+                    class="absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded bg-surface-container-lowest/80 text-on-surface-variant font-label-caps text-label-caps font-mono"
+                  >
+                    2h 05m
+                  </span>
+                </div>
+                <h3
+                  class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
+                >
+                  The Last Verdict
+                </h3>
+                <p
+                  class="font-body-sm text-body-sm text-on-surface-variant truncate"
+                >
+                  Tâm lý • Pháp đình
+                </p>
+              </div>
+            </div>
+          </section>
+          <!-- Section 5: Thể loại phim (8 Category Cards with Dark Gradients & Distinct Icons) -->
+          <section class="flex flex-col gap-space-md">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-space-sm">
+                <span
+                  class="w-1.5 h-5 bg-secondary-container rounded-full"
+                ></span>
+                <h2
+                  class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight"
+                >
+                  Khám phá theo thể loại
+                </h2>
+              </div>
+              <a
+                class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors"
+                href="#"
+                >Tất cả thể loại →</a
+              >
+            </div>
+            <div
+              class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-space-sm"
+            >
+              <!-- 1. Hành động -->
+              <a
+                class="group relative p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high flex flex-col items-center justify-center gap-space-sm text-center overflow-hidden transition-all duration-300 transform hover:-translate-y-1 shadow-md"
+                href="#"
+              >
+                <div
+                  class="absolute inset-0 bg-gradient-to-br from-primary-container/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+                ></div>
+                <div
+                  class="w-12 h-12 rounded-full bg-surface-container-high group-hover:bg-primary-container group-hover:text-on-primary-container text-primary flex items-center justify-center transition-colors"
+                >
+                  <span class="material-symbols-outlined text-2xl"
+                    >local_fire_department</span
+                  >
+                </div>
+                <span
+                  class="font-title-sm text-title-sm text-on-surface group-hover:text-primary transition-colors"
+                  >Hành động</span
+                >
+              </a>
+              <!-- 2. Phiêu lưu -->
+              <a
+                class="group relative p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high flex flex-col items-center justify-center gap-space-sm text-center overflow-hidden transition-all duration-300 transform hover:-translate-y-1 shadow-md"
+                href="#"
+              >
+                <div
+                  class="absolute inset-0 bg-gradient-to-br from-secondary-container/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+                ></div>
+                <div
+                  class="w-12 h-12 rounded-full bg-surface-container-high group-hover:bg-secondary-container group-hover:text-on-secondary-container text-secondary flex items-center justify-center transition-colors"
+                >
+                  <span class="material-symbols-outlined text-2xl"
+                    >explore</span
+                  >
+                </div>
+                <span
+                  class="font-title-sm text-title-sm text-on-surface group-hover:text-secondary transition-colors"
+                  >Phiêu lưu</span
+                >
+              </a>
+              <!-- 3. Hài -->
+              <a
+                class="group relative p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high flex flex-col items-center justify-center gap-space-sm text-center overflow-hidden transition-all duration-300 transform hover:-translate-y-1 shadow-md"
+                href="#"
+              >
+                <div
+                  class="absolute inset-0 bg-gradient-to-br from-secondary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+                ></div>
+                <div
+                  class="w-12 h-12 rounded-full bg-surface-container-high group-hover:bg-secondary group-hover:text-on-secondary text-secondary-fixed flex items-center justify-center transition-colors"
+                >
+                  <span class="material-symbols-outlined text-2xl"
+                    >sentiment_very_satisfied</span
+                  >
+                </div>
+                <span
+                  class="font-title-sm text-title-sm text-on-surface group-hover:text-secondary transition-colors"
+                  >Hài hước</span
+                >
+              </a>
+              <!-- 4. Tình cảm -->
+              <a
+                class="group relative p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high flex flex-col items-center justify-center gap-space-sm text-center overflow-hidden transition-all duration-300 transform hover:-translate-y-1 shadow-md"
+                href="#"
+              >
+                <div
+                  class="absolute inset-0 bg-gradient-to-br from-tertiary-container/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+                ></div>
+                <div
+                  class="w-12 h-12 rounded-full bg-surface-container-high group-hover:bg-tertiary-container group-hover:text-on-tertiary-container text-tertiary flex items-center justify-center transition-colors"
+                >
+                  <span class="material-symbols-outlined text-2xl"
+                    >favorite</span
+                  >
+                </div>
+                <span
+                  class="font-title-sm text-title-sm text-on-surface group-hover:text-tertiary transition-colors"
+                  >Tình cảm</span
+                >
+              </a>
+              <!-- 5. Kinh dị -->
+              <a
+                class="group relative p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high flex flex-col items-center justify-center gap-space-sm text-center overflow-hidden transition-all duration-300 transform hover:-translate-y-1 shadow-md"
+                href="#"
+              >
+                <div
+                  class="absolute inset-0 bg-gradient-to-br from-error-container/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+                ></div>
+                <div
+                  class="w-12 h-12 rounded-full bg-surface-container-high group-hover:bg-error-container group-hover:text-on-error-container text-error flex items-center justify-center transition-colors"
+                >
+                  <span class="material-symbols-outlined text-2xl">skull</span>
+                </div>
+                <span
+                  class="font-title-sm text-title-sm text-on-surface group-hover:text-error transition-colors"
+                  >Kinh dị</span
+                >
+              </a>
+              <!-- 6. Khoa học viễn tưởng -->
+              <a
+                class="group relative p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high flex flex-col items-center justify-center gap-space-sm text-center overflow-hidden transition-all duration-300 transform hover:-translate-y-1 shadow-md"
+                href="#"
+              >
+                <div
+                  class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+                ></div>
+                <div
+                  class="w-12 h-12 rounded-full bg-surface-container-high group-hover:bg-primary group-hover:text-on-primary text-primary flex items-center justify-center transition-colors"
+                >
+                  <span class="material-symbols-outlined text-2xl"
+                    >rocket_launch</span
+                  >
+                </div>
+                <span
+                  class="font-title-sm text-title-sm text-on-surface group-hover:text-primary transition-colors"
+                  >Viễn tưởng</span
+                >
+              </a>
+              <!-- 7. Hoạt hình -->
+              <a
+                class="group relative p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high flex flex-col items-center justify-center gap-space-sm text-center overflow-hidden transition-all duration-300 transform hover:-translate-y-1 shadow-md"
+                href="#"
+              >
+                <div
+                  class="absolute inset-0 bg-gradient-to-br from-secondary/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+                ></div>
+                <div
+                  class="w-12 h-12 rounded-full bg-surface-container-high group-hover:bg-secondary group-hover:text-on-secondary text-secondary-fixed-dim flex items-center justify-center transition-colors"
+                >
+                  <span class="material-symbols-outlined text-2xl"
+                    >animation</span
+                  >
+                </div>
+                <span
+                  class="font-title-sm text-title-sm text-on-surface group-hover:text-secondary transition-colors"
+                  >Hoạt hình</span
+                >
+              </a>
+              <!-- 8. Tâm lý -->
+              <a
+                class="group relative p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high flex flex-col items-center justify-center gap-space-sm text-center overflow-hidden transition-all duration-300 transform hover:-translate-y-1 shadow-md"
+                href="#"
+              >
+                <div
+                  class="absolute inset-0 bg-gradient-to-br from-outline/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+                ></div>
+                <div
+                  class="w-12 h-12 rounded-full bg-surface-container-high group-hover:bg-outline group-hover:text-surface-container-lowest text-on-surface-variant flex items-center justify-center transition-colors"
+                >
+                  <span class="material-symbols-outlined text-2xl"
+                    >psychology</span
+                  >
+                </div>
+                <span
+                  class="font-title-sm text-title-sm text-on-surface group-hover:text-on-surface transition-colors"
+                  >Tâm lý</span
+                >
+              </a>
+            </div>
+          </section>
+          <!-- Section 6: Phim phổ biến & Đánh giá cao (Top Rated Masterpieces - Asymmetric Bento / Row) -->
+          <section class="flex flex-col gap-space-md">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-space-sm">
+                <span class="w-1.5 h-5 bg-primary rounded-full"></span>
+                <h2
+                  class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight"
+                >
+                  Phim phổ biến &amp; Đánh giá cao nhất
+                </h2>
+                <span
+                  class="hidden md:inline-block px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-caps text-label-caps"
+                  >Top IMDb 250</span
+                >
+              </div>
+            </div>
+            <!-- Bento-style Feature Grid for Top Rated -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md">
+              <!-- Lead Highlight Card (7 cols) -->
+              <div
+                class="lg:col-span-7 relative group rounded-2xl overflow-hidden bg-surface-container min-h-[380px] flex flex-col justify-end p-space-lg md:p-space-xl shadow-2xl"
+              >
+                <div
+                  class="absolute inset-0 bg-cover bg-center transform group-hover:scale-105 transition-transform duration-700"
+                  data-alt="Cinematic wide shot of the dream world folding vertically in Inception, gravity defiance architecture with deep blue hour Parisian buildings curving inward, ultra detailed masterpiece"
+                  style="
+                    background-image: url(&quot;/images/movies/shawshank.jpg&quot;);
+                  "
+                ></div>
+                <div
+                  class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/70 to-transparent"
+                ></div>
+                <div class="relative z-10 flex flex-col gap-space-sm">
+                  <div class="flex items-center gap-space-sm">
+                    <span
+                      class="px-2 py-1 rounded bg-secondary text-on-secondary font-label-caps text-label-caps font-bold"
+                      >#1 Top Rated</span
+                    >
+                    <div class="flex items-center gap-1 text-secondary">
+                      <span
+                        class="material-symbols-outlined text-sm"
+                        style="font-variation-settings: &quot;FILL&quot; 1"
+                        >star</span
+                      >
+                      <span class="font-label-caps text-label-caps font-bold"
+                        >IMDb 9.3</span
+                      >
+                    </div>
+                  </div>
+                  <h3
+                    class="font-headline-lg text-headline-lg text-on-surface font-bold"
+                  >
+                    The Shawshank Redemption
+                  </h3>
+                  <p
+                    class="font-body-md text-body-md text-on-surface-variant line-clamp-2 max-w-xl"
+                  >
+                    Hai người đàn ông bị giam giữ gắn kết trong nhiều năm, tìm
+                    thấy niềm an ủi và sự cứu rỗi thông qua những hành động tử
+                    tế chung sống trong một nhà tù tàn bạo.
+                  </p>
+                  <div class="flex items-center gap-space-md pt-space-xs">
+                    <button
+                      class="flex items-center gap-2 px-space-md py-2.5 rounded-lg bg-primary-container text-on-primary-container font-title-sm text-title-sm hover:opacity-90 transition-opacity"
+                      type="button"
+                    >
+                      <span
+                        class="material-symbols-outlined text-lg"
+                        style="font-variation-settings: &quot;FILL&quot; 1"
+                        >play_arrow</span
+                      >
+                      <span>Xem phim</span>
+                    </button>
+                    <button
+                      class="flex items-center gap-1.5 px-space-md py-2.5 rounded-lg bg-surface-container-highest/80 backdrop-blur-sm text-on-surface font-title-sm text-title-sm hover:bg-surface-bright transition-colors"
+                      type="button"
+                    >
+                      <span class="material-symbols-outlined text-lg"
+                        >info</span
+                      >
+                      <span>Chi tiết</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <!-- 3 Stacked List Cards (5 cols) -->
+              <div
+                class="lg:col-span-5 flex flex-col gap-space-sm justify-between"
+              >
+                <!-- Item 1 -->
+                <div
+                  class="group p-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high transition-colors flex items-center gap-space-md shadow-md cursor-pointer"
+                >
+                  <div
+                    class="relative w-20 h-28 rounded-lg overflow-hidden shrink-0 bg-surface-container-high"
+                  >
+                    <div
+                      class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-300"
+                      data-alt="Intense neo noir shot of the Dark Knight on a rooftop gargoyle over stormy Gotham City skyline, lightning flashing"
+                      style="
+                        background-image: url(&quot;/images/movies/dark-knight.jpg&quot;);
+                      "
+                    ></div>
+                    <span
+                      class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-surface-container-lowest/80 text-secondary font-label-caps text-label-caps font-bold"
+                      >9.0</span
+                    >
+                  </div>
+                  <div class="min-w-0 flex-1 flex flex-col gap-0.5">
+                    <span
+                      class="font-label-caps text-label-caps text-secondary font-semibold"
+                      >#2 IMDb All Time</span
+                    >
+                    <h4
+                      class="font-title-sm text-title-sm text-on-surface font-bold truncate group-hover:text-primary transition-colors"
+                    >
+                      The Dark Knight
+                    </h4>
+                    <p
+                      class="font-body-sm text-body-sm text-on-surface-variant truncate"
+                    >
+                      Hành động • Tội phạm • 2008
+                    </p>
+                    <span
+                      class="font-label-caps text-label-caps text-on-surface-variant"
+                      >2h 32m • Đạo diễn Christopher Nolan</span
+                    >
+                  </div>
+                  <button
+                    class="w-10 h-10 rounded-full bg-surface-container-high group-hover:bg-primary-container group-hover:text-on-primary-container text-on-surface flex items-center justify-center shrink-0 transition-colors"
+                    type="button"
+                  >
+                    <span
+                      class="material-symbols-outlined text-xl"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >play_arrow</span
+                    >
+                  </button>
+                </div>
+                <!-- Item 2 -->
+                <div
+                  class="group p-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high transition-colors flex items-center gap-space-md shadow-md cursor-pointer"
+                >
+                  <div
+                    class="relative w-20 h-28 rounded-lg overflow-hidden shrink-0 bg-surface-container-high"
+                  >
+                    <div
+                      class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-300"
+                      data-alt="Dreamy surreal room with spinning silver totem top on polished wood table, sunlight filtering through blinds, mystery film mood"
+                      style="
+                        background-image: url(&quot;/images/movies/inception.jpg&quot;);
+                      "
+                    ></div>
+                    <span
+                      class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-surface-container-lowest/80 text-secondary font-label-caps text-label-caps font-bold"
+                      >8.8</span
+                    >
+                  </div>
+                  <div class="min-w-0 flex-1 flex flex-col gap-0.5">
+                    <span
+                      class="font-label-caps text-label-caps text-secondary font-semibold"
+                      >#3 IMDb All Time</span
+                    >
+                    <h4
+                      class="font-title-sm text-title-sm text-on-surface font-bold truncate group-hover:text-primary transition-colors"
+                    >
+                      Inception
+                    </h4>
+                    <p
+                      class="font-body-sm text-body-sm text-on-surface-variant truncate"
+                    >
+                      Hành động • Khoa học viễn tưởng • 2010
+                    </p>
+                    <span
+                      class="font-label-caps text-label-caps text-on-surface-variant"
+                      >2h 28m • Leonardo DiCaprio</span
+                    >
+                  </div>
+                  <button
+                    class="w-10 h-10 rounded-full bg-surface-container-high group-hover:bg-primary-container group-hover:text-on-primary-container text-on-surface flex items-center justify-center shrink-0 transition-colors"
+                    type="button"
+                  >
+                    <span
+                      class="material-symbols-outlined text-xl"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >play_arrow</span
+                    >
+                  </button>
+                </div>
+                <!-- Item 3 -->
+                <div
+                  class="group p-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high transition-colors flex items-center gap-space-md shadow-md cursor-pointer"
+                >
+                  <div
+                    class="relative w-20 h-28 rounded-lg overflow-hidden shrink-0 bg-surface-container-high"
+                  >
+                    <div
+                      class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-300"
+                      data-alt="Frodo Baggins holding the glowing golden One Ring in the volcanic fires of Mount Doom, dark fantasy epic cinematic lighting"
+                      style="
+                        background-image: url(&quot;/images/movies/return-of-the-king.jpg&quot;);
+                      "
+                    ></div>
+                    <span
+                      class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-surface-container-lowest/80 text-secondary font-label-caps text-label-caps font-bold"
+                      >9.0</span
+                    >
+                  </div>
+                  <div class="min-w-0 flex-1 flex flex-col gap-0.5">
+                    <span
+                      class="font-label-caps text-label-caps text-secondary font-semibold"
+                      >#4 IMDb All Time</span
+                    >
+                    <h4
+                      class="font-title-sm text-title-sm text-on-surface font-bold truncate group-hover:text-primary transition-colors"
+                    >
+                      The Return of the King
+                    </h4>
+                    <p
+                      class="font-body-sm text-body-sm text-on-surface-variant truncate"
+                    >
+                      Phiêu lưu • Giả tưởng • 2003
+                    </p>
+                    <span
+                      class="font-label-caps text-label-caps text-on-surface-variant"
+                      >3h 21m • Oscar Best Picture Winner</span
+                    >
+                  </div>
+                  <button
+                    class="w-10 h-10 rounded-full bg-surface-container-high group-hover:bg-primary-container group-hover:text-on-primary-container text-on-surface flex items-center justify-center shrink-0 transition-colors"
+                    type="button"
+                  >
+                    <span
+                      class="material-symbols-outlined text-xl"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >play_arrow</span
+                    >
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+                <section
+            class="w-full rounded-2xl bg-gradient-to-r from-white/5 via-white/[0.03] to-white/5 border border-white/10 p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6"
+          >
+            <div class="flex flex-col gap-2 max-w-xl text-center md:text-left">
+              <span
+                class="text-xs uppercase font-bold text-[#E50914] tracking-widest"
+                >Trải nghiệm rạp phim tại gia</span
+              >
+              <h3 class="text-2xl md:text-3xl font-extrabold text-[#FFFFFF]">
+                Xem không giới hạn, không quảng cáo trên MovieF
+              </h3>
+              <p class="text-sm text-[#A1A1AA]">
+                Hỗ trợ độ phân giải chuẩn 4K HDR, âm thanh vòm Dolby Atmos trên
+                tất cả thiết bị di động, TV và máy tính để bàn.
+              </p>
+            </div>
+            <div class="flex items-center gap-4 shrink-0">
+              <button
+                class="px-7 py-3 rounded-lg bg-[#E50914] hover:bg-[#b80710] text-[#FFFFFF] font-semibold text-sm transition-all duration-200 shadow-lg shadow-[#E50914]/20 active:scale-95"
+                type="button"
+              >
+                Đăng ký gói VIP
+              </button>
+              <button
+                class="px-5 py-3 rounded-lg bg-white/5 hover:bg-white/10 border border-white/20 text-[#FFFFFF] font-medium text-sm transition-all duration-200"
+                type="button"
+              >
+                Tìm hiểu thêm
+              </button>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+    <footer
+      class="w-full bg-surface-container-low border-t border-white/5 mt-space-xl"
+      id="footer"
+    >
+      <div class="w-full px-gutter-mobile md:px-margin py-space-xl">
+        <div
+          class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-space-xl mb-space-xl"
+        >
+          <div class="md:col-span-2 flex flex-col gap-space-md">
+            <div class="flex items-center gap-space-sm">
+              <img
+                alt="MovieF Logo"
+                class="h-7 w-auto object-contain"
+                src="/images/logo/logo.svg"
+              />
+              <span
+                class="font-headline-sm text-headline-sm tracking-tight text-on-surface font-bold"
+              >
+                Movie<span class="text-primary-container">F</span>
+              </span>
+            </div>
+            <p
+              class="font-body-sm text-body-sm text-on-surface-variant max-w-sm"
+            >
+              Nền tảng phát trực tuyến trải nghiệm điện ảnh đỉnh cao, đem rạp
+              chiếu phim chất lượng chuẩn 4K đến mọi gia đình.
+            </p>
+            <div class="flex items-center gap-space-sm pt-space-xs">
+              <a
+                class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+                href="#"
+              >
+                <span class="material-symbols-outlined text-base"
+                  >smart_display</span
+                >
+              </a>
+              <a
+                class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+                href="#"
+              >
+                <span class="material-symbols-outlined text-base">public</span>
+              </a>
+              <a
+                class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+                href="#"
+              >
+                <span class="material-symbols-outlined text-base">forum</span>
+              </a>
+            </div>
+          </div>
+          <div class="flex flex-col gap-space-sm">
+            <span
+              class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider"
+            >
+              Khám phá
+            </span>
+            <ul class="flex flex-col gap-space-xs">
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Giới thiệu
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Phim chiếu rạp
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Phim bộ độc quyền
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Bảng xếp hạng
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="flex flex-col gap-space-sm">
+            <span
+              class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider"
+            >
+              Quy định &amp; Hỗ trợ
+            </span>
+            <ul class="flex flex-col gap-space-xs">
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Điều khoản sử dụng
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Chính sách bảo mật
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Liên hệ
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Trung tâm trợ giúp
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="flex flex-col gap-space-sm">
+            <span
+              class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider"
+            >
+              Ứng dụng
+            </span>
+            <p class="font-body-sm text-body-sm text-on-surface-variant">
+              Xem phim mọi lúc, mọi nơi trên Smart TV, di động và máy tính bảng.
+            </p>
+            <div class="flex flex-col gap-space-xs pt-space-xs">
+              <div
+                class="flex items-center gap-space-sm p-space-xs bg-surface-container rounded-lg"
+              >
+                <span class="material-symbols-outlined text-primary">tv</span>
+                <span class="font-label-md text-label-md text-on-surface">
+                  Smart TV &amp; Android TV
+                </span>
+              </div>
+              <div
+                class="flex items-center gap-space-sm p-space-xs bg-surface-container rounded-lg"
+              >
+                <span class="material-symbols-outlined text-primary"
+                  >smartphone</span
+                >
+                <span class="font-label-md text-label-md text-on-surface">
+                  iOS &amp; Android Apps
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="pt-space-md border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-space-sm text-center sm:text-left"
+        >
+          <p class="font-body-sm text-body-sm text-on-surface-variant">
+            © 2024 MovieF Streaming Platform. Bản quyền thuộc về MovieF.
+          </p>
+          <div
+            class="flex items-center gap-space-md font-body-sm text-body-sm text-on-surface-variant"
+          >
+            <a class="hover:text-on-surface transition-colors" href="#">
+              Quyền riêng tư
+            </a>
+            <a class="hover:text-on-surface transition-colors" href="#">
+              Cookie
+            </a>
+            <a class="hover:text-on-surface transition-colors" href="#">
+              Trợ giúp
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+<script type="module" src="/src/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="module" src="./../../src/js/custumer/home.js"></script>
+<script type="module" src="./../../src/js/custumer/auth.js"></script>
+<script type="module" src="./../../src/js/custumer/header.js"></script>

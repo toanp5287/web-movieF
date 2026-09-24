@@ -1,9 +1,0 @@
-<script type="module">
-  import { kiemTraDangNhapAdmin } from "../src/utils/storage.js";
-
-  const allowed = await kiemTraDangNhapAdmin();
-
-  if (allowed) {
-    window.location.href = "/admin/movies.html";
-  }
-</script>

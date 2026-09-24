@@ -1,0 +1,1771 @@
+<!doctype html>
+
+<html class="dark" lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="web_standard" name="shell-type" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @layer base {
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          overscroll-behavior: none;
+        }
+        main > :first-child {
+          margin-top: 0 !important;
+        }
+        main > :last-child {
+          margin-bottom: 0 !important;
+        }
+      }
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-highest": "#333539",
+              "primary-fixed": "#ffdad5",
+              "on-primary-fixed": "#410001",
+              "inverse-surface": "#e2e2e8",
+              "on-surface": "#e2e2e8",
+              "surface-container": "#1d2024",
+              "on-secondary-container": "#b4b5b5",
+              "primary-fixed-dim": "#ffb4aa",
+              "secondary-fixed": "#e2e2e2",
+              primary: "#ffb4aa",
+              "outline-variant": "#5e3f3b",
+              "inverse-on-surface": "#2e3035",
+              "primary-container": "#e50914",
+              "surface-container-lowest": "#0c0e12",
+              "tertiary-fixed": "#e2e1eb",
+              "tertiary-container": "#71727a",
+              "on-tertiary-fixed": "#1a1b22",
+              "on-tertiary-fixed-variant": "#45464e",
+              surface: "#111318",
+              "on-secondary-fixed": "#1a1c1c",
+              "on-primary-fixed-variant": "#930007",
+              "on-error": "#690005",
+              "surface-container-high": "#282a2f",
+              "on-primary": "#690003",
+              "on-tertiary-container": "#faf8ff",
+              "secondary-container": "#454747",
+              "surface-container-low": "#191c20",
+              "on-secondary-fixed-variant": "#454747",
+              "on-surface-variant": "#e9bcb6",
+              "inverse-primary": "#c0000c",
+              "on-tertiary": "#2f3037",
+              "on-primary-container": "#fff7f6",
+              "secondary-fixed-dim": "#c6c6c7",
+              tertiary: "#c6c6cf",
+              secondary: "#c6c6c7",
+              "error-container": "#93000a",
+              "surface-dim": "#111318",
+              "surface-bright": "#37393e",
+              "surface-tint": "#ffb4aa",
+              outline: "#af8782",
+              "on-secondary": "#2f3131",
+              "on-error-container": "#ffdad6",
+              error: "#ffb4ab",
+              background: "#111318",
+              "tertiary-fixed-dim": "#c6c6cf",
+              "surface-variant": "#333539",
+              "on-background": "#e2e2e8",
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+            spacing: {
+              "space-md": "1rem",
+              "space-xl": "2.5rem",
+              margin: "3rem",
+              "margin-mobile": "1rem",
+              "space-lg": "1.5rem",
+              "gutter-mobile": "0.75rem",
+              "space-sm": "0.5rem",
+              "space-xs": "0.25rem",
+              gutter: "1.25rem",
+            },
+            fontFamily: {
+              "title-sm": ["Plus Jakarta Sans"],
+              "display-hero": ["Plus Jakarta Sans"],
+              "body-sm": ["Plus Jakarta Sans"],
+              "label-sm": ["Plus Jakarta Sans"],
+              "headline-lg-mobile": ["Plus Jakarta Sans"],
+              "title-md": ["Plus Jakarta Sans"],
+              "headline-sm": ["Plus Jakarta Sans"],
+              "display-hero-mobile": ["Plus Jakarta Sans"],
+              "headline-md": ["Plus Jakarta Sans"],
+              "body-md": ["Plus Jakarta Sans"],
+              "label-md": ["Plus Jakarta Sans"],
+              "headline-lg": ["Plus Jakarta Sans"],
+              "body-lg": ["Plus Jakarta Sans"],
+            },
+            fontSize: {
+              "title-sm": [
+                "14px",
+                {
+                  lineHeight: "20px",
+                  letterSpacing: "0.01em",
+                  fontWeight: "600",
+                },
+              ],
+              "display-hero": [
+                "56px",
+                {
+                  lineHeight: "64px",
+                  letterSpacing: "-0.03em",
+                  fontWeight: "800",
+                },
+              ],
+              "body-sm": [
+                "12px",
+                {
+                  lineHeight: "18px",
+                  letterSpacing: "0.01em",
+                  fontWeight: "400",
+                },
+              ],
+              "label-sm": [
+                "10px",
+                {
+                  lineHeight: "14px",
+                  letterSpacing: "0.06em",
+                  fontWeight: "700",
+                },
+              ],
+              "headline-lg-mobile": [
+                "26px",
+                {
+                  lineHeight: "34px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "700",
+                },
+              ],
+              "title-md": [
+                "16px",
+                { lineHeight: "24px", letterSpacing: "0em", fontWeight: "600" },
+              ],
+              "headline-sm": [
+                "20px",
+                { lineHeight: "28px", letterSpacing: "0em", fontWeight: "600" },
+              ],
+              "display-hero-mobile": [
+                "32px",
+                {
+                  lineHeight: "40px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "800",
+                },
+              ],
+              "headline-md": [
+                "24px",
+                {
+                  lineHeight: "32px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "600",
+                },
+              ],
+              "body-md": [
+                "14px",
+                { lineHeight: "22px", letterSpacing: "0em", fontWeight: "400" },
+              ],
+              "label-md": [
+                "12px",
+                {
+                  lineHeight: "16px",
+                  letterSpacing: "0.04em",
+                  fontWeight: "600",
+                },
+              ],
+              "headline-lg": [
+                "36px",
+                {
+                  lineHeight: "44px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "700",
+                },
+              ],
+              "body-lg": [
+                "16px",
+                { lineHeight: "26px", letterSpacing: "0em", fontWeight: "400" },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="bg-surface-container-lowest text-on-surface font-body-md text-body-md antialiased min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary-container"
+  >
+    <header
+      class="fixed top-0 left-0 right-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl border-b border-surface-container-highest/20"
+    >
+      <div
+        class="h-18 px-gutter flex items-center justify-between gap-space-md"
+      >
+        <div class="flex items-center gap-space-sm shrink-0">
+          <img
+            alt="MovieF Logo"
+            class="h-8 w-auto object-contain"
+            src="https://lh3.googleusercontent.com/aida/AEtjO1VeksytFg1dn6T9F3hPib7wbqtn3ygRp3PC8eEkZpRpmkwjknjnvQXLWLxZTQNnjUZqNQ3FCl8AZchSrDB7iioiDn3HOaFoI1H32feVlzd6_Vl0vNBFIBtETqTO4lebdMKng4UNbMkPi1QxUgTpps6UP17GbgneT_zod4YvYbWWzIoeEsrzIKSWmC0CT4WiOZtC-uLO1btCMOg3198iZj4kHr_g_Rw4D2QAOBZi5j4ptMp_ug2BY9swUg"
+          /><span
+            class="font-headline-sm text-headline-sm font-bold tracking-tight text-on-primary-container uppercase"
+            >Movie<span class="text-primary-container">F</span></span
+          >
+        </div>
+        <nav
+          class="hidden lg:flex items-center gap-space-lg"
+          data-active-classes="text-primary-container font-title-sm"
+        >
+          <a
+            class="text-secondary text-title-sm font-title-sm hover:text-on-surface transition-colors"
+            data-path="trang-chu"
+            href="#"
+            >Trang chủ</a
+          ><a
+            class="text-secondary text-title-sm font-title-sm hover:text-on-surface transition-colors"
+            data-path="phim"
+            href="#"
+            >Phim</a
+          ><a
+            class="text-primary-container font-title-sm font-bold transition-colors"
+            data-path="the-loai"
+            href="#"
+            >Thể loại</a
+          ><a
+            class="text-secondary text-title-sm font-title-sm hover:text-on-surface transition-colors"
+            data-path="phim-moi"
+            href="#"
+            >Phim mới</a
+          ><a
+            class="text-secondary text-title-sm font-title-sm hover:text-on-surface transition-colors"
+            data-path="phim-noi-bat"
+            href="#"
+            >Phim nổi bật</a
+          >
+        </nav>
+        <div class="flex items-center gap-space-md shrink-0">
+          <div class="relative hidden sm:block w-48 md:w-64">
+            <input
+              class="w-full bg-surface-container-low text-on-surface placeholder:text-secondary placeholder:opacity-70 font-body-sm text-body-sm pl-9 pr-space-sm py-2 rounded-lg border border-surface-container-highest/40 focus:outline-none focus:border-primary-container transition-all"
+              placeholder="Tìm kiếm phim..."
+              type="text"
+            /><span
+              class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-secondary text-[18px] pointer-events-none"
+              >search</span
+            >
+          </div>
+          <button
+            aria-label="Notifications"
+            class="relative p-2 rounded-full text-secondary hover:text-on-surface hover:bg-surface-container-high transition-colors"
+            type="button"
+          >
+            <span class="material-symbols-outlined text-[22px]"
+              >notifications</span
+            ><span
+              class="absolute top-2 right-2 w-2 h-2 bg-primary-container rounded-full ring-2 ring-surface-container-lowest"
+            ></span>
+          </button>
+          <div class="flex items-center pl-space-xs">
+            <img
+              alt="Profile"
+              class="w-9 h-9 rounded-full object-cover ring-2 ring-surface-container-highest/40 hover:ring-primary-container transition-all cursor-pointer"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoC_0DX4Px8ljS1HQ7aRTAqBbDFIURJnztTI0JsB1tWnSIQrNytg_hrUenOPmg8ZPehRnbVeRiDqGshLB54zSIIJhDUhJmfCVTOJ4ujnl1TRDySbTNjrHjudvT9VoFpFIkCrNzyRDIsfhW6evp82a79sgeb5N9gOV50hahmS7Mws_GRAyPTIg0fv0hY_t2ROumrAzQoFir7vd4sIAOf2mEu_r8ak6YVmkGXJX213WeDp4d7g3cTZMf"
+            />
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="w-full pt-18 flex-1 bg-surface-container-lowest">
+      <div class="flex flex-col w-full text-on-surface">
+        <!-- SECTION 1: HERO SECTION -->
+        <section
+          class="relative w-full overflow-hidden bg-surface-container-lowest px-gutter py-space-xl border-b border-surface-container-highest/30"
+        >
+          <!-- Cinematic Vignette & Ambient Radial Backdrop -->
+          <div
+            class="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_80%_60%_at_50%_-15%,rgba(229,9,20,0.18),transparent_75%)]"
+          ></div>
+          <div
+            class="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-surface-container-lowest/80 to-surface-container-lowest"
+          ></div>
+          <div
+            class="relative max-w-5xl mx-auto flex flex-col items-center text-center"
+          >
+            <!-- Badge -->
+            <div
+              class="inline-flex items-center gap-space-xs px-3 py-1 rounded-full bg-surface-container-high/60 border border-secondary/20 backdrop-blur-md mb-space-md"
+            >
+              <span
+                class="w-2 h-2 rounded-full bg-primary-container animate-pulse"
+              ></span>
+              <span
+                class="font-label-sm text-label-sm tracking-wider uppercase text-secondary font-semibold"
+              >
+                DANH MỤC ĐIỆN ẢNH • MOVIEF DISCOVERY
+              </span>
+            </div>
+            <!-- Headline -->
+            <h1
+              class="font-display-hero text-display-hero font-extrabold tracking-tight text-white max-w-3xl"
+            >
+              Khám phá theo <span class="text-primary-container">thể loại</span>
+            </h1>
+            <!-- Subtitle -->
+            <p
+              class="mt-space-sm font-body-lg text-body-lg text-secondary max-w-2xl text-balance"
+            >
+              Tìm câu chuyện phù hợp với tâm trạng của bạn. Khám phá hàng trăm
+              bộ phim thuộc nhiều thể loại khác nhau trên MovieF.
+            </p>
+            <!-- Search & Discovery Search Box -->
+            <div class="w-full max-w-xl mt-space-lg">
+              <div class="relative group">
+                <span
+                  class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-secondary group-focus-within:text-primary-container transition-colors text-[22px] pointer-events-none"
+                >
+                  search
+                </span>
+                <input
+                  class="w-full bg-surface-container-low/90 text-white placeholder:text-secondary/70 font-body-md text-body-md pl-12 pr-28 py-3.5 rounded-xl border border-secondary/20 shadow-2xl focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all"
+                  id="hero-genre-search"
+                  placeholder="Tìm thể loại phim (Hành động, Viễn tưởng, Kinh dị...)"
+                  type="text"
+                />
+                <button
+                  class="absolute right-2 top-1/2 -translate-y-1/2 bg-primary-container hover:bg-[#F40612] text-white px-3.5 py-1.5 rounded-lg font-title-sm text-title-sm transition-all flex items-center gap-1 shadow-md"
+                  onclick="
+                    document
+                      .getElementById('directory-section')
+                      .scrollIntoView({ behavior: 'smooth' })
+                  "
+                  type="button"
+                >
+                  <span>Duyệt</span>
+                  <span class="material-symbols-outlined text-[16px]"
+                    >arrow_forward</span
+                  >
+                </button>
+              </div>
+              <!-- Quick Filter Tags -->
+              <div
+                class="flex flex-wrap items-center justify-center gap-2 mt-space-md"
+              >
+                <span
+                  class="font-label-md text-label-md text-secondary uppercase tracking-wider"
+                  >Gợi ý nhanh:</span
+                >
+                <a
+                  class="px-3 py-1 rounded-full text-secondary font-label-md text-label-md bg-surface-container-high/40 border border-secondary/15 hover:border-primary-container hover:text-white transition-colors"
+                  href="/movies?genre=1"
+                >
+                  Hành động
+                </a>
+                <a
+                  class="px-3 py-1 rounded-full text-secondary font-label-md text-label-md bg-surface-container-high/40 border border-secondary/15 hover:border-primary-container hover:text-white transition-colors"
+                  href="/movies?genre=2"
+                >
+                  Khoa học viễn tưởng
+                </a>
+                <a
+                  class="px-3 py-1 rounded-full text-secondary font-label-md text-label-md bg-surface-container-high/40 border border-secondary/15 hover:border-primary-container hover:text-white transition-colors"
+                  href="/movies?genre=4"
+                >
+                  Kinh dị
+                </a>
+                <a
+                  class="px-3 py-1 rounded-full text-secondary font-label-md text-label-md bg-surface-container-high/40 border border-secondary/15 hover:border-primary-container hover:text-white transition-colors"
+                  href="/movies?genre=3"
+                >
+                  Tình cảm
+                </a>
+                <a
+                  class="px-3 py-1 rounded-full text-secondary font-label-md text-label-md bg-surface-container-high/40 border border-secondary/15 hover:border-primary-container hover:text-white transition-colors"
+                  href="/movies?genre=5"
+                >
+                  Hoạt hình
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- SECTION 2: THỂ LOẠI NỔI BẬT (FEATURED GENRES) -->
+        <section class="w-full max-w-7xl mx-auto px-gutter py-space-xl">
+          <!-- Section Header with Red Vertical Accent -->
+          <div class="flex items-center gap-space-sm mb-space-lg">
+            <div class="w-1.5 h-7 bg-primary-container rounded-full"></div>
+            <div>
+              <h2
+                class="font-headline-lg text-headline-lg font-bold text-white tracking-tight"
+              >
+                Thể loại nổi bật
+              </h2>
+              <p class="font-body-md text-body-md text-secondary mt-0.5">
+                Những thể loại được khán giả MovieF quan tâm nhất
+              </p>
+            </div>
+          </div>
+          <!-- 6 Large Premium Genre Cards (3 Columns x 2 Rows) -->
+          <div
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-lg"
+          >
+            <!-- 1. Hành động -->
+            <a
+              class="group relative rounded-xl overflow-hidden bg-surface-container-low border border-secondary/15 hover:border-primary-container transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-end min-h-[280px] shadow-lg"
+              href="/movies?genre=1"
+            >
+              <div
+                class="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 opacity-40 group-hover:opacity-55"
+                data-alt="A cinematic dramatic dark movie silhouette of an action hero against high-contrast shadows, industrial warehouse sparks, sleek monochrome black and white cinema lighting with subtle fiery reflections."
+                style="
+                  background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuCH2insr7nKBOc7hqFB5E96jnxELi7is5ZnKhMJ5LPbARNY0uZrw9nGO2npQg3LEXgIYRUuPHHofAU9dUtZMwUj4QIoMCbQ1rcp9INwsSSi5nS_boiTl5akT6RcZPBpj3vqvBGIdukNaHYFJAGLzK1_klPXBr1PeEe2bvGr2oKPmMFsAs8Zh7hBw5FmNf48e78jIa_9JC9tflS2LOJ2pCvifY9kQslFj-s5kuQz5il7bDAdBGVMthFe&quot;);
+                "
+              ></div>
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-transparent"
+              ></div>
+              <div
+                class="relative p-space-md flex flex-col justify-between h-full z-10"
+              >
+                <div class="flex items-center justify-between">
+                  <span
+                    class="inline-flex items-center px-2.5 py-1 rounded bg-primary-container text-white font-label-sm text-label-sm uppercase font-bold tracking-wider"
+                  >
+                    Thịnh hành #1
+                  </span>
+                  <div
+                    class="w-8 h-8 rounded-full bg-surface-container-high/80 flex items-center justify-center text-secondary group-hover:text-white group-hover:bg-primary-container transition-all"
+                  >
+                    <span class="material-symbols-outlined text-[18px]"
+                      >sports_martial_arts</span
+                    >
+                  </div>
+                </div>
+                <div class="mt-8">
+                  <h3
+                    class="font-headline-md text-headline-md font-bold text-white group-hover:text-primary transition-colors"
+                  >
+                    Hành động
+                  </h3>
+                  <div
+                    class="flex items-center justify-between mt-space-xs pt-space-xs border-t border-secondary/15"
+                  >
+                    <span class="font-body-sm text-body-sm text-secondary"
+                      >128 bộ phim</span
+                    >
+                    <span
+                      class="font-title-sm text-title-sm text-white group-hover:text-primary-container font-semibold flex items-center gap-1 transition-all group-hover:translate-x-1"
+                    >
+                      Khám phá
+                      <span class="material-symbols-outlined text-[18px]"
+                        >arrow_forward</span
+                      >
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <!-- 2. Khoa học viễn tưởng -->
+            <a
+              class="group relative rounded-xl overflow-hidden bg-surface-container-low border border-secondary/15 hover:border-primary-container transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-end min-h-[280px] shadow-lg"
+              href="/movies?genre=2"
+            >
+              <div
+                class="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 opacity-40 group-hover:opacity-55"
+                data-alt="Deep space cosmic starfield with futuristic architectural monolithic spacecraft, stark deep dark shadows, high-contrast monochrome silver lighting, clean hard geometric angles and atmospheric stardust."
+                style="
+                  background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuC7wG6s6V4J_zCtnclMTVgbq6UzxUzQf_CmxsZ3Xxrz3Z_9GJNGXpe-xaa4LagKS1C33H_wNiYki3Wt2sMQfUDsj3_7-Tk0qx8J-t2-xotLwr4Lo8-8bAHGGWoEHKzSRGMRlRGg4Ew5tNN06-g21gWtqzh0RYe8i1irOSXPGYb30iqYnCtFuj00qP1CPUJm5yBciYN0QgPrr3wAFotx4d6c-oCvuFPqZ90dYx-ge25m2LSPYriLxP66&quot;);
+                "
+              ></div>
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-transparent"
+              ></div>
+              <div
+                class="relative p-space-md flex flex-col justify-between h-full z-10"
+              >
+                <div class="flex items-center justify-between">
+                  <span
+                    class="inline-flex items-center px-2.5 py-1 rounded bg-surface-container-high/90 border border-secondary/30 text-white font-label-sm text-label-sm uppercase font-bold tracking-wider"
+                  >
+                    4K HDR
+                  </span>
+                  <div
+                    class="w-8 h-8 rounded-full bg-surface-container-high/80 flex items-center justify-center text-secondary group-hover:text-white group-hover:bg-primary-container transition-all"
+                  >
+                    <span class="material-symbols-outlined text-[18px]"
+                      >rocket_launch</span
+                    >
+                  </div>
+                </div>
+                <div class="mt-8">
+                  <h3
+                    class="font-headline-md text-headline-md font-bold text-white group-hover:text-primary transition-colors"
+                  >
+                    Khoa học viễn tưởng
+                  </h3>
+                  <div
+                    class="flex items-center justify-between mt-space-xs pt-space-xs border-t border-secondary/15"
+                  >
+                    <span class="font-body-sm text-body-sm text-secondary"
+                      >94 bộ phim</span
+                    >
+                    <span
+                      class="font-title-sm text-title-sm text-white group-hover:text-primary-container font-semibold flex items-center gap-1 transition-all group-hover:translate-x-1"
+                    >
+                      Khám phá
+                      <span class="material-symbols-outlined text-[18px]"
+                        >arrow_forward</span
+                      >
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <!-- 3. Tình cảm & Lãng mạn -->
+            <a
+              class="group relative rounded-xl overflow-hidden bg-surface-container-low border border-secondary/15 hover:border-primary-container transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-end min-h-[280px] shadow-lg"
+              href="/movies?genre=3"
+            >
+              <div
+                class="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 opacity-40 group-hover:opacity-55"
+                data-alt="Intimate cinematic night scene of two people silhouettes under soft misty streetlamp backlight in a rainy European metropolis, deep velvet blacks, muted tones with sharp highlights."
+                style="
+                  background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuB8fYqTg8m-IKqoIZrJPhWKftDiG-QKudPj_k9Rz7mloSTA8HIzHJykRGPOKrmlhjlRfncvxI1J7lelJZgin6iLM25Dng2RpVn79ohwnhbhMsNZxE5B1HAzdLULYaLQcGKjqUgLXkQxyvfqBa-bMJ2EJSJP3csc2vrFjaEUaVyx9XrWe_AXCQzfKnkkoupRn3KFKxcUDfyNM7S6TijaUNc9kujvP2EiE_MiwDu1qFPpsix67Xpuzy7v&quot;);
+                "
+              ></div>
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-transparent"
+              ></div>
+              <div
+                class="relative p-space-md flex flex-col justify-between h-full z-10"
+              >
+                <div class="flex items-center justify-between">
+                  <span
+                    class="inline-flex items-center px-2.5 py-1 rounded bg-surface-container-high/90 border border-secondary/30 text-white font-label-sm text-label-sm uppercase font-bold tracking-wider"
+                  >
+                    Cảm xúc
+                  </span>
+                  <div
+                    class="w-8 h-8 rounded-full bg-surface-container-high/80 flex items-center justify-center text-secondary group-hover:text-white group-hover:bg-primary-container transition-all"
+                  >
+                    <span class="material-symbols-outlined text-[18px]"
+                      >favorite</span
+                    >
+                  </div>
+                </div>
+                <div class="mt-8">
+                  <h3
+                    class="font-headline-md text-headline-md font-bold text-white group-hover:text-primary transition-colors"
+                  >
+                    Tình cảm &amp; Lãng mạn
+                  </h3>
+                  <div
+                    class="flex items-center justify-between mt-space-xs pt-space-xs border-t border-secondary/15"
+                  >
+                    <span class="font-body-sm text-body-sm text-secondary"
+                      >86 bộ phim</span
+                    >
+                    <span
+                      class="font-title-sm text-title-sm text-white group-hover:text-primary-container font-semibold flex items-center gap-1 transition-all group-hover:translate-x-1"
+                    >
+                      Khám phá
+                      <span class="material-symbols-outlined text-[18px]"
+                        >arrow_forward</span
+                      >
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <!-- 4. Kinh dị & Giật gân -->
+            <a
+              class="group relative rounded-xl overflow-hidden bg-surface-container-low border border-secondary/15 hover:border-primary-container transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-end min-h-[280px] shadow-lg"
+              href="/movies?genre=4"
+            >
+              <div
+                class="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 opacity-40 group-hover:opacity-55"
+                data-alt="Eerie atmospheric dimly lit hallway with heavy shadows, fog rolling over wooden floorboards, subtle red light sliver through cracked doorway, high-contrast psychological horror film styling."
+                style="
+                  background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuAq6gPQV32nxKlynEbMJ66HEesepu2ZZzr0NhxaLbF0KHpgVHjfmeqkwHtU-S0LC7y-p4ovycxsXi49U5SC8zf4ksnD3JDlmhbaKDtY8JsRpU-KQSp2Z1icSivVkVQXeHQp1YBHrEY2Vjj9uj0WvIxvo4_-t3vAWRB3SdNAaAW5jSNxZkmxDoIaDRm597urLJjUlRRJr1D9uGFFcL8YeXCzpF2GIfhBSz39aP2FPpT9hXdjkz-pPfkZ&quot;);
+                "
+              ></div>
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-transparent"
+              ></div>
+              <div
+                class="relative p-space-md flex flex-col justify-between h-full z-10"
+              >
+                <div class="flex items-center justify-between">
+                  <span
+                    class="inline-flex items-center px-2.5 py-1 rounded bg-surface-container-high/90 border border-secondary/30 text-white font-label-sm text-label-sm uppercase font-bold tracking-wider"
+                  >
+                    18+ Căng thẳng
+                  </span>
+                  <div
+                    class="w-8 h-8 rounded-full bg-surface-container-high/80 flex items-center justify-center text-secondary group-hover:text-white group-hover:bg-primary-container transition-all"
+                  >
+                    <span class="material-symbols-outlined text-[18px]"
+                      >skull</span
+                    >
+                  </div>
+                </div>
+                <div class="mt-8">
+                  <h3
+                    class="font-headline-md text-headline-md font-bold text-white group-hover:text-primary transition-colors"
+                  >
+                    Kinh dị &amp; Giật gân
+                  </h3>
+                  <div
+                    class="flex items-center justify-between mt-space-xs pt-space-xs border-t border-secondary/15"
+                  >
+                    <span class="font-body-sm text-body-sm text-secondary"
+                      >65 bộ phim</span
+                    >
+                    <span
+                      class="font-title-sm text-title-sm text-white group-hover:text-primary-container font-semibold flex items-center gap-1 transition-all group-hover:translate-x-1"
+                    >
+                      Khám phá
+                      <span class="material-symbols-outlined text-[18px]"
+                        >arrow_forward</span
+                      >
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <!-- 5. Hoạt hình & Anime -->
+            <a
+              class="group relative rounded-xl overflow-hidden bg-surface-container-low border border-secondary/15 hover:border-primary-container transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-end min-h-[280px] shadow-lg"
+              href="/movies?genre=5"
+            >
+              <div
+                class="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 opacity-40 group-hover:opacity-55"
+                data-alt="Stylized dark fantasy anime scenery with towering mysterious city ruins beneath crescent moon, dramatic high contrast ink outlines, deep obsidian shadows with white particle highlights."
+                style="
+                  background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuB5S3ST2nQiB9cnYGrQHMNQn-_-Nuu22_ddRZbCRJK4RF33CEfmJlLrmRgWKmQC_o6cwk_7xJR-je_3ls94hGKY1rw9xHA-5UxX9jOAowBHVeSAY9z8EpHRuyb6Uhul7rxHMeceV3fMrUWvFqDkB1BjqMQ3N53IZ4FwlBA-zq9XP5rfl1s3rMcrl5DLE2XqnHXbOh_OVuYgQnsIZJZCQgPETpwVugn_sVC6Fama2t_sZ5Aw2xWoPtjg&quot;);
+                "
+              ></div>
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-transparent"
+              ></div>
+              <div
+                class="relative p-space-md flex flex-col justify-between h-full z-10"
+              >
+                <div class="flex items-center justify-between">
+                  <span
+                    class="inline-flex items-center px-2.5 py-1 rounded bg-surface-container-high/90 border border-secondary/30 text-white font-label-sm text-label-sm uppercase font-bold tracking-wider"
+                  >
+                    Anime &amp; 3D
+                  </span>
+                  <div
+                    class="w-8 h-8 rounded-full bg-surface-container-high/80 flex items-center justify-center text-secondary group-hover:text-white group-hover:bg-primary-container transition-all"
+                  >
+                    <span class="material-symbols-outlined text-[18px]"
+                      >animation</span
+                    >
+                  </div>
+                </div>
+                <div class="mt-8">
+                  <h3
+                    class="font-headline-md text-headline-md font-bold text-white group-hover:text-primary transition-colors"
+                  >
+                    Hoạt hình &amp; Anime
+                  </h3>
+                  <div
+                    class="flex items-center justify-between mt-space-xs pt-space-xs border-t border-secondary/15"
+                  >
+                    <span class="font-body-sm text-body-sm text-secondary"
+                      >72 bộ phim</span
+                    >
+                    <span
+                      class="font-title-sm text-title-sm text-white group-hover:text-primary-container font-semibold flex items-center gap-1 transition-all group-hover:translate-x-1"
+                    >
+                      Khám phá
+                      <span class="material-symbols-outlined text-[18px]"
+                        >arrow_forward</span
+                      >
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <!-- 6. Hài kịch & Giải trí -->
+            <a
+              class="group relative rounded-xl overflow-hidden bg-surface-container-low border border-secondary/15 hover:border-primary-container transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-end min-h-[280px] shadow-lg"
+              href="/movies?genre=6"
+            >
+              <div
+                class="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 opacity-40 group-hover:opacity-55"
+                data-alt="Retro cinema stage spotlight beam cutting through theatrical haze onto a vintage microphone, sharp monochrome rim lighting, rich deep black auditorium atmosphere."
+                style="
+                  background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuCYD7PRcsXk9hdQTzrzMDiNPe4QjE7Q1UUE0Qd3V_risMZ8PXACfclN-RDtG5qNJkig-sNz-8ymMuNJlwH6TmmgshArKWW2-26mmGuv51XXgmDyLe1XgZ4PQhb8wf6gxFEQq_QhNdXbYa1sys0KH2WAbU-JSIy8J7R3V5FAImO24zX5ADW7FMKN22MavttV-FBnYYwvvYBGiNrFdymxnLvgS3x_h90Ed9PiC5B8dq19fgBsZl9aORML&quot;);
+                "
+              ></div>
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-transparent"
+              ></div>
+              <div
+                class="relative p-space-md flex flex-col justify-between h-full z-10"
+              >
+                <div class="flex items-center justify-between">
+                  <span
+                    class="inline-flex items-center px-2.5 py-1 rounded bg-surface-container-high/90 border border-secondary/30 text-white font-label-sm text-label-sm uppercase font-bold tracking-wider"
+                  >
+                    Thư giãn
+                  </span>
+                  <div
+                    class="w-8 h-8 rounded-full bg-surface-container-high/80 flex items-center justify-center text-secondary group-hover:text-white group-hover:bg-primary-container transition-all"
+                  >
+                    <span class="material-symbols-outlined text-[18px]"
+                      >theater_comedy</span
+                    >
+                  </div>
+                </div>
+                <div class="mt-8">
+                  <h3
+                    class="font-headline-md text-headline-md font-bold text-white group-hover:text-primary transition-colors"
+                  >
+                    Hài kịch &amp; Giải trí
+                  </h3>
+                  <div
+                    class="flex items-center justify-between mt-space-xs pt-space-xs border-t border-secondary/15"
+                  >
+                    <span class="font-body-sm text-body-sm text-secondary"
+                      >58 bộ phim</span
+                    >
+                    <span
+                      class="font-title-sm text-title-sm text-white group-hover:text-primary-container font-semibold flex items-center gap-1 transition-all group-hover:translate-x-1"
+                    >
+                      Khám phá
+                      <span class="material-symbols-outlined text-[18px]"
+                        >arrow_forward</span
+                      >
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </section>
+        <!-- SECTION 3: TẤT CẢ THỂ LOẠI (ALL GENRES DIRECTORY) -->
+        <section
+          class="w-full bg-surface-container-low/40 border-y border-surface-container-highest/20 py-space-xl"
+          id="directory-section"
+        >
+          <div class="max-w-7xl mx-auto px-gutter">
+            <!-- Section Header with Search Bar & Counter -->
+            <div
+              class="flex flex-col md:flex-row md:items-end justify-between gap-space-md mb-space-lg"
+            >
+              <div>
+                <div class="flex items-center gap-space-sm">
+                  <div
+                    class="w-1.5 h-6 bg-primary-container rounded-full"
+                  ></div>
+                  <h2
+                    class="font-headline-lg text-headline-lg font-bold text-white tracking-tight"
+                  >
+                    Tất cả thể loại
+                  </h2>
+                </div>
+                <p class="font-body-md text-body-md text-secondary mt-1">
+                  Chọn một thể loại để bắt đầu khám phá thư viện phim
+                </p>
+              </div>
+              <div class="flex items-center gap-space-sm w-full md:w-auto">
+                <!-- Total Count Badge -->
+                <div
+                  class="shrink-0 px-3 py-2 rounded-lg bg-surface-container border border-secondary/20 text-white font-title-sm text-title-sm flex items-center gap-1.5"
+                >
+                  <span
+                    class="material-symbols-outlined text-[18px] text-primary-container"
+                    >category</span
+                  >
+                  <span id="genre-counter">16 thể loại</span>
+                </div>
+                <!-- Instant Filter Input -->
+                <div class="relative flex-1 md:w-72">
+                  <input
+                    class="w-full bg-surface-container text-white placeholder:text-secondary/70 font-body-sm text-body-sm pl-4 pr-9 py-2 rounded-lg border border-secondary/20 focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all"
+                    id="directory-filter-input"
+                    placeholder="🔍 Lọc thể loại..."
+                    type="text"
+                  />
+                  <button
+                    class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-secondary hover:text-white text-xs"
+                    id="clear-filter-btn"
+                    type="button"
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- 4-Column Balanced Grid of Directory Cards -->
+            <div
+              class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-space-md"
+              id="genres-directory-grid"
+            >
+              <!-- 1. Hành động -->
+              <a
+                class="genre-item group p-space-md rounded-lg bg-[#14171d] border border-secondary/15 hover:border-primary-container hover:bg-surface-container-high transition-all flex items-center justify-between"
+                data-genre-name="hành động action"
+                href="/movies?genre=1"
+              >
+                <div class="flex items-center gap-3 min-w-0">
+                  <span
+                    class="material-symbols-outlined text-secondary group-hover:text-primary-container transition-colors text-[22px]"
+                    >sports_martial_arts</span
+                  >
+                  <div class="truncate">
+                    <h4
+                      class="font-title-md text-title-md font-bold text-white group-hover:translate-x-1 transition-transform truncate"
+                    >
+                      Hành động
+                    </h4>
+                    <span class="font-body-sm text-body-sm text-secondary"
+                      >128 phim</span
+                    >
+                  </div>
+                </div>
+                <span
+                  class="material-symbols-outlined text-secondary group-hover:text-primary-container group-hover:translate-x-1 transition-all text-[20px] shrink-0"
+                  >arrow_forward</span
+                >
+              </a>
+              <!-- 2. Phiêu lưu -->
+              <a
+                class="genre-item group p-space-md rounded-lg bg-[#14171d] border border-secondary/15 hover:border-primary-container hover:bg-surface-container-high transition-all flex items-center justify-between"
+                data-genre-name="phiêu lưu adventure"
+                href="/movies?genre=7"
+              >
+                <div class="flex items-center gap-3 min-w-0">
+                  <span
+                    class="material-symbols-outlined text-secondary group-hover:text-primary-container transition-colors text-[22px]"
+                    >explore</span
+                  >
+                  <div class="truncate">
+                    <h4
+                      class="font-title-md text-title-md font-bold text-white group-hover:translate-x-1 transition-transform truncate"
+                    >
+                      Phiêu lưu
+                    </h4>
+                    <span class="font-body-sm text-body-sm text-secondary"
+                      >64 phim</span
+                    >
+                  </div>
+                </div>
+                <span
+                  class="material-symbols-outlined text-secondary group-hover:text-primary-container group-hover:translate-x-1 transition-all text-[20px] shrink-0"
+                  >arrow_forward</span
+                >
+              </a>
+              <!-- 3. Khoa học viễn tưởng -->
+              <a
+                class="genre-item group p-space-md rounded-lg bg-[#14171d] border border-secondary/15 hover:border-primary-container hover:bg-surface-container-high transition-all flex items-center justify-between"
+                data-genre-name="khoa học viễn tưởng sci-fi scifi"
+                href="/movies?genre=2"
+              >
+                <div class="flex items-center gap-3 min-w-0">
+                  <span
+                    class="material-symbols-outlined text-secondary group-hover:text-primary-container transition-colors text-[22px]"
+                    >rocket_launch</span
+                  >
+                  <div class="truncate">
+                    <h4
+                      class="font-title-md text-title-md font-bold text-white group-hover:translate-x-1 transition-transform truncate"
+                    >
+                      Khoa học viễn tưởng
+                    </h4>
+                    <span class="font-body-sm text-body-sm text-secondary"
+                      >94 phim</span
+                    >
+                  </div>
+                </div>
+                <span
+                  class="material-symbols-outlined text-secondary group-hover:text-primary-container group-hover:translate-x-1 transition-all text-[20px] shrink-0"
+                  >arrow_forward</span
+                >
+              </a>
+              <!-- 4. Kinh dị -->
+              <a
+                class="genre-item group p-space-md rounded-lg bg-[#14171d] border border-secondary/15 hover:border-primary-container hover:bg-surface-container-high transition-all flex items-center justify-between"
+                data-genre-name="kinh dị horror"
+                href="/movies?genre=4"
+              >
+                <div class="flex items-center gap-3 min-w-0">
+                  <span
+                    class="material-symbols-outlined text-secondary group-hover:text-primary-container transition-colors text-[22px]"
+                    >skull</span
+                  >
+                  <div class="truncate">
+                    <h4
+                      class="font-title-md text-title-md font-bold text-white group-hover:translate-x-1 transition-transform truncate"
+                    >
+                      Kinh dị
+                    </h4>
+                    <span class="font-body-sm text-body-sm text-secondary"
+                      >65 phim</span
+                    >
+                  </div>
+                </div>
+                <span
+                  class="material-symbols-outlined text-secondary group-hover:text-primary-container group-hover:translate-x-1 transition-all text-[20px] shrink-0"
+                  >arrow_forward</span
+                >
+              </a>
+              <!-- 5. Tình cảm -->
+              <a
+                class="genre-item group p-space-md rounded-lg bg-[#14171d] border border-secondary/15 hover:border-primary-container hover:bg-surface-container-high transition-all flex items-center justify-between"
+                data-genre-name="tình cảm romance lãng mạn"
+                href="/movies?genre=3"
+              >
+                <div class="flex items-center gap-3 min-w-0">
+                  <span
+                    class="material-symbols-outlined text-secondary group-hover:text-primary-container transition-colors text-[22px]"
+                    >favorite</span
+                  >
+                  <div class="truncate">
+                    <h4
+                      class="font-title-md text-title-md font-bold text-white group-hover:translate-x-1 transition-transform truncate"
+                    >
+                      Tình cảm
+                    </h4>
+                    <span class="font-body-sm text-body-sm text-secondary"
+                      >86 phim</span
+                    >
+                  </div>
+                </div>
+                <span
+                  class="material-symbols-outlined text-secondary group-hover:text-primary-container group-hover:translate-x-1 transition-all text-[20px] shrink-0"
+                  >arrow_forward</span
+                >
+              </a>
+              <!-- 6. Hài kịch -->
+              <a
+                class="genre-item group p-space-md rounded-lg bg-[#14171d] border border-secondary/15 hover:border-primary-container hover:bg-surface-container-high transition-all flex items-center justify-between"
+                data-genre-name="hài kịch comedy hài"
+                href="/movies?genre=6"
+              >
+                <div class="flex items-center gap-3 min-w-0">
+                  <span
+                    class="material-symbols-outlined text-secondary group-hover:text-primary-container transition-colors text-[22px]"
+                    >mood</span
+                  >
+                  <div class="truncate">
+                    <h4
+                      class="font-title-md text-title-md font-bold text-white group-hover:translate-x-1 transition-transform truncate"
+                    >
+                      Hài kịch
+                    </h4>
+                    <span class="font-body-sm text-body-sm text-secondary"
+                      >58 phim</span
+                    >
+                  </div>
+                </div>
+                <span
+                  class="material-symbols-outlined text-secondary group-hover:text-primary-container group-hover:translate-x-1 transition-all text-[20px] shrink-0"
+                  >arrow_forward</span
+                >
+              </a>
+              <!-- 7. Hoạt hình -->
+              <a
+                class="genre-item group p-space-md rounded-lg bg-[#14171d] border border-secondary/15 hover:border-primary-container hover:bg-surface-container-high transition-all flex items-center justify-between"
+                data-genre-name="hoạt hình anime animation"
+                href="/movies?genre=5"
+              >
+                <div class="flex items-center gap-3 min-w-0">
+                  <span
+                    class="material-symbols-outlined text-secondary group-hover:text-primary-container transition-colors text-[22px]"
+                    >animation</span
+                  >
+                  <div class="truncate">
+                    <h4
+                      class="font-title-md text-title-md font-bold text-white group-hover:translate-x-1 transition-transform truncate"
+                    >
+                      Hoạt hình
+                    </h4>
+                    <span class="font-body-sm text-body-sm text-secondary"
+                      >72 phim</span
+                    >
+                  </div>
+                </div>
+                <span
+                  class="material-symbols-outlined text-secondary group-hover:text-primary-container group-hover:translate-x-1 transition-all text-[20px] shrink-0"
+                  >arrow_forward</span
+                >
+              </a>
+              <!-- 8. Tâm lý tội phạm -->
+              <a
+                class="genre-item group p-space-md rounded-lg bg-[#14171d] border border-secondary/15 hover:border-primary-container hover:bg-surface-container-high transition-all flex items-center justify-between"
+                data-genre-name="tâm lý tội phạm crime drama"
+                href="/movies?genre=8"
+              >
+                <div class="flex items-center gap-3 min-w-0">
+                  <span
+                    class="material-symbols-outlined text-secondary group-hover:text-primary-container transition-colors text-[22px]"
+                    >policy</span
+                  >
+                  <div class="truncate">
+                    <h4
+                      class="font-title-md text-title-md font-bold text-white group-hover:translate-x-1 transition-transform truncate"
+                    >
+                      Tâm lý tội phạm
+                    </h4>
+                    <span class="font-body-sm text-body-sm text-secondary"
+                      >49 phim</span
+                    >
+                  </div>
+                </div>
+                <span
+                  class="material-symbols-outlined text-secondary group-hover:text-primary-container group-hover:translate-x-1 transition-all text-[20px] shrink-0"
+                  >arrow_forward</span
+                >
+              </a>
+              <!-- 9. Tài liệu & Tiểu sử -->
+              <a
+                class="genre-item group p-space-md rounded-lg bg-[#14171d] border border-secondary/15 hover:border-primary-container hover:bg-surface-container-high transition-all flex items-center justify-between"
+                data-genre-name="tài liệu tiểu sử documentary biography"
+                href="/movies?genre=9"
+              >
+                <div class="flex items-center gap-3 min-w-0">
+                  <span
+                    class="material-symbols-outlined text-secondary group-hover:text-primary-container transition-colors text-[22px]"
+                    >menu_book</span
+                  >
+                  <div class="truncate">
+                    <h4
+                      class="font-title-md text-title-md font-bold text-white group-hover:translate-x-1 transition-transform truncate"
+                    >
+                      Tài liệu &amp; Tiểu sử
+                    </h4>
+                    <span class="font-body-sm text-body-sm text-secondary"
+                      >34 phim</span
+                    >
+                  </div>
+                </div>
+                <span
+                  class="material-symbols-outlined text-secondary group-hover:text-primary-container group-hover:translate-x-1 transition-all text-[20px] shrink-0"
+                  >arrow_forward</span
+                >
+              </a>
+              <!-- 10. Chiến tranh & Lịch sử -->
+              <a
+                class="genre-item group p-space-md rounded-lg bg-[#14171d] border border-secondary/15 hover:border-primary-container hover:bg-surface-container-high transition-all flex items-center justify-between"
+                data-genre-name="chiến tranh lịch sử war history"
+                href="/movies?genre=10"
+              >
+                <div class="flex items-center gap-3 min-w-0">
+                  <span
+                    class="material-symbols-outlined text-secondary group-hover:text-primary-container transition-colors text-[22px]"
+                    >military_tech</span
+                  >
+                  <div class="truncate">
+                    <h4
+                      class="font-title-md text-title-md font-bold text-white group-hover:translate-x-1 transition-transform truncate"
+                    >
+                      Chiến tranh &amp; Lịch sử
+                    </h4>
+                    <span class="font-body-sm text-body-sm text-secondary"
+                      >28 phim</span
+                    >
+                  </div>
+                </div>
+                <span
+                  class="material-symbols-outlined text-secondary group-hover:text-primary-container group-hover:translate-x-1 transition-all text-[20px] shrink-0"
+                  >arrow_forward</span
+                >
+              </a>
+              <!-- 11. Gia đình & Thiếu nhi -->
+              <a
+                class="genre-item group p-space-md rounded-lg bg-[#14171d] border border-secondary/15 hover:border-primary-container hover:bg-surface-container-high transition-all flex items-center justify-between"
+                data-genre-name="gia đình thiếu nhi family kids"
+                href="/movies?genre=11"
+              >
+                <div class="flex items-center gap-3 min-w-0">
+                  <span
+                    class="material-symbols-outlined text-secondary group-hover:text-primary-container transition-colors text-[22px]"
+                    >family_restroom</span
+                  >
+                  <div class="truncate">
+                    <h4
+                      class="font-title-md text-title-md font-bold text-white group-hover:translate-x-1 transition-transform truncate"
+                    >
+                      Gia đình &amp; Thiếu nhi
+                    </h4>
+                    <span class="font-body-sm text-body-sm text-secondary"
+                      >42 phim</span
+                    >
+                  </div>
+                </div>
+                <span
+                  class="material-symbols-outlined text-secondary group-hover:text-primary-container group-hover:translate-x-1 transition-all text-[20px] shrink-0"
+                  >arrow_forward</span
+                >
+              </a>
+              <!-- 12. Thần thoại & Kỳ ảo -->
+              <a
+                class="genre-item group p-space-md rounded-lg bg-[#14171d] border border-secondary/15 hover:border-primary-container hover:bg-surface-container-high transition-all flex items-center justify-between"
+                data-genre-name="thần thoại kỳ ảo fantasy"
+                href="/movies?genre=12"
+              >
+                <div class="flex items-center gap-3 min-w-0">
+                  <span
+                    class="material-symbols-outlined text-secondary group-hover:text-primary-container transition-colors text-[22px]"
+                    >auto_fix_high</span
+                  >
+                  <div class="truncate">
+                    <h4
+                      class="font-title-md text-title-md font-bold text-white group-hover:translate-x-1 transition-transform truncate"
+                    >
+                      Thần thoại &amp; Kỳ ảo
+                    </h4>
+                    <span class="font-body-sm text-body-sm text-secondary"
+                      >55 phim</span
+                    >
+                  </div>
+                </div>
+                <span
+                  class="material-symbols-outlined text-secondary group-hover:text-primary-container group-hover:translate-x-1 transition-all text-[20px] shrink-0"
+                  >arrow_forward</span
+                >
+              </a>
+              <!-- 13. Bí ẩn & Ly kỳ -->
+              <a
+                class="genre-item group p-space-md rounded-lg bg-[#14171d] border border-secondary/15 hover:border-primary-container hover:bg-surface-container-high transition-all flex items-center justify-between"
+                data-genre-name="bí ẩn ly kỳ mystery thriller"
+                href="/movies?genre=13"
+              >
+                <div class="flex items-center gap-3 min-w-0">
+                  <span
+                    class="material-symbols-outlined text-secondary group-hover:text-primary-container transition-colors text-[22px]"
+                    >fingerprint</span
+                  >
+                  <div class="truncate">
+                    <h4
+                      class="font-title-md text-title-md font-bold text-white group-hover:translate-x-1 transition-transform truncate"
+                    >
+                      Bí ẩn &amp; Ly kỳ
+                    </h4>
+                    <span class="font-body-sm text-body-sm text-secondary"
+                      >39 phim</span
+                    >
+                  </div>
+                </div>
+                <span
+                  class="material-symbols-outlined text-secondary group-hover:text-primary-container group-hover:translate-x-1 transition-all text-[20px] shrink-0"
+                  >arrow_forward</span
+                >
+              </a>
+              <!-- 14. Âm nhạc & Nhạc kịch -->
+              <a
+                class="genre-item group p-space-md rounded-lg bg-[#14171d] border border-secondary/15 hover:border-primary-container hover:bg-surface-container-high transition-all flex items-center justify-between"
+                data-genre-name="âm nhạc nhạc kịch musical music"
+                href="/movies?genre=14"
+              >
+                <div class="flex items-center gap-3 min-w-0">
+                  <span
+                    class="material-symbols-outlined text-secondary group-hover:text-primary-container transition-colors text-[22px]"
+                    >music_note</span
+                  >
+                  <div class="truncate">
+                    <h4
+                      class="font-title-md text-title-md font-bold text-white group-hover:translate-x-1 transition-transform truncate"
+                    >
+                      Âm nhạc &amp; Nhạc kịch
+                    </h4>
+                    <span class="font-body-sm text-body-sm text-secondary"
+                      >22 phim</span
+                    >
+                  </div>
+                </div>
+                <span
+                  class="material-symbols-outlined text-secondary group-hover:text-primary-container group-hover:translate-x-1 transition-all text-[20px] shrink-0"
+                  >arrow_forward</span
+                >
+              </a>
+              <!-- 15. Võ thuật & Cổ trang -->
+              <a
+                class="genre-item group p-space-md rounded-lg bg-[#14171d] border border-secondary/15 hover:border-primary-container hover:bg-surface-container-high transition-all flex items-center justify-between"
+                data-genre-name="võ thuật cổ trang martial arts historical"
+                href="/movies?genre=15"
+              >
+                <div class="flex items-center gap-3 min-w-0">
+                  <span
+                    class="material-symbols-outlined text-secondary group-hover:text-primary-container transition-colors text-[22px]"
+                    >swords</span
+                  >
+                  <div class="truncate">
+                    <h4
+                      class="font-title-md text-title-md font-bold text-white group-hover:translate-x-1 transition-transform truncate"
+                    >
+                      Võ thuật &amp; Cổ trang
+                    </h4>
+                    <span class="font-body-sm text-body-sm text-secondary"
+                      >36 phim</span
+                    >
+                  </div>
+                </div>
+                <span
+                  class="material-symbols-outlined text-secondary group-hover:text-primary-container group-hover:translate-x-1 transition-all text-[20px] shrink-0"
+                  >arrow_forward</span
+                >
+              </a>
+              <!-- 16. Thể thao & Đua xe -->
+              <a
+                class="genre-item group p-space-md rounded-lg bg-[#14171d] border border-secondary/15 hover:border-primary-container hover:bg-surface-container-high transition-all flex items-center justify-between"
+                data-genre-name="thể thao đua xe sports racing"
+                href="/movies?genre=16"
+              >
+                <div class="flex items-center gap-3 min-w-0">
+                  <span
+                    class="material-symbols-outlined text-secondary group-hover:text-primary-container transition-colors text-[22px]"
+                    >sports_motorsports</span
+                  >
+                  <div class="truncate">
+                    <h4
+                      class="font-title-md text-title-md font-bold text-white group-hover:translate-x-1 transition-transform truncate"
+                    >
+                      Thể thao &amp; Đua xe
+                    </h4>
+                    <span class="font-body-sm text-body-sm text-secondary"
+                      >19 phim</span
+                    >
+                  </div>
+                </div>
+                <span
+                  class="material-symbols-outlined text-secondary group-hover:text-primary-container group-hover:translate-x-1 transition-all text-[20px] shrink-0"
+                  >arrow_forward</span
+                >
+              </a>
+            </div>
+            <!-- No Results Feedback State (hidden by default) -->
+            <div class="hidden text-center py-space-xl" id="no-genre-found">
+              <span
+                class="material-symbols-outlined text-secondary text-5xl mb-2"
+                >search_off</span
+              >
+              <h4 class="font-title-md text-title-md font-bold text-white">
+                Không tìm thấy thể loại phù hợp
+              </h4>
+              <p class="font-body-sm text-body-sm text-secondary mt-1">
+                Vui lòng thử từ khoá khác hoặc duyệt danh mục đầy đủ bên trên.
+              </p>
+            </div>
+          </div>
+        </section>
+        <!-- SECTION 4: BẠN ĐANG MUỐN XEM GÌ? (MOOD & VIBE DISCOVERY) -->
+        <section class="w-full max-w-7xl mx-auto px-gutter py-space-xl">
+          <div class="flex items-center gap-space-sm mb-space-lg">
+            <div class="w-1.5 h-7 bg-primary-container rounded-full"></div>
+            <div>
+              <h2
+                class="font-headline-lg text-headline-lg font-bold text-white tracking-tight"
+              >
+                Bạn đang muốn xem gì hôm nay?
+              </h2>
+              <p class="font-body-md text-body-md text-secondary mt-0.5">
+                Khám phá điện ảnh theo cảm xúc và tâm trạng của bạn
+              </p>
+            </div>
+          </div>
+          <!-- 6 Interactive Emotion/Mood Cards -->
+          <div
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-md"
+          >
+            <!-- 1. Cảm giác mạnh & Kịch tính -->
+            <a
+              class="group p-space-lg rounded-xl bg-surface-container-lowest border border-secondary/15 hover:border-primary-container transition-all duration-300 hover:shadow-[0_10px_30px_rgba(229,9,20,0.12)] flex flex-col justify-between"
+              href="/movies?genre=action"
+            >
+              <div>
+                <div class="flex items-center justify-between">
+                  <span class="text-3xl filter drop-shadow">🔥</span>
+                  <span
+                    class="font-label-sm text-label-sm uppercase tracking-wider text-secondary px-2 py-0.5 rounded bg-surface-container border border-secondary/20"
+                    >Adrenaline</span
+                  >
+                </div>
+                <h3
+                  class="font-title-md text-title-md font-bold text-white mt-4 group-hover:text-primary transition-colors"
+                >
+                  Cảm giác mạnh &amp; Kịch tính
+                </h3>
+                <p class="font-body-sm text-body-sm text-secondary mt-1.5">
+                  Dành cho những lúc bạn cần sự kích thích, rượt đuổi nghẹt thở
+                  và những màn đối đầu gay cấn.
+                </p>
+              </div>
+              <div
+                class="mt-space-md pt-space-xs border-t border-secondary/15 flex items-center justify-between text-secondary group-hover:text-primary-container transition-colors"
+              >
+                <span class="font-body-sm text-body-sm font-medium"
+                  >Hành động &amp; Tội phạm</span
+                >
+                <div
+                  class="flex items-center gap-1 font-title-sm text-title-sm font-semibold"
+                >
+                  <span>Khám phá danh sách</span>
+                  <span
+                    class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform"
+                    >arrow_forward</span
+                  >
+                </div>
+              </div>
+            </a>
+            <!-- 2. Ngọt ngào & Lắng đọng -->
+            <a
+              class="group p-space-lg rounded-xl bg-surface-container-lowest border border-secondary/15 hover:border-primary-container transition-all duration-300 hover:shadow-[0_10px_30px_rgba(229,9,20,0.12)] flex flex-col justify-between"
+              href="/movies?genre=romance"
+            >
+              <div>
+                <div class="flex items-center justify-between">
+                  <span class="text-3xl filter drop-shadow">❤️</span>
+                  <span
+                    class="font-label-sm text-label-sm uppercase tracking-wider text-secondary px-2 py-0.5 rounded bg-surface-container border border-secondary/20"
+                    >Lãng mạn</span
+                  >
+                </div>
+                <h3
+                  class="font-title-md text-title-md font-bold text-white mt-4 group-hover:text-primary transition-colors"
+                >
+                  Ngọt ngào &amp; Lắng đọng
+                </h3>
+                <p class="font-body-sm text-body-sm text-secondary mt-1.5">
+                  Những khoảnh khắc rung động, tình yêu chân phương và dư vị ấm
+                  áp chữa lành tâm hồn bạn.
+                </p>
+              </div>
+              <div
+                class="mt-space-md pt-space-xs border-t border-secondary/15 flex items-center justify-between text-secondary group-hover:text-primary-container transition-colors"
+              >
+                <span class="font-body-sm text-body-sm font-medium"
+                  >Tình cảm lãng mạn</span
+                >
+                <div
+                  class="flex items-center gap-1 font-title-sm text-title-sm font-semibold"
+                >
+                  <span>Khám phá danh sách</span>
+                  <span
+                    class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform"
+                    >arrow_forward</span
+                  >
+                </div>
+              </div>
+            </a>
+            <!-- 3. Cười sảng khoái & Thư giãn -->
+            <a
+              class="group p-space-lg rounded-xl bg-surface-container-lowest border border-secondary/15 hover:border-primary-container transition-all duration-300 hover:shadow-[0_10px_30px_rgba(229,9,20,0.12)] flex flex-col justify-between"
+              href="/movies?genre=comedy"
+            >
+              <div>
+                <div class="flex items-center justify-between">
+                  <span class="text-3xl filter drop-shadow">😂</span>
+                  <span
+                    class="font-label-sm text-label-sm uppercase tracking-wider text-secondary px-2 py-0.5 rounded bg-surface-container border border-secondary/20"
+                    >Xả Stress</span
+                  >
+                </div>
+                <h3
+                  class="font-title-md text-title-md font-bold text-white mt-4 group-hover:text-primary transition-colors"
+                >
+                  Cười sảng khoái &amp; Thư giãn
+                </h3>
+                <p class="font-body-sm text-body-sm text-secondary mt-1.5">
+                  Gác lại những bộn bề sau ngày dài bận rộn với các tình huống
+                  dí dỏm, thông minh và tràn ngập niềm vui.
+                </p>
+              </div>
+              <div
+                class="mt-space-md pt-space-xs border-t border-secondary/15 flex items-center justify-between text-secondary group-hover:text-primary-container transition-colors"
+              >
+                <span class="font-body-sm text-body-sm font-medium"
+                  >Hài kịch &amp; Giải trí</span
+                >
+                <div
+                  class="flex items-center gap-1 font-title-sm text-title-sm font-semibold"
+                >
+                  <span>Khám phá danh sách</span>
+                  <span
+                    class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform"
+                    >arrow_forward</span
+                  >
+                </div>
+              </div>
+            </a>
+            <!-- 4. Hồi hộp & Thót tim -->
+            <a
+              class="group p-space-lg rounded-xl bg-surface-container-lowest border border-secondary/15 hover:border-primary-container transition-all duration-300 hover:shadow-[0_10px_30px_rgba(229,9,20,0.12)] flex flex-col justify-between"
+              href="/movies?genre=horror"
+            >
+              <div>
+                <div class="flex items-center justify-between">
+                  <span class="text-3xl filter drop-shadow">👻</span>
+                  <span
+                    class="font-label-sm text-label-sm uppercase tracking-wider text-secondary px-2 py-0.5 rounded bg-surface-container border border-secondary/20"
+                    >Rùng mình</span
+                  >
+                </div>
+                <h3
+                  class="font-title-md text-title-md font-bold text-white mt-4 group-hover:text-primary transition-colors"
+                >
+                  Hồi hộp &amp; Thót tim
+                </h3>
+                <p class="font-body-sm text-body-sm text-secondary mt-1.5">
+                  Dấn thân vào bóng tối bí ẩn, những vụ án rùng rợn và nỗi sợ
+                  nguyên thủy thách thức lòng dũng cảm.
+                </p>
+              </div>
+              <div
+                class="mt-space-md pt-space-xs border-t border-secondary/15 flex items-center justify-between text-secondary group-hover:text-primary-container transition-colors"
+              >
+                <span class="font-body-sm text-body-sm font-medium"
+                  >Kinh dị &amp; Giật gân</span
+                >
+                <div
+                  class="flex items-center gap-1 font-title-sm text-title-sm font-semibold"
+                >
+                  <span>Khám phá danh sách</span>
+                  <span
+                    class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform"
+                    >arrow_forward</span
+                  >
+                </div>
+              </div>
+            </a>
+            <!-- 5. Đột phá trí tưởng tượng -->
+            <a
+              class="group p-space-lg rounded-xl bg-surface-container-lowest border border-secondary/15 hover:border-primary-container transition-all duration-300 hover:shadow-[0_10px_30px_rgba(229,9,20,0.12)] flex flex-col justify-between"
+              href="/movies?genre=scifi"
+            >
+              <div>
+                <div class="flex items-center justify-between">
+                  <span class="text-3xl filter drop-shadow">🚀</span>
+                  <span
+                    class="font-label-sm text-label-sm uppercase tracking-wider text-secondary px-2 py-0.5 rounded bg-surface-container border border-secondary/20"
+                    >Vũ trụ</span
+                  >
+                </div>
+                <h3
+                  class="font-title-md text-title-md font-bold text-white mt-4 group-hover:text-primary transition-colors"
+                >
+                  Đột phá trí tưởng tượng
+                </h3>
+                <p class="font-body-sm text-body-sm text-secondary mt-1.5">
+                  Vượt qua ranh giới hiện tại để bước vào kỷ nguyên tương lai,
+                  nghịch lý thời gian và các hành tinh xa xôi.
+                </p>
+              </div>
+              <div
+                class="mt-space-md pt-space-xs border-t border-secondary/15 flex items-center justify-between text-secondary group-hover:text-primary-container transition-colors"
+              >
+                <span class="font-body-sm text-body-sm font-medium"
+                  >Khoa học viễn tưởng &amp; Vũ trụ</span
+                >
+                <div
+                  class="flex items-center gap-1 font-title-sm text-title-sm font-semibold"
+                >
+                  <span>Khám phá danh sách</span>
+                  <span
+                    class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform"
+                    >arrow_forward</span
+                  >
+                </div>
+              </div>
+            </a>
+            <!-- 6. Chiêm nghiệm & Cảm xúc sâu sắc -->
+            <a
+              class="group p-space-lg rounded-xl bg-surface-container-lowest border border-secondary/15 hover:border-primary-container transition-all duration-300 hover:shadow-[0_10px_30px_rgba(229,9,20,0.12)] flex flex-col justify-between"
+              href="/movies?genre=drama"
+            >
+              <div>
+                <div class="flex items-center justify-between">
+                  <span class="text-3xl filter drop-shadow">🎭</span>
+                  <span
+                    class="font-label-sm text-label-sm uppercase tracking-wider text-secondary px-2 py-0.5 rounded bg-surface-container border border-secondary/20"
+                    >Suy ngẫm</span
+                  >
+                </div>
+                <h3
+                  class="font-title-md text-title-md font-bold text-white mt-4 group-hover:text-primary transition-colors"
+                >
+                  Chiêm nghiệm &amp; Sâu sắc
+                </h3>
+                <p class="font-body-sm text-body-sm text-secondary mt-1.5">
+                  Lột tả chiều sâu tâm lý con người, các bước ngoặt cuộc đời và
+                  những câu chuyện hiện thực rung cảm.
+                </p>
+              </div>
+              <div
+                class="mt-space-md pt-space-xs border-t border-secondary/15 flex items-center justify-between text-secondary group-hover:text-primary-container transition-colors"
+              >
+                <span class="font-body-sm text-body-sm font-medium"
+                  >Tâm lý &amp; Chính kịch</span
+                >
+                <div
+                  class="flex items-center gap-1 font-title-sm text-title-sm font-semibold"
+                >
+                  <span>Khám phá danh sách</span>
+                  <span
+                    class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform"
+                    >arrow_forward</span
+                  >
+                </div>
+              </div>
+            </a>
+          </div>
+        </section>
+        <!-- SECTION 5: GENRE & PLATFORM STATISTICS (THỐNG KÊ DANH MỤC) -->
+        <section
+          class="w-full bg-surface-container-lowest border-t border-surface-container-highest/20 py-space-xl"
+        >
+          <div class="max-w-7xl mx-auto px-gutter">
+            <div
+              class="grid grid-cols-2 md:grid-cols-4 gap-space-md text-center"
+            >
+              <!-- Stat 1 -->
+              <div
+                class="p-space-md rounded-xl bg-surface-container-low/30 border border-secondary/10 flex flex-col items-center"
+              >
+                <span
+                  class="font-display-hero text-display-hero font-extrabold text-white tracking-tight"
+                  >16+</span
+                >
+                <span
+                  class="font-title-sm text-title-sm text-primary-container font-semibold mt-1"
+                  >Thể loại đa dạng</span
+                >
+                <span class="font-body-sm text-body-sm text-secondary mt-0.5"
+                  >Bao quát mọi phong cách điện ảnh</span
+                >
+              </div>
+              <!-- Stat 2 -->
+              <div
+                class="p-space-md rounded-xl bg-surface-container-low/30 border border-secondary/10 flex flex-col items-center"
+              >
+                <span
+                  class="font-display-hero text-display-hero font-extrabold text-white tracking-tight"
+                  >500+</span
+                >
+                <span
+                  class="font-title-sm text-title-sm text-primary-container font-semibold mt-1"
+                  >Bộ phim tuyển chọn</span
+                >
+                <span class="font-body-sm text-body-sm text-secondary mt-0.5"
+                  >Cập nhật liên tục hằng tuần</span
+                >
+              </div>
+              <!-- Stat 3 -->
+              <div
+                class="p-space-md rounded-xl bg-surface-container-low/30 border border-secondary/10 flex flex-col items-center"
+              >
+                <span
+                  class="font-display-hero text-display-hero font-extrabold text-white tracking-tight"
+                  >100%</span
+                >
+                <span
+                  class="font-title-sm text-title-sm text-primary-container font-semibold mt-1"
+                  >Chuẩn 4K UHD</span
+                >
+                <span class="font-body-sm text-body-sm text-secondary mt-0.5"
+                  >Âm thanh vòm Dolby Atmos</span
+                >
+              </div>
+              <!-- Stat 4 -->
+              <div
+                class="p-space-md rounded-xl bg-surface-container-low/30 border border-secondary/10 flex flex-col items-center"
+              >
+                <span
+                  class="font-display-hero text-display-hero font-extrabold text-white tracking-tight"
+                  >1,000+</span
+                >
+                <span
+                  class="font-title-sm text-title-sm text-primary-container font-semibold mt-1"
+                  >Đánh giá cộng đồng</span
+                >
+                <span class="font-body-sm text-body-sm text-secondary mt-0.5"
+                  >Từ cộng đồng yêu phim MovieF</span
+                >
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Instant Search / Live Filter Micro-interactions -->
+        <script>
+          (function () {
+            const filterInput = document.getElementById(
+              "directory-filter-input",
+            );
+            const heroSearchInput =
+              document.getElementById("hero-genre-search");
+            const clearBtn = document.getElementById("clear-filter-btn");
+            const genreItems = document.querySelectorAll(".genre-item");
+            const counter = document.getElementById("genre-counter");
+            const noResult = document.getElementById("no-genre-found");
+
+            function filterGenres(query) {
+              const term = query.toLowerCase().trim();
+              let visibleCount = 0;
+
+              genreItems.forEach((item) => {
+                const matchData = item.getAttribute("data-genre-name") || "";
+                if (matchData.includes(term)) {
+                  item.style.display = "flex";
+                  visibleCount++;
+                } else {
+                  item.style.display = "none";
+                }
+              });
+
+              if (counter) {
+                counter.textContent = `${visibleCount} thể loại`;
+              }
+
+              if (noResult) {
+                if (visibleCount === 0) {
+                  noResult.classList.remove("hidden");
+                } else {
+                  noResult.classList.add("hidden");
+                }
+              }
+
+              if (clearBtn) {
+                if (term.length > 0) {
+                  clearBtn.classList.remove("hidden");
+                } else {
+                  clearBtn.classList.add("hidden");
+                }
+              }
+            }
+
+            if (filterInput) {
+              filterInput.addEventListener("input", (e) => {
+                filterGenres(e.target.value);
+              });
+            }
+
+            if (heroSearchInput) {
+              heroSearchInput.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") {
+                  const val = heroSearchInput.value;
+                  if (filterInput) {
+                    filterInput.value = val;
+                    filterGenres(val);
+                  }
+                  document
+                    .getElementById("directory-section")
+                    .scrollIntoView({ behavior: "smooth" });
+                }
+              });
+            }
+
+            if (clearBtn) {
+              clearBtn.addEventListener("click", () => {
+                if (filterInput) {
+                  filterInput.value = "";
+                  filterGenres("");
+                  filterInput.focus();
+                }
+              });
+            }
+          })();
+        </script>
+      </div>
+    </main>
+    <footer
+      class="w-full bg-surface-container-low border-t border-surface-container-highest/20 py-space-lg"
+    >
+      <div
+        class="max-w-7xl mx-auto px-gutter flex flex-col md:flex-row items-center justify-between gap-space-md"
+      >
+        <div class="flex items-center gap-space-sm">
+          <img
+            alt="MovieF Logo"
+            class="h-6 w-auto object-contain"
+            src="https://lh3.googleusercontent.com/aida/AEtjO1VeksytFg1dn6T9F3hPib7wbqtn3ygRp3PC8eEkZpRpmkwjknjnvQXLWLxZTQNnjUZqNQ3FCl8AZchSrDB7iioiDn3HOaFoI1H32feVlzd6_Vl0vNBFIBtETqTO4lebdMKng4UNbMkPi1QxUgTpps6UP17GbgneT_zod4YvYbWWzIoeEsrzIKSWmC0CT4WiOZtC-uLO1btCMOg3198iZj4kHr_g_Rw4D2QAOBZi5j4ptMp_ug2BY9swUg"
+          /><span
+            class="font-title-md text-title-md font-bold tracking-tight text-on-primary-container"
+            >Movie<span class="text-primary-container">F</span></span
+          ><span
+            class="hidden sm:inline-block text-secondary font-body-sm text-body-sm pl-space-xs"
+            >— Nền tảng xem phim trực tuyến phục vụ học tập và nghiên cứu.</span
+          >
+        </div>
+        <nav
+          class="flex flex-wrap items-center justify-center gap-x-space-md gap-y-space-xs"
+        >
+          <a
+            class="text-secondary hover:text-on-surface font-body-sm text-body-sm transition-colors"
+            data-path="trang-chu"
+            href="#"
+            >Trang chủ</a
+          ><a
+            class="text-secondary hover:text-on-surface font-body-sm text-body-sm transition-colors"
+            data-path="phim"
+            href="#"
+            >Phim</a
+          ><a
+            class="text-primary-container font-title-sm font-bold transition-colors"
+            data-path="the-loai"
+            href="#"
+            >Thể loại</a
+          ><a
+            class="text-secondary hover:text-on-surface font-body-sm text-body-sm transition-colors"
+            data-path="gioi-thieu"
+            href="#"
+            >Giới thiệu</a
+          ><a
+            class="text-secondary hover:text-on-surface font-body-sm text-body-sm transition-colors"
+            data-path="lien-he"
+            href="#"
+            >Liên hệ</a
+          ><a
+            class="text-secondary hover:text-on-surface font-body-sm text-body-sm transition-colors"
+            data-path="chinh-sach"
+            href="#"
+            >Chính sách</a
+          >
+        </nav>
+        <div
+          class="text-secondary font-body-sm text-body-sm text-center md:text-right"
+        >
+          © 2024 MovieF. All rights reserved.
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
