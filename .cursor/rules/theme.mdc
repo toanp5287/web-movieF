@@ -1,0 +1,19 @@
+---
+description: Theme MovieF trong src/style.css — màu, chữ, khoảng cách
+globs: "**/*.{css,html}"
+alwaysApply: false
+---
+
+# Theme MovieF
+
+Nguồn: khối `@theme` trong `src/style.css`. `html` có `class="dark"`. Nền tối, nhấn đỏ Netflix `#e50914`. Sửa giao diện bằng class token, không thêm màu hex mới nếu token đã có.
+
+Màu nền, từ tối đến sáng: `surface` / `background` `#111318`, `surface-container-lowest` `#0c0e12`, `surface-container-low` `#191c20`, `surface-container` `#1d2024`, `surface-container-high` `#282a2f`, `surface-bright` / `surface-container-highest` / `surface-variant` `#333539`. Chữ: `on-surface` `#e2e2e8`, `on-surface-variant` `#e9bcb6`. Viền: `outline` `#af8782`, `outline-variant` `#5e3f3b`.
+
+Nhấn: `primary` `#ffb4aa`, `primary-container` `#e50914`, `on-primary` `#690003`, `on-primary-container` `#fff7f6`. Phụ: `secondary` `#ffb95f`, `secondary-container` `#ee9800`. Lỗi: `error` `#ffb4ab`, `error-container` `#93000a`.
+
+Khoảng cách: `space-xs` 0.25rem, `space-sm` 0.5rem, `space-md` 1rem, `space-lg` 1.5rem, `space-xl` 2.5rem, `gutter` 1.5rem, `gutter-mobile` 1rem, `margin` 3rem, `margin-mobile` 1.25rem. Bo góc: mặc định 0.25rem, `lg` 0.5rem, `xl` 0.75rem, `full`.
+
+Chữ: headline và hero dùng Plus Jakarta Sans; body, title, label dùng Inter. Class đi cặp `font-{tên} text-{tên}`: `title-sm/md`, `headline-sm/md/lg/xl` (có bản `*-mobile`), `body-sm/md/lg`, `label-md`, `label-caps`, `display-hero` (có `display-hero-mobile`).
+
+Trang genres, favorite, profile copy màu trong `tailwind.config` của chính file đó. Một số giá trị lệch `@theme`. Sửa trang CDN thì sửa config của trang, đừng giả định nó trùng `style.css`.

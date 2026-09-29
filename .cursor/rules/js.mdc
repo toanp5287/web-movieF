@@ -1,0 +1,25 @@
+---
+description: Giữ hợp đồng JS MovieF khi sửa logic trang
+globs: "**/*.{js,html}"
+alwaysApply: false
+---
+
+# JS MovieF
+
+Trang tĩnh + module ES. Không thêm framework. API: `import api from "../api"` (hoặc `../api.js`), base `http://localhost:3000`, method `get/post/put/patch/delete`.
+
+Thư mục là `src/js/custumer/` (giữ nguyên chính tả). Logic trang mới đặt file cùng nhóm: `custumer/` cho người xem, `admin/` cho quản trị. File dùng chung: `src/js/api.js`, `src/utils/storage.js`.
+
+Hợp đồng DOM — đổi id là hỏng listener:
+
+- Header: `#user`, rồi `#userButton`, `#userMenu`, `#logoutBtn`, `#loginBtn`
+- Login: `#loginForm`, `#emailInput`, `#passwordInput`
+- Register: `#registerForm`, `#formName`, `#formEmail`, `#password-input`, `#confirm-password-input`
+
+Phiên: `localStorage.currentUser` (JSON user), `sessionStorage.redirectAfterLogin`. Mật khẩu SHA-256 trong `hashPassword`. User mới `roleId: 3`, `status: "active"`. Quyền: `GET /roles/:roleId`, tên `admin` | `staff` | `viewer`. Trang admin gọi `kiemTraDangNhapAdmin()` từ `src/utils/storage.js` trước khi render.
+
+`Swal` là global từ CDN SweetAlert2, không import npm. Gắn listener sau `querySelector` và chỉ khi phần tử tồn tại, vì `auth.js` / `header.js` được nhúng nhiều trang.
+
+Script module nằm sau `</html>` vẫn đang chạy; đừng cắt khi sửa cuối file. Route mới phải thêm cả `vite.config.js` (rewrite + `build.rollupOptions.input`) và `vercel.json`.
+
+Một số trang trỏ file chưa có (`home.js`, `movies.js`, `admin/genres.js`, `admin/users.js`). Tạo file đó, không xóa thẻ script. Không sửa `src/assets/pages/`.

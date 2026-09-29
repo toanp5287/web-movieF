@@ -1,0 +1,20 @@
+---
+description: Giữ nguyên hệ thống CSS MovieF khi sửa giao diện
+globs: "**/*.{css,html}"
+alwaysApply: false
+---
+
+# CSS MovieF
+
+Token theme nằm trong `@theme` của `src/style.css` (chi tiết màu, chữ, khoảng cách: rule theme). Dùng class token sẵn có, ví dụ `bg-surface`, `text-on-surface`, `bg-primary-container`, `font-body-md text-body-md`, `gap-space-md`, `px-margin`.
+
+Hai cách gắn CSS, không trộn lung tung:
+
+- Vite: `<script type="module" src="/src/main.js">` nạp `src/style.css`. Trang: home, movies, movie-detail, watch, login, register, `admin/movies.html`.
+- CDN: `cdn.tailwindcss.com` + `tailwind.config` ngay trong file. Trang: genres, favorite, profile. Đổi `@theme` không đổi các trang này.
+
+Khi sửa một trang, giữ đúng cách trang đó đang dùng. Không xóa `main.js` hoặc khối `tailwind.config` của trang. Không đổi tên token trong `@theme` nếu HTML còn dùng class đó.
+
+`html` có `class="dark"`. Icon là Material Symbols. Font là Inter và Plus Jakarta Sans. SweetAlert dùng `customClass` Tailwind, có hậu tố `!` khi cần đè style mặc định.
+
+Sửa trang sống trong `src/pages/` và `src/admin/`. Bỏ qua `src/assets/pages/`.

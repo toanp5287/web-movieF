@@ -20,8 +20,7 @@
       rel="stylesheet"
     />
 
-    <!-- Tailwind CSS của project -->
-    <link rel="stylesheet" href="../src/css/output.css" />
+    <!-- Tailwind CSS của project: nạp qua /src/main.js -->
 
     <style>
       html,
@@ -75,7 +74,7 @@
           <a
             class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high hover:text-on-surface transition-colors"
             data-path="client-website"
-            href="#"
+            href="/"
             ><span
               class="material-symbols-outlined text-primary-container text-base"
               >open_in_new</span
@@ -97,26 +96,26 @@
           <a
             class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all"
             data-path="dashboard"
-            href="#"
+            href="/admin"
             ><span class="material-symbols-outlined text-xl">dashboard</span
             ><span class="font-title-sm text-title-sm">Dashboard</span></a
           ><a
             aria-current="page"
             class="flex items-center gap-space-sm px-space-md py-space-sm transition-all bg-primary-container text-on-primary-container font-semibold rounded-lg"
             data-path="quan-ly-phim"
-            href="#"
+            href="/admin/movies"
             ><span class="material-symbols-outlined text-xl">movie</span
             ><span class="font-title-sm text-title-sm">Quản lý phim</span></a
           ><a
             class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all"
             data-path="the-loai"
-            href="#"
+            href="/admin/genres"
             ><span class="material-symbols-outlined text-xl">category</span
             ><span class="font-title-sm text-title-sm">Thể loại</span></a
           ><a
             class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all"
             data-path="nguoi-dung"
-            href="#"
+            href="/admin/users"
             ><span class="material-symbols-outlined text-xl">group</span
             ><span class="font-title-sm text-title-sm">Người dùng</span></a
           ><a
@@ -1721,4 +1720,5 @@
     </div>
   </body>
 </html>
-<script type="module" src="./../js/admin/genres.js"></script>
+<script type="module" src="/src/main.js"></script>
+<script type="module" src="/src/js/admin/genres.js"></script>

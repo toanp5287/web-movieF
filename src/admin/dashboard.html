@@ -1,0 +1,332 @@
+<!doctype html>
+<html class="dark" lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - MovieF Admin</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        overscroll-behavior: none;
+      }
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+  </head>
+  <body class="bg-surface font-body-md text-on-surface min-h-screen">
+    <aside
+      class="fixed left-0 top-0 h-full w-64 bg-surface-container-low z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"
+    >
+      <div class="flex flex-col flex-1 overflow-y-auto">
+        <div
+          class="h-16 px-space-md flex items-center gap-space-sm bg-surface-container-low/50"
+        >
+          <img
+            alt="MovieF"
+            class="h-8 w-auto object-contain"
+            src="/images/logo/logo.svg"
+          />
+          <span
+            class="font-headline-sm text-headline-sm font-bold tracking-tight text-on-surface"
+            >Movie<span class="text-primary-container">F</span></span
+          >
+          <span
+            class="ml-auto bg-surface-container-highest text-on-surface-variant font-label-caps text-label-caps px-space-xs py-0.5 rounded"
+            >ADMIN</span
+          >
+        </div>
+        <div class="px-space-md py-space-sm">
+          <a
+            class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors"
+            href="/"
+          >
+            <span
+              class="material-symbols-outlined text-primary-container text-base"
+              >open_in_new</span
+            >
+            <span class="font-title-sm text-title-sm">Trang người dùng</span>
+          </a>
+        </div>
+        <div class="px-space-md pt-space-xs pb-space-xs">
+          <span
+            class="font-label-caps text-label-caps text-on-surface-variant/60 uppercase"
+            >Quản trị hệ thống</span
+          >
+        </div>
+        <nav class="flex flex-col gap-1 px-space-md flex-1">
+          <a
+            aria-current="page"
+            class="flex items-center gap-space-sm px-space-md py-space-sm transition-all bg-primary-container text-on-primary-container font-semibold rounded-lg"
+            href="/admin"
+          >
+            <span class="material-symbols-outlined text-xl">dashboard</span>
+            <span class="font-title-sm text-title-sm">Dashboard</span>
+          </a>
+          <a
+            class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all"
+            href="/admin/movies"
+          >
+            <span class="material-symbols-outlined text-xl">movie</span>
+            <span class="font-title-sm text-title-sm">Quản lý phim</span>
+          </a>
+          <a
+            class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all"
+            href="/admin/genres"
+          >
+            <span class="material-symbols-outlined text-xl">category</span>
+            <span class="font-title-sm text-title-sm">Thể loại</span>
+          </a>
+          <a
+            class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all"
+            href="/admin/users"
+          >
+            <span class="material-symbols-outlined text-xl">group</span>
+            <span class="font-title-sm text-title-sm">Người dùng</span>
+          </a>
+        </nav>
+      </div>
+      <div class="p-space-md bg-surface-container-lowest/80">
+        <div
+          class="flex items-center gap-space-sm p-space-sm rounded-lg bg-surface-container-low"
+        >
+          <img
+            alt=""
+            class="w-8 h-8 rounded-full object-cover"
+            src="/images/avatar/admin.svg"
+          />
+          <div class="flex flex-col min-w-0 flex-1">
+            <span
+              class="font-title-sm text-title-sm text-on-surface truncate"
+              data-admin-name
+              >Quản trị viên</span
+            >
+            <span
+              class="font-label-md text-label-md text-on-surface-variant truncate"
+              data-admin-email
+            ></span>
+          </div>
+          <button
+            id="adminLogout"
+            class="text-on-surface-variant hover:text-on-surface transition-colors"
+            type="button"
+            aria-label="Đăng xuất"
+          >
+            <span class="material-symbols-outlined text-lg">logout</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="pl-64 flex flex-col min-h-screen">
+      <header
+        class="fixed top-0 left-64 right-0 h-16 bg-surface/80 backdrop-blur-xl z-40 px-space-lg flex items-center justify-between"
+      >
+        <div class="flex items-center gap-space-sm">
+          <span class="font-label-md text-label-md text-on-surface-variant"
+            >MovieF Admin</span
+          >
+          <span class="text-on-surface-variant/40">/</span>
+          <span class="font-title-sm text-title-sm text-on-surface"
+            >Dashboard</span
+          >
+        </div>
+        <span
+          class="font-title-sm text-title-sm text-on-surface"
+          data-admin-name
+          >Quản trị viên</span
+        >
+      </header>
+
+      <main class="w-full pt-16 bg-surface px-space-lg py-space-lg flex-1">
+        <section class="flex flex-col gap-1 pb-space-lg">
+          <span
+            class="font-label-caps text-label-caps uppercase tracking-wider text-primary"
+            >Tổng quan</span
+          >
+          <h1
+            class="font-headline-lg text-headline-lg text-on-surface tracking-tight"
+          >
+            Dashboard
+          </h1>
+          <p class="font-body-md text-body-md text-on-surface-variant">
+            Số liệu phim, thể loại, người dùng và lượt xem của MovieF.
+          </p>
+        </section>
+
+        <section
+          class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-space-md"
+        >
+          <article
+            class="rounded-xl bg-surface-container-low p-space-md flex flex-col gap-space-sm"
+          >
+            <div class="flex items-center justify-between">
+              <span class="font-body-sm text-body-sm text-on-surface-variant"
+                >Tổng số phim</span
+              >
+              <span class="material-symbols-outlined text-primary-container"
+                >movie</span
+              >
+            </div>
+            <p
+              id="statMovies"
+              class="font-headline-lg text-headline-lg text-on-surface"
+            >
+              —
+            </p>
+            <p
+              id="statMoviesHint"
+              class="font-body-sm text-body-sm text-on-surface-variant"
+            >
+              Đang tải
+            </p>
+          </article>
+          <article
+            class="rounded-xl bg-surface-container-low p-space-md flex flex-col gap-space-sm"
+          >
+            <div class="flex items-center justify-between">
+              <span class="font-body-sm text-body-sm text-on-surface-variant"
+                >Tổng thể loại</span
+              >
+              <span class="material-symbols-outlined text-secondary"
+                >category</span
+              >
+            </div>
+            <p
+              id="statGenres"
+              class="font-headline-lg text-headline-lg text-on-surface"
+            >
+              —
+            </p>
+            <p
+              id="statGenresHint"
+              class="font-body-sm text-body-sm text-on-surface-variant"
+            >
+              Đang tải
+            </p>
+          </article>
+          <article
+            class="rounded-xl bg-surface-container-low p-space-md flex flex-col gap-space-sm"
+          >
+            <div class="flex items-center justify-between">
+              <span class="font-body-sm text-body-sm text-on-surface-variant"
+                >Tổng người dùng</span
+              >
+              <span class="material-symbols-outlined text-primary">group</span>
+            </div>
+            <p
+              id="statUsers"
+              class="font-headline-lg text-headline-lg text-on-surface"
+            >
+              —
+            </p>
+            <p
+              id="statUsersHint"
+              class="font-body-sm text-body-sm text-on-surface-variant"
+            >
+              Đang tải
+            </p>
+          </article>
+          <article
+            class="rounded-xl bg-surface-container-low p-space-md flex flex-col gap-space-sm"
+          >
+            <div class="flex items-center justify-between">
+              <span class="font-body-sm text-body-sm text-on-surface-variant"
+                >Tổng lượt xem</span
+              >
+              <span class="material-symbols-outlined text-primary-container"
+                >visibility</span
+              >
+            </div>
+            <p
+              id="statViews"
+              class="font-headline-lg text-headline-lg text-on-surface"
+            >
+              —
+            </p>
+            <p
+              id="statViewsHint"
+              class="font-body-sm text-body-sm text-on-surface-variant"
+            >
+              Đang tải
+            </p>
+          </article>
+        </section>
+
+        <section
+          class="grid grid-cols-1 sm:grid-cols-2 gap-space-md mt-space-md"
+        >
+          <article
+            class="rounded-xl bg-surface-container p-space-md flex items-center justify-between"
+          >
+            <div>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">
+                Lượt yêu thích
+              </p>
+              <p
+                id="statFavorites"
+                class="font-headline-sm text-headline-sm text-on-surface mt-1"
+              >
+                —
+              </p>
+            </div>
+            <span
+              class="material-symbols-outlined text-primary-container"
+              style="font-variation-settings: 'FILL' 1"
+              >favorite</span
+            >
+          </article>
+          <article
+            class="rounded-xl bg-surface-container p-space-md flex items-center justify-between"
+          >
+            <div>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">
+                Đánh giá
+              </p>
+              <p
+                id="statReviews"
+                class="font-headline-sm text-headline-sm text-on-surface mt-1"
+              >
+                —
+              </p>
+            </div>
+            <span class="material-symbols-outlined text-secondary">star</span>
+          </article>
+        </section>
+
+        <section
+          class="grid grid-cols-1 lg:grid-cols-2 gap-space-md mt-space-lg"
+        >
+          <article class="rounded-xl bg-surface-container-low p-space-md">
+            <h2 class="font-title-md text-title-md text-on-surface mb-space-md">
+              Phim xem nhiều nhất
+            </h2>
+            <ul id="topMovies" class="flex flex-col gap-space-md"></ul>
+          </article>
+          <article class="rounded-xl bg-surface-container-low p-space-md">
+            <h2 class="font-title-md text-title-md text-on-surface mb-space-md">
+              Người dùng mới
+            </h2>
+            <ul id="recentUsers" class="flex flex-col gap-space-md"></ul>
+          </article>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
+<script type="module" src="/src/main.js"></script>
+<script type="module" src="/src/js/admin/dashboard.js"></script>

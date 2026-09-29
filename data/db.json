@@ -231,7 +231,11 @@
       "duration": 181,
       "country": "USA",
       "director": "Anthony Russo, Joe Russo",
-      "actors": ["Robert Downey Jr.", "Chris Evans", "Mark Ruffalo"],
+      "actors": [
+        "Robert Downey Jr.",
+        "Chris Evans",
+        "Mark Ruffalo"
+      ],
       "trailer": "videos/trailer/endgame.mp4",
       "video": "videos/movies/endgame.mp4",
       "status": "published",
@@ -249,7 +253,11 @@
       "duration": 148,
       "country": "USA",
       "director": "Jon Watts",
-      "actors": ["Tom Holland", "Zendaya", "Benedict Cumberbatch"],
+      "actors": [
+        "Tom Holland",
+        "Zendaya",
+        "Benedict Cumberbatch"
+      ],
       "trailer": "videos/trailer/spiderman.mp4",
       "video": "videos/movies/spiderman.mp4",
       "status": "published",
@@ -267,7 +275,11 @@
       "duration": 169,
       "country": "USA",
       "director": "Christopher Nolan",
-      "actors": ["Matthew McConaughey", "Anne Hathaway", "Jessica Chastain"],
+      "actors": [
+        "Matthew McConaughey",
+        "Anne Hathaway",
+        "Jessica Chastain"
+      ],
       "trailer": "videos/trailer/interstellar.mp4",
       "video": "videos/movies/interstellar.mp4",
       "status": "published",
@@ -285,7 +297,10 @@
       "duration": 106,
       "country": "Japan",
       "director": "Makoto Shinkai",
-      "actors": ["Ryunosuke Kamiki", "Mone Kamishiraishi"],
+      "actors": [
+        "Ryunosuke Kamiki",
+        "Mone Kamishiraishi"
+      ],
       "trailer": "videos/trailer/your-name.mp4",
       "video": "videos/movies/your-name.mp4",
       "status": "published",
@@ -303,7 +318,11 @@
       "duration": 112,
       "country": "USA",
       "director": "James Wan",
-      "actors": ["Vera Farmiga", "Patrick Wilson", "Lili Taylor"],
+      "actors": [
+        "Vera Farmiga",
+        "Patrick Wilson",
+        "Lili Taylor"
+      ],
       "trailer": "videos/trailer/conjuring.mp4",
       "video": "videos/movies/conjuring.mp4",
       "status": "published",
@@ -321,7 +340,11 @@
       "duration": 100,
       "country": "USA",
       "director": "Josh Cooley",
-      "actors": ["Tom Hanks", "Tim Allen", "Annie Potts"],
+      "actors": [
+        "Tom Hanks",
+        "Tim Allen",
+        "Annie Potts"
+      ],
       "trailer": "videos/trailer/toy-story-4.mp4",
       "video": "videos/movies/toy-story-4.mp4",
       "status": "published",
@@ -339,7 +362,11 @@
       "duration": 166,
       "country": "USA",
       "director": "Denis Villeneuve",
-      "actors": ["Timothee Chalamet", "Zendaya", "Rebecca Ferguson"],
+      "actors": [
+        "Timothee Chalamet",
+        "Zendaya",
+        "Rebecca Ferguson"
+      ],
       "trailer": "videos/trailer/dune-2.mp4",
       "video": "videos/movies/dune-2.mp4",
       "status": "published",
@@ -357,7 +384,10 @@
       "duration": 128,
       "country": "USA",
       "director": "Damien Chazelle",
-      "actors": ["Ryan Gosling", "Emma Stone"],
+      "actors": [
+        "Ryan Gosling",
+        "Emma Stone"
+      ],
       "trailer": "videos/trailer/la-la-land.mp4",
       "video": "videos/movies/la-la-land.mp4",
       "status": "published",
@@ -375,7 +405,11 @@
       "duration": 96,
       "country": "USA",
       "director": "Kelsey Mann",
-      "actors": ["Amy Poehler", "Maya Hawke", "Kensington Tallman"],
+      "actors": [
+        "Amy Poehler",
+        "Maya Hawke",
+        "Kensington Tallman"
+      ],
       "trailer": "videos/trailer/inside-out-2.mp4",
       "video": "videos/movies/inside-out-2.mp4",
       "status": "published",
@@ -393,7 +427,11 @@
       "duration": 176,
       "country": "USA",
       "director": "Matt Reeves",
-      "actors": ["Robert Pattinson", "Zoë Kravitz", "Paul Dano"],
+      "actors": [
+        "Robert Pattinson",
+        "Zoë Kravitz",
+        "Paul Dano"
+      ],
       "trailer": "videos/trailer/the-batman.mp4",
       "video": "videos/movies/the-batman.mp4",
       "status": "published",
@@ -603,6 +641,13 @@
       "movieId": 2,
       "progress": 4200,
       "watchedAt": "2026-09-18T15:00:00"
+    },
+    {
+      "userId": 1,
+      "movieId": 2,
+      "progress": 3996,
+      "watchedAt": "2026-09-29T14:33:50",
+      "id": "Cg6czTN"
     }
   ],
   "reviews": [

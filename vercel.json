@@ -6,7 +6,19 @@
     },
     {
       "source": "/admin",
+      "destination": "/src/admin/dashboard.html"
+    },
+    {
+      "source": "/admin/movies",
       "destination": "/src/admin/movies.html"
+    },
+    {
+      "source": "/admin/genres",
+      "destination": "/src/admin/genres.html"
+    },
+    {
+      "source": "/admin/users",
+      "destination": "/src/admin/users.html"
     },
     {
       "source": "/movies",

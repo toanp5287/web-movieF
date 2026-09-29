@@ -15,7 +15,10 @@ export default defineConfig({
 
           const routes = {
             "/": "/src/pages/home.html",
-            "/admin": "/src/admin/movies.html",
+            "/admin": "/src/admin/dashboard.html",
+            "/admin/movies": "/src/admin/movies.html",
+            "/admin/genres": "/src/admin/genres.html",
+            "/admin/users": "/src/admin/users.html",
             "/movies": "/src/pages/movies.html",
             "/movie-detail": "/src/pages/movie-detail.html",
             "/watch": "/src/pages/watch.html",
@@ -44,7 +47,10 @@ export default defineConfig({
     rollupOptions: {
       input: {
         index: resolve(import.meta.dirname, "src/pages/home.html"),
-        admin: resolve(import.meta.dirname, "src/admin/movies.html"),
+        admin: resolve(import.meta.dirname, "src/admin/dashboard.html"),
+        adminMovies: resolve(import.meta.dirname, "src/admin/movies.html"),
+        adminGenres: resolve(import.meta.dirname, "src/admin/genres.html"),
+        adminUsers: resolve(import.meta.dirname, "src/admin/users.html"),
         movies: resolve(import.meta.dirname, "src/pages/movies.html"),
         "movie-detail": resolve(
           import.meta.dirname,
