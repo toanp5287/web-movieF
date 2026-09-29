@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản lý người dùng - MovieF</title>
+
+    <link rel="stylesheet" href="../css/style.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    />
+
+    <style>
+      /* ===== MOVIEF ADMIN THEME (dùng chung cho mọi trang Admin) ===== */
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: #0f0f0f;
+        color: #e5e5e5;
+        font-family: "Plus Jakarta Sans", "Inter", sans-serif;
+      }
+
+      /* ---------- SIDEBAR ---------- */
+      .sidebar {
+        width: 16rem;
+        padding: 1.25rem;
+        background: #0f0f0f;
+        border-right: 1px solid #1f1f1f;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow-y: auto;
+        z-index: 30;
+      }
+
+      .sidebar-logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0 0.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .sidebar-logo-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        flex-shrink: 0;
+        border-radius: 0.75rem;
+        background: #e50914;
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(229, 9, 20, 0.4);
+      }
+
+      .sidebar-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        line-height: 1.4;
+        color: #ffffff;
+      }
+
+      .sidebar-subtitle {
+        font-size: 0.75rem;
+        line-height: 1.4;
+        color: #71717a;
+      }
+
+      /* ---------- MENU ---------- */
+      .menu-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.375rem;
+      }
+
+      .menu-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.625rem 0.875rem;
+        border-radius: 0.75rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        line-height: 1.4;
+        color: #a1a1aa;
+        text-decoration: none;
+        transition:
+          background-color 0.2s ease,
+          color 0.2s ease;
+      }
+
+      .menu-item .material-symbols-outlined {
+        font-size: 1.25rem;
+      }
+
+      .menu-item:hover {
+        background: #1a1a1a;
+        color: #ffffff;
+      }
+
+      .menu-item.active {
+        background: #e50914;
+        color: #ffffff;
+        font-weight: 600;
+      }
+
+      /* ---------- ADMIN ACCOUNT ---------- */
+      .sidebar-account {
+        border-top: 1px solid #1f1f1f;
+        padding-top: 1rem;
+      }
+
+      .sidebar-avatar {
+        width: 2.25rem;
+        height: 2.25rem;
+        flex-shrink: 0;
+        border-radius: 9999px;
+        object-fit: cover;
+        outline: 1px solid #27272a;
+      }
+
+      .sidebar-account-name {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #e4e4e7;
+      }
+
+      .sidebar-account-mail {
+        font-size: 11px;
+        color: #71717a;
+      }
+
+      .sidebar-account-btn {
+        padding: 0.25rem;
+        border-radius: 0.5rem;
+        color: #a1a1aa;
+        transition: color 0.2s ease;
+      }
+
+      .sidebar-account-btn:hover {
+        color: #e4e4e7;
+      }
+
+      /* ---------- TABLE / BADGE ---------- */
+      .table-row {
+        transition: background-color 0.2s ease;
+      }
+
+      .table-row:hover {
+        background: #1a1a1a;
+      }
+
+      .status-active {
+        color: #22c55e;
+        background: rgba(34, 197, 94, 0.12);
+      }
+
+      .status-inactive {
+        color: #ef4444;
+        background: rgba(239, 68, 68, 0.12);
+      }
+
+      .role-admin {
+        color: #f87171;
+        background: rgba(229, 9, 20, 0.12);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="flex min-h-screen">
+      <!-- SIDEBAR -->
+      <aside class="sidebar fixed left-0 top-0 bottom-0">
+        <!-- LOGO -->
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-icon">
+            <span class="material-symbols-outlined">movie</span>
+          </div>
+          <div>
+            <h1 class="sidebar-title">MovieF</h1>
+            <p class="sidebar-subtitle">Admin Panel</p>
+          </div>
+        </div>
+
+        <!-- MENU -->
+        <nav class="menu-nav">
+          <a href="/admin/dashBoard" class="menu-item">
+            <span class="material-symbols-outlined">dashboard</span>
+            <span>Dashboard</span>
+          </a>
+
+          <a href="/admin" class="menu-item">
+            <span class="material-symbols-outlined">movie</span>
+            <span>Quản lý phim</span>
+          </a>
+
+          <a href="/admin/genres" class="menu-item">
+            <span class="material-symbols-outlined">category</span>
+            <span>Thể loại</span>
+          </a>
+
+          <a href="/admin/users" class="menu-item active">
+            <span class="material-symbols-outlined">group</span>
+            <span>Người dùng</span>
+          </a>
+
+          <a href="/admin/reviews" class="menu-item">
+            <span class="material-symbols-outlined">reviews</span>
+            <span>Đánh giá</span>
+          </a>
+
+          <a href="/admin/comments" class="menu-item">
+            <span class="material-symbols-outlined">comment</span>
+            <span>Bình luận</span>
+          </a>
+
+          <a href="/admin/statistics" class="menu-item">
+            <span class="material-symbols-outlined">bar_chart</span>
+            <span>Thống kê</span>
+          </a>
+
+          <a href="/admin/trash" class="menu-item">
+            <span class="material-symbols-outlined">delete</span>
+            <span>Thùng rác</span>
+          </a>
+        </nav>
+
+        <!-- ADMIN ACCOUNT -->
+        <div class="sidebar-account">
+          <div class="flex items-center gap-3">
+            <img
+              src="/images/avatar/admin.png"
+              alt="Admin"
+              class="sidebar-avatar"
+              onerror="
+                this.src =
+                  'https://ui-avatars.com/api/?name=Admin+MovieF&background=e50914&color=fff'
+              "
+            />
+            <div class="flex-1 min-w-0">
+              <p class="sidebar-account-name">MovieF Admin</p>
+              <p class="sidebar-account-mail">admin@movief.com</p>
+            </div>
+            <button class="sidebar-account-btn">
+              <span class="material-symbols-outlined text-lg">more_vert</span>
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- MAIN -->
+      <main class="ml-64 flex-1 p-8">
+        <!-- HEADER -->
+        <div class="flex items-center justify-between mb-8">
+          <div>
+            <h1 class="text-3xl font-bold">Quản lý người dùng</h1>
+
+            <p class="text-gray-500 mt-1">
+              Quản lý tài khoản và quyền truy cập của người dùng MovieF
+            </p>
+          </div>
+
+          <button
+            class="flex items-center gap-2 bg-[#e50914] hover:bg-red-700 px-5 py-3 rounded-xl font-semibold transition"
+          >
+            <span class="material-symbols-outlined"> person_add </span>
+
+            Thêm người dùng
+          </button>
+        </div>
+
+        <!-- STATISTICS -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-7">
+          <!-- TOTAL -->
+          <div class="bg-[#111116] border border-gray-800 rounded-2xl p-5">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-gray-500 text-sm">Tổng người dùng</p>
+
+                <h2 class="text-3xl font-bold mt-2">1</h2>
+              </div>
+
+              <div
+                class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center"
+              >
+                <span class="material-symbols-outlined text-blue-400">
+                  group
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ACTIVE -->
+          <div class="bg-[#111116] border border-gray-800 rounded-2xl p-5">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-gray-500 text-sm">Đang hoạt động</p>
+
+                <h2 class="text-3xl font-bold mt-2">1</h2>
+              </div>
+
+              <div
+                class="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center"
+              >
+                <span class="material-symbols-outlined text-green-400">
+                  person_check
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ADMIN -->
+          <div class="bg-[#111116] border border-gray-800 rounded-2xl p-5">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-gray-500 text-sm">Quản trị viên</p>
+
+                <h2 class="text-3xl font-bold mt-2">1</h2>
+              </div>
+
+              <div
+                class="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center"
+              >
+                <span class="material-symbols-outlined text-red-400">
+                  admin_panel_settings
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FILTER -->
+        <div class="bg-[#111116] border border-gray-800 rounded-2xl p-5 mb-6">
+          <div class="flex flex-col lg:flex-row gap-4">
+            <!-- SEARCH -->
+            <div class="relative flex-1">
+              <span
+                class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"
+              >
+                search
+              </span>
+
+              <input
+                type="text"
+                placeholder="Tìm kiếm username, email, họ tên..."
+                class="w-full bg-[#0b0b0f] border border-gray-700 rounded-xl py-3 pl-12 pr-4 outline-none focus:border-[#e50914]"
+              />
+            </div>
+
+            <!-- ROLE -->
+            <select
+              class="bg-[#0b0b0f] border border-gray-700 rounded-xl px-4 py-3 outline-none focus:border-[#e50914]"
+            >
+              <option value="">Tất cả vai trò</option>
+              <option value="admin">Quản trị viên</option>
+              <option value="staff">Nhân viên</option>
+              <option value="user">Người dùng</option>
+            </select>
+
+            <!-- STATUS -->
+            <select
+              class="bg-[#0b0b0f] border border-gray-700 rounded-xl px-4 py-3 outline-none focus:border-[#e50914]"
+            >
+              <option value="">Tất cả trạng thái</option>
+              <option value="active">Đang hoạt động</option>
+              <option value="inactive">Đã khóa</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- TABLE -->
+        <div
+          class="bg-[#111116] border border-gray-800 rounded-2xl overflow-hidden"
+        >
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead class="bg-[#18181d]">
+                <tr class="text-left text-sm text-gray-400">
+                  <th class="px-6 py-4">Người dùng</th>
+
+                  <th class="px-6 py-4">Email</th>
+
+                  <th class="px-6 py-4">Vai trò</th>
+
+                  <th class="px-6 py-4">Trạng thái</th>
+
+                  <th class="px-6 py-4">Ngày tạo</th>
+
+                  <th class="px-6 py-4 text-right">Thao tác</th>
+                </tr>
+              </thead>
+
+              <tbody id="user-list">
+                <!-- USER -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- EMPTY / PAGINATION -->
+          <div
+            class="border-t border-gray-800 px-6 py-4 flex items-center justify-between"
+          >
+            <p class="text-sm text-gray-500">
+              Hiển thị <span class="text-white">1</span> người dùng
+            </p>
+
+            <div class="flex gap-2">
+              <button
+                class="w-9 h-9 rounded-lg bg-[#18181d] text-gray-500"
+                disabled
+              >
+                ‹
+              </button>
+
+              <button class="w-9 h-9 rounded-lg bg-[#e50914] font-semibold">
+                1
+              </button>
+
+              <button
+                class="w-9 h-9 rounded-lg bg-[#18181d] text-gray-500"
+                disabled
+              >
+                ›
+              </button>
+            </div>
+          </div>
+        </div>
+        <div id="user-pagination"></div>
+      </main>
+    </div>
+  </body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="module" src="./../../src/js/admin/users.js"></script>
+
+<script type="module" src="/src/main.js"></script>

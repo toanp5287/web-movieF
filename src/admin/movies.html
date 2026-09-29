@@ -1,0 +1,753 @@
+<!doctype html>
+
+<html class="dark" lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Material Symbols -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS của project -->
+    <link rel="stylesheet" href="../css/style.css" />
+
+    <style>
+      /* ===== MOVIEF ADMIN THEME (dùng chung cho mọi trang Admin) ===== */
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: #0f0f0f;
+        color: #e5e5e5;
+        font-family: "Plus Jakarta Sans", "Inter", sans-serif;
+      }
+
+      body {
+        overscroll-behavior: none;
+      }
+
+      main > :first-child {
+        margin-top: 0 !important;
+      }
+
+      main > :last-child {
+        margin-bottom: 0 !important;
+      }
+
+      ::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* ---------- SIDEBAR ---------- */
+      .sidebar {
+        width: 16rem;
+        padding: 1.25rem;
+        background: #0f0f0f;
+        border-right: 1px solid #1f1f1f;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow-y: auto;
+        z-index: 30;
+      }
+
+      .sidebar-logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0 0.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .sidebar-logo-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        flex-shrink: 0;
+        border-radius: 0.75rem;
+        background: #e50914;
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(229, 9, 20, 0.4);
+      }
+
+      .sidebar-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        line-height: 1.4;
+        color: #ffffff;
+      }
+
+      .sidebar-subtitle {
+        font-size: 0.75rem;
+        line-height: 1.4;
+        color: #71717a;
+      }
+
+      /* ---------- MENU ---------- */
+      .menu-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.375rem;
+      }
+
+      .menu-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.625rem 0.875rem;
+        border-radius: 0.75rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        line-height: 1.4;
+        color: #a1a1aa;
+        text-decoration: none;
+        transition:
+          background-color 0.2s ease,
+          color 0.2s ease;
+      }
+
+      .menu-item .material-symbols-outlined {
+        font-size: 1.25rem;
+      }
+
+      .menu-item:hover {
+        background: #1a1a1a;
+        color: #ffffff;
+      }
+
+      .menu-item.active {
+        background: #e50914;
+        color: #ffffff;
+        font-weight: 600;
+      }
+
+      /* ---------- ADMIN ACCOUNT ---------- */
+      .sidebar-account {
+        border-top: 1px solid #1f1f1f;
+        padding-top: 1rem;
+      }
+
+      .sidebar-avatar {
+        width: 2.25rem;
+        height: 2.25rem;
+        flex-shrink: 0;
+        border-radius: 9999px;
+        object-fit: cover;
+        outline: 1px solid #27272a;
+      }
+
+      .sidebar-account-name {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #e4e4e7;
+      }
+
+      .sidebar-account-mail {
+        font-size: 11px;
+        color: #71717a;
+      }
+
+      .sidebar-account-btn {
+        padding: 0.25rem;
+        border-radius: 0.5rem;
+        color: #a1a1aa;
+        transition: color 0.2s ease;
+      }
+
+      .sidebar-account-btn:hover {
+        color: #e4e4e7;
+      }
+    </style>
+  </head>
+  <body class="bg-surface font-body-md text-on-surface min-h-screen">
+    <!-- SIDEBAR (chuẩn dùng chung cho mọi trang Admin) -->
+    <aside class="sidebar fixed left-0 top-0 bottom-0">
+      <!-- LOGO -->
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon">
+          <span class="material-symbols-outlined">movie</span>
+        </div>
+        <div>
+          <h1 class="sidebar-title">MovieF</h1>
+          <p class="sidebar-subtitle">Admin Panel</p>
+        </div>
+      </div>
+
+      <!-- MENU -->
+      <nav class="menu-nav">
+        <a href="/admin/dashBoard" class="menu-item">
+          <span class="material-symbols-outlined">dashboard</span>
+          <span>Dashboard</span>
+        </a>
+
+        <a href="/admin" class="menu-item active">
+          <span class="material-symbols-outlined">movie</span>
+          <span>Quản lý phim</span>
+        </a>
+
+        <a href="/admin/genres" class="menu-item">
+          <span class="material-symbols-outlined">category</span>
+          <span>Thể loại</span>
+        </a>
+
+        <a href="/admin/users" class="menu-item">
+          <span class="material-symbols-outlined">group</span>
+          <span>Người dùng</span>
+        </a>
+
+        <a href="/admin/reviews" class="menu-item">
+          <span class="material-symbols-outlined">reviews</span>
+          <span>Đánh giá</span>
+        </a>
+
+        <a href="/admin/comments" class="menu-item">
+          <span class="material-symbols-outlined">comment</span>
+          <span>Bình luận</span>
+        </a>
+
+        <a href="/admin/statistics" class="menu-item">
+          <span class="material-symbols-outlined">bar_chart</span>
+          <span>Thống kê</span>
+        </a>
+
+        <a href="/admin/trash" class="menu-item">
+          <span class="material-symbols-outlined">delete</span>
+          <span>Thùng rác</span>
+        </a>
+      </nav>
+
+      <!-- ADMIN ACCOUNT -->
+      <div class="sidebar-account">
+        <div class="flex items-center gap-3">
+          <img
+            src="/images/avatar/admin.png"
+            alt="Admin"
+            class="sidebar-avatar"
+            onerror="
+              this.src =
+                'https://ui-avatars.com/api/?name=Admin+MovieF&background=e50914&color=fff'
+            "
+          />
+          <div class="flex-1 min-w-0">
+            <p class="sidebar-account-name">MovieF Admin</p>
+            <p class="sidebar-account-mail">admin@movief.com</p>
+          </div>
+          <button class="sidebar-account-btn">
+            <span class="material-symbols-outlined text-lg">more_vert</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+    <div class="pl-64 flex flex-col min-h-screen">
+      <header
+        class="fixed top-0 left-64 right-0 h-16 bg-surface/80 backdrop-blur-xl z-40 shadow-[0_1px_8px_rgba(0,0,0,0.04)] px-space-lg flex items-center justify-between gap-space-md"
+      >
+        <div class="flex items-center gap-space-sm">
+          <span class="font-label-md text-label-md text-on-surface-variant"
+            >MovieF Admin</span
+          ><span class="text-on-surface-variant/40">/</span
+          ><span class="font-title-sm text-title-sm text-on-surface capitalize"
+            >Hệ thống</span
+          >
+        </div>
+
+        <div class="flex items-center gap-space-md">
+          <button
+            aria-label="Thông báo"
+            class="relative p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            type="button"
+          >
+            <span class="material-symbols-outlined text-xl">notifications</span
+            ><span
+              class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary-container ring-2 ring-surface"
+            ></span>
+          </button>
+          <div class="flex items-center gap-space-sm pl-space-sm">
+            <img
+              alt="Profile"
+              class="w-8 h-8 rounded-full object-cover"
+              src="https://lh3.googleusercontent.com/aida/AEtjO1U0_WeREXlsW21uASPbJPP_lxP_gmAQ8JRvUnAaxrdOBoxPeo7MCeWJwKvpGT08QRMwxmEcuplw-uaF8cOaM7vJoxu3YCTk2z9BMckBNQiBalEdIorObjSYlSRAj8OxWP5tQdukk9hfx2LM7uUVj8CJBIEBszAG8vS250KGfjZYD8dHUdPyXPjWnBvdCmjTEhX8do4_F5iPk1mkHGdNDbYIByEB-dAtsNyoe4B0A4B0snAw4aDQKtosPA"
+            /><span
+              class="font-title-sm text-title-sm text-on-surface hidden sm:inline-block"
+              >Quản trị viên</span
+            >
+          </div>
+        </div>
+      </header>
+      <main class="w-full pt-16 bg-surface px-space-lg py-space-lg flex-1">
+        <div class="flex flex-col w-full">
+          <!-- Dynamic Notification Toast -->
+
+          <!-- Header Section with Distinct Visual Weight -->
+          <section
+            class="flex flex-col md:flex-row md:items-end justify-between gap-space-md pb-space-lg"
+          >
+            <div class="flex flex-col gap-1 max-w-2xl">
+              <div
+                class="flex items-center gap-space-xs text-on-surface-variant"
+              >
+                <span
+                  class="font-label-caps text-label-caps uppercase tracking-wider text-primary"
+                  >Catalog Core</span
+                >
+                <span class="text-on-surface-variant/40">/</span>
+                <span
+                  class="font-label-caps text-label-caps uppercase tracking-wider"
+                  >Thư viện chiếu</span
+                >
+              </div>
+              <h1
+                class="font-headline-xl text-headline-xl text-on-surface tracking-tight"
+              >
+                Quản lý phim
+              </h1>
+              <p class="font-body-md text-body-md text-on-surface-variant">
+                Quản lý danh sách, thông tin, phân loại và nguồn phát của 120 bộ
+                phim trong hệ thống.
+              </p>
+            </div>
+            <!-- Action Group -->
+            <div class="flex flex-wrap items-center gap-space-sm">
+              <button
+                class="flex items-center gap-space-xs px-space-md py-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-title-sm text-title-sm shadow-sm transition-all duration-200"
+                type="button"
+              >
+                <span class="material-symbols-outlined text-lg">tune</span>
+                <span>Bộ lọc nâng cao</span>
+              </button>
+              <button
+                class="flex items-center gap-space-xs px-space-md py-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-title-sm text-title-sm shadow-sm transition-all duration-200"
+                type="button"
+              >
+                <span class="material-symbols-outlined text-lg"
+                  >file_upload</span
+                >
+                <span>Nhập từ JSON</span>
+              </button>
+              <button
+                onclick="addMovie()"
+                class="flex items-center gap-space-xs px-space-md py-2.5 rounded-lg bg-primary-container text-on-primary-container font-title-sm text-title-sm shadow-md hover:bg-primary-container/90 transition-all duration-200 shadow-primary-container/20 hover:shadow-primary-container/40"
+                type="button"
+              >
+                <span class="material-symbols-outlined text-lg font-bold"
+                  >add</span
+                >
+                <span>Thêm phim mới</span>
+              </button>
+            </div>
+          </section>
+          <!-- Metrics Bar Spark Overview (Decorative Richness) -->
+          <section
+            class="grid grid-cols-2 lg:grid-cols-4 gap-space-md mb-space-lg"
+          >
+            <div
+              class="bg-surface-container-low p-space-md rounded-xl flex items-center justify-between shadow-sm"
+            >
+              <div class="flex flex-col">
+                <span
+                  class="font-label-caps text-label-caps uppercase text-on-surface-variant"
+                  >Tổng số tựa phim</span
+                >
+                <span
+                  class="font-headline-md text-headline-md text-on-surface mt-1"
+                  >120</span
+                >
+                <span
+                  class="font-label-md text-label-md text-primary flex items-center gap-0.5 mt-0.5"
+                >
+                  <span class="material-symbols-outlined text-xs"
+                    >arrow_upward</span
+                  >
+                  +4 tuần này
+                </span>
+              </div>
+              <div
+                class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center"
+              >
+                <span class="material-symbols-outlined text-2xl text-on-surface"
+                  >movie</span
+                >
+              </div>
+            </div>
+            <div
+              class="bg-surface-container-low p-space-md rounded-xl flex items-center justify-between shadow-sm"
+            >
+              <div class="flex flex-col">
+                <span
+                  class="font-label-caps text-label-caps uppercase text-on-surface-variant"
+                  >Chuẩn 4K Ultra HD</span
+                >
+                <span
+                  class="font-headline-md text-headline-md text-on-surface mt-1"
+                  >84</span
+                >
+                <span
+                  class="font-label-md text-label-md text-on-surface-variant mt-0.5"
+                  >Chiếm 70% danh mục</span
+                >
+              </div>
+              <div
+                class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center"
+              >
+                <span class="material-symbols-outlined text-2xl text-secondary"
+                  >hd</span
+                >
+              </div>
+            </div>
+            <div
+              class="bg-surface-container-low p-space-md rounded-xl flex items-center justify-between shadow-sm"
+            >
+              <div class="flex flex-col">
+                <span
+                  class="font-label-caps text-label-caps uppercase text-on-surface-variant"
+                  >Tổng lượt xem tuần</span
+                >
+                <span
+                  class="font-headline-md text-headline-md text-on-surface mt-1"
+                  >68,230</span
+                >
+                <span
+                  class="font-label-md text-label-md text-primary flex items-center gap-0.5 mt-0.5"
+                >
+                  <span class="material-symbols-outlined text-xs"
+                    >trending_up</span
+                  >
+                  +14.2% lưu lượng
+                </span>
+              </div>
+              <div
+                class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center"
+              >
+                <svg
+                  class="w-12 h-6 text-primary"
+                  fill="none"
+                  viewbox="0 0 100 40"
+                >
+                  <path
+                    d="M0 35 Q 25 15, 50 25 T 100 5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-width="3"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+            <div
+              class="bg-surface-container-low p-space-md rounded-xl flex items-center justify-between shadow-sm"
+            >
+              <div class="flex flex-col">
+                <span
+                  class="font-label-caps text-label-caps uppercase text-on-surface-variant"
+                  >Điểm IMDb trung bình</span
+                >
+                <span
+                  class="font-headline-md text-headline-md text-on-surface mt-1"
+                  >8.2<span
+                    class="text-on-surface-variant font-title-sm text-title-sm"
+                    >/10</span
+                  ></span
+                >
+                <span
+                  class="font-label-md text-label-md text-secondary flex items-center gap-0.5 mt-0.5"
+                >
+                  <span class="material-symbols-outlined text-xs">star</span>
+                  Rất tích cực
+                </span>
+              </div>
+              <div
+                class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center"
+              >
+                <span class="material-symbols-outlined text-2xl text-secondary"
+                  >auto_awesome</span
+                >
+              </div>
+            </div>
+          </section>
+          <!-- Filter & Search Command Panel -->
+          <section
+            class="bg-zinc-900/90 backdrop-blur border border-zinc-800 p-2.5 rounded-2xl shadow-xl flex flex-col gap-2"
+          >
+            <!-- Single Search Bar -->
+            <div
+              class="flex items-center bg-zinc-950/80 rounded-xl border border-zinc-800/80 focus-within:border-red-500/60 focus-within:ring-2 focus-within:ring-red-500/20 transition-all p-1"
+            >
+              <!-- Icon & Input -->
+              <div class="flex-1 flex items-center pl-3 min-w-0">
+                <span
+                  class="material-symbols-outlined text-zinc-400 text-xl pointer-events-none select-none"
+                  >search</span
+                >
+                <input
+                  type="text"
+                  placeholder="Tìm kiếm phim, đạo diễn, diễn viên..."
+                  class="w-full h-10 bg-transparent px-3 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none"
+                />
+              </div>
+
+              <!-- Divider -->
+              <div class="h-5 w-px bg-zinc-800 hidden sm:block"></div>
+
+              <!-- The Loai -->
+              <div class="relative hidden sm:block shrink-0">
+                <select
+                  class="h-10 appearance-none bg-transparent text-zinc-300 text-xs font-medium pl-3 pr-8 cursor-pointer focus:outline-none hover:text-white transition-colors"
+                >
+                  <option class="bg-zinc-900 text-zinc-200">
+                    Tất cả thể loại
+                  </option>
+                  <option class="bg-zinc-900 text-zinc-200">
+                    Khoa học viễn tưởng
+                  </option>
+                  <option class="bg-zinc-900 text-zinc-200">Hành động</option>
+                  <option class="bg-zinc-900 text-zinc-200">
+                    Tâm lý & Lịch sử
+                  </option>
+                  <option class="bg-zinc-900 text-zinc-200">Hoạt hình</option>
+                </select>
+                <span
+                  class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none text-base"
+                  >expand_more</span
+                >
+              </div>
+
+              <!-- Divider -->
+              <div class="h-5 w-px bg-zinc-800 hidden md:block"></div>
+
+              <!-- Trang Thai -->
+              <div class="relative hidden md:block shrink-0">
+                <select
+                  class="h-10 appearance-none bg-transparent text-zinc-300 text-xs font-medium pl-3 pr-8 cursor-pointer focus:outline-none hover:text-white transition-colors"
+                >
+                  <option class="bg-zinc-900 text-zinc-200">
+                    Mọi trạng thái
+                  </option>
+                  <option class="bg-zinc-900 text-zinc-200">Đang chiếu</option>
+                  <option class="bg-zinc-900 text-zinc-200">Bản nháp</option>
+                </select>
+                <span
+                  class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none text-base"
+                  >expand_more</span
+                >
+              </div>
+
+              <!-- Submit Button -->
+              <button
+                type="button"
+                class="h-10 px-4 bg-red-600 hover:bg-red-500 active:scale-95 text-white rounded-lg text-xs font-semibold inline-flex items-center gap-1.5 transition-all shrink-0 ml-1 shadow-sm shadow-red-950"
+              >
+                <span class="material-symbols-outlined text-base">tune</span>
+                <span>Lọc phim</span>
+              </button>
+            </div>
+
+            <!-- Bottom Details -->
+            <div
+              class="flex items-center justify-between px-2 text-xs text-zinc-400"
+            >
+              <div class="flex items-center gap-2">
+                <span
+                  class="inline-flex items-center gap-1.5 text-red-400 font-medium"
+                >
+                  <span
+                    class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"
+                  ></span>
+                  Bộ lọc đang bật
+                </span>
+                <button
+                  type="button"
+                  class="hover:text-zinc-200 transition-colors underline decoration-zinc-700"
+                >
+                  Đặt lại
+                </button>
+              </div>
+              <div>
+                Đang hiển thị
+                <span class="text-zinc-200 font-semibold">1-8</span> /
+                <span class="text-zinc-200 font-semibold">120</span> phim
+              </div>
+            </div>
+          </section>
+          <!-- Movie Catalog Data Table Container -->
+          <section
+            class="bg-surface-container-low rounded-xl shadow-xl overflow-hidden flex flex-col"
+          >
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <!-- Table Header -->
+                <thead>
+                  <tr
+                    class="bg-surface-container-lowest text-on-surface-variant font-label-caps text-label-caps uppercase tracking-wider"
+                  >
+                    <th
+                      class="py-space-md pl-space-md pr-space-xs w-12 text-center"
+                      scope="col"
+                    >
+                      <label
+                        class="relative flex items-center justify-center cursor-pointer"
+                      >
+                        <input
+                          class="peer sr-only"
+                          id="selectAllCheckbox"
+                          type="checkbox"
+                        />
+                        <span
+                          class="w-4 h-4 rounded bg-surface-container flex items-center justify-center peer-checked:bg-primary-container transition-colors"
+                        >
+                          <span
+                            class="material-symbols-outlined text-xs text-on-primary-container opacity-0 peer-checked:opacity-100 font-bold"
+                            >check</span
+                          >
+                        </span>
+                      </label>
+                    </th>
+                    <th class="py-space-md px-space-md" scope="col">Phim</th>
+                    <th class="py-space-md px-space-md" scope="col">
+                      Thể loại
+                    </th>
+                    <th class="py-space-md px-space-md" scope="col">
+                      Thời lượng
+                    </th>
+                    <th class="py-space-md px-space-md" scope="col">
+                      Chất lượng
+                    </th>
+                    <th class="py-space-md px-space-md" scope="col">
+                      Lượt xem
+                    </th>
+                    <th class="py-space-md px-space-md" scope="col">
+                      Đánh giá
+                    </th>
+                    <th class="py-space-md px-space-md" scope="col">
+                      Trạng thái
+                    </th>
+                    <th
+                      class="py-space-md px-space-md text-right pr-space-lg"
+                      scope="col"
+                    >
+                      Thao tác
+                    </th>
+                  </tr>
+                </thead>
+                <!-- Table Body -->
+                <tbody
+                  id="movie-list"
+                  class="divide-y-0 text-on-surface font-body-sm text-body-sm"
+                ></tbody>
+              </table>
+            </div>
+            <!-- Pagination & Catalog Range Controls -->
+            <div
+              class="p-space-md bg-surface-container-lowest/80 flex flex-col sm:flex-row items-center justify-between gap-space-md"
+            >
+              <!-- Left: Batch Operations & Per Page -->
+              <div class="flex items-center gap-space-md">
+                <div class="flex items-center gap-2">
+                  <span
+                    class="font-body-sm text-body-sm text-on-surface-variant"
+                    >Hiển thị</span
+                  >
+                  <select
+                    class="bg-surface-container text-on-surface font-label-md text-label-md px-2.5 py-1.5 rounded cursor-pointer focus:outline-none focus:bg-surface-container-high"
+                  >
+                    <option>8 / trang</option>
+                    <option>16 / trang</option>
+                    <option>32 / trang</option>
+                    <option>50 / trang</option>
+                  </select>
+                </div>
+                <span class="text-on-surface-variant/40">|</span>
+                <span
+                  class="font-label-md text-label-md text-on-surface-variant"
+                >
+                  1 - 8 của
+                  <span class="text-on-surface font-bold">120</span> phim
+                </span>
+              </div>
+              <!-- Right: Pagination Buttons -->
+              <div id="pagination"></div>
+            </div>
+          </section>
+          <!-- Interactive Select All and Toast Logic Script -->
+          <!-- <script>
+            (function () {
+              const selectAll = document.getElementById("selectAllCheckbox");
+              const rowCheckboxes = document.querySelectorAll(
+                ".movie-row-checkbox",
+              );
+
+              if (selectAll) {
+                selectAll.addEventListener("change", function () {
+                  rowCheckboxes.forEach((cb) => {
+                    cb.checked = selectAll.checked;
+                  });
+                });
+              }
+
+              // Auto dismiss toast after 6 seconds
+              const toast = document.getElementById("toastNotification");
+              if (toast) {
+                setTimeout(() => {
+                  toast.style.opacity = "0";
+                  toast.style.transform = "translateY(-12px)";
+                  setTimeout(() => toast.remove(), 350);
+                }, 6000);
+              }
+            })();
+          </script> -->
+        </div>
+      </main>
+    </div>
+    <div id="movieDetailDrawer" class="fixed inset-0 z-50 invisible">
+      <!-- nền đen -->
+      <div
+        id="movieDetailOverlay"
+        class="absolute inset-0 bg-black/60 opacity-0 transition-opacity duration-300"
+        onclick="closeMovieDetail()"
+      ></div>
+
+      <!-- drawer -->
+      <div
+        id="movieDetailPanel"
+        class="absolute top-0 right-0 h-full w-full max-w-md bg-surface-container shadow-2xl translate-x-full transition-transform duration-300 ease-out overflow-y-auto"
+      >
+        <!-- Header -->
+        <div
+          class="sticky top-0 z-10 bg-surface-container border-b border-surface-container-highest"
+        >
+          <div class="flex items-center justify-between p-5">
+            <h2 class="text-lg font-bold">Chi tiết phim</h2>
+
+            <button
+              type="button"
+              onclick="closeMovieDetail()"
+              class="p-2 rounded-lg hover:bg-surface-container-highest transition"
+            >
+              <span class="material-symbols-outlined"> close </span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Nội dung -->
+        <div id="movieDetailContent" class="p-5"></div>
+      </div>
+    </div>
+  </body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="module" src="./../../src/js/admin/movies.js"></script>
+
+<script type="module" src="/src/main.js"></script>
