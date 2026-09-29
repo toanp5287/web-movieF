@@ -39,19 +39,6 @@
       ::-webkit-scrollbar {
         display: none;
       }
-      .favorite-poster {
-        position: relative;
-        width: 100%;
-        aspect-ratio: 2 / 3;
-        overflow: hidden;
-        border-radius: 0.5rem;
-      }
-      .favorite-poster img {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
     </style>
     <script src="https://cdn.tailwindcss.com"></script>
     <script id="tailwind-config">
@@ -238,7 +225,7 @@
   <body
     class="bg-surface-container-lowest font-body-md text-on-surface antialiased"
   >
-  <header
+    <header
       class="fixed top-0 left-0 right-0 w-full z-50 bg-surface-container-lowest/85 backdrop-blur-xl border-b border-white/5"
       id="header"
     >
@@ -433,7 +420,8 @@
                       >
                       <input
                         class="w-full bg-surface-container-highest pl-10 pr-4 py-2 rounded-lg text-on-surface font-body-md text-body-md placeholder:text-secondary/70 focus:outline-none focus:bg-surface-bright transition-all"
-                        id="favoriteSearch" placeholder="Tìm kiếm phim trong yêu thích..."
+                        id="favoriteSearch"
+                        placeholder="Tìm kiếm phim trong yêu thích..."
                         type="text"
                       />
                     </div>
@@ -529,7 +517,8 @@
                 </p>
                 <a
                   class="inline-flex items-center gap-2 px-space-xl py-2.5 rounded-lg bg-primary-container text-on-primary-container font-title-md text-title-md hover:bg-inverse-primary transition-all"
-                  href="/movies">
+                  href="/movies"
+                >
                   <span class="material-symbols-outlined text-[20px]"
                     >movie</span
                   >
@@ -537,7 +526,6 @@
                 </a>
               </div>
             </div>
-            
           </main>
           <footer class="w-full bg-surface-container-low py-space-lg mt-auto">
             <div
