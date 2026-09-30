@@ -44,9 +44,9 @@
   <body
     class="bg-surface-container-lowest font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container"
   >
-    <header
-      id="header"
+  <header
       class="fixed top-0 left-0 right-0 w-full z-50 bg-surface-container-lowest/85 backdrop-blur-xl border-b border-white/5"
+      id="header"
     >
       <div
         class="h-20 w-full px-gutter-mobile md:px-margin flex items-center justify-between gap-space-md"
@@ -55,7 +55,7 @@
           <a
             class="flex items-center gap-space-sm group"
             data-path="trang-chu"
-            href="#"
+            href="/"
           >
             <img
               alt="MovieF Logo"
@@ -82,47 +82,47 @@
             <a
               class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors py-space-xs"
               data-path="phim"
-              href="#"
+              href="/movies"
             >
               Phim
             </a>
             <a
               class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors py-space-xs"
               data-path="the-loai"
-              href="#"
+              href="/genres"
             >
               Thể loại
             </a>
             <a
               class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors py-space-xs"
               data-path="top-phim"
-              href="#"
+              href="/movies"
             >
               Top phim
             </a>
           </nav>
         </div>
         <div class="flex items-center gap-space-sm sm:gap-space-md">
-          <div class="relative hidden sm:flex items-center">
+          <div class="relative hidden xl:flex items-center">
             <span
               class="material-symbols-outlined absolute left-3 text-on-surface-variant text-lg pointer-events-none"
             >
               search
             </span>
             <input
-              class="w-48 lg:w-72 pl-9 pr-space-md py-space-xs bg-surface-container-low text-on-surface placeholder-on-surface-variant font-body-sm text-body-sm rounded-lg border border-white/10 focus:outline-none focus:border-outline focus:ring-1 focus:ring-outline transition-all"
+              class="w-64 xl:w-72 pl-9 pr-space-md py-space-xs bg-surface-container-low text-on-surface placeholder-on-surface-variant font-body-sm text-body-sm rounded-lg border border-white/10 focus:outline-none focus:border-outline focus:ring-1 focus:ring-outline transition-all"
               placeholder="Tìm kiếm phim, diễn viên..."
               type="text"
             />
           </div>
           <button
-            class="sm:hidden flex items-center justify-center p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+            class="xl:hidden flex items-center justify-center p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
             type="button"
           >
             <span class="material-symbols-outlined text-xl">search</span>
           </button>
           <button
-            class="relative flex items-center justify-center p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+            class="relative hidden lg:flex items-center justify-center p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
             type="button"
           >
             <span class="material-symbols-outlined text-2xl"
@@ -132,10 +132,10 @@
               class="absolute top-1.5 right-1.5 w-2 h-2 bg-primary-container rounded-full ring-2 ring-surface-container-lowest"
             ></span>
           </button>
-                <div
-                  class="flex items-center gap-space-xs pl-space-xs"
-                  id="user"
-                ></div>
+          <div
+            class="flex items-center gap-space-xs pl-space-xs"
+            id="user"
+          ></div>
         </div>
       </div>
     </header>

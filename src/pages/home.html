@@ -143,100 +143,113 @@
       <div class="flex flex-col w-full">
         <!-- Hero Section with Dramatic Cinematic Atmosphere -->
         <section
-          class="relative w-full -mt-20 pt-20 min-h-[660px] md:min-h-[700px] xl:min-h-[820px] flex items-end lg:items-center justify-start overflow-hidden bg-surface-container-lowest"
+          class="relative w-full -mt-20 pt-20 min-h-[720px] md:min-h-[780px] lg:min-h-[850px] flex items-end lg:items-center justify-start overflow-hidden bg-surface-container-lowest"
         >
-          <!-- ẢNH NỀN BANNER: INTERSTELLAR -->
-          <!-- Nguồn ảnh: /images/movies/interstellar.jpg (đã kiểm tra tồn tại, 500x750) -->
-          <!-- Mobile/tablet: phủ toàn khung, ảnh gốc 500x750 nên không bị phóng to -> sắc nét -->
-          <!-- Desktop: cùng ảnh được blur + scale thành lớp nền điện ảnh, poster sắc nét đặt ở cột phải -->
+          <!-- ẢNH NỀN FULL BANNER -->
+          <!-- ẢNH FULL BANNER - ƯU TIÊN GIỮ PHẦN MẶT Ở PHÍA TRÊN -->
           <div
             aria-hidden="true"
-            class="absolute inset-0 bg-cover bg-no-repeat bg-[position:50%_18%] scale-105 lg:scale-[1.3] lg:blur-2xl origin-center transition-transform duration-[1200ms] ease-out"
+            class="absolute inset-0 bg-cover bg-no-repeat bg-[position:center_top] scale-[1.02]"
             style="
               background-image: url(&quot;/images/movies/interstellar.jpg&quot;);
             "
           ></div>
-          <!-- Lớp phủ: làm dịu ảnh + tạo vùng tối cho chữ, KHÔNG phủ đen 100% -->
-          <div class="absolute inset-0 z-10 bg-surface-container-lowest/30"></div>
+
+          <!-- GRADIENT BÊN TRÁI: giúp chữ nổi bật -->
           <div
-            class="absolute inset-0 z-10 bg-gradient-to-t from-surface-container-lowest/95 via-surface-container-lowest/55 to-surface-container-lowest/20"
+            class="absolute inset-0 z-10 bg-gradient-to-r from-black via-black/75 to-transparent"
           ></div>
-          <!-- Trên desktop: thêm lớp phủ ngang để cột chữ bên trái nổi rõ -->
+
+          <!-- GRADIENT PHÍA DƯỚI -->
           <div
-            class="absolute inset-0 z-10 hidden lg:block bg-gradient-to-r from-surface-container-lowest via-surface-container-lowest/80 to-transparent"
+            class="absolute inset-0 z-10 bg-gradient-to-t from-black via-black/40 to-transparent"
           ></div>
+
+          <!-- GRADIENT PHÍA TRÊN -->
           <div
-            class="absolute inset-x-0 top-0 z-10 h-24 bg-gradient-to-b from-surface-container-lowest to-transparent"
+            class="absolute inset-x-0 top-0 z-10 h-40 bg-gradient-to-b from-black/80 to-transparent"
           ></div>
+
+          <!-- HIỆU ỨNG ÁNH SÁNG -->
           <div
-            class="absolute -left-24 top-1/4 w-80 h-80 md:w-96 md:h-96 rounded-full bg-primary-container/20 blur-[130px] pointer-events-none z-10 hidden md:block"
+            class="absolute -left-20 bottom-0 z-10 h-96 w-96 rounded-full bg-red-600/10 blur-[120px] pointer-events-none"
           ></div>
+
           <div
-            class="absolute right-0 bottom-0 w-96 h-96 rounded-full bg-secondary-container/10 blur-[140px] pointer-events-none z-10 hidden lg:block"
+            class="absolute right-0 bottom-0 z-10 h-96 w-96 rounded-full bg-purple-500/10 blur-[140px] pointer-events-none hidden lg:block"
           ></div>
-          <!-- Hero Content Body -->
+
+          <!-- HERO CONTENT -->
           <div
-            class="relative z-20 w-full px-gutter-mobile md:px-margin max-w-5xl xl:max-w-3xl pt-8 pb-10 lg:py-space-xl flex flex-col gap-space-md"
+            class="relative z-20 w-full max-w-5xl px-5 pb-16 pt-24 md:px-10 md:pb-20 lg:px-16 lg:pb-0"
           >
-            <!-- Franchise Tag / Overline -->
-            <div class="flex items-center gap-space-sm text-secondary">
-              <span class="material-symbols-outlined text-sm">stars</span>
-              <span
-                class="font-label-caps text-label-caps uppercase tracking-widest text-secondary font-bold"
-                >Bom Tấn Điện Ảnh Độc Quyền</span
-              >
+            <!-- TAG -->
+            <div class="mb-4 flex items-center gap-2 text-red-500">
+              <span class="material-symbols-outlined text-sm"> stars </span>
+
+              <span class="text-xs font-bold uppercase tracking-[0.2em]">
+                Bom Tấn Điện Ảnh Độc Quyền
+              </span>
             </div>
-            <!-- Main Masterpiece Title -->
+
+            <!-- TITLE -->
             <div class="flex flex-col gap-1">
               <h1
-                class="font-display-hero text-display-hero-mobile md:text-display-hero text-on-surface tracking-tight font-extrabold leading-[1.02] drop-shadow-2xl"
+                class="text-4xl font-extrabold leading-[1.02] tracking-tight text-white drop-shadow-2xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl"
               >
                 INTERSTELLAR
               </h1>
+
               <p
-                class="font-title-md text-title-md uppercase tracking-[0.2em] text-on-surface-variant font-semibold"
+                class="mt-2 text-sm font-semibold uppercase tracking-[0.2em] text-white/70 md:text-base"
               >
                 Hành Tinh Xa Xôi
               </p>
             </div>
-            <!-- Meta Badges Array -->
-            <div
-              class="flex flex-wrap items-center gap-space-xs sm:gap-space-sm pt-space-xs"
-            >
+
+            <!-- META -->
+            <div class="mt-6 flex max-w-4xl flex-wrap items-center gap-2">
               <span
-                class="px-space-sm py-0.5 rounded bg-surface-container-highest text-on-surface font-label-caps text-label-caps tracking-wider uppercase font-bold shadow-sm"
+                class="rounded bg-white/10 px-3 py-1 text-xs font-bold tracking-wider text-white backdrop-blur-md"
               >
                 4K ULTRA HD
               </span>
+
               <span
-                class="flex items-center gap-1 px-space-sm py-0.5 rounded bg-secondary-container/20 text-secondary font-label-caps text-label-caps font-bold shadow-sm"
+                class="flex items-center gap-1 rounded bg-yellow-500/15 px-3 py-1 text-xs font-bold text-yellow-400 backdrop-blur-md"
               >
                 <span
                   class="material-symbols-outlined text-xs"
                   style="font-variation-settings: &quot;FILL&quot; 1"
-                  >star</span
                 >
+                  star
+                </span>
+
                 IMDb 8.7
               </span>
+
               <span
-                class="px-space-sm py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-caps text-label-caps"
+                class="rounded bg-white/10 px-3 py-1 text-xs text-white/80 backdrop-blur-md"
               >
                 2014
               </span>
+
               <span
-                class="px-space-sm py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-caps text-label-caps"
+                class="rounded bg-white/10 px-3 py-1 text-xs text-white/80 backdrop-blur-md"
               >
                 2h 49m
               </span>
+
               <span
-                class="px-space-sm py-0.5 rounded bg-surface-container text-on-surface-variant font-body-sm text-body-sm"
+                class="rounded bg-white/10 px-3 py-1 text-xs text-white/80 backdrop-blur-md"
               >
                 Khoa học viễn tưởng • Phiêu lưu • Tâm lý
               </span>
             </div>
-            <!-- Compelling Cinematic Synopsis -->
+
+            <!-- MÔ TẢ -->
             <p
-              class="font-body-lg text-body-md md:text-body-lg text-on-surface-variant max-w-2xl leading-relaxed line-clamp-3 md:line-clamp-none drop-shadow"
+              class="mt-6 max-w-2xl text-sm leading-relaxed text-white/75 drop-shadow-md md:text-base lg:text-lg"
             >
               Khi Trái Đất cạn kiệt vì bụi hạt bao phủ, một nhóm phi hành gia do
               Matthew McConaughey dẫn đầu vượt qua lỗ đen Gargantua để tìm kiếm
@@ -244,25 +257,37 @@
               và thời gian buộc họ phải hy sinh tình cảm, tình yêu thương để bảo
               vệ tương lai của chính con cái mình.
             </p>
-            <!-- Diễn viên & Đạo diễn -->
+
+            <!-- DIỄN VIÊN & ĐẠO DIỄN -->
             <div
-              class="flex flex-wrap items-center gap-x-2 gap-y-1 font-body-sm text-body-sm text-on-surface-variant"
+              class="mt-5 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-white/60"
             >
-              <span class="material-symbols-outlined text-base text-primary"
-                >group</span
-              >
+              <span class="material-symbols-outlined text-base text-red-500">
+                group
+              </span>
+
               <span>Matthew McConaughey</span>
-              <span class="text-on-surface-variant/50">•</span>
+
+              <span class="text-white/30">•</span>
+
               <span>Anne Hathaway</span>
-              <span class="text-on-surface-variant/50">•</span>
+
+              <span class="text-white/30">•</span>
+
               <span>Jessica Chastain</span>
-              <span class="text-on-surface-variant/50 hidden sm:inline">•</span>
-              <span class="hidden sm:inline">Đạo diễn: Christopher Nolan</span>
+
+              <span class="hidden text-white/30 sm:inline">•</span>
+
+              <span class="hidden sm:inline">
+                Đạo diễn: Christopher Nolan
+              </span>
             </div>
-            <!-- Action Button Group -->
-            <div class="flex flex-wrap items-center gap-space-md pt-space-sm">
+
+            <!-- BUTTON -->
+            <div class="mt-8 flex flex-wrap items-center gap-3">
+              <!-- XEM PHIM -->
               <a
-                class="inline-flex items-center justify-center gap-space-sm px-space-lg py-3 rounded-xl bg-primary-container text-on-primary-container font-title-sm text-title-sm hover:opacity-95 shadow-[0_0_24px_-2px_rgba(229,9,20,0.5)] transform hover:scale-[1.03] active:scale-[0.98] transition-all duration-200 select-none"
+                class="inline-flex items-center justify-center gap-2 rounded-xl bg-[#e50914] px-6 py-3 font-semibold text-white shadow-[0_0_25px_-5px_rgba(229,9,20,0.7)] transition-all duration-200 hover:scale-105 hover:bg-red-600 active:scale-95 select-none"
                 data-movie-id="3"
                 data-movie-title="Interstellar"
                 href="/watch"
@@ -270,89 +295,51 @@
                 <span
                   class="material-symbols-outlined text-xl shrink-0"
                   style="font-variation-settings: &quot;FILL&quot; 1"
-                  >play_arrow</span
                 >
+                  play_arrow
+                </span>
+
                 <span>Xem phim ngay</span>
               </a>
+
+              <!-- TRAILER -->
               <button
-                class="flex items-center gap-space-sm px-space-lg py-3 rounded-xl bg-surface-container-high/80 backdrop-blur-md text-on-surface hover:bg-surface-bright font-title-sm text-title-sm shadow-md transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
+                class="flex items-center gap-2 rounded-xl bg-white/10 px-6 py-3 font-semibold text-white backdrop-blur-md transition-all duration-200 hover:scale-105 hover:bg-white/20 active:scale-95"
                 type="button"
               >
-                <span class="material-symbols-outlined text-xl"
-                  >smart_display</span
-                >
+                <span class="material-symbols-outlined text-xl">
+                  smart_display
+                </span>
+
                 <span>Xem trailer</span>
               </button>
+
+              <!-- YÊU THÍCH -->
               <button
                 aria-label="Thêm phim Interstellar vào danh sách yêu thích"
-                class="flex items-center gap-space-sm px-space-lg py-3 rounded-xl bg-surface-container-high/80 backdrop-blur-md text-on-surface-variant hover:text-primary hover:bg-surface-bright font-title-sm text-title-sm shadow-md transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
+                class="flex items-center gap-2 rounded-xl bg-white/10 px-5 py-3 font-semibold text-white backdrop-blur-md transition-all duration-200 hover:scale-105 hover:bg-white/20 hover:text-red-500 active:scale-95"
                 type="button"
               >
-                <span class="material-symbols-outlined text-xl">favorite</span>
+                <span class="material-symbols-outlined text-xl">
+                  favorite
+                </span>
+
                 <span>Yêu thích</span>
               </button>
             </div>
-            <!-- Link phụ sang trang chi tiết -->
+
+            <!-- CHI TIẾT -->
             <a
-              class="inline-flex items-center gap-1.5 pt-space-xs w-fit font-title-sm text-title-sm text-on-surface-variant hover:text-primary transition-colors"
+              class="mt-5 inline-flex w-fit items-center gap-1.5 text-sm font-semibold text-white/60 transition-colors hover:text-red-500"
               data-movie-id="3"
               data-movie-title="Interstellar"
               href="/movie-detail"
             >
-              <span class="material-symbols-outlined text-lg">info</span>
+              <span class="material-symbols-outlined text-lg"> info </span>
+
               <span>Xem chi tiết phim</span>
             </a>
           </div>
-          <!-- Poster sắc nét (chỉ hiện từ màn xl trở lên) -->
-          <a
-            aria-label="Xem chi tiết phim Interstellar"
-            class="group absolute right-12 top-1/2 -translate-y-1/2 z-20 hidden w-[300px] xl:block 2xl:w-[340px]"
-            href="/movie-detail"
-          >
-            <div
-              class="relative w-full aspect-[2/3] rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/15"
-            >
-              <img
-                alt="Poster phim Interstellar (2014)"
-                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                src="/images/movies/interstellar.jpg"
-              />
-              <div
-                class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/90 via-surface-container-lowest/10 to-transparent"
-              ></div>
-              <span
-                class="absolute top-3 left-3 px-2.5 py-1 rounded bg-primary-container text-on-primary-container font-label-caps text-label-caps uppercase font-bold shadow-lg"
-                >4K Ultra HD</span
-              >
-              <div class="absolute inset-x-0 bottom-0 p-4 flex flex-col gap-0.5">
-                <span
-                  class="font-label-caps text-label-caps uppercase tracking-widest text-secondary font-bold"
-                  >IMDb 8.7</span
-                >
-                <span
-                  class="font-headline-sm text-headline-sm text-on-surface font-bold"
-                  >Interstellar</span
-                >
-                <span
-                  class="font-body-sm text-body-sm text-on-surface-variant"
-                  >2014 • 2h 49m</span
-                >
-              </div>
-              <div
-                class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-surface-container-lowest/50"
-              >
-                <span
-                  class="w-14 h-14 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_0_28px_rgba(229,9,20,0.8)]"
-                >
-                  <span
-                    class="material-symbols-outlined text-3xl"
-                    style="font-variation-settings: &quot;FILL&quot; 1"
-                    >play_arrow</span
-                  >
-                </span>
-              </div>
-            </div>
-          </a>
         </section>
         <!-- Content Rails Container -->
         <div
@@ -1118,7 +1105,9 @@
                   <span>•</span>
                   <span>2h 49m</span>
                   <span>•</span>
-                  <span class="mf-mcard-genre truncate">Khoa học viễn tưởng</span>
+                  <span class="mf-mcard-genre truncate"
+                    >Khoa học viễn tưởng</span
+                  >
                 </div>
               </a>
               <!-- Trending Item 2 -->
@@ -1137,7 +1126,7 @@
                     "
                   ></div>
                   <div
-                      class="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity"
+                    class="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity"
                   ></div>
                   <div
                     class="pointer-events-none absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-1 shadow-md"
@@ -1178,7 +1167,9 @@
                   <span>•</span>
                   <span>2h 44m</span>
                   <span>•</span>
-                  <span class="mf-mcard-genre truncate">Hành động • Viễn tưởng</span>
+                  <span class="mf-mcard-genre truncate"
+                    >Hành động • Viễn tưởng</span
+                  >
                 </div>
               </a>
               <!-- Trending Item 3 -->
@@ -1197,7 +1188,7 @@
                     "
                   ></div>
                   <div
-                      class="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity"
+                    class="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity"
                   ></div>
                   <div
                     class="pointer-events-none absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-1 shadow-md"
@@ -1238,7 +1229,9 @@
                   <span>•</span>
                   <span>2h 55m</span>
                   <span>•</span>
-                  <span class="mf-mcard-genre truncate">Tội phạm • Kịch tính</span>
+                  <span class="mf-mcard-genre truncate"
+                    >Tội phạm • Kịch tính</span
+                  >
                 </div>
               </a>
               <!-- Trending Item 4 -->
@@ -1257,7 +1250,7 @@
                     "
                   ></div>
                   <div
-                      class="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity"
+                    class="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity"
                   ></div>
                   <div
                     class="pointer-events-none absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-1 shadow-md"
@@ -1317,7 +1310,7 @@
                     "
                   ></div>
                   <div
-                      class="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity"
+                    class="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity"
                   ></div>
                   <div
                     class="pointer-events-none absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-1 shadow-md"
@@ -1929,7 +1922,7 @@
                 <a
                   class="mf-mcard group p-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high transition-colors flex items-center gap-space-md shadow-md"
                   href="/movie-detail"
-                  >
+                >
                   <div
                     class="relative w-20 h-28 rounded-lg overflow-hidden shrink-0 bg-surface-container-high"
                   >
@@ -1967,7 +1960,7 @@
                   </div>
                   <span
                     class="w-10 h-10 rounded-full bg-surface-container-high group-hover:bg-primary-container group-hover:text-on-primary-container text-on-surface flex items-center justify-center shrink-0 transition-colors"
-                    >
+                  >
                     <span
                       class="material-symbols-outlined text-xl"
                       style="font-variation-settings: &quot;FILL&quot; 1"
@@ -1979,7 +1972,7 @@
                 <a
                   class="mf-mcard group p-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high transition-colors flex items-center gap-space-md shadow-md"
                   href="/movie-detail"
-                  >
+                >
                   <div
                     class="relative w-20 h-28 rounded-lg overflow-hidden shrink-0 bg-surface-container-high"
                   >
@@ -2017,7 +2010,7 @@
                   </div>
                   <span
                     class="w-10 h-10 rounded-full bg-surface-container-high group-hover:bg-primary-container group-hover:text-on-primary-container text-on-surface flex items-center justify-center shrink-0 transition-colors"
-                    >
+                  >
                     <span
                       class="material-symbols-outlined text-xl"
                       style="font-variation-settings: &quot;FILL&quot; 1"
@@ -2029,7 +2022,7 @@
                 <a
                   class="mf-mcard group p-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high transition-colors flex items-center gap-space-md shadow-md"
                   href="/movie-detail"
-                  >
+                >
                   <div
                     class="relative w-20 h-28 rounded-lg overflow-hidden shrink-0 bg-surface-container-high"
                   >
@@ -2067,7 +2060,7 @@
                   </div>
                   <span
                     class="w-10 h-10 rounded-full bg-surface-container-high group-hover:bg-primary-container group-hover:text-on-primary-container text-on-surface flex items-center justify-center shrink-0 transition-colors"
-                    >
+                  >
                     <span
                       class="material-symbols-outlined text-xl"
                       style="font-variation-settings: &quot;FILL&quot; 1"
@@ -2078,7 +2071,7 @@
               </div>
             </div>
           </section>
-                <section
+          <section
             class="w-full rounded-2xl bg-gradient-to-r from-white/5 via-white/[0.03] to-white/5 border border-white/10 p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6"
           >
             <div class="flex flex-col gap-2 max-w-xl text-center md:text-left">

@@ -4,6 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
       rel="stylesheet"
@@ -215,28 +216,25 @@
                 </div>
               </div>
               <!-- Options: Remember Me & Forgot Password -->
-              <div class="flex items-center justify-between pt-1">
-                <label
-                  class="flex items-center gap-2 cursor-pointer group select-none"
-                >
-                  <input
-                    class="w-4 h-4 rounded bg-surface-container-lowest text-primary-container accent-primary-container focus:ring-0 cursor-pointer"
-                    id="rememberMe"
-                    type="checkbox"
-                  />
-                  <span
-                    class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-on-surface transition-colors"
+
+              <div class="pt-1">
+                <!-- CAPTCHA -->
+                <div
+                  class="g-recaptcha max-w-full overflow-hidden"
+                  data-sitekey="6LeXzdctAAAAAIwdRsLfHXZJtKrxpEAKGH5EZD6T"
+                ></div>
+
+                <!-- Quên mật khẩu -->
+                <div class="flex justify-end mt-2">
+                  <a
+                    class="font-title-sm text-title-sm text-primary hover:text-primary-fixed transition-colors font-semibold whitespace-nowrap"
+                    href="#"
                   >
-                    Nhớ tài khoản
-                  </span>
-                </label>
-                <a
-                  class="font-title-sm text-title-sm text-primary hover:text-primary-fixed transition-colors font-semibold"
-                  href="#"
-                >
-                  Quên mật khẩu?
-                </a>
+                    Quên mật khẩu?
+                  </a>
+                </div>
               </div>
+
               <!-- Primary CTA Button -->
               <button
                 class="mt-2 w-full py-3.5 px-6 rounded-xl bg-primary-container hover:bg-tertiary-container text-on-primary-container font-title-md text-title-md font-semibold flex items-center justify-center gap-2 shadow-lg shadow-primary-container/30 hover:shadow-primary-container/50 transform active:scale-[0.99] transition-all cursor-pointer"
@@ -289,39 +287,7 @@
                 >
               </button>
             </div>
-            <!-- Demo Account Quick Assist Drawer / Pill -->
-            <div
-              class="mt-space-md p-3 rounded-lg bg-surface-container-lowest/60 flex flex-col gap-1.5"
-            >
-              <div class="flex items-center gap-1.5 text-secondary">
-                <span class="material-symbols-outlined text-[16px]"
-                  >smart_toy</span
-                >
-                <span
-                  class="font-label-caps text-label-caps uppercase tracking-wider font-semibold"
-                  >Tài khoản trải nghiệm demo</span
-                >
-              </div>
-              <div
-                class="flex flex-wrap gap-2 text-on-surface-variant font-body-sm text-body-sm"
-              >
-                <button
-                  class="px-2 py-0.5 rounded bg-surface-container-high hover:bg-primary hover:text-on-primary text-on-surface transition-colors font-mono cursor-pointer"
-                  onclick="fillDemoAccount('admin@movief.vn')"
-                  type="button"
-                >
-                  admin@movief.vn
-                </button>
-                <span class="text-outline/40">/</span>
-                <button
-                  class="px-2 py-0.5 rounded bg-surface-container-high hover:bg-primary hover:text-on-primary text-on-surface transition-colors font-mono cursor-pointer"
-                  onclick="fillDemoAccount('user@movief.vn')"
-                  type="button"
-                >
-                  user@movief.vn
-                </button>
-              </div>
-            </div>
+
             <!-- Footer Register Link -->
             <div
               class="mt-space-lg text-center font-body-sm text-body-sm text-outline-variant"
@@ -329,7 +295,7 @@
               <span>Chưa có tài khoản? </span>
               <a
                 class="font-title-sm text-title-sm text-primary hover:text-primary-fixed transition-colors font-semibold inline-flex items-center gap-1"
-                href="#"
+                href="/register"
               >
                 <span>Đăng ký ngay</span>
                 <span class="material-symbols-outlined text-[16px]"

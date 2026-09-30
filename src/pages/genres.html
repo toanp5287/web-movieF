@@ -231,7 +231,7 @@
   <body
     class="bg-surface-container-lowest text-on-surface font-body-md text-body-md antialiased min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary-container"
   >
-   <header
+    <header
       class="fixed top-0 left-0 right-0 w-full z-50 bg-surface-container-lowest/85 backdrop-blur-xl border-b border-white/5"
       id="header"
     >
@@ -242,7 +242,7 @@
           <a
             class="flex items-center gap-space-sm group"
             data-path="trang-chu"
-            href="#"
+            href="/"
           >
             <img
               alt="MovieF Logo"
@@ -283,33 +283,33 @@
             <a
               class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors py-space-xs"
               data-path="top-phim"
-              href="#"
+              href="/movies"
             >
               Top phim
             </a>
           </nav>
         </div>
         <div class="flex items-center gap-space-sm sm:gap-space-md">
-          <div class="relative hidden sm:flex items-center">
+          <div class="relative hidden xl:flex items-center">
             <span
               class="material-symbols-outlined absolute left-3 text-on-surface-variant text-lg pointer-events-none"
             >
               search
             </span>
             <input
-              class="w-48 lg:w-72 pl-9 pr-space-md py-space-xs bg-surface-container-low text-on-surface placeholder-on-surface-variant font-body-sm text-body-sm rounded-lg border border-white/10 focus:outline-none focus:border-outline focus:ring-1 focus:ring-outline transition-all"
+              class="w-64 xl:w-72 pl-9 pr-space-md py-space-xs bg-surface-container-low text-on-surface placeholder-on-surface-variant font-body-sm text-body-sm rounded-lg border border-white/10 focus:outline-none focus:border-outline focus:ring-1 focus:ring-outline transition-all"
               placeholder="Tìm kiếm phim, diễn viên..."
               type="text"
             />
           </div>
           <button
-            class="sm:hidden flex items-center justify-center p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+            class="xl:hidden flex items-center justify-center p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
             type="button"
           >
             <span class="material-symbols-outlined text-xl">search</span>
           </button>
           <button
-            class="relative flex items-center justify-center p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+            class="relative hidden lg:flex items-center justify-center p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
             type="button"
           >
             <span class="material-symbols-outlined text-2xl"
@@ -322,7 +322,7 @@
           <div
             class="flex items-center gap-space-xs pl-space-xs"
             id="user"
-          ></Fdiv>
+          ></div>
         </div>
       </div>
     </header>
@@ -382,7 +382,7 @@
                   placeholder="Tìm thể loại phim (Hành động, Viễn tưởng, Kinh dị...)"
                   type="text"
                 />
-                    <!-- <button
+                <!-- <button
                     class="absolute right-2 top-1/2 -translate-y-1/2 bg-primary-container hover:bg-[#F40612] text-white px-3.5 py-1.5 rounded-lg font-title-sm text-title-sm transition-all flex items-center gap-1 shadow-md"
                     onclick="
                         document
