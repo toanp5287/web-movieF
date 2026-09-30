@@ -1194,3 +1194,34 @@
     transform: none !important;
   }
 }
+  /* --- home card layout fixes --- */
+  /* min-width:0 de chu khong lam luoi tran ngang; height:100 de cac the
+     cung dong cao nhat. KHONG doi display: kieu bo cuc cua tung the giu nguyen. */
+  .mf-mcard {
+    min-width: 0;
+    height: 100%;
+  }
+  /* Tieu de toi da 2 dong; min-height ghim 2 dong (text-title-sm = 14px/20px)
+     de tieu de 1 dong hay 2 dong deu giu cung mot chieu cao -> the deu hang. */
+  .mf-mcard-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 2.857em; /* ~40px = 2 x line-height 20px */
+  }
+  /* Dong meta: giu tren mot dong, "2h 49m" khong bao gio tach thanh "2h"/"49m". */
+  .mf-mcard-meta {
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  /* The loai la phan duoc phep co lai/chay "..." thay vi lam hong hang the. */
+  .mf-mcard-genre {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }

@@ -39,7 +39,7 @@
         display: none;
       }
     </style>
-    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body
     class="bg-surface-container-lowest font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container"
@@ -55,7 +55,7 @@
           <a
             class="flex items-center gap-space-sm group"
             data-path="trang-chu"
-            href="#"
+            href="/"
           >
             <img
               alt="MovieF Logo"
@@ -96,33 +96,33 @@
             <a
               class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors py-space-xs"
               data-path="top-phim"
-              href="#"
+              href="/movies"
             >
               Top phim
             </a>
           </nav>
         </div>
         <div class="flex items-center gap-space-sm sm:gap-space-md">
-          <div class="relative hidden sm:flex items-center">
+          <div class="relative hidden xl:flex items-center">
             <span
               class="material-symbols-outlined absolute left-3 text-on-surface-variant text-lg pointer-events-none"
             >
               search
             </span>
             <input
-              class="w-48 lg:w-72 pl-9 pr-space-md py-space-xs bg-surface-container-low text-on-surface placeholder-on-surface-variant font-body-sm text-body-sm rounded-lg border border-white/10 focus:outline-none focus:border-outline focus:ring-1 focus:ring-outline transition-all"
+              class="w-64 xl:w-72 pl-9 pr-space-md py-space-xs bg-surface-container-low text-on-surface placeholder-on-surface-variant font-body-sm text-body-sm rounded-lg border border-white/10 focus:outline-none focus:border-outline focus:ring-1 focus:ring-outline transition-all"
               placeholder="Tìm kiếm phim, diễn viên..."
               type="text"
             />
           </div>
           <button
-            class="sm:hidden flex items-center justify-center p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+            class="xl:hidden flex items-center justify-center p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
             type="button"
           >
             <span class="material-symbols-outlined text-xl">search</span>
           </button>
           <button
-            class="relative flex items-center justify-center p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+            class="relative hidden lg:flex items-center justify-center p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
             type="button"
           >
             <span class="material-symbols-outlined text-2xl"
@@ -135,7 +135,7 @@
           <div
             class="flex items-center gap-space-xs pl-space-xs"
             id="user"
-          ></Fdiv>
+          ></div>
         </div>
       </div>
     </header>
@@ -143,32 +143,40 @@
       <div class="flex flex-col w-full">
         <!-- Hero Section with Dramatic Cinematic Atmosphere -->
         <section
-          class="relative w-full -mt-20 pt-24 min-h-[942px] flex items-center justify-start overflow-hidden bg-surface-container-lowest"
+          class="relative w-full -mt-20 pt-20 min-h-[660px] md:min-h-[700px] xl:min-h-[820px] flex items-end lg:items-center justify-start overflow-hidden bg-surface-container-lowest"
         >
-          <!-- Cinematic Hero Image Backdrop -->
+          <!-- ẢNH NỀN BANNER: INTERSTELLAR -->
+          <!-- Nguồn ảnh: /images/movies/interstellar.jpg (đã kiểm tra tồn tại, 500x750) -->
+          <!-- Mobile/tablet: phủ toàn khung, ảnh gốc 500x750 nên không bị phóng to -> sắc nét -->
+          <!-- Desktop: cùng ảnh được blur + scale thành lớp nền điện ảnh, poster sắc nét đặt ở cột phải -->
           <div
-            class="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105 transform origin-center transition-transform duration-1000 ease-out"
-            data-alt="Epic sci-fi desert landscape at twilight with a massive celestial ring in the dark obsidian sky, two silhouetted figures on a colossal sand dune, cinematic amber dusk light glinting on armor, volumetric atmospheric spice dust floating, 8k theater quality composition with deep black shadows"
+            aria-hidden="true"
+            class="absolute inset-0 bg-cover bg-no-repeat bg-[position:50%_18%] scale-105 lg:scale-[1.3] lg:blur-2xl origin-center transition-transform duration-[1200ms] ease-out"
             style="
-              background-image: url(&quot;/images/backgrounds/hero.jpg&quot;);
+              background-image: url(&quot;/images/movies/interstellar.jpg&quot;);
             "
           ></div>
-          <!-- Multi-layered Cinematic Gradients for Seamless Canvas Bleed -->
+          <!-- Lớp phủ: làm dịu ảnh + tạo vùng tối cho chữ, KHÔNG phủ đen 100% -->
+          <div class="absolute inset-0 z-10 bg-surface-container-lowest/30"></div>
           <div
-            class="absolute inset-0 bg-gradient-to-r from-surface-container-lowest via-surface-container-lowest/80 to-transparent z-10 w-full lg:w-3/4"
+            class="absolute inset-0 z-10 bg-gradient-to-t from-surface-container-lowest/95 via-surface-container-lowest/55 to-surface-container-lowest/20"
+          ></div>
+          <!-- Trên desktop: thêm lớp phủ ngang để cột chữ bên trái nổi rõ -->
+          <div
+            class="absolute inset-0 z-10 hidden lg:block bg-gradient-to-r from-surface-container-lowest via-surface-container-lowest/80 to-transparent"
           ></div>
           <div
-            class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/40 to-transparent z-10"
+            class="absolute inset-x-0 top-0 z-10 h-24 bg-gradient-to-b from-surface-container-lowest to-transparent"
           ></div>
           <div
-            class="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-surface-container-lowest/90 to-transparent z-10"
+            class="absolute -left-24 top-1/4 w-80 h-80 md:w-96 md:h-96 rounded-full bg-primary-container/20 blur-[130px] pointer-events-none z-10 hidden md:block"
           ></div>
           <div
-            class="absolute -left-20 bottom-10 w-96 h-96 rounded-full bg-primary-container/15 blur-[120px] pointer-events-none z-10"
+            class="absolute right-0 bottom-0 w-96 h-96 rounded-full bg-secondary-container/10 blur-[140px] pointer-events-none z-10 hidden lg:block"
           ></div>
           <!-- Hero Content Body -->
           <div
-            class="relative z-20 w-full px-gutter-mobile md:px-margin max-w-5xl py-space-xl flex flex-col gap-space-md"
+            class="relative z-20 w-full px-gutter-mobile md:px-margin max-w-5xl xl:max-w-3xl pt-8 pb-10 lg:py-space-xl flex flex-col gap-space-md"
           >
             <!-- Franchise Tag / Overline -->
             <div class="flex items-center gap-space-sm text-secondary">
@@ -179,15 +187,18 @@
               >
             </div>
             <!-- Main Masterpiece Title -->
-            <h1
-              class="font-display-hero text-display-hero-mobile md:text-display-hero text-on-surface tracking-tight font-extrabold leading-[1.05] drop-shadow-2xl"
-            >
-              DUNE: HÀNH TINH CÁT<br />
-              <span
-                class="text-transparent bg-clip-text bg-gradient-to-r from-on-surface via-primary to-secondary"
-                >PHẦN HAI</span
+            <div class="flex flex-col gap-1">
+              <h1
+                class="font-display-hero text-display-hero-mobile md:text-display-hero text-on-surface tracking-tight font-extrabold leading-[1.02] drop-shadow-2xl"
               >
-            </h1>
+                INTERSTELLAR
+              </h1>
+              <p
+                class="font-title-md text-title-md uppercase tracking-[0.2em] text-on-surface-variant font-semibold"
+              >
+                Hành Tinh Xa Xôi
+              </p>
+            </div>
             <!-- Meta Badges Array -->
             <div
               class="flex flex-wrap items-center gap-space-xs sm:gap-space-sm pt-space-xs"
@@ -205,38 +216,55 @@
                   style="font-variation-settings: &quot;FILL&quot; 1"
                   >star</span
                 >
-                IMDb 8.9
+                IMDb 8.7
               </span>
               <span
                 class="px-space-sm py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-caps text-label-caps"
               >
-                2024
+                2014
               </span>
               <span
                 class="px-space-sm py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-caps text-label-caps"
               >
-                2h 46m
+                2h 49m
               </span>
               <span
                 class="px-space-sm py-0.5 rounded bg-surface-container text-on-surface-variant font-body-sm text-body-sm"
               >
-                Khoa học viễn tưởng • Phiêu lưu
+                Khoa học viễn tưởng • Phiêu lưu • Tâm lý
               </span>
             </div>
             <!-- Compelling Cinematic Synopsis -->
             <p
               class="font-body-lg text-body-md md:text-body-lg text-on-surface-variant max-w-2xl leading-relaxed line-clamp-3 md:line-clamp-none drop-shadow"
             >
-              Paul Atreides hợp nhất cùng Chani và tộc người Fremen khi anh dấn
-              thân vào hành trình báo thù những kẻ đã tàn phá gia tộc mình. Đứng
-              trước sự lựa chọn giữa tình yêu của đời mình và vận mệnh của cả vũ
-              trụ, anh buộc phải ngăn chặn một tương lai đen tối mà chỉ mình anh
-              có thể thấy trước.
+              Khi Trái Đất cạn kiệt vì bụi hạt bao phủ, một nhóm phi hành gia do
+              Matthew McConaughey dẫn đầu vượt qua lỗ đen Gargantua để tìm kiếm
+              hành tinh mới cho nhân loại. Chuyến hành trình bất chấp không gian
+              và thời gian buộc họ phải hy sinh tình cảm, tình yêu thương để bảo
+              vệ tương lai của chính con cái mình.
             </p>
+            <!-- Diễn viên & Đạo diễn -->
+            <div
+              class="flex flex-wrap items-center gap-x-2 gap-y-1 font-body-sm text-body-sm text-on-surface-variant"
+            >
+              <span class="material-symbols-outlined text-base text-primary"
+                >group</span
+              >
+              <span>Matthew McConaughey</span>
+              <span class="text-on-surface-variant/50">•</span>
+              <span>Anne Hathaway</span>
+              <span class="text-on-surface-variant/50">•</span>
+              <span>Jessica Chastain</span>
+              <span class="text-on-surface-variant/50 hidden sm:inline">•</span>
+              <span class="hidden sm:inline">Đạo diễn: Christopher Nolan</span>
+            </div>
             <!-- Action Button Group -->
             <div class="flex flex-wrap items-center gap-space-md pt-space-sm">
               <a
                 class="inline-flex items-center justify-center gap-space-sm px-space-lg py-3 rounded-xl bg-primary-container text-on-primary-container font-title-sm text-title-sm hover:opacity-95 shadow-[0_0_24px_-2px_rgba(229,9,20,0.5)] transform hover:scale-[1.03] active:scale-[0.98] transition-all duration-200 select-none"
+                data-movie-id="3"
+                data-movie-title="Interstellar"
                 href="/watch"
               >
                 <span
@@ -256,16 +284,75 @@
                 <span>Xem trailer</span>
               </button>
               <button
-                aria-label="Thêm vào danh sách yêu thích"
-                class="w-12 h-12 rounded-xl bg-surface-container-high/80 backdrop-blur-md text-on-surface-variant hover:text-primary hover:bg-surface-bright flex items-center justify-center shadow-md transform hover:scale-[1.05] active:scale-[0.98] transition-all duration-200"
+                aria-label="Thêm phim Interstellar vào danh sách yêu thích"
+                class="flex items-center gap-space-sm px-space-lg py-3 rounded-xl bg-surface-container-high/80 backdrop-blur-md text-on-surface-variant hover:text-primary hover:bg-surface-bright font-title-sm text-title-sm shadow-md transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
                 type="button"
               >
-                <span class="material-symbols-outlined text-xl"
-                  >bookmark_add</span
-                >
+                <span class="material-symbols-outlined text-xl">favorite</span>
+                <span>Yêu thích</span>
               </button>
             </div>
+            <!-- Link phụ sang trang chi tiết -->
+            <a
+              class="inline-flex items-center gap-1.5 pt-space-xs w-fit font-title-sm text-title-sm text-on-surface-variant hover:text-primary transition-colors"
+              data-movie-id="3"
+              data-movie-title="Interstellar"
+              href="/movie-detail"
+            >
+              <span class="material-symbols-outlined text-lg">info</span>
+              <span>Xem chi tiết phim</span>
+            </a>
           </div>
+          <!-- Poster sắc nét (chỉ hiện từ màn xl trở lên) -->
+          <a
+            aria-label="Xem chi tiết phim Interstellar"
+            class="group absolute right-12 top-1/2 -translate-y-1/2 z-20 hidden w-[300px] xl:block 2xl:w-[340px]"
+            href="/movie-detail"
+          >
+            <div
+              class="relative w-full aspect-[2/3] rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/15"
+            >
+              <img
+                alt="Poster phim Interstellar (2014)"
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                src="/images/movies/interstellar.jpg"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/90 via-surface-container-lowest/10 to-transparent"
+              ></div>
+              <span
+                class="absolute top-3 left-3 px-2.5 py-1 rounded bg-primary-container text-on-primary-container font-label-caps text-label-caps uppercase font-bold shadow-lg"
+                >4K Ultra HD</span
+              >
+              <div class="absolute inset-x-0 bottom-0 p-4 flex flex-col gap-0.5">
+                <span
+                  class="font-label-caps text-label-caps uppercase tracking-widest text-secondary font-bold"
+                  >IMDb 8.7</span
+                >
+                <span
+                  class="font-headline-sm text-headline-sm text-on-surface font-bold"
+                  >Interstellar</span
+                >
+                <span
+                  class="font-body-sm text-body-sm text-on-surface-variant"
+                  >2014 • 2h 49m</span
+                >
+              </div>
+              <div
+                class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-surface-container-lowest/50"
+              >
+                <span
+                  class="w-14 h-14 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_0_28px_rgba(229,9,20,0.8)]"
+                >
+                  <span
+                    class="material-symbols-outlined text-3xl"
+                    style="font-variation-settings: &quot;FILL&quot; 1"
+                    >play_arrow</span
+                  >
+                </span>
+              </div>
+            </div>
+          </a>
         </section>
         <!-- Content Rails Container -->
         <div
@@ -286,7 +373,7 @@
               </div>
               <a
                 class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface flex items-center gap-1 transition-colors"
-                href="#"
+                href="/movies"
               >
                 <span>Xem tất cả</span>
                 <span class="material-symbols-outlined text-base"
@@ -297,90 +384,84 @@
             <div
               class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-space-md"
             >
-              <!-- Card 1: Spider-Man -->
-              <a href="/watch">
-                <div
-                  class="group relative bg-surface-container rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
-                >
-                  <div
-                    class="relative aspect-video w-full overflow-hidden bg-surface-container-high"
-                  >
-                    <div
-                      class="w-full h-full bg-cover bg-center transform group-hover:scale-105 transition-transform duration-500"
-                      data-alt="Spider-Man swinging through an intricate vibrant neon multiverse cityscape with glowing red and violet hues, dynamic comic book action art style, intense cinematic lighting"
-                      style="
-                        background-image: url(&quot;/images/movies/spiderverse.jpg&quot;);
-                      "
-                    ></div>
-                    <div
-                      class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-black/30"
-                    ></div>
-                    <!-- Quick Play Button Overlay -->
-                    <div
-                      class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-surface-container-lowest/40 backdrop-blur-xs"
-                    >
-                      <button
-                        class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_0_20px_rgba(229,9,20,0.6)] transform scale-90 group-hover:scale-100 transition-transform"
-                        type="button"
-                      >
-                        <span
-                          class="material-symbols-outlined text-2xl"
-                          style="font-variation-settings: &quot;FILL&quot; 1"
-                          >play_arrow</span
-                        >
-                      </button>
-                    </div>
-                    <!-- Timestamp Badge -->
-                    <span
-                      class="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-surface-container-lowest/90 font-label-caps text-label-caps text-on-surface font-mono"
-                    >
-                      01:20:45 / 02:20:00
-                    </span>
-                  </div>
-                  <!-- Progress Bar -->
-                  <div class="w-full h-1 bg-surface-container-highest">
-                    <div
-                      class="h-full bg-primary-container rounded-r-full shadow-[0_0_8px_rgba(229,9,20,0.8)]"
-                      style="width: 65%"
-                    ></div>
-                  </div>
-                  <div
-                    class="p-space-md flex items-center justify-between gap-space-sm bg-surface-container"
-                  >
-                    <div class="min-w-0 flex-1">
-                      <h3
-                        class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
-                      >
-                        Spider-Man: Across the Spider-Verse
-                      </h3>
-                      <p
-                        class="font-body-sm text-body-sm text-on-surface-variant truncate"
-                      >
-                        Hoạt hình • Hành động • Còn 59 phút
-                      </p>
-                    </div>
-                    <button
-                      class="w-8 h-8 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface flex items-center justify-center shrink-0"
-                      type="button"
-                    >
-                      <span class="material-symbols-outlined text-lg"
-                        >more_vert</span
-                      >
-                    </button>
-                  </div>
-                </div></a
-              >
-
-              <!-- Card 2: The Batman -->
-              <div
-                class="group relative bg-surface-container rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
+              <!-- CONTINUE_CARD: Spider-Man: Across the Spider-Verse -->
+              <a
+                class="mf-mcard group relative block bg-surface-container rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 min-w-0 h-full"
+                href="/movie-detail"
               >
                 <div
                   class="relative aspect-video w-full overflow-hidden bg-surface-container-high"
                 >
                   <div
                     class="w-full h-full bg-cover bg-center transform group-hover:scale-105 transition-transform duration-500"
-                    data-alt="Dark gritty rain-soaked Gotham alley with the Batman in heavy tactical carbon armor silhouetted against glowing neon crimson flares, atmospheric noir crime aesthetic"
+                    data-alt="Người hùm nhện đu bay qua một thành phố đa vũ trụ neon rực rỡ với sắc đỏ và tím rực, phong cách tranh truyện hành động"
+                    style="
+                      background-image: url(&quot;/images/movies/spiderverse.jpg&quot;);
+                    "
+                  ></div>
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-black/30"
+                  ></div>
+                  <div
+                    class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-surface-container-lowest/40 backdrop-blur-xs"
+                  >
+                    <span
+                      class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_0_20px_rgba(229,9,20,0.6)] transform scale-90 group-hover:scale-100 transition-transform"
+                    >
+                      <span
+                        class="material-symbols-outlined text-2xl"
+                        style="font-variation-settings: &quot;FILL&quot; 1"
+                        >play_arrow</span
+                      >
+                    </span>
+                  </div>
+                  <span
+                    class="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-surface-container-lowest/90 font-label-caps text-label-caps text-on-surface font-mono"
+                  >
+                    01:20:45 / 02:20:00
+                  </span>
+                </div>
+                <div class="w-full h-1 bg-surface-container-highest">
+                  <div
+                    class="h-full bg-primary-container rounded-r-full shadow-[0_0_8px_rgba(229,9,20,0.8)]"
+                    style="width: 65%"
+                  ></div>
+                </div>
+                <div
+                  class="p-space-md flex items-center justify-between gap-space-sm bg-surface-container"
+                >
+                  <div class="min-w-0 flex-1">
+                    <h3
+                      class="mf-mcard-title font-title-sm text-title-sm text-on-surface font-semibold group-hover:text-primary transition-colors"
+                    >
+                      Spider-Man: Across the Spider-Verse
+                    </h3>
+                    <p
+                      class="font-body-sm text-body-sm text-on-surface-variant truncate"
+                    >
+                      Hoạt hình • Hành động • Còn 59 phút
+                    </p>
+                  </div>
+                  <span
+                    class="w-8 h-8 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface flex items-center justify-center shrink-0"
+                  >
+                    <span class="material-symbols-outlined text-lg"
+                      >more_vert</span
+                    >
+                  </span>
+                </div>
+              </a>
+              <!-- CONTINUE_CARD: The Batman -->
+              <a
+                class="mf-mcard group relative block bg-surface-container rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 min-w-0 h-full"
+                href="/movie-detail"
+              >
+                <div
+                  class="relative aspect-video w-full overflow-hidden bg-surface-container-high"
+                >
+                  <div
+                    class="w-full h-full bg-cover bg-center transform group-hover:scale-105 transition-transform duration-500"
+                    data-alt="Con hẻm Gotham mưa và tối với Batman trong bộ giáp chiến thuật, đèn neon đỏ rực, không khí tội phạm u ám"
                     style="
                       background-image: url(&quot;/images/movies/the-batman.jpg&quot;);
                     "
@@ -391,16 +472,15 @@
                   <div
                     class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-surface-container-lowest/40 backdrop-blur-xs"
                   >
-                    <button
+                    <span
                       class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_0_20px_rgba(229,9,20,0.6)] transform scale-90 group-hover:scale-100 transition-transform"
-                      type="button"
                     >
                       <span
                         class="material-symbols-outlined text-2xl"
                         style="font-variation-settings: &quot;FILL&quot; 1"
                         >play_arrow</span
                       >
-                    </button>
+                    </span>
                   </div>
                   <span
                     class="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-surface-container-lowest/90 font-label-caps text-label-caps text-on-surface font-mono"
@@ -408,7 +488,6 @@
                     00:45:10 / 02:56:00
                   </span>
                 </div>
-                <!-- Progress Bar -->
                 <div class="w-full h-1 bg-surface-container-highest">
                   <div
                     class="h-full bg-primary-container rounded-r-full shadow-[0_0_8px_rgba(229,9,20,0.8)]"
@@ -420,7 +499,7 @@
                 >
                   <div class="min-w-0 flex-1">
                     <h3
-                      class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
+                      class="mf-mcard-title font-title-sm text-title-sm text-on-surface font-semibold group-hover:text-primary transition-colors"
                     >
                       The Batman
                     </h3>
@@ -430,26 +509,26 @@
                       Hành động • Tâm lý tội phạm • Còn 2h 10m
                     </p>
                   </div>
-                  <button
+                  <span
                     class="w-8 h-8 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface flex items-center justify-center shrink-0"
-                    type="button"
                   >
                     <span class="material-symbols-outlined text-lg"
                       >more_vert</span
                     >
-                  </button>
+                  </span>
                 </div>
-              </div>
-              <!-- Card 3: Oppenheimer -->
-              <div
-                class="group relative bg-surface-container rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hidden lg:block"
+              </a>
+              <!-- CONTINUE_CARD: Oppenheimer -->
+              <a
+                class="mf-mcard group relative block bg-surface-container rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hidden sm:block min-w-0 h-full"
+                href="/movie-detail"
               >
                 <div
                   class="relative aspect-video w-full overflow-hidden bg-surface-container-high"
                 >
                   <div
                     class="w-full h-full bg-cover bg-center transform group-hover:scale-105 transition-transform duration-500"
-                    data-alt="Dramatic close-up portrait of J Robert Oppenheimer in fedora silhouette against an immense fiery atomic reaction wave, orange and ember particles swirling, high contrast cinema lighting"
+                    data-alt="Chân dung J Robert Oppenheimer đội mũ fedora trước làn sóng phản ứng hạt nhân lửa, hạt hổ phách bay lượn"
                     style="
                       background-image: url(&quot;/images/movies/oppenheimer.jpg&quot;);
                     "
@@ -460,16 +539,15 @@
                   <div
                     class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-surface-container-lowest/40 backdrop-blur-xs"
                   >
-                    <button
+                    <span
                       class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_0_20px_rgba(229,9,20,0.6)] transform scale-90 group-hover:scale-100 transition-transform"
-                      type="button"
                     >
                       <span
                         class="material-symbols-outlined text-2xl"
                         style="font-variation-settings: &quot;FILL&quot; 1"
                         >play_arrow</span
                       >
-                    </button>
+                    </span>
                   </div>
                   <span
                     class="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-surface-container-lowest/90 font-label-caps text-label-caps text-on-surface font-mono"
@@ -477,7 +555,6 @@
                     02:15:30 / 03:00:00
                   </span>
                 </div>
-                <!-- Progress Bar -->
                 <div class="w-full h-1 bg-surface-container-highest">
                   <div
                     class="h-full bg-primary-container rounded-r-full shadow-[0_0_8px_rgba(229,9,20,0.8)]"
@@ -489,7 +566,7 @@
                 >
                   <div class="min-w-0 flex-1">
                     <h3
-                      class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
+                      class="mf-mcard-title font-title-sm text-title-sm text-on-surface font-semibold group-hover:text-primary transition-colors"
                     >
                       Oppenheimer
                     </h3>
@@ -499,19 +576,432 @@
                       Lịch sử • Tiểu sử • Còn 45 phút
                     </p>
                   </div>
-                  <button
+                  <span
                     class="w-8 h-8 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface flex items-center justify-center shrink-0"
-                    type="button"
                   >
                     <span class="material-symbols-outlined text-lg"
                       >more_vert</span
                     >
-                  </button>
+                  </span>
                 </div>
-              </div>
+              </a>
             </div>
           </section>
-          <!-- Section 3: Phim thịnh hành (Trending Now - 2:3 Vertical Posters with Glow & Zoom) -->
+          <!-- Section 3: Phim nổi bật (Featured - 16:9 cinematic cards) -->
+          <section class="flex flex-col gap-space-md">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-space-sm">
+                <span class="w-1.5 h-5 bg-primary rounded-full"></span>
+                <h2
+                  class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight"
+                >
+                  Phim nổi bật
+                </h2>
+                <span
+                  class="hidden sm:inline-block px-2 py-0.5 rounded-full bg-primary-container/15 text-primary font-label-caps text-label-caps font-semibold"
+                  >Tuyển chọn hôm nay</span
+                >
+              </div>
+              <a
+                class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface flex items-center gap-1 transition-colors"
+                href="/movies"
+              >
+                <span>Xem tất cả</span>
+                <span class="material-symbols-outlined text-base"
+                  >arrow_forward</span
+                >
+              </a>
+            </div>
+            <div
+              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-space-md"
+            >
+              <!-- Phim nổi bật 1: Inception -->
+              <a
+                class="mf-mcard group relative block rounded-xl overflow-hidden bg-surface-container shadow-lg hover:shadow-2xl hover:shadow-primary-container/10 transition-all duration-300 hover:-translate-y-1 min-w-0 h-full"
+                href="/movie-detail"
+              >
+                <div
+                  class="relative aspect-video w-full overflow-hidden bg-surface-container-high"
+                >
+                  <div
+                    class="w-full h-full bg-cover bg-center transform group-hover:scale-110 transition-transform duration-500"
+                    data-alt="Không gian giấc mơ trong Inception, kiến trúc phản phòng lực trọng lực uốn cong trên những tòa nhà Paris sâu xanh, ánh sáng xanh dương khuếch tán"
+                    style="
+                      background-image: url(&quot;/images/movies/inception.jpg&quot;);
+                    "
+                  ></div>
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/35 to-black/25"
+                  ></div>
+                  <span
+                    class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-primary-container text-on-primary-container font-label-caps text-label-caps font-bold uppercase shadow-md"
+                    >4K Ultra HD</span
+                  >
+                  <span
+                    class="absolute top-2.5 right-2.5 flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md text-secondary font-label-caps text-label-caps font-bold"
+                  >
+                    <span
+                      class="material-symbols-outlined text-xs"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >star</span
+                    >
+                    8.8
+                  </span>
+                  <div
+                    class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-surface-container-lowest/45"
+                  >
+                    <span
+                      class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_0_24px_rgba(229,9,20,0.8)] transform scale-75 group-hover:scale-100 transition-transform duration-300"
+                    >
+                      <span
+                        class="material-symbols-outlined text-2xl"
+                        style="font-variation-settings: &quot;FILL&quot; 1"
+                        >play_arrow</span
+                      >
+                    </span>
+                  </div>
+                </div>
+                <div class="p-space-md flex flex-col gap-0.5">
+                  <h3
+                    class="mf-mcard-title font-title-sm text-title-sm text-on-surface font-bold group-hover:text-primary transition-colors"
+                  >
+                    Inception
+                  </h3>
+                  <p
+                    class="font-body-sm text-body-sm text-on-surface-variant truncate"
+                  >
+                    2010 • Hành động, Khoa học viễn tưởng
+                  </p>
+                  <p
+                    class="font-label-caps text-label-caps text-on-surface-variant/70 truncate"
+                  >
+                    2h 28m • Leonardo DiCaprio
+                  </p>
+                </div>
+              </a>
+              <!-- Phim nổi bật 2: Arrival -->
+              <a
+                class="mf-mcard group relative block rounded-xl overflow-hidden bg-surface-container shadow-lg hover:shadow-2xl hover:shadow-primary-container/10 transition-all duration-300 hover:-translate-y-1 min-w-0 h-full"
+                href="/movie-detail"
+              >
+                <div
+                  class="relative aspect-video w-full overflow-hidden bg-surface-container-high"
+                >
+                  <div
+                    class="w-full h-full bg-cover bg-center transform group-hover:scale-110 transition-transform duration-500"
+                    data-alt="Người phụ nữ đứng trước những cánh cửa tưởng tượng khổng lồ dựng lên trong không gian trống trải, ánh sáng xám lạnh"
+                    style="
+                      background-image: url(&quot;/images/movies/arrival.jpg&quot;);
+                    "
+                  ></div>
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/35 to-black/25"
+                  ></div>
+                  <span
+                    class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-caps text-label-caps font-bold uppercase shadow-md"
+                    >Độc quyền</span
+                  >
+                  <span
+                    class="absolute top-2.5 right-2.5 flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md text-secondary font-label-caps text-label-caps font-bold"
+                  >
+                    <span
+                      class="material-symbols-outlined text-xs"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >star</span
+                    >
+                    7.9
+                  </span>
+                  <div
+                    class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-surface-container-lowest/45"
+                  >
+                    <span
+                      class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_0_24px_rgba(229,9,20,0.8)] transform scale-75 group-hover:scale-100 transition-transform duration-300"
+                    >
+                      <span
+                        class="material-symbols-outlined text-2xl"
+                        style="font-variation-settings: &quot;FILL&quot; 1"
+                        >play_arrow</span
+                      >
+                    </span>
+                  </div>
+                </div>
+                <div class="p-space-md flex flex-col gap-0.5">
+                  <h3
+                    class="mf-mcard-title font-title-sm text-title-sm text-on-surface font-bold group-hover:text-primary transition-colors"
+                  >
+                    Arrival (Cuộc đổi đất)
+                  </h3>
+                  <p
+                    class="font-body-sm text-body-sm text-on-surface-variant truncate"
+                  >
+                    2016 • Khoa học viễn tưởng, Tâm lý
+                  </p>
+                  <p
+                    class="font-label-caps text-label-caps text-on-surface-variant/70 truncate"
+                  >
+                    1h 56m • Amy Adams
+                  </p>
+                </div>
+              </a>
+              <!-- Phim nổi bật 3: The Matrix -->
+              <a
+                class="mf-mcard group relative block rounded-xl overflow-hidden bg-surface-container shadow-lg hover:shadow-2xl hover:shadow-primary-container/10 transition-all duration-300 hover:-translate-y-1 min-w-0 h-full"
+                href="/movie-detail"
+              >
+                <div
+                  class="relative aspect-video w-full overflow-hidden bg-surface-container-high"
+                >
+                  <div
+                    class="w-full h-full bg-cover bg-center transform group-hover:scale-110 transition-transform duration-500"
+                    data-alt="Người hùng mặc kính đen đứng giữa thành phố xanh mã hiệu nhân Matrix, mưa và ánh đèn xanh lạnh"
+                    style="
+                      background-image: url(&quot;/images/movies/matrix.jpg&quot;);
+                    "
+                  ></div>
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/35 to-black/25"
+                  ></div>
+                  <span
+                    class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-label-caps text-label-caps font-bold uppercase shadow-md"
+                    >Kinh điển</span
+                  >
+                  <span
+                    class="absolute top-2.5 right-2.5 flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md text-secondary font-label-caps text-label-caps font-bold"
+                  >
+                    <span
+                      class="material-symbols-outlined text-xs"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >star</span
+                    >
+                    8.7
+                  </span>
+                  <div
+                    class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-surface-container-lowest/45"
+                  >
+                    <span
+                      class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_0_24px_rgba(229,9,20,0.8)] transform scale-75 group-hover:scale-100 transition-transform duration-300"
+                    >
+                      <span
+                        class="material-symbols-outlined text-2xl"
+                        style="font-variation-settings: &quot;FILL&quot; 1"
+                        >play_arrow</span
+                      >
+                    </span>
+                  </div>
+                </div>
+                <div class="p-space-md flex flex-col gap-0.5">
+                  <h3
+                    class="mf-mcard-title font-title-sm text-title-sm text-on-surface font-bold group-hover:text-primary transition-colors"
+                  >
+                    The Matrix
+                  </h3>
+                  <p
+                    class="font-body-sm text-body-sm text-on-surface-variant truncate"
+                  >
+                    1999 • Hành động, Viễn tưởng
+                  </p>
+                  <p
+                    class="font-label-caps text-label-caps text-on-surface-variant/70 truncate"
+                  >
+                    2h 16m • Keanu Reeves
+                  </p>
+                </div>
+              </a>
+              <!-- Phim nổi bật 4: Dune: Part Two -->
+              <a
+                class="mf-mcard group relative block rounded-xl overflow-hidden bg-surface-container shadow-lg hover:shadow-2xl hover:shadow-primary-container/10 transition-all duration-300 hover:-translate-y-1 min-w-0 h-full"
+                href="/movie-detail"
+              >
+                <div
+                  class="relative aspect-video w-full overflow-hidden bg-surface-container-high"
+                >
+                  <div
+                    class="w-full h-full bg-cover bg-center transform group-hover:scale-110 transition-transform duration-500"
+                    data-alt="Sa mạc vàng rộng lớn trên hành tinh sa mạc với hai mặt trăng trên bầu trời hoàng hôn tối, bụi gia vị bay lơ lửng"
+                    style="
+                      background-image: url(&quot;/images/movies/dune-2.jpg&quot;);
+                    "
+                  ></div>
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/35 to-black/25"
+                  ></div>
+                  <span
+                    class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-primary-container text-on-primary-container font-label-caps text-label-caps font-bold uppercase shadow-md"
+                    >Mới</span
+                  >
+                  <span
+                    class="absolute top-2.5 right-2.5 flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md text-secondary font-label-caps text-label-caps font-bold"
+                  >
+                    <span
+                      class="material-symbols-outlined text-xs"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >star</span
+                    >
+                    8.9
+                  </span>
+                  <div
+                    class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-surface-container-lowest/45"
+                  >
+                    <span
+                      class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_0_24px_rgba(229,9,20,0.8)] transform scale-75 group-hover:scale-100 transition-transform duration-300"
+                    >
+                      <span
+                        class="material-symbols-outlined text-2xl"
+                        style="font-variation-settings: &quot;FILL&quot; 1"
+                        >play_arrow</span
+                      >
+                    </span>
+                  </div>
+                </div>
+                <div class="p-space-md flex flex-col gap-0.5">
+                  <h3
+                    class="mf-mcard-title font-title-sm text-title-sm text-on-surface font-bold group-hover:text-primary transition-colors"
+                  >
+                    Dune: Hành Tinh Cát - Phần Hai
+                  </h3>
+                  <p
+                    class="font-body-sm text-body-sm text-on-surface-variant truncate"
+                  >
+                    2024 • Hành động, Viễn tưởng
+                  </p>
+                  <p
+                    class="font-label-caps text-label-caps text-on-surface-variant/70 truncate"
+                  >
+                    2h 46m • Denis Villeneuve
+                  </p>
+                </div>
+              </a>
+              <!-- Phim nổi bật 5: Inside Out 2 -->
+              <a
+                class="mf-mcard group relative block rounded-xl overflow-hidden bg-surface-container shadow-lg hover:shadow-2xl hover:shadow-primary-container/10 transition-all duration-300 hover:-translate-y-1 min-w-0 h-full"
+                href="/movie-detail"
+              >
+                <div
+                  class="relative aspect-video w-full overflow-hidden bg-surface-container-high"
+                >
+                  <div
+                    class="w-full h-full bg-cover bg-center transform group-hover:scale-110 transition-transform duration-500"
+                    data-alt="Nhân vật cảm xúc màu sắc rực rỡ trong thế giới nội tâm trẻ em, phong cảnh tươi sáng và vui nhộn"
+                    style="
+                      background-image: url(&quot;/images/movies/inside-out-2.jpg&quot;);
+                    "
+                  ></div>
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/35 to-black/25"
+                  ></div>
+                  <span
+                    class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-label-caps text-label-caps font-bold uppercase shadow-md"
+                    >Gia đình</span
+                  >
+                  <span
+                    class="absolute top-2.5 right-2.5 flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md text-secondary font-label-caps text-label-caps font-bold"
+                  >
+                    <span
+                      class="material-symbols-outlined text-xs"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >star</span
+                    >
+                    7.6
+                  </span>
+                  <div
+                    class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-surface-container-lowest/45"
+                  >
+                    <span
+                      class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_0_24px_rgba(229,9,20,0.8)] transform scale-75 group-hover:scale-100 transition-transform duration-300"
+                    >
+                      <span
+                        class="material-symbols-outlined text-2xl"
+                        style="font-variation-settings: &quot;FILL&quot; 1"
+                        >play_arrow</span
+                      >
+                    </span>
+                  </div>
+                </div>
+                <div class="p-space-md flex flex-col gap-0.5">
+                  <h3
+                    class="mf-mcard-title font-title-sm text-title-sm text-on-surface font-bold group-hover:text-primary transition-colors"
+                  >
+                    Inside Out 2
+                  </h3>
+                  <p
+                    class="font-body-sm text-body-sm text-on-surface-variant truncate"
+                  >
+                    2024 • Hoạt hình, Gia đình
+                  </p>
+                  <p
+                    class="font-label-caps text-label-caps text-on-surface-variant/70 truncate"
+                  >
+                    1h 36m • Pixar
+                  </p>
+                </div>
+              </a>
+              <!-- Phim nổi bật 6: Avengers: Endgame -->
+              <a
+                class="mf-mcard group relative block rounded-xl overflow-hidden bg-surface-container shadow-lg hover:shadow-2xl hover:shadow-primary-container/10 transition-all duration-300 hover:-translate-y-1 min-w-0 h-full"
+                href="/movie-detail"
+              >
+                <div
+                  class="relative aspect-video w-full overflow-hidden bg-surface-container-high"
+                >
+                  <div
+                    class="w-full h-full bg-cover bg-center transform group-hover:scale-110 transition-transform duration-500"
+                    data-alt="Các siêu anh hùng đứng trước trận chiến cuối cùng trong không gian đổ nát, tia lửa vàng cam bao trùm"
+                    style="
+                      background-image: url(&quot;/images/movies/endgame.jpg&quot;);
+                    "
+                  ></div>
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/35 to-black/25"
+                  ></div>
+                  <span
+                    class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-caps text-label-caps font-bold uppercase shadow-md"
+                    >Marvel</span
+                  >
+                  <span
+                    class="absolute top-2.5 right-2.5 flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md text-secondary font-label-caps text-label-caps font-bold"
+                  >
+                    <span
+                      class="material-symbols-outlined text-xs"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >star</span
+                    >
+                    8.4
+                  </span>
+                  <div
+                    class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-surface-container-lowest/45"
+                  >
+                    <span
+                      class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_0_24px_rgba(229,9,20,0.8)] transform scale-75 group-hover:scale-100 transition-transform duration-300"
+                    >
+                      <span
+                        class="material-symbols-outlined text-2xl"
+                        style="font-variation-settings: &quot;FILL&quot; 1"
+                        >play_arrow</span
+                      >
+                    </span>
+                  </div>
+                </div>
+                <div class="p-space-md flex flex-col gap-0.5">
+                  <h3
+                    class="mf-mcard-title font-title-sm text-title-sm text-on-surface font-bold group-hover:text-primary transition-colors"
+                  >
+                    Avengers: Endgame
+                  </h3>
+                  <p
+                    class="font-body-sm text-body-sm text-on-surface-variant truncate"
+                  >
+                    2019 • Hành động, Phiêu lưu
+                  </p>
+                  <p
+                    class="font-label-caps text-label-caps text-on-surface-variant/70 truncate"
+                  >
+                    3h 01m • Anthony &amp; Joe Russo
+                  </p>
+                </div>
+              </a>
+            </div>
+          </section>
+          <!-- Section 4: Phim thịnh hành (Trending Now - 2:3 Vertical Posters with Glow & Zoom) -->
           <section class="flex flex-col gap-space-md">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-space-sm">
@@ -526,7 +1016,16 @@
                   >Top 10 MovieF</span
                 >
               </div>
-              <div class="flex items-center gap-space-xs">
+              <div class="flex items-center gap-space-sm">
+                <a
+                  class="hidden sm:inline-flex font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface items-center gap-1 transition-colors"
+                  href="/movies"
+                >
+                  <span>Xem tất cả</span>
+                  <span class="material-symbols-outlined text-base"
+                    >arrow_forward</span
+                  >
+                </a>
                 <button
                   class="w-8 h-8 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center transition-colors"
                   type="button"
@@ -550,8 +1049,9 @@
               class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-space-md"
             >
               <!-- Trending Item 1 -->
-              <div
-                class="group relative flex flex-col gap-space-xs cursor-pointer"
+              <a
+                class="mf-mcard group relative flex flex-col gap-space-xs min-w-0 h-full"
+                href="/movie-detail"
               >
                 <!-- Poster Container -->
                 <div
@@ -581,7 +1081,7 @@
                     >
                     <span
                       class="font-label-caps text-label-caps font-bold text-on-surface"
-                      >9.1</span
+                      >8.7</span
                     >
                   </div>
 
@@ -600,36 +1100,31 @@
                     </div>
                   </div>
 
-                  <!-- 5. Thẻ <a> phủ toàn bộ diện tích poster (z-10 để luôn nhận click) -->
-                  <a
-                    href="/movie-detail"
-                    aria-label="Xem chi tiết Interstellar"
-                    class="absolute inset-0 z-10 block"
-                  ></a>
+                  <!-- 5. Không thêm lớp phủ link riêng: cả thẻ đã là liên kết /movie-detail -->
                 </div>
 
-                <!-- Movie Title (Gắn kèm link chi tiết) -->
-                <h3 class="font-title-sm text-title-sm font-semibold truncate">
-                  <a
-                    href="/movie-detail"
-                    class="text-on-surface hover:text-primary transition-colors block truncate"
-                  >
-                    Interstellar
-                  </a>
+                <!-- Movie Title -->
+                <h3
+                  class="mf-mcard-title font-title-sm text-title-sm text-on-surface font-semibold group-hover:text-primary transition-colors"
+                >
+                  Interstellar
                 </h3>
 
                 <!-- Meta Info -->
                 <div
-                  class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant"
+                  class="mf-mcard-meta flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant"
                 >
                   <span>2014</span>
                   <span>•</span>
-                  <span class="truncate">Khoa học viễn tưởng</span>
+                  <span>2h 49m</span>
+                  <span>•</span>
+                  <span class="mf-mcard-genre truncate">Khoa học viễn tưởng</span>
                 </div>
-              </div>
+              </a>
               <!-- Trending Item 2 -->
-              <div
-                class="group relative flex flex-col gap-space-xs cursor-pointer"
+              <a
+                class="mf-mcard group relative flex flex-col gap-space-xs min-w-0 h-full"
+                href="/movie-detail"
               >
                 <div
                   class="relative w-full aspect-[2/3] rounded-xl overflow-hidden bg-surface-container shadow-xl transition-all duration-300 transform group-hover:-translate-y-2 group-hover:shadow-[0_16px_32px_-8px_rgba(229,9,20,0.3)]"
@@ -642,10 +1137,10 @@
                     "
                   ></div>
                   <div
-                    class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity"
+                      class="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity"
                   ></div>
                   <div
-                    class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-1 shadow-md"
+                    class="pointer-events-none absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-1 shadow-md"
                   >
                     <span
                       class="material-symbols-outlined text-xs text-secondary"
@@ -658,7 +1153,7 @@
                     >
                   </div>
                   <div
-                    class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    class="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                   >
                     <div
                       class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_0_24px_rgba(229,9,20,0.8)] transform scale-75 group-hover:scale-100 transition-all"
@@ -672,21 +1167,24 @@
                   </div>
                 </div>
                 <h3
-                  class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
+                  class="mf-mcard-title font-title-sm text-title-sm text-on-surface font-semibold group-hover:text-primary transition-colors"
                 >
                   Blade Runner 2049
                 </h3>
                 <div
-                  class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant"
+                  class="mf-mcard-meta flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant"
                 >
                   <span>2017</span>
                   <span>•</span>
-                  <span class="truncate">Hành động • Viễn tưởng</span>
+                  <span>2h 44m</span>
+                  <span>•</span>
+                  <span class="mf-mcard-genre truncate">Hành động • Viễn tưởng</span>
                 </div>
-              </div>
+              </a>
               <!-- Trending Item 3 -->
-              <div
-                class="group relative flex flex-col gap-space-xs cursor-pointer"
+              <a
+                class="mf-mcard group relative flex flex-col gap-space-xs min-w-0 h-full"
+                href="/movie-detail"
               >
                 <div
                   class="relative w-full aspect-[2/3] rounded-xl overflow-hidden bg-surface-container shadow-xl transition-all duration-300 transform group-hover:-translate-y-2 group-hover:shadow-[0_16px_32px_-8px_rgba(229,9,20,0.3)]"
@@ -699,10 +1197,10 @@
                     "
                   ></div>
                   <div
-                    class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity"
+                      class="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity"
                   ></div>
                   <div
-                    class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-1 shadow-md"
+                    class="pointer-events-none absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-1 shadow-md"
                   >
                     <span
                       class="material-symbols-outlined text-xs text-secondary"
@@ -715,7 +1213,7 @@
                     >
                   </div>
                   <div
-                    class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    class="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                   >
                     <div
                       class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_0_24px_rgba(229,9,20,0.8)] transform scale-75 group-hover:scale-100 transition-all"
@@ -729,21 +1227,24 @@
                   </div>
                 </div>
                 <h3
-                  class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
+                  class="mf-mcard-title font-title-sm text-title-sm text-on-surface font-semibold group-hover:text-primary transition-colors"
                 >
                   The Godfather
                 </h3>
                 <div
-                  class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant"
+                  class="mf-mcard-meta flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant"
                 >
                   <span>1972</span>
                   <span>•</span>
-                  <span class="truncate">Tội phạm • Kịch tính</span>
+                  <span>2h 55m</span>
+                  <span>•</span>
+                  <span class="mf-mcard-genre truncate">Tội phạm • Kịch tính</span>
                 </div>
-              </div>
+              </a>
               <!-- Trending Item 4 -->
-              <div
-                class="group relative flex flex-col gap-space-xs cursor-pointer"
+              <a
+                class="mf-mcard group relative flex flex-col gap-space-xs min-w-0 h-full"
+                href="/movie-detail"
               >
                 <div
                   class="relative w-full aspect-[2/3] rounded-xl overflow-hidden bg-surface-container shadow-xl transition-all duration-300 transform group-hover:-translate-y-2 group-hover:shadow-[0_16px_32px_-8px_rgba(229,9,20,0.3)]"
@@ -756,10 +1257,10 @@
                     "
                   ></div>
                   <div
-                    class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity"
+                      class="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity"
                   ></div>
                   <div
-                    class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-1 shadow-md"
+                    class="pointer-events-none absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-1 shadow-md"
                   >
                     <span
                       class="material-symbols-outlined text-xs text-secondary"
@@ -772,7 +1273,7 @@
                     >
                   </div>
                   <div
-                    class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    class="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                   >
                     <div
                       class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_0_24px_rgba(229,9,20,0.8)] transform scale-75 group-hover:scale-100 transition-all"
@@ -786,21 +1287,24 @@
                   </div>
                 </div>
                 <h3
-                  class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
+                  class="mf-mcard-title font-title-sm text-title-sm text-on-surface font-semibold group-hover:text-primary transition-colors"
                 >
                   Joker: Folie à Deux
                 </h3>
                 <div
-                  class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant"
+                  class="mf-mcard-meta flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant"
                 >
                   <span>2024</span>
                   <span>•</span>
-                  <span class="truncate">Tâm lý • Âm nhạc</span>
+                  <span>2h 18m</span>
+                  <span>•</span>
+                  <span class="mf-mcard-genre truncate">Tâm lý • Âm nhạc</span>
                 </div>
-              </div>
+              </a>
               <!-- Trending Item 5 -->
-              <div
-                class="group relative flex flex-col gap-space-xs cursor-pointer"
+              <a
+                class="mf-mcard group relative flex flex-col gap-space-xs min-w-0 h-full"
+                href="/movie-detail"
               >
                 <div
                   class="relative w-full aspect-[2/3] rounded-xl overflow-hidden bg-surface-container shadow-xl transition-all duration-300 transform group-hover:-translate-y-2 group-hover:shadow-[0_16px_32px_-8px_rgba(229,9,20,0.3)]"
@@ -813,10 +1317,10 @@
                     "
                   ></div>
                   <div
-                    class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity"
+                      class="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity"
                   ></div>
                   <div
-                    class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-1 shadow-md"
+                    class="pointer-events-none absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-1 shadow-md"
                   >
                     <span
                       class="material-symbols-outlined text-xs text-secondary"
@@ -829,7 +1333,7 @@
                     >
                   </div>
                   <div
-                    class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    class="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                   >
                     <div
                       class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_0_24px_rgba(229,9,20,0.8)] transform scale-75 group-hover:scale-100 transition-all"
@@ -843,21 +1347,21 @@
                   </div>
                 </div>
                 <h3
-                  class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
+                  class="mf-mcard-title font-title-sm text-title-sm text-on-surface font-semibold group-hover:text-primary transition-colors"
                 >
                   House of the Dragon
                 </h3>
                 <div
-                  class="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant"
+                  class="mf-mcard-meta flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant"
                 >
-                  <span>2024</span>
+                  <span>2022</span>
                   <span>•</span>
-                  <span class="truncate">Giả tưởng • Phiêu lưu</span>
+                  <span>Giả tưởng • Phiêu lưu</span>
                 </div>
-              </div>
+              </a>
             </div>
           </section>
-          <!-- Section 4: Phim mới cập nhật (New Releases with 'Mới' and 'Vietsub HD' tags) -->
+          <!-- Section 5: Phim mới cập nhật (New Releases with 'Mới' and 'Vietsub HD' tags) -->
           <section class="flex flex-col gap-space-md">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-space-sm">
@@ -870,18 +1374,30 @@
                   Phim mới cập nhật
                 </h2>
               </div>
-              <div class="flex items-center gap-space-xs">
+              <div class="flex items-center gap-space-md">
                 <span
-                  class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider hidden sm:inline-block"
+                  class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider hidden md:inline-block"
                   >Cập nhật hôm nay: 24 tập mới</span
                 >
+                <a
+                  class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface flex items-center gap-1 transition-colors"
+                  href="/movies"
+                >
+                  <span>Xem tất cả</span>
+                  <span class="material-symbols-outlined text-base"
+                    >arrow_forward</span
+                  >
+                </a>
               </div>
             </div>
             <div
               class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-space-md"
             >
               <!-- New Release 1 -->
-              <div class="group flex flex-col gap-space-xs cursor-pointer">
+              <a
+                class="mf-mcard group flex flex-col gap-space-xs min-w-0 h-full"
+                href="/movie-detail"
+              >
                 <div
                   class="relative w-full aspect-[2/3] rounded-xl overflow-hidden bg-surface-container shadow-md transition-all duration-300 group-hover:-translate-y-1.5"
                 >
@@ -917,7 +1433,7 @@
                   </span>
                 </div>
                 <h3
-                  class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
+                  class="mf-mcard-title font-title-sm text-title-sm text-on-surface font-semibold group-hover:text-primary transition-colors"
                 >
                   Ghost in the Shell: SAC
                 </h3>
@@ -926,9 +1442,12 @@
                 >
                   Hành động • Anime
                 </p>
-              </div>
+              </a>
               <!-- New Release 2 -->
-              <div class="group flex flex-col gap-space-xs cursor-pointer">
+              <a
+                class="mf-mcard group flex flex-col gap-space-xs min-w-0 h-full"
+                href="/movie-detail"
+              >
                 <div
                   class="relative w-full aspect-[2/3] rounded-xl overflow-hidden bg-surface-container shadow-md transition-all duration-300 group-hover:-translate-y-1.5"
                 >
@@ -963,7 +1482,7 @@
                   </span>
                 </div>
                 <h3
-                  class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
+                  class="mf-mcard-title font-title-sm text-title-sm text-on-surface font-semibold group-hover:text-primary transition-colors"
                 >
                   The Abyss: Reborn
                 </h3>
@@ -972,9 +1491,12 @@
                 >
                   Kỳ bí • Viễn tưởng
                 </p>
-              </div>
+              </a>
               <!-- New Release 3 -->
-              <div class="group flex flex-col gap-space-xs cursor-pointer">
+              <a
+                class="mf-mcard group flex flex-col gap-space-xs min-w-0 h-full"
+                href="/movie-detail"
+              >
                 <div
                   class="relative w-full aspect-[2/3] rounded-xl overflow-hidden bg-surface-container shadow-md transition-all duration-300 group-hover:-translate-y-1.5"
                 >
@@ -1009,7 +1531,7 @@
                   </span>
                 </div>
                 <h3
-                  class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
+                  class="mf-mcard-title font-title-sm text-title-sm text-on-surface font-semibold group-hover:text-primary transition-colors"
                 >
                   Tokyo Drift: Redline
                 </h3>
@@ -1018,9 +1540,12 @@
                 >
                   Hành động • Đua xe
                 </p>
-              </div>
+              </a>
               <!-- New Release 4 -->
-              <div class="group flex flex-col gap-space-xs cursor-pointer">
+              <a
+                class="mf-mcard group flex flex-col gap-space-xs min-w-0 h-full"
+                href="/movie-detail"
+              >
                 <div
                   class="relative w-full aspect-[2/3] rounded-xl overflow-hidden bg-surface-container shadow-md transition-all duration-300 group-hover:-translate-y-1.5"
                 >
@@ -1055,7 +1580,7 @@
                   </span>
                 </div>
                 <h3
-                  class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
+                  class="mf-mcard-title font-title-sm text-title-sm text-on-surface font-semibold group-hover:text-primary transition-colors"
                 >
                   Crimson Nocturne
                 </h3>
@@ -1064,9 +1589,12 @@
                 >
                   Kinh dị • Giả tưởng
                 </p>
-              </div>
+              </a>
               <!-- New Release 5 -->
-              <div class="group flex flex-col gap-space-xs cursor-pointer">
+              <a
+                class="mf-mcard group flex flex-col gap-space-xs min-w-0 h-full"
+                href="/movie-detail"
+              >
                 <div
                   class="relative w-full aspect-[2/3] rounded-xl overflow-hidden bg-surface-container shadow-md transition-all duration-300 group-hover:-translate-y-1.5"
                 >
@@ -1101,7 +1629,7 @@
                   </span>
                 </div>
                 <h3
-                  class="font-title-sm text-title-sm text-on-surface font-semibold truncate group-hover:text-primary transition-colors"
+                  class="mf-mcard-title font-title-sm text-title-sm text-on-surface font-semibold group-hover:text-primary transition-colors"
                 >
                   The Last Verdict
                 </h3>
@@ -1110,10 +1638,10 @@
                 >
                   Tâm lý • Pháp đình
                 </p>
-              </div>
+              </a>
             </div>
           </section>
-          <!-- Section 5: Thể loại phim (8 Category Cards with Dark Gradients & Distinct Icons) -->
+          <!-- Section 6: Thể loại phim (8 Category Cards with Dark Gradients & Distinct Icons) -->
           <section class="flex flex-col gap-space-md">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-space-sm">
@@ -1128,7 +1656,7 @@
               </div>
               <a
                 class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors"
-                href="#"
+                href="/genres"
                 >Tất cả thể loại →</a
               >
             </div>
@@ -1138,7 +1666,7 @@
               <!-- 1. Hành động -->
               <a
                 class="group relative p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high flex flex-col items-center justify-center gap-space-sm text-center overflow-hidden transition-all duration-300 transform hover:-translate-y-1 shadow-md"
-                href="#"
+                href="/genres"
               >
                 <div
                   class="absolute inset-0 bg-gradient-to-br from-primary-container/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
@@ -1158,7 +1686,7 @@
               <!-- 2. Phiêu lưu -->
               <a
                 class="group relative p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high flex flex-col items-center justify-center gap-space-sm text-center overflow-hidden transition-all duration-300 transform hover:-translate-y-1 shadow-md"
-                href="#"
+                href="/genres"
               >
                 <div
                   class="absolute inset-0 bg-gradient-to-br from-secondary-container/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
@@ -1178,7 +1706,7 @@
               <!-- 3. Hài -->
               <a
                 class="group relative p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high flex flex-col items-center justify-center gap-space-sm text-center overflow-hidden transition-all duration-300 transform hover:-translate-y-1 shadow-md"
-                href="#"
+                href="/genres"
               >
                 <div
                   class="absolute inset-0 bg-gradient-to-br from-secondary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
@@ -1198,7 +1726,7 @@
               <!-- 4. Tình cảm -->
               <a
                 class="group relative p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high flex flex-col items-center justify-center gap-space-sm text-center overflow-hidden transition-all duration-300 transform hover:-translate-y-1 shadow-md"
-                href="#"
+                href="/genres"
               >
                 <div
                   class="absolute inset-0 bg-gradient-to-br from-tertiary-container/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
@@ -1218,7 +1746,7 @@
               <!-- 5. Kinh dị -->
               <a
                 class="group relative p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high flex flex-col items-center justify-center gap-space-sm text-center overflow-hidden transition-all duration-300 transform hover:-translate-y-1 shadow-md"
-                href="#"
+                href="/genres"
               >
                 <div
                   class="absolute inset-0 bg-gradient-to-br from-error-container/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
@@ -1236,7 +1764,7 @@
               <!-- 6. Khoa học viễn tưởng -->
               <a
                 class="group relative p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high flex flex-col items-center justify-center gap-space-sm text-center overflow-hidden transition-all duration-300 transform hover:-translate-y-1 shadow-md"
-                href="#"
+                href="/genres"
               >
                 <div
                   class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
@@ -1256,7 +1784,7 @@
               <!-- 7. Hoạt hình -->
               <a
                 class="group relative p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high flex flex-col items-center justify-center gap-space-sm text-center overflow-hidden transition-all duration-300 transform hover:-translate-y-1 shadow-md"
-                href="#"
+                href="/genres"
               >
                 <div
                   class="absolute inset-0 bg-gradient-to-br from-secondary/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
@@ -1276,7 +1804,7 @@
               <!-- 8. Tâm lý -->
               <a
                 class="group relative p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high flex flex-col items-center justify-center gap-space-sm text-center overflow-hidden transition-all duration-300 transform hover:-translate-y-1 shadow-md"
-                href="#"
+                href="/genres"
               >
                 <div
                   class="absolute inset-0 bg-gradient-to-br from-outline/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
@@ -1295,7 +1823,7 @@
               </a>
             </div>
           </section>
-          <!-- Section 6: Phim phổ biến & Đánh giá cao (Top Rated Masterpieces - Asymmetric Bento / Row) -->
+          <!-- Section 7: Phim phổ biến & Đánh giá cao (Top Rated Masterpieces - Asymmetric Bento / Row) -->
           <section class="flex flex-col gap-space-md">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-space-sm">
@@ -1310,6 +1838,15 @@
                   >Top IMDb 250</span
                 >
               </div>
+              <a
+                class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface flex items-center gap-1 transition-colors"
+                href="/movies"
+              >
+                <span>Xem tất cả</span>
+                <span class="material-symbols-outlined text-base"
+                  >arrow_forward</span
+                >
+              </a>
             </div>
             <!-- Bento-style Feature Grid for Top Rated -->
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md">
@@ -1357,9 +1894,11 @@
                     tế chung sống trong một nhà tù tàn bạo.
                   </p>
                   <div class="flex items-center gap-space-md pt-space-xs">
-                    <button
+                    <a
                       class="flex items-center gap-2 px-space-md py-2.5 rounded-lg bg-primary-container text-on-primary-container font-title-sm text-title-sm hover:opacity-90 transition-opacity"
-                      type="button"
+                      data-movie-id="22"
+                      data-movie-title="The Shawshank Redemption"
+                      href="/watch"
                     >
                       <span
                         class="material-symbols-outlined text-lg"
@@ -1367,16 +1906,18 @@
                         >play_arrow</span
                       >
                       <span>Xem phim</span>
-                    </button>
-                    <button
+                    </a>
+                    <a
                       class="flex items-center gap-1.5 px-space-md py-2.5 rounded-lg bg-surface-container-highest/80 backdrop-blur-sm text-on-surface font-title-sm text-title-sm hover:bg-surface-bright transition-colors"
-                      type="button"
+                      data-movie-id="22"
+                      data-movie-title="The Shawshank Redemption"
+                      href="/movie-detail"
                     >
                       <span class="material-symbols-outlined text-lg"
                         >info</span
                       >
                       <span>Chi tiết</span>
-                    </button>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -1385,9 +1926,10 @@
                 class="lg:col-span-5 flex flex-col gap-space-sm justify-between"
               >
                 <!-- Item 1 -->
-                <div
-                  class="group p-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high transition-colors flex items-center gap-space-md shadow-md cursor-pointer"
-                >
+                <a
+                  class="mf-mcard group p-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high transition-colors flex items-center gap-space-md shadow-md"
+                  href="/movie-detail"
+                  >
                   <div
                     class="relative w-20 h-28 rounded-lg overflow-hidden shrink-0 bg-surface-container-high"
                   >
@@ -1409,7 +1951,7 @@
                       >#2 IMDb All Time</span
                     >
                     <h4
-                      class="font-title-sm text-title-sm text-on-surface font-bold truncate group-hover:text-primary transition-colors"
+                      class="mf-mcard-title font-title-sm text-title-sm text-on-surface font-bold group-hover:text-primary transition-colors"
                     >
                       The Dark Knight
                     </h4>
@@ -1423,21 +1965,21 @@
                       >2h 32m • Đạo diễn Christopher Nolan</span
                     >
                   </div>
-                  <button
+                  <span
                     class="w-10 h-10 rounded-full bg-surface-container-high group-hover:bg-primary-container group-hover:text-on-primary-container text-on-surface flex items-center justify-center shrink-0 transition-colors"
-                    type="button"
-                  >
+                    >
                     <span
                       class="material-symbols-outlined text-xl"
                       style="font-variation-settings: &quot;FILL&quot; 1"
                       >play_arrow</span
                     >
-                  </button>
-                </div>
+                  </span>
+                </a>
                 <!-- Item 2 -->
-                <div
-                  class="group p-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high transition-colors flex items-center gap-space-md shadow-md cursor-pointer"
-                >
+                <a
+                  class="mf-mcard group p-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high transition-colors flex items-center gap-space-md shadow-md"
+                  href="/movie-detail"
+                  >
                   <div
                     class="relative w-20 h-28 rounded-lg overflow-hidden shrink-0 bg-surface-container-high"
                   >
@@ -1459,7 +2001,7 @@
                       >#3 IMDb All Time</span
                     >
                     <h4
-                      class="font-title-sm text-title-sm text-on-surface font-bold truncate group-hover:text-primary transition-colors"
+                      class="mf-mcard-title font-title-sm text-title-sm text-on-surface font-bold group-hover:text-primary transition-colors"
                     >
                       Inception
                     </h4>
@@ -1473,21 +2015,21 @@
                       >2h 28m • Leonardo DiCaprio</span
                     >
                   </div>
-                  <button
+                  <span
                     class="w-10 h-10 rounded-full bg-surface-container-high group-hover:bg-primary-container group-hover:text-on-primary-container text-on-surface flex items-center justify-center shrink-0 transition-colors"
-                    type="button"
-                  >
+                    >
                     <span
                       class="material-symbols-outlined text-xl"
                       style="font-variation-settings: &quot;FILL&quot; 1"
                       >play_arrow</span
                     >
-                  </button>
-                </div>
+                  </span>
+                </a>
                 <!-- Item 3 -->
-                <div
-                  class="group p-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high transition-colors flex items-center gap-space-md shadow-md cursor-pointer"
-                >
+                <a
+                  class="mf-mcard group p-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high transition-colors flex items-center gap-space-md shadow-md"
+                  href="/movie-detail"
+                  >
                   <div
                     class="relative w-20 h-28 rounded-lg overflow-hidden shrink-0 bg-surface-container-high"
                   >
@@ -1509,7 +2051,7 @@
                       >#4 IMDb All Time</span
                     >
                     <h4
-                      class="font-title-sm text-title-sm text-on-surface font-bold truncate group-hover:text-primary transition-colors"
+                      class="mf-mcard-title font-title-sm text-title-sm text-on-surface font-bold group-hover:text-primary transition-colors"
                     >
                       The Return of the King
                     </h4>
@@ -1523,17 +2065,16 @@
                       >3h 21m • Oscar Best Picture Winner</span
                     >
                   </div>
-                  <button
+                  <span
                     class="w-10 h-10 rounded-full bg-surface-container-high group-hover:bg-primary-container group-hover:text-on-primary-container text-on-surface flex items-center justify-center shrink-0 transition-colors"
-                    type="button"
-                  >
+                    >
                     <span
                       class="material-symbols-outlined text-xl"
                       style="font-variation-settings: &quot;FILL&quot; 1"
                       >play_arrow</span
                     >
-                  </button>
-                </div>
+                  </span>
+                </a>
               </div>
             </div>
           </section>
@@ -1756,10 +2297,10 @@
         </div>
       </div>
     </footer>
+    <script type="module" src="/src/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" src="/src/js/custumer/home.js"></script>
+    <script type="module" src="/src/js/custumer/auth.js"></script>
+    <script type="module" src="/src/js/custumer/header.js"></script>
   </body>
 </html>
-<script type="module" src="/src/main.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script type="module" src="./../../src/js/custumer/home.js"></script>
-<script type="module" src="./../../src/js/custumer/auth.js"></script>
-<script type="module" src="./../../src/js/custumer/header.js"></script>

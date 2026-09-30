@@ -11,11 +11,6 @@ function getCurrentUser() {
   }
 }
 
-function redirectToLogin() {
-  sessionStorage.setItem("redirectAfterLogin", window.location.href);
-  window.location.href = "/login";
-}
-
 function sameId(left, right) {
   return String(left) === String(right);
 }
@@ -87,10 +82,11 @@ async function initWatchHistory() {
   if (!movieId) return;
 
   const user = getCurrentUser();
-  if (!user) {
-    redirectToLogin();
-    return;
-  }
+  // Khách chưa đăng nhập vẫn được xem phim bình thường. Trước đây chỗ này gọi
+  // redirectToLogin() nên bấm "Xem phim ngay" sẽ bị đá sang /login và không
+  // xem được gì. Ghi lịch sử chỉ là tiện ích thêm cho người đã đăng nhập, nên
+  // với khách thì bỏ qua thay vì chặn trang.
+  if (!user) return;
 
   let durationSeconds = 0;
 

@@ -39,7 +39,7 @@
         display: none;
       }
     </style>
-    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body
     class="bg-surface-container-lowest font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container"
@@ -132,32 +132,83 @@
               class="absolute top-1.5 right-1.5 w-2 h-2 bg-primary-container rounded-full ring-2 ring-surface-container-lowest"
             ></span>
           </button>
-          <div class="flex items-center gap-space-xs pl-space-xs">
-            <button
-              class="flex items-center gap-space-xs p-space-xs rounded-full hover:bg-surface-container-high transition-colors group"
-              type="button"
-            >
-              <img
-                alt="Profile"
-                class="w-8 h-8 rounded-full object-cover ring-1 ring-white/10 group-hover:ring-primary-container transition-all"
-                src="/images/avatar/default.svg"
-              />
-              <span
-                class="material-symbols-outlined text-on-surface-variant text-base hidden sm:inline-block group-hover:text-on-surface transition-colors"
-              >
-                expand_more
-              </span>
-            </button>
-          </div>
+          <!-- header.js render nút đăng nhập / tài khoản vào #user -->
+          <div
+            class="flex items-center gap-space-xs pl-space-xs"
+            id="user"
+          ></div>
         </div>
       </div>
     </header>
-    <main class="w-full pt-20 bg-surface-container-lowest min-h-screen">
-      <div class="flex flex-col w-full">
+    <main class="w-full pt-20 bg-surface-container-lowest min-h-screen" data-metric="movie-content">
+      <!--
+        Trạng thái không tìm thấy phim: hiện khi URL thiếu ?id= hoặc id không có
+        trong data/db.json. Mặc định ẩn, không bao giờ lộ nội dung phim khác.
+      -->
+      <section
+        class="hidden w-full px-gutter-mobile md:px-margin pt-32 pb-24"
+        data-metric="movie-not-found"
+      >
+        <div
+          class="max-w-xl mx-auto flex flex-col items-center text-center gap-space-md"
+        >
+          <div class="relative w-32 h-32 flex items-center justify-center">
+            <div class="absolute inset-0 rounded-full bg-primary-container/10 blur-2xl"></div>
+            <div
+              class="relative w-24 h-24 rounded-2xl bg-surface-container-low border border-white/5 flex items-center justify-center rotate-[-6deg]"
+            >
+              <span
+                class="material-symbols-outlined text-5xl text-on-surface-variant/60"
+                >movie_off</span
+              >
+            </div>
+            <span
+              class="absolute bottom-1 right-1 w-10 h-10 rounded-full bg-surface-container-high border border-white/10 flex items-center justify-center"
+            >
+              <span class="material-symbols-outlined text-xl text-primary">search_off</span>
+            </span>
+          </div>
+          <div class="flex flex-col items-center gap-space-xs">
+            <h1
+              class="font-headline-sm text-headline-sm text-on-surface font-bold"
+              data-metric="not-found-title"
+            >
+              Không tìm thấy phim
+            </h1>
+            <p
+              class="font-body-md text-body-md text-on-surface-variant max-w-md"
+              data-metric="not-found-reason"
+            >
+              Phim bạn yêu cầu không tồn tại trong thư viện hoặc đã bị gỡ bỏ.
+            </p>
+          </div>
+          <div class="flex flex-wrap items-center justify-center gap-space-sm">
+            <a
+              class="px-5 py-3 rounded-lg bg-primary-container text-on-primary-container font-title-sm text-title-sm hover:opacity-90 transition-opacity flex items-center gap-2"
+              href="/movies"
+            >
+              <span class="material-symbols-outlined text-lg">movie</span>
+              Xem tất cả phim
+            </a>
+            <a
+              class="px-5 py-3 rounded-lg bg-surface-container text-on-surface font-title-sm text-title-sm hover:bg-surface-container-high transition-colors flex items-center gap-2"
+              href="/"
+            >
+              <span class="material-symbols-outlined text-lg">home</span>
+              Về trang chủ
+            </a>
+          </div>
+        </div>
+      </section>
+      <!--
+        Nội dung phim mặc định ẩn: movie-detail.js chỉ bỏ ẩn sau khi đã nạp được
+        đúng phim theo ?id=. Nhờ vậy id sai không bao giờ nháy nội dung Dune cứng.
+      -->
+      <div class="hidden flex flex-col w-full" data-metric="movie-body">
         <div class="relative w-full overflow-hidden -mt-20">
           <div
             class="absolute inset-0 bg-cover bg-center h-[720px] scale-105 filter brightness-75 transition-transform duration-1000 ease-out"
-            data-alt="Cinematic epic panoramic shot of a vast golden desert on an alien planet with twin moons in a dark twilight sky, glowing spice dust scattering in the wind, atmospheric mist, cinematic film grain, dark obsidian framing, high contrast sci-fi aesthetic matching Dune mood."
+            data-bind="backdrop"
             style="
               background-image: url(&quot;/images/backgrounds/movie-backdrop.jpg&quot;);
             "
@@ -184,11 +235,13 @@
                   class="relative group rounded-xl overflow-hidden shadow-2xl bg-surface-container shadow-black/80"
                 >
                   <div class="aspect-[2/3] w-full overflow-hidden">
-                    <img
-                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                      data-alt="Official vertical cinematic movie poster for Dune Part Two featuring a hooded desert warrior holding a crysknife amidst giant golden sand dunes and hovering futuristic starships under a moody dark dramatic sun, vibrant warm amber highlights on dark obsidian sands."
-                      src="/images/movies/dune-poster.jpg"
-                    />
+            <img
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+              data-bind="poster"
+              data-fallback=""
+              decoding="async"
+              src="/images/movies/dune-poster.jpg"
+            />
                   </div>
                   <div class="absolute top-3 left-3 flex flex-col gap-1.5">
                     <span
@@ -254,39 +307,33 @@
               <div
                 class="lg:col-span-8 xl:col-span-9 flex flex-col gap-space-md lg:pl-space-md"
               >
-                <div class="flex flex-wrap items-center gap-2">
-                  <span
-                    class="px-3 py-1 rounded-full bg-surface-container-high text-primary font-label-md text-label-md tracking-wider"
-                    >4K Ultra HD</span
-                  >
-                  <span
-                    class="px-3 py-1 rounded-full bg-surface-container-high text-on-surface font-label-md text-label-md tracking-wider"
-                    >Dolby Atmos</span
-                  >
-                  <span
-                    class="px-3 py-1 rounded-full bg-tertiary-container/30 text-on-tertiary-container font-label-md text-label-md"
-                    >T16 - Phim cho khán giả từ 16 tuổi</span
-                  >
-                  <span
-                    class="px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md"
-                    >Phụ đề &amp; Thuyết minh</span
-                  >
+                <div data-bind="quality-badges">
+                  <div class="flex flex-wrap items-center gap-2" data-bind="quality-badge">
+                    <span
+                      class="px-3 py-1 rounded-full bg-surface-container-high text-primary font-label-md text-label-md tracking-wider"
+                      data-bind="quality"
+                      >HD</span
+                    >
+                  </div>
                 </div>
                 <div>
                   <h1
                     class="font-headline-xl text-headline-xl text-on-surface tracking-tight leading-tight"
+                    data-bind="title"
                   >
-                    Dune: Hành Tinh Cát - Phần Hai (2024)
+                    Đang tải...
                   </h1>
                   <p
                     class="font-headline-sm text-headline-sm text-on-surface-variant font-normal tracking-wide mt-1"
-                  >
-                    Dune: Part Two
-                  </p>
+                    data-bind="original-title"
+                    hidden
+                  ></p>
                 </div>
                 <div class="flex flex-wrap items-center gap-y-2 gap-x-6 py-2">
                   <div
                     class="flex items-center gap-2 bg-surface-container px-3 py-1.5 rounded-lg"
+                    data-bind="rating"
+                    hidden
                   >
                     <span
                       class="material-symbols-outlined text-secondary text-2xl"
@@ -296,7 +343,8 @@
                     <div class="flex items-baseline gap-1">
                       <span
                         class="font-headline-sm text-headline-sm text-secondary font-bold"
-                        >8.9</span
+                        data-bind="rating-score"
+                        >--</span
                       >
                       <span
                         class="font-body-sm text-body-sm text-on-surface-variant"
@@ -305,7 +353,8 @@
                     </div>
                     <span
                       class="font-body-sm text-body-sm text-on-surface-variant pl-1"
-                      >(120k lượt bình chọn)</span
+                      data-bind="rating-count"
+                      ></span
                     >
                   </div>
                   <div
@@ -315,65 +364,42 @@
                       ><span
                         class="material-symbols-outlined text-base text-outline"
                         >calendar_today</span
-                      >2024</span
+                      ><span data-bind="year">----</span></span
                     >
-                    <span class="text-on-surface-variant">•</span>
+                    <span class="text-on-surface-variant" data-bind="sep-1">•</span>
                     <span class="flex items-center gap-1.5"
                       ><span
                         class="material-symbols-outlined text-base text-outline"
                         >schedule</span
-                      >166 phút</span
+                      ><span data-bind="duration">--</span></span
                     >
-                    <span class="text-on-surface-variant">•</span>
+                    <span class="text-on-surface-variant" data-bind="sep-2">•</span>
                     <span class="flex items-center gap-1.5"
                       ><span
                         class="material-symbols-outlined text-base text-outline"
                         >public</span
-                      >Mỹ</span
+                      ><span data-bind="country">--</span></span
                     >
                   </div>
                 </div>
-                <div class="flex flex-wrap gap-2">
-                  <span
-                    class="px-3 py-1 rounded-md bg-surface-container-high text-on-surface font-title-sm text-title-sm"
-                    >Hành động</span
-                  >
-                  <span
-                    class="px-3 py-1 rounded-md bg-surface-container-high text-on-surface font-title-sm text-title-sm"
-                    >Khoa học viễn tưởng</span
-                  >
-                  <span
-                    class="px-3 py-1 rounded-md bg-surface-container-high text-on-surface font-title-sm text-title-sm"
-                    >Phiêu lưu</span
-                  >
-                </div>
+                <div class="flex flex-wrap gap-2" data-bind="genres" hidden></div>
                 <div class="space-y-1.5 py-1">
-                  <p class="font-body-md text-body-md text-on-surface">
-                    <span class="text-on-surface-variant">Đạo diễn:</span> Denis
-                    Villeneuve
-                  </p>
-                  <p class="font-body-md text-body-md text-on-surface">
-                    <span class="text-on-surface-variant"
-                      >Diễn viên chính:</span
-                    >
-                    Timothée Chalamet, Zendaya, Rebecca Ferguson, Javier Bardem,
-                    Austin Butler
-                  </p>
+                  <p
+                    class="font-body-md text-body-md text-on-surface"
+                    data-bind="credits"
+                  ></p>
                 </div>
                 <p
                   class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed max-w-4xl"
+                  data-bind="description"
                 >
-                  Cuộc hành trình thần thoại của Paul Atreides khi anh hợp nhất
-                  với Chani và người Fremen trên con đường trả thù những kẻ đã
-                  hủy hoại gia đình mình. Đứng trước sự lựa chọn nghiệt ngã giữa
-                  tình yêu của đời mình và số phận của vũ trụ, Paul buộc phải
-                  ngăn chặn một tương lai kinh hoàng mà chỉ mình anh có thể thấy
-                  trước.
+                  Đang tải nội dung phim...
                 </p>
                 <div class="flex flex-wrap items-center gap-4 pt-3">
                   <a
                     id="watchMovieLink"
-                    href="/watch?id=7"
+                    data-bind="watch"
+                    href="/movies"
                     class="inline-flex items-center justify-center gap-3 px-8 py-3.5 rounded-lg bg-primary-container text-on-primary-container font-title-md text-title-md shadow-xl hover:brightness-110 active:scale-95 transition-all select-none cursor-pointer"
                   >
                     <span
@@ -385,6 +411,7 @@
                   </a>
                   <button
                     class="flex items-center justify-center gap-3 px-6 py-3.5 rounded-lg bg-surface-container-high text-on-surface font-title-md text-title-md hover:bg-surface-bright active:scale-95 transition-all"
+                    data-bind="trailer"
                     type="button"
                   >
                     <span class="material-symbols-outlined text-xl">movie</span>
@@ -404,35 +431,41 @@
                     <span id="fav-text">Thêm vào yêu thích</span>
                   </button>
                 </div>
-                <div class="grid grid-cols-3 gap-4 pt-4 max-w-lg">
+                <div
+                  class="grid grid-cols-3 gap-4 pt-4 max-w-lg"
+                  data-bind="specs"
+                >
                   <div class="p-3 rounded-lg bg-surface-container-low">
                     <span
                       class="font-label-caps text-label-caps text-on-surface-variant block uppercase"
-                      >Âm thanh</span
+                      >Chất lượng</span
                     >
                     <span
                       class="font-title-sm text-title-sm text-on-surface block mt-1"
-                      >Dolby 7.1 Surround</span
+                      data-bind="spec-quality"
+                      >--</span
                     >
                   </div>
                   <div class="p-3 rounded-lg bg-surface-container-low">
                     <span
                       class="font-label-caps text-label-caps text-on-surface-variant block uppercase"
-                      >Khung hình</span
+                      >Lượt xem</span
                     >
                     <span
                       class="font-title-sm text-title-sm text-on-surface block mt-1"
-                      >1.90:1 IMAX DMR</span
+                      data-bind="spec-views"
+                      >--</span
                     >
                   </div>
                   <div class="p-3 rounded-lg bg-surface-container-low">
                     <span
                       class="font-label-caps text-label-caps text-on-surface-variant block uppercase"
-                      >Bản quyền</span
+                      >Ngày thêm</span
                     >
                     <span
                       class="font-title-sm text-title-sm text-on-surface block mt-1"
-                      >Warner Bros.</span
+                      data-bind="spec-created"
+                      >--</span
                     >
                   </div>
                 </div>
@@ -469,144 +502,12 @@
           </div>
           <div
             class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-gutter"
+            data-bind="cast"
           >
-            <div
-              class="flex flex-col items-center text-center p-4 rounded-xl bg-surface-container-low hover:bg-surface-container transition-all group"
-            >
-              <div
-                class="w-24 h-24 rounded-full overflow-hidden mb-3 shadow-lg shadow-black/40"
-              >
-                <img
-                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  data-alt="Portrait photo of actor Timothee Chalamet with dark wavy hair looking thoughtfully into the camera, cinematic lighting, dark background, high resolution studio headshot."
-                  src="/images/actors/chalamet.jpg"
-                />
-              </div>
-              <h3
-                class="font-title-sm text-title-sm text-on-surface font-semibold truncate w-full"
-              >
-                Timothée Chalamet
-              </h3>
-              <p
-                class="font-body-sm text-body-sm text-on-surface-variant truncate w-full mt-0.5"
-              >
-                Paul Atreides
-              </p>
-            </div>
-            <div
-              class="flex flex-col items-center text-center p-4 rounded-xl bg-surface-container-low hover:bg-surface-container transition-all group"
-            >
-              <div
-                class="w-24 h-24 rounded-full overflow-hidden mb-3 shadow-lg shadow-black/40"
-              >
-                <img
-                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  data-alt="Portrait headshot of actress Zendaya in warm natural film lighting, confident expression, dark obsidian background, professional celebrity portrait."
-                  src="/images/actors/zendaya.jpg"
-                />
-              </div>
-              <h3
-                class="font-title-sm text-title-sm text-on-surface font-semibold truncate w-full"
-              >
-                Zendaya
-              </h3>
-              <p
-                class="font-body-sm text-body-sm text-on-surface-variant truncate w-full mt-0.5"
-              >
-                Chani
-              </p>
-            </div>
-            <div
-              class="flex flex-col items-center text-center p-4 rounded-xl bg-surface-container-low hover:bg-surface-container transition-all group"
-            >
-              <div
-                class="w-24 h-24 rounded-full overflow-hidden mb-3 shadow-lg shadow-black/40"
-              >
-                <img
-                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  data-alt="Close up dramatic studio portrait of actress Rebecca Ferguson with intense blue eyes, soft rim lighting, dark moody background, high fashion editorial style."
-                  src="/images/actors/ferguson.jpg"
-                />
-              </div>
-              <h3
-                class="font-title-sm text-title-sm text-on-surface font-semibold truncate w-full"
-              >
-                Rebecca Ferguson
-              </h3>
-              <p
-                class="font-body-sm text-body-sm text-on-surface-variant truncate w-full mt-0.5"
-              >
-                Lady Jessica
-              </p>
-            </div>
-            <div
-              class="flex flex-col items-center text-center p-4 rounded-xl bg-surface-container-low hover:bg-surface-container transition-all group"
-            >
-              <div
-                class="w-24 h-24 rounded-full overflow-hidden mb-3 shadow-lg shadow-black/40"
-              >
-                <img
-                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  data-alt="Studio portrait of actor Javier Bardem with rugged charismatic expression, warm side light, textured cinematic shadows on dark backdrop."
-                  src="/images/actors/bardem.jpg"
-                />
-              </div>
-              <h3
-                class="font-title-sm text-title-sm text-on-surface font-semibold truncate w-full"
-              >
-                Javier Bardem
-              </h3>
-              <p
-                class="font-body-sm text-body-sm text-on-surface-variant truncate w-full mt-0.5"
-              >
-                Stilgar
-              </p>
-            </div>
-            <div
-              class="flex flex-col items-center text-center p-4 rounded-xl bg-surface-container-low hover:bg-surface-container transition-all group"
-            >
-              <div
-                class="w-24 h-24 rounded-full overflow-hidden mb-3 shadow-lg shadow-black/40"
-              >
-                <img
-                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  data-alt="Edgy studio headshot of actor Austin Butler, sharp facial features, dramatic chiaroscuro lighting, deep dark black background."
-                  src="/images/actors/butler.jpg"
-                />
-              </div>
-              <h3
-                class="font-title-sm text-title-sm text-on-surface font-semibold truncate w-full"
-              >
-                Austin Butler
-              </h3>
-              <p
-                class="font-body-sm text-body-sm text-on-surface-variant truncate w-full mt-0.5"
-              >
-                Feyd-Rautha
-              </p>
-            </div>
-            <div
-              class="flex flex-col items-center text-center p-4 rounded-xl bg-surface-container-low hover:bg-surface-container transition-all group"
-            >
-              <div
-                class="w-24 h-24 rounded-full overflow-hidden mb-3 shadow-lg shadow-black/40"
-              >
-                <img
-                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  data-alt="Distinguished portrait of film director Denis Villeneuve wearing glasses, thoughtful director gaze, subtle monochromatic studio lighting, dark backdrop."
-                  src="/images/actors/villeneuve.jpg"
-                />
-              </div>
-              <h3
-                class="font-title-sm text-title-sm text-on-surface font-semibold truncate w-full"
-              >
-                Denis Villeneuve
-              </h3>
-              <p
-                class="font-body-sm text-body-sm text-on-surface-variant truncate w-full mt-0.5"
-              >
-                Đạo diễn / Biên kịch
-              </p>
+            <!-- Diễn viên & đoàn làm phim: render từ data/db.json bởi movie-detail.js -->
+            <div class="col-span-full flex items-center justify-center gap-3 py-12 text-on-surface-variant">
+              <span class="material-symbols-outlined text-2xl animate-spin">progress_activity</span>
+              <span class="font-body-sm text-body-sm">Đang tải...</span>
             </div>
           </div>
         </section>
@@ -621,6 +522,7 @@
             <div class="lg:col-span-4 flex flex-col gap-space-md">
               <div
                 class="p-6 rounded-2xl bg-surface-container-low flex flex-col items-center text-center shadow-lg"
+                data-bind="rating-summary"
               >
                 <span
                   class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest mb-1"
@@ -629,45 +531,29 @@
                 <div class="flex items-baseline gap-2 my-2">
                   <span
                     class="font-display-hero text-display-hero text-on-surface font-extrabold tracking-tight"
-                    >4.5</span
+                    data-bind="summary-score"
+                    >--</span
                   >
                   <span
                     class="font-headline-md text-headline-md text-on-surface-variant"
                     >/5</span
                   >
                 </div>
-                <div class="flex items-center gap-1 text-secondary my-1">
-                  <span
-                    class="material-symbols-outlined text-2xl"
-                    style="font-variation-settings: &quot;FILL&quot; 1"
-                    >star</span
-                  >
-                  <span
-                    class="material-symbols-outlined text-2xl"
-                    style="font-variation-settings: &quot;FILL&quot; 1"
-                    >star</span
-                  >
-                  <span
-                    class="material-symbols-outlined text-2xl"
-                    style="font-variation-settings: &quot;FILL&quot; 1"
-                    >star</span
-                  >
-                  <span
-                    class="material-symbols-outlined text-2xl"
-                    style="font-variation-settings: &quot;FILL&quot; 1"
-                    >star</span
-                  >
-                  <span class="material-symbols-outlined text-2xl"
-                    >star_half</span
-                  >
+                <div
+                  class="flex items-center gap-1 text-secondary my-1"
+                  data-bind="summary-stars"
+                >
+                  <span class="material-symbols-outlined text-2xl">star_outline</span>
                 </div>
                 <p
                   class="font-body-sm text-body-sm text-on-surface-variant mt-1"
+                  data-bind="summary-note"
                 >
-                  Dựa trên 1,450 lượt đánh giá được xác thực
+                  Đang tải đánh giá...
                 </p>
                 <div
                   class="w-full flex flex-col gap-2 mt-6 pt-6 border-t border-white/5"
+                  data-bind="summary-bars"
                 >
                   <div class="flex items-center gap-3 w-full">
                     <span
@@ -871,297 +757,13 @@
                   </button>
                 </div>
               </div>
-              <div class="flex flex-col gap-4 mt-2" id="comments-list">
-                <div
-                  class="p-5 rounded-xl bg-surface-container-low flex flex-col gap-3"
-                >
-                  <div class="flex items-start justify-between">
-                    <div class="flex items-center gap-3">
-                      <img
-                        class="w-10 h-10 rounded-full object-cover"
-                        data-alt="User avatar of an Asian male movie critic wearing modern glasses with warm soft studio lighting."
-                        src="/images/avatar/avatar-1.jpg"
-                      />
-                      <div>
-                        <h4
-                          class="font-title-sm text-title-sm text-on-surface font-semibold"
-                        >
-                          Trần Hoàng Long
-                        </h4>
-                        <div class="flex items-center gap-2 mt-0.5">
-                          <div class="flex text-secondary text-sm">
-                            <span
-                              class="material-symbols-outlined text-sm"
-                              style="
-                                font-variation-settings: &quot;FILL&quot; 1;
-                              "
-                              >star</span
-                            >
-                            <span
-                              class="material-symbols-outlined text-sm"
-                              style="
-                                font-variation-settings: &quot;FILL&quot; 1;
-                              "
-                              >star</span
-                            >
-                            <span
-                              class="material-symbols-outlined text-sm"
-                              style="
-                                font-variation-settings: &quot;FILL&quot; 1;
-                              "
-                              >star</span
-                            >
-                            <span
-                              class="material-symbols-outlined text-sm"
-                              style="
-                                font-variation-settings: &quot;FILL&quot; 1;
-                              "
-                              >star</span
-                            >
-                            <span
-                              class="material-symbols-outlined text-sm"
-                              style="
-                                font-variation-settings: &quot;FILL&quot; 1;
-                              "
-                              >star</span
-                            >
-                          </div>
-                          <span
-                            class="text-on-surface-variant font-body-sm text-body-sm"
-                            >18 Tháng 03, 2024</span
-                          >
-                        </div>
-                      </div>
-                    </div>
-                    <span
-                      class="font-label-caps text-label-caps px-2 py-0.5 rounded bg-primary-container/20 text-primary"
-                      >Đã xác thực</span
-                    >
-                  </div>
-                  <p
-                    class="font-body-md text-body-md text-on-surface leading-relaxed"
-                  >
-                    Một kiệt tác điện ảnh sci-fi thế kỷ! Hans Zimmer với phần
-                    nhạc nền rung chuyển cả rạp kết hợp cùng góc quay chuẩn IMAX
-                    của Greig Fraser khiến người xem nghẹt thở từ phút đầu tiên.
-                    Trận chiến sa mạc cuối phim thực sự xứng đáng là tượng đài
-                    kỹ xảo.
-                  </p>
-                  <div
-                    class="flex items-center gap-4 text-on-surface-variant font-body-sm text-body-sm pt-1"
-                  >
-                    <button
-                      class="flex items-center gap-1 hover:text-on-surface transition-colors"
-                      type="button"
-                    >
-                      <span class="material-symbols-outlined text-base"
-                        >thumb_up</span
-                      >
-                      142
-                    </button>
-                    <button
-                      class="flex items-center gap-1 hover:text-on-surface transition-colors"
-                      type="button"
-                    >
-                      <span class="material-symbols-outlined text-base"
-                        >chat_bubble</span
-                      >
-                      18 Trả lời
-                    </button>
-                  </div>
-                </div>
-                <div
-                  class="p-5 rounded-xl bg-surface-container-low flex flex-col gap-3"
-                >
-                  <div class="flex items-start justify-between">
-                    <div class="flex items-center gap-3">
-                      <img
-                        class="w-10 h-10 rounded-full object-cover"
-                        data-alt="Portrait photo of a young Vietnamese female cinema enthusiast with short hair smiling brightly on a blurred dark bokeh background."
-                        src="/images/avatar/avatar-2.jpg"
-                      />
-                      <div>
-                        <h4
-                          class="font-title-sm text-title-sm text-on-surface font-semibold"
-                        >
-                          Lê Quỳnh Mai
-                        </h4>
-                        <div class="flex items-center gap-2 mt-0.5">
-                          <div class="flex text-secondary text-sm">
-                            <span
-                              class="material-symbols-outlined text-sm"
-                              style="
-                                font-variation-settings: &quot;FILL&quot; 1;
-                              "
-                              >star</span
-                            >
-                            <span
-                              class="material-symbols-outlined text-sm"
-                              style="
-                                font-variation-settings: &quot;FILL&quot; 1;
-                              "
-                              >star</span
-                            >
-                            <span
-                              class="material-symbols-outlined text-sm"
-                              style="
-                                font-variation-settings: &quot;FILL&quot; 1;
-                              "
-                              >star</span
-                            >
-                            <span
-                              class="material-symbols-outlined text-sm"
-                              style="
-                                font-variation-settings: &quot;FILL&quot; 1;
-                              "
-                              >star</span
-                            >
-                            <span
-                              class="material-symbols-outlined text-sm"
-                              style="
-                                font-variation-settings: &quot;FILL&quot; 1;
-                              "
-                              >star</span
-                            >
-                          </div>
-                          <span
-                            class="text-on-surface-variant font-body-sm text-body-sm"
-                            >22 Tháng 03, 2024</span
-                          >
-                        </div>
-                      </div>
-                    </div>
-                    <span
-                      class="font-label-caps text-label-caps px-2 py-0.5 rounded bg-primary-container/20 text-primary"
-                      >Đã xác thực</span
-                    >
-                  </div>
-                  <p
-                    class="font-body-md text-body-md text-on-surface leading-relaxed"
-                  >
-                    Diễn xuất của Timothée Chalamet trong phân đoạn phát biểu
-                    trước hàng vạn chiến binh Fremen bùng nổ sởn da gà. Không hề
-                    có một phút thừa nào dù thời lượng tới 166 phút. 10/10 không
-                    bàn cãi!
-                  </p>
-                  <div
-                    class="flex items-center gap-4 text-on-surface-variant font-body-sm text-body-sm pt-1"
-                  >
-                    <button
-                      class="flex items-center gap-1 hover:text-on-surface transition-colors"
-                      type="button"
-                    >
-                      <span class="material-symbols-outlined text-base"
-                        >thumb_up</span
-                      >
-                      89
-                    </button>
-                    <button
-                      class="flex items-center gap-1 hover:text-on-surface transition-colors"
-                      type="button"
-                    >
-                      <span class="material-symbols-outlined text-base"
-                        >chat_bubble</span
-                      >
-                      4 Trả lời
-                    </button>
-                  </div>
-                </div>
-                <div
-                  class="p-5 rounded-xl bg-surface-container-low flex flex-col gap-3"
-                >
-                  <div class="flex items-start justify-between">
-                    <div class="flex items-center gap-3">
-                      <img
-                        class="w-10 h-10 rounded-full object-cover"
-                        data-alt="Studio avatar portrait of a mature film reviewer in dark turtleneck with cinematic contrast lighting."
-                        src="/images/avatar/avatar-3.jpg"
-                      />
-                      <div>
-                        <h4
-                          class="font-title-sm text-title-sm text-on-surface font-semibold"
-                        >
-                          Vũ Minh Tuấn
-                        </h4>
-                        <div class="flex items-center gap-2 mt-0.5">
-                          <div class="flex text-secondary text-sm">
-                            <span
-                              class="material-symbols-outlined text-sm"
-                              style="
-                                font-variation-settings: &quot;FILL&quot; 1;
-                              "
-                              >star</span
-                            >
-                            <span
-                              class="material-symbols-outlined text-sm"
-                              style="
-                                font-variation-settings: &quot;FILL&quot; 1;
-                              "
-                              >star</span
-                            >
-                            <span
-                              class="material-symbols-outlined text-sm"
-                              style="
-                                font-variation-settings: &quot;FILL&quot; 1;
-                              "
-                              >star</span
-                            >
-                            <span
-                              class="material-symbols-outlined text-sm"
-                              style="
-                                font-variation-settings: &quot;FILL&quot; 1;
-                              "
-                              >star</span
-                            >
-                            <span
-                              class="material-symbols-outlined text-sm text-outline"
-                              >star</span
-                            >
-                          </div>
-                          <span
-                            class="text-on-surface-variant font-body-sm text-body-sm"
-                            >29 Tháng 03, 2024</span
-                          >
-                        </div>
-                      </div>
-                    </div>
-                    <span
-                      class="font-label-caps text-label-caps px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant"
-                      >Khán giả</span
-                    >
-                  </div>
-                  <p
-                    class="font-body-md text-body-md text-on-surface leading-relaxed"
-                  >
-                    Visual quá choáng ngợp, đặc biệt là thế giới đen trắng Giedi
-                    Prime của gia tộc Harkonnen. Tuy nhiên nhịp phim khúc giữa
-                    hơi dồn dập đối với những ai chưa từng đọc qua tiểu thuyết
-                    gốc của Frank Herbert.
-                  </p>
-                  <div
-                    class="flex items-center gap-4 text-on-surface-variant font-body-sm text-body-sm pt-1"
-                  >
-                    <button
-                      class="flex items-center gap-1 hover:text-on-surface transition-colors"
-                      type="button"
-                    >
-                      <span class="material-symbols-outlined text-base"
-                        >thumb_up</span
-                      >
-                      34
-                    </button>
-                    <button
-                      class="flex items-center gap-1 hover:text-on-surface transition-colors"
-                      type="button"
-                    >
-                      <span class="material-symbols-outlined text-base"
-                        >chat_bubble</span
-                      >
-                      7 Trả lời
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <div class="flex flex-col gap-4 mt-2" data-bind="reviews" id="comments-list">
+            <!-- Bình luận: render từ data/db.json bởi movie-detail.js -->
+            <div class="col-span-full flex items-center justify-center gap-3 py-12 text-on-surface-variant">
+              <span class="material-symbols-outlined text-2xl animate-spin">progress_activity</span>
+              <span class="font-body-sm text-body-sm">Đang tải...</span>
+            </div>
+          </div>
             </div>
           </div>
         </section>
@@ -1180,7 +782,7 @@
             </div>
             <a
               class="font-title-sm text-title-sm text-primary hover:underline flex items-center gap-1"
-              href="#"
+              href="/movies"
             >
               <span>Xem tất cả</span>
               <span class="material-symbols-outlined text-sm"
@@ -1190,301 +792,12 @@
           </div>
           <div
             class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-gutter"
+            data-bind="related"
           >
-            <div
-              class="group flex flex-col rounded-xl overflow-hidden bg-surface-container-low transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
-            >
-              <div
-                class="relative aspect-[2/3] w-full overflow-hidden bg-surface-container"
-              >
-                <img
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  data-alt="Cinematic movie poster for Interstellar showcasing an astronaut in space suit standing in knee-deep frozen water on an alien world with gigantic gravitational wave horizon in background."
-                  src="/images/movies/interstellar.jpg"
-                />
-                <div
-                  class="absolute top-2 right-2 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-1"
-                >
-                  <span
-                    class="material-symbols-outlined text-secondary text-xs"
-                    style="font-variation-settings: &quot;FILL&quot; 1"
-                    >star</span
-                  >
-                  <span
-                    class="font-label-caps text-label-caps text-on-surface font-bold"
-                    >8.7</span
-                  >
-                </div>
-                <div
-                  class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3"
-                >
-                  <button
-                    class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
-                    type="button"
-                  >
-                    <span
-                      class="material-symbols-outlined text-xl"
-                      style="font-variation-settings: &quot;FILL&quot; 1"
-                      >play_arrow</span
-                    >
-                  </button>
-                </div>
-              </div>
-              <div class="p-3">
-                <h3
-                  class="font-title-sm text-title-sm text-on-surface font-semibold truncate"
-                >
-                  Hố Đen Tử Thần
-                </h3>
-                <p
-                  class="font-body-sm text-body-sm text-on-surface-variant truncate"
-                >
-                  Interstellar (2014)
-                </p>
-                <div
-                  class="flex items-center gap-2 mt-2 font-label-md text-label-md text-on-surface-variant"
-                >
-                  <span>169 phút</span>
-                  <span>•</span>
-                  <span>Khoa học</span>
-                </div>
-              </div>
-            </div>
-            <div
-              class="group flex flex-col rounded-xl overflow-hidden bg-surface-container-low transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
-            >
-              <div
-                class="relative aspect-[2/3] w-full overflow-hidden bg-surface-container"
-              >
-                <img
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  data-alt="Atmospheric neo-noir movie poster for Blade Runner 2049 with orange dust-storm atmosphere, giant holographic geisha in rainy future cityscape, lone detective walking."
-                  src="/images/movies/blade-runner-2049.jpg"
-                />
-                <div
-                  class="absolute top-2 right-2 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-1"
-                >
-                  <span
-                    class="material-symbols-outlined text-secondary text-xs"
-                    style="font-variation-settings: &quot;FILL&quot; 1"
-                    >star</span
-                  >
-                  <span
-                    class="font-label-caps text-label-caps text-on-surface font-bold"
-                    >8.0</span
-                  >
-                </div>
-                <div
-                  class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3"
-                >
-                  <button
-                    class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
-                    type="button"
-                  >
-                    <span
-                      class="material-symbols-outlined text-xl"
-                      style="font-variation-settings: &quot;FILL&quot; 1"
-                      >play_arrow</span
-                    >
-                  </button>
-                </div>
-              </div>
-              <div class="p-3">
-                <h3
-                  class="font-title-sm text-title-sm text-on-surface font-semibold truncate"
-                >
-                  Tội Phạm Nhân Bản 2049
-                </h3>
-                <p
-                  class="font-body-sm text-body-sm text-on-surface-variant truncate"
-                >
-                  Blade Runner 2049 (2017)
-                </p>
-                <div
-                  class="flex items-center gap-2 mt-2 font-label-md text-label-md text-on-surface-variant"
-                >
-                  <span>164 phút</span>
-                  <span>•</span>
-                  <span>Viễn tưởng</span>
-                </div>
-              </div>
-            </div>
-            <div
-              class="group flex flex-col rounded-xl overflow-hidden bg-surface-container-low transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
-            >
-              <div
-                class="relative aspect-[2/3] w-full overflow-hidden bg-surface-container"
-              >
-                <img
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  data-alt="Iconic cyberpunk sci-fi movie poster for The Matrix featuring digital green raining code cascade, characters in long dark leather coats and sunglasses."
-                  src="/images/movies/matrix.jpg"
-                />
-                <div
-                  class="absolute top-2 right-2 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-1"
-                >
-                  <span
-                    class="material-symbols-outlined text-secondary text-xs"
-                    style="font-variation-settings: &quot;FILL&quot; 1"
-                    >star</span
-                  >
-                  <span
-                    class="font-label-caps text-label-caps text-on-surface font-bold"
-                    >8.7</span
-                  >
-                </div>
-                <div
-                  class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3"
-                >
-                  <button
-                    class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
-                    type="button"
-                  >
-                    <span
-                      class="material-symbols-outlined text-xl"
-                      style="font-variation-settings: &quot;FILL&quot; 1"
-                      >play_arrow</span
-                    >
-                  </button>
-                </div>
-              </div>
-              <div class="p-3">
-                <h3
-                  class="font-title-sm text-title-sm text-on-surface font-semibold truncate"
-                >
-                  Ma Trận
-                </h3>
-                <p
-                  class="font-body-sm text-body-sm text-on-surface-variant truncate"
-                >
-                  The Matrix (1999)
-                </p>
-                <div
-                  class="flex items-center gap-2 mt-2 font-label-md text-label-md text-on-surface-variant"
-                >
-                  <span>136 phút</span>
-                  <span>•</span>
-                  <span>Hành động</span>
-                </div>
-              </div>
-            </div>
-            <div
-              class="group flex flex-col rounded-xl overflow-hidden bg-surface-container-low transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
-            >
-              <div
-                class="relative aspect-[2/3] w-full overflow-hidden bg-surface-container"
-              >
-                <img
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  data-alt="Minimalist cinematic movie poster for Arrival showing a massive monolithic black oval alien spaceship hovering over a misty misty green meadow with a scientist looking up."
-                  src="/images/movies/arrival.jpg"
-                />
-                <div
-                  class="absolute top-2 right-2 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-1"
-                >
-                  <span
-                    class="material-symbols-outlined text-secondary text-xs"
-                    style="font-variation-settings: &quot;FILL&quot; 1"
-                    >star</span
-                  >
-                  <span
-                    class="font-label-caps text-label-caps text-on-surface font-bold"
-                    >7.9</span
-                  >
-                </div>
-                <div
-                  class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3"
-                >
-                  <button
-                    class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
-                    type="button"
-                  >
-                    <span
-                      class="material-symbols-outlined text-xl"
-                      style="font-variation-settings: &quot;FILL&quot; 1"
-                      >play_arrow</span
-                    >
-                  </button>
-                </div>
-              </div>
-              <div class="p-3">
-                <h3
-                  class="font-title-sm text-title-sm text-on-surface font-semibold truncate"
-                >
-                  Cuộc Đổ Bộ Bí Ẩn
-                </h3>
-                <p
-                  class="font-body-sm text-body-sm text-on-surface-variant truncate"
-                >
-                  Arrival (2016)
-                </p>
-                <div
-                  class="flex items-center gap-2 mt-2 font-label-md text-label-md text-on-surface-variant"
-                >
-                  <span>116 phút</span>
-                  <span>•</span>
-                  <span>Kỳ bí</span>
-                </div>
-              </div>
-            </div>
-            <div
-              class="group hidden lg:flex flex-col rounded-xl overflow-hidden bg-surface-container-low transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
-            >
-              <div
-                class="relative aspect-[2/3] w-full overflow-hidden bg-surface-container"
-              >
-                <img
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  data-alt="Sci-fi movie poster for Dune Part One featuring Paul Atreides overlooking a massive sandworm emerging from desert dunes under burning sun."
-                  src="/images/movies/dune-poster.jpg"
-                />
-                <div
-                  class="absolute top-2 right-2 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-1"
-                >
-                  <span
-                    class="material-symbols-outlined text-secondary text-xs"
-                    style="font-variation-settings: &quot;FILL&quot; 1"
-                    >star</span
-                  >
-                  <span
-                    class="font-label-caps text-label-caps text-on-surface font-bold"
-                    >8.1</span
-                  >
-                </div>
-                <div
-                  class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3"
-                >
-                  <button
-                    class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
-                    type="button"
-                  >
-                    <span
-                      class="material-symbols-outlined text-xl"
-                      style="font-variation-settings: &quot;FILL&quot; 1"
-                      >play_arrow</span
-                    >
-                  </button>
-                </div>
-              </div>
-              <div class="p-3">
-                <h3
-                  class="font-title-sm text-title-sm text-on-surface font-semibold truncate"
-                >
-                  Dune: Phần Một
-                </h3>
-                <p
-                  class="font-body-sm text-body-sm text-on-surface-variant truncate"
-                >
-                  Dune: Part One (2021)
-                </p>
-                <div
-                  class="flex items-center gap-2 mt-2 font-label-md text-label-md text-on-surface-variant"
-                >
-                  <span>155 phút</span>
-                  <span>•</span>
-                  <span>Phiêu lưu</span>
-                </div>
-              </div>
+            <!-- Phim tương tự: render từ data/db.json bởi movie-detail.js -->
+            <div class="col-span-full flex items-center justify-center gap-3 py-12 text-on-surface-variant">
+              <span class="material-symbols-outlined text-2xl animate-spin">progress_activity</span>
+              <span class="font-body-sm text-body-sm">Đang tải...</span>
             </div>
           </div>
         </section>
@@ -1748,10 +1061,12 @@
         </div>
       </div>
     </footer>
+    <script type="module" src="/src/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" src="./../../src/js/custumer/auth.js"></script>
+    <script type="module" src="./../../src/js/custumer/header.js"></script>
+    <script type="module" src="./../../src/js/custumer/movie-detail.js"></script>
+    <script type="module" src="./../../src/js/custumer/favorite.js"></script>
   </body>
 </html>
-<script type="module" src="/src/main.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script type="module" src="./../../src/js/custumer/auth.js"></script>
-<script type="module" src="./../../src/js/custumer/header.js"></script>
-<script type="module" src="./../../src/js/custumer/favorite.js"></script>
+

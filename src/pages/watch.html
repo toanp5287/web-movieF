@@ -132,23 +132,10 @@
               class="absolute top-1.5 right-1.5 w-2 h-2 bg-primary-container rounded-full ring-2 ring-surface-container-lowest"
             ></span>
           </button>
-          <div class="flex items-center gap-space-xs pl-space-xs">
-            <button
-              class="flex items-center gap-space-xs p-space-xs rounded-full hover:bg-surface-container-high transition-colors group"
-              type="button"
-            >
-              <img
-                alt="Profile"
-                class="w-8 h-8 rounded-full object-cover ring-1 ring-white/10 group-hover:ring-primary-container transition-all"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeWGYl7ORt_8nQC2EZl_68RLR-gud9pN1IVzOHlQ-Y4TmYpcZmK0PcyyfziT_ZPmTWcGs69_soKBKJCPu__ykZ_ryFDNUeJy12Y8yThOAKsT3Q7n4EVR3-7_kNryrAbqNl3Obma1EcjlSPVqLlA3briFLLgOtMgn4FrZPPj8LS2LT1oW4FIJpWuiCxfFvFOMqK4mhcayNzjeb4iipNQWmCxaXkerE21EEqPBFIUB2ajy2MgDtsLidx"
-              />
-              <span
-                class="material-symbols-outlined text-on-surface-variant text-base hidden sm:inline-block group-hover:text-on-surface transition-colors"
-              >
-                expand_more
-              </span>
-            </button>
-          </div>
+                <div
+                  class="flex items-center gap-space-xs pl-space-xs"
+                  id="user"
+                ></div>
         </div>
       </div>
     </header>
@@ -167,8 +154,8 @@
             <!-- Video Container 16:9 -->
             <div
               class="relative w-full aspect-video rounded-xl overflow-hidden bg-surface-container-low shadow-2xl transition-all duration-300"
+              data-movie-id=""
               id="videoContainer"
-              data-movie-id="7"
             >
               <!-- Video Keyframe Simulation / Cinematic Still -->
               <img
@@ -187,6 +174,7 @@
                   >
                   <span
                     class="font-title-md text-title-md text-on-surface drop-shadow-md"
+                    data-bind="overlay-title"
                     >Dune: Hành Tinh Cát - Phần Hai (2024)</span
                   >
                 </div>
@@ -330,9 +318,13 @@
                     <div
                       class="hidden sm:flex items-center font-label-md text-label-md text-on-surface-variant ml-2"
                     >
-                      <span class="text-on-surface font-medium">01:14:32</span>
+                      <span
+                        class="text-on-surface font-medium"
+                        data-bind="time-current"
+                        >00:00</span
+                      >
                       <span class="mx-1.5 opacity-40">/</span>
-                      <span>02:46:00</span>
+                      <span data-bind="time-total">00:00</span>
                     </div>
                   </div>
                   <!-- Right Controls: Resolution, Audio/Subtitles, Speed, Fullscreen -->
@@ -458,11 +450,13 @@
                   </div>
                   <h1
                     class="font-headline-xl text-headline-xl text-on-surface font-extrabold tracking-tight"
+                    data-bind="movie-title"
                   >
                     Dune: Hành Tinh Cát - Phần Hai
                   </h1>
                   <p
                     class="font-title-sm text-title-sm text-on-surface-variant"
+                    data-bind="movie-subtitle"
                   >
                     Tập Full HD Vietsub • Dune: Part Two (2024)
                   </p>
@@ -481,11 +475,13 @@
                     >
                     <span>8.9 IMDb</span>
                   </div>
-                  <span>2024</span>
+                  <span data-bind="movie-year">2024</span>
                   <span class="w-1 h-1 rounded-full bg-surface-variant"></span>
-                  <span>166 phút</span>
+                  <span data-bind="movie-duration">166 phút</span>
                   <span class="w-1 h-1 rounded-full bg-surface-variant"></span>
-                  <span>Khoa học viễn tưởng, Hành động, Phiêu lưu</span>
+                  <span data-bind="movie-genres"
+                    >Khoa học viễn tưởng, Hành động, Phiêu lưu</span
+                  >
                   <span class="w-1 h-1 rounded-full bg-surface-variant"></span>
                   <span
                     class="px-1.5 py-0.5 rounded bg-surface-container text-on-surface font-label-caps text-label-caps"
@@ -1117,82 +1113,6 @@
           </div>
         </div>
       </div>
-      <script>
-        (function initVideoPlayer() {
-          let isPlaying = true;
-          let isMuted = false;
-
-          const playBtn = document.getElementById("togglePlayBtn");
-          const centerPlayBtn = document.getElementById("centerPlayBtn");
-          const playStateIcon = document.getElementById("playStateIcon");
-          const centerPlayIcon = document.getElementById("centerPlayIcon");
-          const muteBtn = document.getElementById("muteBtn");
-          const volIcon = document.getElementById("volIcon");
-          const fullscreenBtn = document.getElementById("fullscreenBtn");
-          const videoContainer = document.getElementById("videoContainer");
-          const progressTrackContainer = document.getElementById(
-            "progressTrackContainer",
-          );
-          const progressBar = document.getElementById("videoProgressBar");
-
-          function togglePlayback() {
-            isPlaying = !isPlaying;
-            const icon = isPlaying ? "pause" : "play_arrow";
-            if (playStateIcon) playStateIcon.textContent = icon;
-            if (centerPlayIcon) centerPlayIcon.textContent = icon;
-          }
-
-          if (playBtn) playBtn.addEventListener("click", togglePlayback);
-          if (centerPlayBtn)
-            centerPlayBtn.addEventListener("click", togglePlayback);
-
-          if (muteBtn && volIcon) {
-            muteBtn.addEventListener("click", function () {
-              isMuted = !isMuted;
-              volIcon.textContent = isMuted ? "volume_off" : "volume_up";
-            });
-          }
-
-          if (fullscreenBtn && videoContainer) {
-            fullscreenBtn.addEventListener("click", function () {
-              if (!document.fullscreenElement) {
-                videoContainer.requestFullscreen().catch((err) => {
-                  console.log(err.message);
-                });
-              } else {
-                document.exitFullscreen();
-              }
-            });
-          }
-
-          // Scrubbing timeline click simulation
-          if (progressTrackContainer && progressBar) {
-            progressTrackContainer.addEventListener("click", function (e) {
-              const rect = progressTrackContainer.getBoundingClientRect();
-              const clickPos = Math.max(
-                0,
-                Math.min(e.clientX - rect.left, rect.width),
-              );
-              const percentage = (clickPos / rect.width) * 100;
-              progressBar.style.width = percentage + "%";
-            });
-          }
-
-          // Recommendation rail controls
-          const recSlider = document.getElementById("recSlider");
-          const recScrollLeft = document.getElementById("recScrollLeft");
-          const recScrollRight = document.getElementById("recScrollRight");
-
-          if (recSlider && recScrollLeft && recScrollRight) {
-            recScrollLeft.addEventListener("click", () => {
-              recSlider.scrollBy({ left: -320, behavior: "smooth" });
-            });
-            recScrollRight.addEventListener("click", () => {
-              recSlider.scrollBy({ left: 320, behavior: "smooth" });
-            });
-          }
-        })();
-      </script>
     </main>
     <footer
       id="footer"
@@ -1385,4 +1305,5 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="module" src="./../../src/js/custumer/auth.js"></script>
 <script type="module" src="./../../src/js/custumer/header.js"></script>
-<script type="module" src="./../../src/js/custumer/history.js"></script>
+    <script type="module" src="./../../src/js/custumer/history.js"></script>
+    <script type="module" src="./../../src/js/custumer/watch.js"></script>

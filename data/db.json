@@ -236,13 +236,21 @@
       "duration": 148,
       "country": "USA",
       "director": "Jon Watts",
-      "actors": ["Tom Holland", "Zendaya", "Benedict Cumberbatch"],
+      "actors": [
+        "Tom Holland",
+        "Zendaya",
+        "Benedict Cumberbatch"
+      ],
       "trailer": "videos/trailer/spiderman.mp4",
       "video": "../videos/phim-demo-4.mp4",
       "status": "published",
       "views": 12450,
       "createdAt": "2026-09-02",
-      "genre": 2,
+      "genre": [
+        1,
+        5,
+        7
+      ],
       "quality": "hd"
     },
     {
@@ -256,7 +264,11 @@
       "duration": 169,
       "country": "USA",
       "director": "Christopher Nolan",
-      "actors": ["Matthew McConaughey", "Anne Hathaway", "Jessica Chastain"],
+      "actors": [
+        "Matthew McConaughey",
+        "Anne Hathaway",
+        "Jessica Chastain"
+      ],
       "trailer": "videos/trailer/interstellar.mp4",
       "video": "../videos/phim-demo-3.mp4",
       "status": "published",
@@ -274,7 +286,10 @@
       "duration": 106,
       "country": "Japan",
       "director": "Makoto Shinkai",
-      "actors": ["Ryunosuke Kamiki", "Mone Kamishiraishi"],
+      "actors": [
+        "Ryunosuke Kamiki",
+        "Mone Kamishiraishi"
+      ],
       "trailer": "videos/trailer/your-name.mp4",
       "video": "../videos/tears-of-steel-trailer.mp4",
       "status": "published",
@@ -292,7 +307,11 @@
       "duration": 112,
       "country": "USA",
       "director": "James Wan",
-      "actors": ["Vera Farmiga", "Patrick Wilson", "Lili Taylor"],
+      "actors": [
+        "Vera Farmiga",
+        "Patrick Wilson",
+        "Lili Taylor"
+      ],
       "trailer": "../videos/phim-demo-2.mp4",
       "video": "videos/movies/conjuring.mp4",
       "status": "published",
@@ -310,7 +329,11 @@
       "duration": 100,
       "country": "USA",
       "director": "Josh Cooley",
-      "actors": ["Tom Hanks", "Tim Allen", "Annie Potts"],
+      "actors": [
+        "Tom Hanks",
+        "Tim Allen",
+        "Annie Potts"
+      ],
       "trailer": "videos/trailer/toy-story-4.mp4",
       "video": "videos/movies/toy-story-4.mp4",
       "status": "published",
@@ -328,7 +351,11 @@
       "duration": 166,
       "country": "USA",
       "director": "Denis Villeneuve",
-      "actors": ["Timothee Chalamet", "Zendaya", "Rebecca Ferguson"],
+      "actors": [
+        "Timothee Chalamet",
+        "Zendaya",
+        "Rebecca Ferguson"
+      ],
       "trailer": "videos/trailer/dune-2.mp4",
       "video": "videos/movies/dune-2.mp4",
       "status": "published",
@@ -346,7 +373,10 @@
       "duration": 128,
       "country": "USA",
       "director": "Damien Chazelle",
-      "actors": ["Ryan Gosling", "Emma Stone"],
+      "actors": [
+        "Ryan Gosling",
+        "Emma Stone"
+      ],
       "trailer": "videos/trailer/la-la-land.mp4",
       "video": "videos/movies/la-la-land.mp4",
       "status": "Inactive",
@@ -364,7 +394,11 @@
       "duration": 96,
       "country": "USA",
       "director": "Kelsey Mann",
-      "actors": ["Amy Poehler", "Maya Hawke", "Kensington Tallman"],
+      "actors": [
+        "Amy Poehler",
+        "Maya Hawke",
+        "Kensington Tallman"
+      ],
       "trailer": "videos/trailer/inside-out-2.mp4",
       "video": "videos/movies/inside-out-2.mp4",
       "status": "published",
@@ -373,8 +407,8 @@
     },
     {
       "id": "10",
-      "title": "The Batmanss",
-      "slug": "the-batmanss",
+      "title": "The Batman",
+      "slug": "the-batman",
       "description": "Batman điều tra những bí ẩn và tội ác xảy ra tại Gotham.",
       "poster": "images/movies/the-batman.jpg",
       "backdrop": "images/movies/the-batman-bg.jpg",
@@ -382,7 +416,11 @@
       "duration": 176,
       "country": "USA",
       "director": "Matt Reeves",
-      "actors": ["Robert Pattinson", "Zoë Kravitz", "Paul Dano"],
+      "actors": [
+        "Robert Pattinson",
+        "Zoë Kravitz",
+        "Paul Dano"
+      ],
       "trailer": "videos/trailer/the-batman.mp4",
       "video": "videos/movies/the-batman.mp4",
       "status": "published",
@@ -402,7 +440,11 @@
       "duration": 120,
       "country": "USA",
       "director": "Jon Watts",
-      "actors": ["Robert Downey Jr.", "Chris Evans", "Mark Ruffalo"],
+      "actors": [
+        "Robert Downey Jr.",
+        "Chris Evans",
+        "Mark Ruffalo"
+      ],
       "trailer": "/videos/1790685049779-09nsjs.mp4",
       "video": "/videos/1790685050339-5s5u5f.mp4",
       "status": "Inactive",
@@ -421,7 +463,11 @@
       "duration": 111,
       "country": "USA",
       "director": "Anthony Russo, Joe Russo",
-      "actors": ["Robert Downey Jr.", "Chris Evans", "Mark Ruffalo"],
+      "actors": [
+        "Robert Downey Jr.",
+        "Chris Evans",
+        "Mark Ruffalo"
+      ],
       "trailer": "",
       "video": "/videos/1790686057804-3fwkuz.mp4",
       "status": "Inactive",
@@ -440,7 +486,11 @@
       "duration": 111,
       "country": "USA",
       "director": "Anthony Russo, Joe Russo",
-      "actors": ["Robert Downey Jr.", "Chris Evans", "Mark Ruffalo"],
+      "actors": [
+        "Robert Downey Jr.",
+        "Chris Evans",
+        "Mark Ruffalo"
+      ],
       "trailer": "",
       "video": "/videos/no-video.mp4",
       "status": "Inactive",
@@ -459,7 +509,11 @@
       "duration": 111,
       "country": "USA",
       "director": "Jon Watts",
-      "actors": ["Robert Downey Jr.", "Chris Evans", "Mark Ruffalo"],
+      "actors": [
+        "Robert Downey Jr.",
+        "Chris Evans",
+        "Mark Ruffalo"
+      ],
       "trailer": "",
       "video": "/videos/no-video.mp4",
       "status": "Inactive",
@@ -479,22 +533,488 @@
       "duration": 1111,
       "country": "ddsa",
       "director": "dsadasd",
-      "actors": ["Robert Downey Jr.", "Chris Evans", "Mark Ruffalo"],
+      "actors": [
+        "Robert Downey Jr.",
+        "Chris Evans",
+        "Mark Ruffalo"
+      ],
       "trailer": "",
       "video": "/videos/no-video.mp4",
       "status": "Inactive",
       "views": 0,
       "createdAt": "2026-09-29",
       "id": "C_RCsnN_TRo"
+    },
+    {
+      "id": "11",
+      "title": "Spider-Man: Across the Spider-Verse",
+      "slug": "spider-man-across-the-spider-verse",
+      "description": "Miles Morales bị đưa vào đa vũ trụ và gặp Hội đồng Spider-Man. Khi các anh hùng không thống nhất cách đối phó với mối đe dọa mới, Miles phải một mình đối đầu để bảo vệ những người anh yêu thương.",
+      "poster": "images/movies/spiderverse.jpg",
+      "backdrop": "",
+      "year": 2023,
+      "duration": 140,
+      "country": "USA",
+      "director": "Joaquim Dos Santos, Kemp Powers, Justin K. Thompson",
+      "actors": [
+        "Shameik Moore",
+        "Hailee Steinfeld",
+        "Brian Tyree Henry",
+        "Luna Lauren Velez",
+        "Oscar Isaac"
+      ],
+      "trailer": "",
+      "video": "",
+      "status": "published",
+      "views": 0,
+      "genre": [
+        "1",
+        "6",
+        "7"
+      ],
+      "createdAt": "2026-09-30"
+    },
+    {
+      "id": "12",
+      "title": "Oppenheimer",
+      "slug": "oppenheimer",
+      "description": "Câu chuyện về nhà vật lý J. Robert Oppenheimer và vai trò của ông trong việc phát triển bom nguyên tử trong Thế chiến thứ hai.",
+      "poster": "images/movies/oppenheimer.jpg",
+      "backdrop": "",
+      "year": 2023,
+      "duration": 180,
+      "country": "USA, UK",
+      "director": "Christopher Nolan",
+      "actors": [
+        "Cillian Murphy",
+        "Emily Blunt",
+        "Matt Damon",
+        "Robert Downey Jr.",
+        "Florence Pugh",
+        "Josh Hartnett"
+      ],
+      "trailer": "",
+      "video": "",
+      "status": "published",
+      "views": 0,
+      "genre": [
+        "7",
+        "8"
+      ],
+      "createdAt": "2026-09-30"
+    },
+    {
+      "id": "13",
+      "title": "Inception",
+      "slug": "inception",
+      "description": "Một tên trộm chuyên đánh cắp bí mật thông qua công nghệ chia sẻ giấc mơ được giao nhiệm vụ ngược lại: cài một ý tưởng vào tâm trí của một CEO.",
+      "poster": "images/movies/inception.jpg",
+      "backdrop": "",
+      "year": 2010,
+      "duration": 148,
+      "country": "USA, UK",
+      "director": "Christopher Nolan",
+      "actors": [
+        "Leonardo DiCaprio",
+        "Joseph Gordon-Levitt",
+        "Elliot Page",
+        "Tom Hardy",
+        "Ken Watanabe",
+        "Marion Cotillard"
+      ],
+      "trailer": "",
+      "video": "",
+      "status": "published",
+      "views": 0,
+      "genre": [
+        "1",
+        "5"
+      ],
+      "createdAt": "2026-09-30"
+    },
+    {
+      "id": "14",
+      "title": "Arrival",
+      "slug": "arrival",
+      "description": "Khi những tàu vũ trụ khổng lồ đáp xuống khắp Trái Đất, chuyên gia ngôn ngữ Louise Banks cùng đội nghiên cứu phải tìm cách giao tiếp với người ngoài hành tinh trước khi một cuộc chiến toàn cầu nổ ra.",
+      "poster": "images/movies/arrival.jpg",
+      "backdrop": "",
+      "year": 2016,
+      "duration": 116,
+      "country": "USA",
+      "director": "Denis Villeneuve",
+      "actors": [
+        "Amy Adams",
+        "Jeremy Renner",
+        "Forest Whitaker",
+        "Michael Stuhlbarg"
+      ],
+      "trailer": "",
+      "video": "",
+      "status": "published",
+      "views": 0,
+      "genre": [
+        "5"
+      ],
+      "createdAt": "2026-09-30"
+    },
+    {
+      "id": "15",
+      "title": "The Matrix",
+      "slug": "the-matrix",
+      "description": "Lập trình viên Thomas Anderson phát hiện thế giới của mình chỉ là một hệ thống mô phỏng do trí tuệ nhân tạo điều khiển, và anh phải tham gia cuộc chiến chống lại nó.",
+      "poster": "images/movies/matrix.jpg",
+      "backdrop": "",
+      "year": 1999,
+      "duration": 136,
+      "country": "USA, Australia",
+      "director": "Lana Wachowski, Lilly Wachowski",
+      "actors": [
+        "Keanu Reeves",
+        "Laurence Fishburne",
+        "Carrie-Anne Moss",
+        "Hugo Weaving",
+        "Joe Pantoliano"
+      ],
+      "trailer": "",
+      "video": "",
+      "status": "published",
+      "views": 0,
+      "genre": [
+        "1",
+        "5"
+      ],
+      "createdAt": "2026-09-30"
+    },
+    {
+      "id": "16",
+      "title": "Avengers: Endgame",
+      "slug": "avengers-endgame",
+      "description": "Sau những biến cố tàn khốc của Avengers: Infinity War, các siêu anh hùng còn lại tập hợp lần nữa để đảo ngược hành động của Thanos và khôi phục trật tự vũ trụ.",
+      "poster": "images/movies/endgame.jpg",
+      "backdrop": "",
+      "year": 2019,
+      "duration": 181,
+      "country": "USA",
+      "director": "Anthony Russo, Joe Russo",
+      "actors": [
+        "Robert Downey Jr.",
+        "Chris Evans",
+        "Scarlett Johansson",
+        "Chris Hemsworth",
+        "Mark Ruffalo",
+        "Jeremy Renner"
+      ],
+      "trailer": "",
+      "video": "",
+      "status": "published",
+      "views": 0,
+      "genre": [
+        "1",
+        "5",
+        "7"
+      ],
+      "createdAt": "2026-09-30"
+    },
+    {
+      "id": "17",
+      "title": "Blade Runner 2049",
+      "slug": "blade-runner-2049",
+      "description": "Ba mươi năm sau các sự kiện của Blade Runner, thanh tra LAPD K phát hiện một bí mật bị chôn sâu có thể đẩy xã hội còn lại vào hỗn loạn, và anh phải tìm kiếm Rick Deckard.",
+      "poster": "images/movies/blade-runner-2049.jpg",
+      "backdrop": "",
+      "year": 2017,
+      "duration": 164,
+      "country": "USA",
+      "director": "Denis Villeneuve",
+      "actors": [
+        "Ryan Gosling",
+        "Harrison Ford",
+        "Ana de Armas",
+        "Sylvia Hoeks",
+        "Robin Wright",
+        "Jared Leto"
+      ],
+      "trailer": "",
+      "video": "",
+      "status": "published",
+      "views": 0,
+      "genre": [
+        "5"
+      ],
+      "createdAt": "2026-09-30"
+    },
+    {
+      "id": "18",
+      "title": "The Godfather",
+      "slug": "the-godfather",
+      "description": "Ông trùm già của một gia đình tội phạm chuyển giao quyền kiểm soát đế chế bí mật của mình cho đứa con trai miễn cưỡng.",
+      "poster": "images/movies/godfather.jpg",
+      "backdrop": "",
+      "year": 1972,
+      "duration": 175,
+      "country": "USA",
+      "director": "Francis Ford Coppola",
+      "actors": [
+        "Marlon Brando",
+        "Al Pacino",
+        "James Caan",
+        "Robert Duvall",
+        "Diane Keaton"
+      ],
+      "trailer": "",
+      "video": "",
+      "status": "published",
+      "views": 0,
+      "genre": [
+        "8"
+      ],
+      "createdAt": "2026-09-30"
+    },
+    {
+      "id": "19",
+      "title": "Joker: Folie à Deux",
+      "slug": "joker-folie-a-deux",
+      "description": "Trong khi vật lộn với hai mặt đối lập của mình, Arthur Fleck không chỉ tìm thấy tình yêu mà còn khám phá ra thứ âm nhạc luôn ẩn bên trong anh.",
+      "poster": "images/movies/joker.jpg",
+      "backdrop": "",
+      "year": 2024,
+      "duration": 138,
+      "country": "USA",
+      "director": "Todd Phillips",
+      "actors": [
+        "Joaquin Phoenix",
+        "Lady Gaga",
+        "Brendan Gleeson",
+        "Catherine Keener",
+        "Zazie Beetz"
+      ],
+      "trailer": "",
+      "video": "",
+      "status": "published",
+      "views": 0,
+      "genre": [
+        "8"
+      ],
+      "createdAt": "2026-09-30"
+    },
+    {
+      "id": "20",
+      "title": "The Dark Knight",
+      "slug": "the-dark-knight",
+      "description": "Khi tên tội phạm Joker tàn phá thành phố Gotham, Batman, James Gordon và Harvey Dent phải cùng nhau chấm dứt sự điên rồ đó.",
+      "poster": "images/movies/dark-knight.jpg",
+      "backdrop": "",
+      "year": 2008,
+      "duration": 152,
+      "country": "USA, UK",
+      "director": "Christopher Nolan",
+      "actors": [
+        "Christian Bale",
+        "Heath Ledger",
+        "Aaron Eckhart",
+        "Michael Caine",
+        "Maggie Gyllenhaal",
+        "Gary Oldman"
+      ],
+      "trailer": "",
+      "video": "",
+      "status": "published",
+      "views": 0,
+      "genre": [
+        "1",
+        "8"
+      ],
+      "createdAt": "2026-09-30"
+    },
+    {
+      "id": "21",
+      "title": "The Lord of the Rings: The Return of the King",
+      "slug": "the-lord-of-the-rings-the-return-of-the-king",
+      "description": "Gandalf và Aragorn dẫn quân của loài người chống lại đạo quân của Sauron để kéo sự chú ý của hắn rời khỏi Frodo và Sam khi họ tiến về Núi Doom với Chiếc Nhẫn.",
+      "poster": "images/movies/return-of-the-king.jpg",
+      "backdrop": "",
+      "year": 2003,
+      "duration": 201,
+      "country": "New Zealand, USA",
+      "director": "Peter Jackson",
+      "actors": [
+        "Elijah Wood",
+        "Ian McKellen",
+        "Viggo Mortensen",
+        "Sean Astin",
+        "Liv Tyler",
+        "Cate Blanchett"
+      ],
+      "trailer": "",
+      "video": "",
+      "status": "published",
+      "views": 0,
+      "genre": [
+        "7"
+      ],
+      "createdAt": "2026-09-30"
+    },
+    {
+      "id": "22",
+      "title": "The Shawshank Redemption",
+      "slug": "the-shawshank-redemption",
+      "description": "Andy Dufresne, một ngân hàng gia tài bị kết án oan, tạo dựng một đời sống mới trong nhà tù Shawshank và trở thành nguồn cảm hứng cho người bạn tù Red nhờ niềm hy vọng và sự kiên nhẫn của mình.",
+      "poster": "images/movies/shawshank.jpg",
+      "backdrop": "",
+      "year": 1994,
+      "duration": 142,
+      "country": "USA",
+      "director": "Frank Darabont",
+      "actors": [
+        "Tim Robbins",
+        "Morgan Freeman",
+        "Bob Gunton",
+        "William Sadler",
+        "Clancy Brown"
+      ],
+      "trailer": "",
+      "video": "",
+      "status": "published",
+      "views": 0,
+      "genre": [
+        "8"
+      ],
+      "createdAt": "2026-09-30"
+    },
+    {
+      "id": "23",
+      "title": "House of the Dragon",
+      "slug": "house-of-the-dragon",
+      "description": "Phim truyền hình HBO dựa trên cuốn Fire & Blood của George R. R. Martin, lấy bối cảnh khoảng 200 năm trước các sự kiện của Game of Thrones, kể về cuộc tranh ngôi bá trời của nhà Targaryen. Đồng sáng tác và showrunner: Ryan Condal cùng George R. R. Martin.",
+      "poster": "images/movies/house-of-the-dragon.jpg",
+      "backdrop": "",
+      "year": 2022,
+      "duration": 0,
+      "country": "USA",
+      "director": "",
+      "actors": [
+        "Emma D'Arcy",
+        "Matt Smith",
+        "Olivia Cooke",
+        "Steve Toussaint",
+        "Ewan Mitchell",
+        "Tom Glynn-Carney"
+      ],
+      "trailer": "",
+      "video": "",
+      "status": "published",
+      "views": 0,
+      "genre": [
+        "7",
+        "8"
+      ],
+      "createdAt": "2026-09-30"
+    },
+    {
+      "id": "24",
+      "title": "Ghost in the Shell: SAC_2045",
+      "slug": "ghost-in-the-shell-sac-2045",
+      "description": "Anime ONA Nhật Bản dựa trên manga Ghost in the Shell của Masamune Shirow. Năm 2045, nữ cộng sĩ máy cương giả Motoko Kusanagi trở lại Sở 9 để đối phó với mối đe dọa từ những kẻ hậu nhân.",
+      "poster": "images/movies/ghost-in-the-shell.jpg",
+      "backdrop": "",
+      "year": 2020,
+      "duration": 0,
+      "country": "Japan",
+      "director": "Kenji Kamiyama, Shinji Aramaki",
+      "actors": [
+        "Atsuko Tanaka",
+        "Akio Otsuka",
+        "Koichi Yamadera",
+        "Yutaka Nakano",
+        "Osamu Saka",
+        "Sakiko Tamagawa"
+      ],
+      "trailer": "",
+      "video": "",
+      "status": "published",
+      "views": 0,
+      "genre": [
+        "1",
+        "5",
+        "6"
+      ],
+      "createdAt": "2026-09-30"
+    },
+    {
+      "id": "25",
+      "title": "The Abyss: Reborn",
+      "slug": "the-abyss-reborn",
+      "description": "",
+      "poster": "images/movies/the-abyss.jpg",
+      "backdrop": "",
+      "year": 0,
+      "duration": 0,
+      "country": "",
+      "director": "",
+      "actors": [],
+      "trailer": "",
+      "video": "",
+      "status": "published",
+      "views": 0,
+      "createdAt": "2026-09-30"
+    },
+    {
+      "id": "26",
+      "title": "Tokyo Drift: Redline",
+      "slug": "tokyo-drift-redline",
+      "description": "",
+      "poster": "images/movies/tokyo-drift.jpg",
+      "backdrop": "",
+      "year": 0,
+      "duration": 0,
+      "country": "",
+      "director": "",
+      "actors": [],
+      "trailer": "",
+      "video": "",
+      "status": "published",
+      "views": 0,
+      "createdAt": "2026-09-30"
+    },
+    {
+      "id": "27",
+      "title": "Crimson Nocturne",
+      "slug": "crimson-nocturne",
+      "description": "",
+      "poster": "images/movies/crimson-nocturne.jpg",
+      "backdrop": "",
+      "year": 0,
+      "duration": 0,
+      "country": "",
+      "director": "",
+      "actors": [],
+      "trailer": "",
+      "video": "",
+      "status": "published",
+      "views": 0,
+      "createdAt": "2026-09-30"
+    },
+    {
+      "id": "28",
+      "title": "The Last Verdict",
+      "slug": "the-last-verdict",
+      "description": "",
+      "poster": "images/movies/the-last-verdict.jpg",
+      "backdrop": "",
+      "year": 0,
+      "duration": 0,
+      "country": "",
+      "director": "",
+      "actors": [],
+      "trailer": "",
+      "video": "",
+      "status": "published",
+      "views": 0,
+      "createdAt": "2026-09-30"
     }
   ],
   "favorites": [
-    {
-      "id": "1",
-      "userId": 3,
-      "movieId": 1,
-      "createdAt": "2026-09-12"
-    },
     {
       "id": "2",
       "userId": 3,
@@ -575,18 +1095,65 @@
       "progress": 3996,
       "watchedAt": "2026-09-30T02:45:52",
       "id": "Cg6czTN"
+    },
+    {
+      "userId": 1,
+      "movieId": 7,
+      "progress": 4482,
+      "watchedAt": "2026-09-30T11:13:51",
+      "id": "6PTvXf5"
+    },
+    {
+      "userId": 1,
+      "movieId": 11,
+      "progress": 3780,
+      "watchedAt": "2026-09-30T12:49:38",
+      "id": "-lo2BWG"
+    },
+    {
+      "userId": 1,
+      "movieId": 28,
+      "progress": 0,
+      "watchedAt": "2026-09-30T12:02:26",
+      "id": "9frGGZl"
+    },
+    {
+      "userId": 1,
+      "movieId": 21,
+      "progress": 5401,
+      "watchedAt": "2026-09-30T12:22:23",
+      "id": "fu__tLJ"
+    },
+    {
+      "userId": 1,
+      "movieId": 3,
+      "progress": 4563,
+      "watchedAt": "2026-09-30T12:50:17",
+      "id": "02C5nvJ"
+    },
+    {
+      "userId": 1,
+      "movieId": 22,
+      "progress": 3834,
+      "watchedAt": "2026-09-30T12:50:09",
+      "id": "jCvtDdc"
+    },
+    {
+      "userId": 1,
+      "movieId": 10,
+      "progress": 4730,
+      "watchedAt": "2026-09-30T12:50:29",
+      "id": "2cUSQhv"
+    },
+    {
+      "userId": 1,
+      "movieId": 13,
+      "progress": 3996,
+      "watchedAt": "2026-09-30T13:02:21",
+      "id": "6CBrQwh"
     }
   ],
   "reviews": [
-    {
-      "id": "1",
-      "userId": 3,
-      "movieId": 1,
-      "rating": 5,
-      "comment": "Phim rất hay, phần cuối cực kỳ cảm xúc.",
-      "status": "visible",
-      "createdAt": "2026-09-12"
-    },
     {
       "id": "2",
       "userId": 3,
