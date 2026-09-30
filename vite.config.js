@@ -25,6 +25,7 @@ export default defineConfig({
             "/favorite": "/src/pages/favorite.html",
             "/genres": "/src/pages/genres.html",
             "/profile": "/src/pages/profile.html",
+            "/settings": "/src/pages/settings.html",
             "/login": "/src/pages/login.html",
             "/register": "/src/pages/register.html",
           };
@@ -60,6 +61,7 @@ export default defineConfig({
         favorite: resolve(import.meta.dirname, "src/pages/favorite.html"),
         genres: resolve(import.meta.dirname, "src/pages/genres.html"),
         profile: resolve(import.meta.dirname, "src/pages/profile.html"),
+        settings: resolve(import.meta.dirname, "src/pages/settings.html"),
         login: resolve(import.meta.dirname, "src/pages/login.html"),
         register: resolve(import.meta.dirname, "src/pages/register.html"),
       },

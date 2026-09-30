@@ -62,11 +62,16 @@
       "username": "admin",
       "email": "admin@movief.com",
       "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
-      "fullname": "MovieF Admin",
+      "fullname": "Nguyễn Admin",
       "avatar": "images/avatar/admin.png",
       "roleId": 1,
       "status": "active",
-      "createdAt": "2026-09-01"
+      "createdAt": "2026-09-01",
+      "phone": "",
+      "dob": "1995-08-15",
+      "gender": "nam",
+      "birthday": "1995-08-15",
+      "bio": "Khám phá thế giới điện ảnh cùng MovieF."
     },
     {
       "id": "2",
@@ -646,7 +651,7 @@
       "userId": 1,
       "movieId": 2,
       "progress": 3996,
-      "watchedAt": "2026-09-29T14:33:50",
+      "watchedAt": "2026-09-30T02:45:52",
       "id": "Cg6czTN"
     }
   ],
