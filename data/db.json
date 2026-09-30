@@ -226,28 +226,6 @@
   ],
   "movies": [
     {
-      "id": "1",
-      "title": "Avengers: Endgame",
-      "slug": "avengers-endgame",
-      "description": "Các siêu anh hùng chiến đấu để bảo vệ vũ trụ sau những sự kiện thảm khốc.",
-      "poster": "images/movies/endgame.jpg",
-      "backdrop": "images/movies/endgame-bg.jpg",
-      "year": 2019,
-      "duration": 181,
-      "country": "USA",
-      "director": "Anthony Russo, Joe Russo",
-      "actors": [
-        "Robert Downey Jr.",
-        "Chris Evans",
-        "Mark Ruffalo"
-      ],
-      "trailer": "videos/trailer/endgame.mp4",
-      "video": "videos/movies/endgame.mp4",
-      "status": "published",
-      "views": 15240,
-      "createdAt": "2026-09-01"
-    },
-    {
       "id": "2",
       "title": "Spider-Man: No Way Home",
       "slug": "spider-man-no-way-home",
@@ -258,16 +236,14 @@
       "duration": 148,
       "country": "USA",
       "director": "Jon Watts",
-      "actors": [
-        "Tom Holland",
-        "Zendaya",
-        "Benedict Cumberbatch"
-      ],
+      "actors": ["Tom Holland", "Zendaya", "Benedict Cumberbatch"],
       "trailer": "videos/trailer/spiderman.mp4",
-      "video": "videos/movies/spiderman.mp4",
+      "video": "../videos/phim-demo-4.mp4",
       "status": "published",
       "views": 12450,
-      "createdAt": "2026-09-02"
+      "createdAt": "2026-09-02",
+      "genre": 2,
+      "quality": "hd"
     },
     {
       "id": "3",
@@ -280,13 +256,9 @@
       "duration": 169,
       "country": "USA",
       "director": "Christopher Nolan",
-      "actors": [
-        "Matthew McConaughey",
-        "Anne Hathaway",
-        "Jessica Chastain"
-      ],
+      "actors": ["Matthew McConaughey", "Anne Hathaway", "Jessica Chastain"],
       "trailer": "videos/trailer/interstellar.mp4",
-      "video": "videos/movies/interstellar.mp4",
+      "video": "../videos/phim-demo-3.mp4",
       "status": "published",
       "views": 18420,
       "createdAt": "2026-09-03"
@@ -302,12 +274,9 @@
       "duration": 106,
       "country": "Japan",
       "director": "Makoto Shinkai",
-      "actors": [
-        "Ryunosuke Kamiki",
-        "Mone Kamishiraishi"
-      ],
+      "actors": ["Ryunosuke Kamiki", "Mone Kamishiraishi"],
       "trailer": "videos/trailer/your-name.mp4",
-      "video": "videos/movies/your-name.mp4",
+      "video": "../videos/tears-of-steel-trailer.mp4",
       "status": "published",
       "views": 9860,
       "createdAt": "2026-09-04"
@@ -323,12 +292,8 @@
       "duration": 112,
       "country": "USA",
       "director": "James Wan",
-      "actors": [
-        "Vera Farmiga",
-        "Patrick Wilson",
-        "Lili Taylor"
-      ],
-      "trailer": "videos/trailer/conjuring.mp4",
+      "actors": ["Vera Farmiga", "Patrick Wilson", "Lili Taylor"],
+      "trailer": "../videos/phim-demo-2.mp4",
       "video": "videos/movies/conjuring.mp4",
       "status": "published",
       "views": 7340,
@@ -345,11 +310,7 @@
       "duration": 100,
       "country": "USA",
       "director": "Josh Cooley",
-      "actors": [
-        "Tom Hanks",
-        "Tim Allen",
-        "Annie Potts"
-      ],
+      "actors": ["Tom Hanks", "Tim Allen", "Annie Potts"],
       "trailer": "videos/trailer/toy-story-4.mp4",
       "video": "videos/movies/toy-story-4.mp4",
       "status": "published",
@@ -367,11 +328,7 @@
       "duration": 166,
       "country": "USA",
       "director": "Denis Villeneuve",
-      "actors": [
-        "Timothee Chalamet",
-        "Zendaya",
-        "Rebecca Ferguson"
-      ],
+      "actors": ["Timothee Chalamet", "Zendaya", "Rebecca Ferguson"],
       "trailer": "videos/trailer/dune-2.mp4",
       "video": "videos/movies/dune-2.mp4",
       "status": "published",
@@ -389,13 +346,10 @@
       "duration": 128,
       "country": "USA",
       "director": "Damien Chazelle",
-      "actors": [
-        "Ryan Gosling",
-        "Emma Stone"
-      ],
+      "actors": ["Ryan Gosling", "Emma Stone"],
       "trailer": "videos/trailer/la-la-land.mp4",
       "video": "videos/movies/la-la-land.mp4",
-      "status": "published",
+      "status": "Inactive",
       "views": 8120,
       "createdAt": "2026-09-08"
     },
@@ -410,11 +364,7 @@
       "duration": 96,
       "country": "USA",
       "director": "Kelsey Mann",
-      "actors": [
-        "Amy Poehler",
-        "Maya Hawke",
-        "Kensington Tallman"
-      ],
+      "actors": ["Amy Poehler", "Maya Hawke", "Kensington Tallman"],
       "trailer": "videos/trailer/inside-out-2.mp4",
       "video": "videos/movies/inside-out-2.mp4",
       "status": "published",
@@ -423,8 +373,8 @@
     },
     {
       "id": "10",
-      "title": "The Batman",
-      "slug": "the-batman",
+      "title": "The Batmanss",
+      "slug": "the-batmanss",
       "description": "Batman điều tra những bí ẩn và tội ác xảy ra tại Gotham.",
       "poster": "images/movies/the-batman.jpg",
       "backdrop": "images/movies/the-batman-bg.jpg",
@@ -432,138 +382,110 @@
       "duration": 176,
       "country": "USA",
       "director": "Matt Reeves",
-      "actors": [
-        "Robert Pattinson",
-        "Zoë Kravitz",
-        "Paul Dano"
-      ],
+      "actors": ["Robert Pattinson", "Zoë Kravitz", "Paul Dano"],
       "trailer": "videos/trailer/the-batman.mp4",
       "video": "videos/movies/the-batman.mp4",
       "status": "published",
       "views": 10450,
-      "createdAt": "2026-09-10"
-    }
-  ],
-  "movieGenres": [
-    {
-      "id": "1",
-      "movieId": 1,
-      "genreId": 1
+      "createdAt": "2026-09-10",
+      "genre": null,
+      "quality": "hd"
     },
     {
-      "id": "2",
-      "movieId": 1,
-      "genreId": 5
+      "title": "vinh",
+      "slug": "vinh",
+      "description": "dấd",
+      "genre": "2",
+      "poster": "/images/movies/1790685049643-c14577.jpg",
+      "backdrop": "/images/movies/1790685049729-gvekdb.jpg",
+      "year": 2022,
+      "duration": 120,
+      "country": "USA",
+      "director": "Jon Watts",
+      "actors": ["Robert Downey Jr.", "Chris Evans", "Mark Ruffalo"],
+      "trailer": "/videos/1790685049779-09nsjs.mp4",
+      "video": "/videos/1790685050339-5s5u5f.mp4",
+      "status": "Inactive",
+      "views": 0,
+      "createdAt": "2026-09-29",
+      "id": "--SUm4rVppI"
     },
     {
-      "id": "3",
-      "movieId": 1,
-      "genreId": 7
+      "title": "cacs",
+      "slug": "cacs",
+      "description": "ccscaas",
+      "genre": "3",
+      "poster": "/images/movies/1790686057727-jlt183.jpg",
+      "backdrop": "images/movies/endgame-bg.jpg",
+      "year": 2022,
+      "duration": 111,
+      "country": "USA",
+      "director": "Anthony Russo, Joe Russo",
+      "actors": ["Robert Downey Jr.", "Chris Evans", "Mark Ruffalo"],
+      "trailer": "",
+      "video": "/videos/1790686057804-3fwkuz.mp4",
+      "status": "Inactive",
+      "views": 0,
+      "createdAt": "2026-09-29",
+      "id": "WR4YLk3p0OQ"
     },
     {
-      "id": "4",
-      "movieId": 2,
-      "genreId": 1
+      "title": "ấc",
+      "slug": "ac",
+      "description": "cấc",
+      "genre": "3",
+      "poster": "",
+      "backdrop": "",
+      "year": 2022,
+      "duration": 111,
+      "country": "USA",
+      "director": "Anthony Russo, Joe Russo",
+      "actors": ["Robert Downey Jr.", "Chris Evans", "Mark Ruffalo"],
+      "trailer": "",
+      "video": "/videos/no-video.mp4",
+      "status": "Inactive",
+      "views": 0,
+      "createdAt": "2026-09-29",
+      "id": "bVu3J8_WK7U"
     },
     {
-      "id": "5",
-      "movieId": 2,
-      "genreId": 5
+      "title": "2",
+      "slug": "2",
+      "description": "cấccsacaca",
+      "genre": 4,
+      "poster": "",
+      "backdrop": "",
+      "year": 2022,
+      "duration": 111,
+      "country": "USA",
+      "director": "Jon Watts",
+      "actors": ["Robert Downey Jr.", "Chris Evans", "Mark Ruffalo"],
+      "trailer": "",
+      "video": "/videos/no-video.mp4",
+      "status": "Inactive",
+      "views": 0,
+      "createdAt": "2026-09-29",
+      "id": "vUFHoLVspJc",
+      "quality": "hd"
     },
     {
-      "id": "6",
-      "movieId": 2,
-      "genreId": 7
-    },
-    {
-      "id": "7",
-      "movieId": 3,
-      "genreId": 5
-    },
-    {
-      "id": "8",
-      "movieId": 3,
-      "genreId": 7
-    },
-    {
-      "id": "9",
-      "movieId": 3,
-      "genreId": 8
-    },
-    {
-      "id": "10",
-      "movieId": 4,
-      "genreId": 2
-    },
-    {
-      "id": "11",
-      "movieId": 4,
-      "genreId": 6
-    },
-    {
-      "id": "12",
-      "movieId": 5,
-      "genreId": 4
-    },
-    {
-      "id": "13",
-      "movieId": 5,
-      "genreId": 8
-    },
-    {
-      "id": "14",
-      "movieId": 6,
-      "genreId": 3
-    },
-    {
-      "id": "15",
-      "movieId": 6,
-      "genreId": 6
-    },
-    {
-      "id": "16",
-      "movieId": 7,
-      "genreId": 1
-    },
-    {
-      "id": "17",
-      "movieId": 7,
-      "genreId": 5
-    },
-    {
-      "id": "18",
-      "movieId": 7,
-      "genreId": 7
-    },
-    {
-      "id": "19",
-      "movieId": 8,
-      "genreId": 2
-    },
-    {
-      "id": "20",
-      "movieId": 8,
-      "genreId": 3
-    },
-    {
-      "id": "21",
-      "movieId": 9,
-      "genreId": 3
-    },
-    {
-      "id": "22",
-      "movieId": 9,
-      "genreId": 6
-    },
-    {
-      "id": "23",
-      "movieId": 10,
-      "genreId": 1
-    },
-    {
-      "id": "24",
-      "movieId": 10,
-      "genreId": 8
+      "title": "dấda",
+      "slug": "dada",
+      "description": "csacsac",
+      "genre": "1",
+      "poster": "",
+      "backdrop": "",
+      "year": 2022,
+      "duration": 1111,
+      "country": "ddsa",
+      "director": "dsadasd",
+      "actors": ["Robert Downey Jr.", "Chris Evans", "Mark Ruffalo"],
+      "trailer": "",
+      "video": "/videos/no-video.mp4",
+      "status": "Inactive",
+      "views": 0,
+      "createdAt": "2026-09-29",
+      "id": "C_RCsnN_TRo"
     }
   ],
   "favorites": [
