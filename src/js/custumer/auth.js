@@ -41,6 +41,17 @@ if (formLogin) {
 
         return;
       }
+      const captchaToken = grecaptcha.getResponse();
+      if (!captchaToken) {
+        await Swal.fire({
+          icon: "warning",
+          title: "Xác nhận CAPTCHA",
+          text: "Vui lòng xác nhận bạn không phải robot.",
+          confirmButtonText: "OK",
+        });
+
+        return;
+      }
 
       localStorage.setItem("currentUser", JSON.stringify(result));
 
@@ -199,7 +210,7 @@ if (formRegister) {
           },
         });
 
-        window.location.href = "/pages/login.html";
+        window.location.href = "/login";
       }
     } catch (error) {
       console.error("Lỗi đăng ký:", error);

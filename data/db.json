@@ -172,6 +172,33 @@
       "roleId": 3,
       "status": "active",
       "createdAt": "2026-09-19T10:27:07.122Z"
+    },
+    {
+      "id": "_0TujQXc5PA",
+      "fullname": "Phạm quang vinh v11",
+      "email": "toanp528733@gmail.com",
+      "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+      "roleId": 3,
+      "status": "active",
+      "createdAt": "2026-09-30T15:54:17.285Z"
+    },
+    {
+      "id": "kDEfNAEdZ8Q",
+      "fullname": "pham quang vinh4",
+      "email": "toanp52872233@gmail.com",
+      "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+      "roleId": 3,
+      "status": "active",
+      "createdAt": "2026-09-30T15:57:32.197Z"
+    },
+    {
+      "id": "X-ERK6lpLrk",
+      "fullname": "pham quang vinh",
+      "email": "toanp528887@gmail.com",
+      "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+      "roleId": 3,
+      "status": "active",
+      "createdAt": "2026-09-30T16:00:02.937Z"
     }
   ],
   "genres": [
