@@ -259,7 +259,7 @@
       "slug": "interstellar",
       "description": "Một nhóm phi hành gia thực hiện nhiệm vụ tìm kiếm hành tinh mới cho nhân loại.",
       "poster": "images/movies/interstellar.jpg",
-      "backdrop": "images/movies/interstellar-bg.jpg",
+      "backdrop": "images/movies/interstellar.jpg",
       "year": 2014,
       "duration": 169,
       "country": "USA",
@@ -273,7 +273,9 @@
       "video": "../videos/phim-demo-3.mp4",
       "status": "published",
       "views": 18420,
-      "createdAt": "2026-09-03"
+      "createdAt": "2026-09-03",
+      "genre": null,
+      "quality": "hd"
     },
     {
       "id": "4",
@@ -1093,7 +1095,7 @@
       "userId": 1,
       "movieId": 2,
       "progress": 3996,
-      "watchedAt": "2026-09-30T02:45:52",
+      "watchedAt": "2026-09-30T15:23:13",
       "id": "Cg6czTN"
     },
     {
@@ -1128,7 +1130,7 @@
       "userId": 1,
       "movieId": 3,
       "progress": 4563,
-      "watchedAt": "2026-09-30T12:50:17",
+      "watchedAt": "2026-09-30T15:27:23",
       "id": "02C5nvJ"
     },
     {
@@ -1141,15 +1143,15 @@
     {
       "userId": 1,
       "movieId": 10,
-      "progress": 4730,
-      "watchedAt": "2026-09-30T12:50:29",
+      "progress": 4749,
+      "watchedAt": "2026-09-30T15:19:34",
       "id": "2cUSQhv"
     },
     {
       "userId": 1,
       "movieId": 13,
       "progress": 3996,
-      "watchedAt": "2026-09-30T13:02:21",
+      "watchedAt": "2026-09-30T15:17:50",
       "id": "6CBrQwh"
     }
   ],
