@@ -1,332 +1,810 @@
 <!doctype html>
-<html class="dark" lang="vi">
+<html lang="vi" class="dark">
   <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard - MovieF Admin</title>
-    <link href="https://fonts.googleapis.com" rel="preconnect" />
-    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+    <title>Dashboard Thống Kê - MovieF Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
       rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap"
-      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     />
     <style>
+      /* ===== MOVIEF ADMIN THEME (dùng chung cho mọi trang Admin) ===== */
       html,
       body {
         margin: 0;
         padding: 0;
+        background: #0f0f0f;
+        color: #e5e5e5;
+        font-family: "Plus Jakarta Sans", "Inter", sans-serif;
       }
-      body {
-        overscroll-behavior: none;
+
+      /* ---------- SIDEBAR ---------- */
+      .sidebar {
+        width: 16rem;
+        padding: 1.25rem;
+        background: #0f0f0f;
+        border-right: 1px solid #1f1f1f;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow-y: auto;
+        z-index: 30;
       }
-      ::-webkit-scrollbar {
-        display: none;
+
+      .sidebar-logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0 0.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .sidebar-logo-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        flex-shrink: 0;
+        border-radius: 0.75rem;
+        background: #e50914;
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(229, 9, 20, 0.4);
+      }
+
+      .sidebar-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        line-height: 1.4;
+        color: #ffffff;
+      }
+
+      .sidebar-subtitle {
+        font-size: 0.75rem;
+        line-height: 1.4;
+        color: #71717a;
+      }
+
+      /* ---------- MENU ---------- */
+      .menu-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.375rem;
+      }
+
+      .menu-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.625rem 0.875rem;
+        border-radius: 0.75rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        line-height: 1.4;
+        color: #a1a1aa;
+        text-decoration: none;
+        transition:
+          background-color 0.2s ease,
+          color 0.2s ease;
+      }
+
+      .menu-item .material-symbols-outlined {
+        font-size: 1.25rem;
+      }
+
+      .menu-item:hover {
+        background: #1a1a1a;
+        color: #ffffff;
+      }
+
+      .menu-item.active {
+        background: #e50914;
+        color: #ffffff;
+        font-weight: 600;
+      }
+
+      /* ---------- ADMIN ACCOUNT ---------- */
+      .sidebar-account {
+        border-top: 1px solid #1f1f1f;
+        padding-top: 1rem;
+      }
+
+      .sidebar-avatar {
+        width: 2.25rem;
+        height: 2.25rem;
+        flex-shrink: 0;
+        border-radius: 9999px;
+        object-fit: cover;
+        outline: 1px solid #27272a;
+      }
+
+      .sidebar-account-name {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #e4e4e7;
+      }
+
+      .sidebar-account-mail {
+        font-size: 11px;
+        color: #71717a;
+      }
+
+      .sidebar-account-btn {
+        padding: 0.25rem;
+        border-radius: 0.5rem;
+        color: #a1a1aa;
+        transition: color 0.2s ease;
+      }
+
+      .sidebar-account-btn:hover {
+        color: #e4e4e7;
       }
     </style>
   </head>
-  <body class="bg-surface font-body-md text-on-surface min-h-screen">
-    <aside
-      class="fixed left-0 top-0 h-full w-64 bg-surface-container-low z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"
-    >
-      <div class="flex flex-col flex-1 overflow-y-auto">
-        <div
-          class="h-16 px-space-md flex items-center gap-space-sm bg-surface-container-low/50"
-        >
-          <img
-            alt="MovieF"
-            class="h-8 w-auto object-contain"
-            src="/images/logo/logo.svg"
-          />
-          <span
-            class="font-headline-sm text-headline-sm font-bold tracking-tight text-on-surface"
-            >Movie<span class="text-primary-container">F</span></span
-          >
-          <span
-            class="ml-auto bg-surface-container-highest text-on-surface-variant font-label-caps text-label-caps px-space-xs py-0.5 rounded"
-            >ADMIN</span
-          >
+  <body class="min-h-screen antialiased flex">
+    <!-- SIDEBAR (chuẩn dùng chung cho mọi trang Admin) -->
+    <aside class="sidebar fixed left-0 top-0 bottom-0">
+      <!-- LOGO -->
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon">
+          <span class="material-symbols-outlined">movie</span>
         </div>
-        <div class="px-space-md py-space-sm">
-          <a
-            class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors"
-            href="/"
-          >
-            <span
-              class="material-symbols-outlined text-primary-container text-base"
-              >open_in_new</span
-            >
-            <span class="font-title-sm text-title-sm">Trang người dùng</span>
-          </a>
+        <div>
+          <h1 class="sidebar-title">MovieF</h1>
+          <p class="sidebar-subtitle">Admin Panel</p>
         </div>
-        <div class="px-space-md pt-space-xs pb-space-xs">
-          <span
-            class="font-label-caps text-label-caps text-on-surface-variant/60 uppercase"
-            >Quản trị hệ thống</span
-          >
-        </div>
-        <nav class="flex flex-col gap-1 px-space-md flex-1">
-          <a
-            aria-current="page"
-            class="flex items-center gap-space-sm px-space-md py-space-sm transition-all bg-primary-container text-on-primary-container font-semibold rounded-lg"
-            href="/admin"
-          >
-            <span class="material-symbols-outlined text-xl">dashboard</span>
-            <span class="font-title-sm text-title-sm">Dashboard</span>
-          </a>
-          <a
-            class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all"
-            href="/admin/movies"
-          >
-            <span class="material-symbols-outlined text-xl">movie</span>
-            <span class="font-title-sm text-title-sm">Quản lý phim</span>
-          </a>
-          <a
-            class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all"
-            href="/admin/genres"
-          >
-            <span class="material-symbols-outlined text-xl">category</span>
-            <span class="font-title-sm text-title-sm">Thể loại</span>
-          </a>
-          <a
-            class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all"
-            href="/admin/users"
-          >
-            <span class="material-symbols-outlined text-xl">group</span>
-            <span class="font-title-sm text-title-sm">Người dùng</span>
-          </a>
-        </nav>
       </div>
-      <div class="p-space-md bg-surface-container-lowest/80">
-        <div
-          class="flex items-center gap-space-sm p-space-sm rounded-lg bg-surface-container-low"
-        >
+
+      <!-- MENU -->
+      <nav class="menu-nav">
+        <a href="/admin" class="menu-item active">
+          <span class="material-symbols-outlined">dashboard</span>
+          <span>Dashboard</span>
+        </a>
+
+        <a href="/admin" class="menu-item">
+          <span class="material-symbols-outlined">movie</span>
+          <span>Quản lý phim</span>
+        </a>
+
+        <a href="/admin/genres" class="menu-item">
+          <span class="material-symbols-outlined">category</span>
+          <span>Thể loại</span>
+        </a>
+
+        <a href="/admin/users" class="menu-item">
+          <span class="material-symbols-outlined">group</span>
+          <span>Người dùng</span>
+        </a>
+
+        <a href="/admin/reviews" class="menu-item">
+          <span class="material-symbols-outlined">reviews</span>
+          <span>Đánh giá</span>
+        </a>
+
+        <a href="/admin/comments" class="menu-item">
+          <span class="material-symbols-outlined">comment</span>
+          <span>Bình luận</span>
+        </a>
+
+        <a href="/admin/statistics" class="menu-item">
+          <span class="material-symbols-outlined">bar_chart</span>
+          <span>Thống kê</span>
+        </a>
+
+        <a href="/admin/trash" class="menu-item">
+          <span class="material-symbols-outlined">delete</span>
+          <span>Thùng rác</span>
+        </a>
+      </nav>
+
+      <!-- ADMIN ACCOUNT -->
+      <div class="sidebar-account">
+        <div class="flex items-center gap-3">
           <img
-            alt=""
-            class="w-8 h-8 rounded-full object-cover"
-            src="/images/avatar/admin.svg"
+            src="/images/avatar/admin.png"
+            alt="Admin"
+            class="sidebar-avatar"
+            onerror="
+              this.src =
+                'https://ui-avatars.com/api/?name=Admin+MovieF&background=e50914&color=fff'
+            "
           />
-          <div class="flex flex-col min-w-0 flex-1">
-            <span
-              class="font-title-sm text-title-sm text-on-surface truncate"
-              data-admin-name
-              >Quản trị viên</span
-            >
-            <span
-              class="font-label-md text-label-md text-on-surface-variant truncate"
-              data-admin-email
-            ></span>
+          <div class="flex-1 min-w-0">
+            <p class="sidebar-account-name">MovieF Admin</p>
+            <p class="sidebar-account-mail">admin@movief.com</p>
           </div>
-          <button
-            id="adminLogout"
-            class="text-on-surface-variant hover:text-on-surface transition-colors"
-            type="button"
-            aria-label="Đăng xuất"
-          >
-            <span class="material-symbols-outlined text-lg">logout</span>
+          <button class="sidebar-account-btn">
+            <span class="material-symbols-outlined text-lg">more_vert</span>
           </button>
         </div>
       </div>
     </aside>
 
-    <div class="pl-64 flex flex-col min-h-screen">
-      <header
-        class="fixed top-0 left-64 right-0 h-16 bg-surface/80 backdrop-blur-xl z-40 px-space-lg flex items-center justify-between"
-      >
-        <div class="flex items-center gap-space-sm">
-          <span class="font-label-md text-label-md text-on-surface-variant"
-            >MovieF Admin</span
-          >
-          <span class="text-on-surface-variant/40">/</span>
-          <span class="font-title-sm text-title-sm text-on-surface"
-            >Dashboard</span
-          >
+    <!-- Main Content Area -->
+    <main class="flex-1 ml-64 min-h-screen p-6 lg:p-8">
+      <div class="max-w-6xl mx-auto space-y-6">
+        <!-- Top Header: Title & Quick Date Picker / Refresh -->
+        <div
+          class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-800/80 pb-5"
+        >
+          <div>
+            <h1
+              class="text-2xl font-bold tracking-tight text-white flex items-center gap-2.5"
+            >
+              <span class="material-symbols-outlined text-red-500 text-2xl"
+                >dashboard</span
+              >
+              Tổng Quan Hệ Thống
+            </h1>
+            <p class="text-xs text-zinc-400 mt-1">
+              Thống kê lượt xem, doanh thu gói xem phim và hoạt động thành viên
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <div
+              class="bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-xl text-xs text-zinc-300 flex items-center gap-2"
+            >
+              <span class="material-symbols-outlined text-base text-zinc-400"
+                >calendar_today</span
+              >
+              <span>Hôm nay: <strong>30/09/2026</strong></span>
+            </div>
+            <button
+              onclick="location.reload()"
+              class="h-9 px-3 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-200 rounded-xl text-xs font-semibold inline-flex items-center gap-1.5 transition-all"
+              title="Làm mới dữ liệu"
+            >
+              <span class="material-symbols-outlined text-base">refresh</span>
+              <span>Làm mới</span>
+            </button>
+          </div>
         </div>
-        <span
-          class="font-title-sm text-title-sm text-on-surface"
-          data-admin-name
-          >Quản trị viên</span
-        >
-      </header>
 
-      <main class="w-full pt-16 bg-surface px-space-lg py-space-lg flex-1">
-        <section class="flex flex-col gap-1 pb-space-lg">
-          <span
-            class="font-label-caps text-label-caps uppercase tracking-wider text-primary"
-            >Tổng quan</span
-          >
-          <h1
-            class="font-headline-lg text-headline-lg text-on-surface tracking-tight"
-          >
-            Dashboard
-          </h1>
-          <p class="font-body-md text-body-md text-on-surface-variant">
-            Số liệu phim, thể loại, người dùng và lượt xem của MovieF.
-          </p>
-        </section>
-
-        <section
-          class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-space-md"
-        >
-          <article
-            class="rounded-xl bg-surface-container-low p-space-md flex flex-col gap-space-sm"
+        <!-- 4 Thẻ KPI Metrics -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- KPI 1 -->
+          <div
+            class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-2xl shadow-xl flex flex-col justify-between"
           >
             <div class="flex items-center justify-between">
-              <span class="font-body-sm text-body-sm text-on-surface-variant"
+              <span class="text-xs font-medium text-zinc-400"
                 >Tổng số phim</span
               >
-              <span class="material-symbols-outlined text-primary-container"
-                >movie</span
+              <div
+                class="w-8 h-8 rounded-lg bg-zinc-800 flex items-center justify-center text-red-500"
               >
+                <span class="material-symbols-outlined text-lg">movie</span>
+              </div>
             </div>
-            <p
-              id="statMovies"
-              class="font-headline-lg text-headline-lg text-on-surface"
-            >
-              —
-            </p>
-            <p
-              id="statMoviesHint"
-              class="font-body-sm text-body-sm text-on-surface-variant"
-            >
-              Đang tải
-            </p>
-          </article>
-          <article
-            class="rounded-xl bg-surface-container-low p-space-md flex flex-col gap-space-sm"
-          >
-            <div class="flex items-center justify-between">
-              <span class="font-body-sm text-body-sm text-on-surface-variant"
-                >Tổng thể loại</span
+            <div class="mt-3">
+              <div class="text-2xl font-bold text-white tracking-tight">
+                1,248
+              </div>
+              <div
+                class="flex items-center gap-1.5 mt-1 text-[11px] text-emerald-400"
               >
-              <span class="material-symbols-outlined text-secondary"
-                >category</span
-              >
+                <span class="material-symbols-outlined text-xs"
+                  >trending_up</span
+                >
+                <span>+12 phim mới tuần này</span>
+              </div>
             </div>
-            <p
-              id="statGenres"
-              class="font-headline-lg text-headline-lg text-on-surface"
-            >
-              —
-            </p>
-            <p
-              id="statGenresHint"
-              class="font-body-sm text-body-sm text-on-surface-variant"
-            >
-              Đang tải
-            </p>
-          </article>
-          <article
-            class="rounded-xl bg-surface-container-low p-space-md flex flex-col gap-space-sm"
-          >
-            <div class="flex items-center justify-between">
-              <span class="font-body-sm text-body-sm text-on-surface-variant"
-                >Tổng người dùng</span
-              >
-              <span class="material-symbols-outlined text-primary">group</span>
-            </div>
-            <p
-              id="statUsers"
-              class="font-headline-lg text-headline-lg text-on-surface"
-            >
-              —
-            </p>
-            <p
-              id="statUsersHint"
-              class="font-body-sm text-body-sm text-on-surface-variant"
-            >
-              Đang tải
-            </p>
-          </article>
-          <article
-            class="rounded-xl bg-surface-container-low p-space-md flex flex-col gap-space-sm"
-          >
-            <div class="flex items-center justify-between">
-              <span class="font-body-sm text-body-sm text-on-surface-variant"
-                >Tổng lượt xem</span
-              >
-              <span class="material-symbols-outlined text-primary-container"
-                >visibility</span
-              >
-            </div>
-            <p
-              id="statViews"
-              class="font-headline-lg text-headline-lg text-on-surface"
-            >
-              —
-            </p>
-            <p
-              id="statViewsHint"
-              class="font-body-sm text-body-sm text-on-surface-variant"
-            >
-              Đang tải
-            </p>
-          </article>
-        </section>
+          </div>
 
-        <section
-          class="grid grid-cols-1 sm:grid-cols-2 gap-space-md mt-space-md"
-        >
-          <article
-            class="rounded-xl bg-surface-container p-space-md flex items-center justify-between"
+          <!-- KPI 2 -->
+          <div
+            class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-2xl shadow-xl flex flex-col justify-between"
           >
-            <div>
-              <p class="font-body-sm text-body-sm text-on-surface-variant">
-                Lượt yêu thích
-              </p>
-              <p
-                id="statFavorites"
-                class="font-headline-sm text-headline-sm text-on-surface mt-1"
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-medium text-zinc-400"
+                >Lượt xem trực tuyến</span
               >
-                —
-              </p>
-            </div>
-            <span
-              class="material-symbols-outlined text-primary-container"
-              style="font-variation-settings: 'FILL' 1"
-              >favorite</span
-            >
-          </article>
-          <article
-            class="rounded-xl bg-surface-container p-space-md flex items-center justify-between"
-          >
-            <div>
-              <p class="font-body-sm text-body-sm text-on-surface-variant">
-                Đánh giá
-              </p>
-              <p
-                id="statReviews"
-                class="font-headline-sm text-headline-sm text-on-surface mt-1"
+              <div
+                class="w-8 h-8 rounded-lg bg-zinc-800 flex items-center justify-center text-red-500"
               >
-                —
-              </p>
+                <span class="material-symbols-outlined text-lg"
+                  >visibility</span
+                >
+              </div>
             </div>
-            <span class="material-symbols-outlined text-secondary">star</span>
-          </article>
-        </section>
+            <div class="mt-3">
+              <div class="text-2xl font-bold text-white tracking-tight">
+                482,910
+              </div>
+              <div
+                class="flex items-center gap-1.5 mt-1 text-[11px] text-emerald-400"
+              >
+                <span class="material-symbols-outlined text-xs"
+                  >trending_up</span
+                >
+                <span>+18.4% so với tháng trước</span>
+              </div>
+            </div>
+          </div>
 
-        <section
-          class="grid grid-cols-1 lg:grid-cols-2 gap-space-md mt-space-lg"
-        >
-          <article class="rounded-xl bg-surface-container-low p-space-md">
-            <h2 class="font-title-md text-title-md text-on-surface mb-space-md">
-              Phim xem nhiều nhất
-            </h2>
-            <ul id="topMovies" class="flex flex-col gap-space-md"></ul>
-          </article>
-          <article class="rounded-xl bg-surface-container-low p-space-md">
-            <h2 class="font-title-md text-title-md text-on-surface mb-space-md">
-              Người dùng mới
-            </h2>
-            <ul id="recentUsers" class="flex flex-col gap-space-md"></ul>
-          </article>
-        </section>
-      </main>
-    </div>
+          <!-- KPI 3 -->
+          <div
+            class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-2xl shadow-xl flex flex-col justify-between"
+          >
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-medium text-zinc-400"
+                >Thành viên VIP</span
+              >
+              <div
+                class="w-8 h-8 rounded-lg bg-zinc-800 flex items-center justify-center text-red-500"
+              >
+                <span class="material-symbols-outlined text-lg"
+                  >workspace_premium</span
+                >
+              </div>
+            </div>
+            <div class="mt-3">
+              <div class="text-2xl font-bold text-white tracking-tight">
+                34,120
+              </div>
+              <div
+                class="flex items-center gap-1.5 mt-1 text-[11px] text-emerald-400"
+              >
+                <span class="material-symbols-outlined text-xs"
+                  >trending_up</span
+                >
+                <span>+520 đăng ký mới</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- KPI 4 -->
+          <div
+            class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-2xl shadow-xl flex flex-col justify-between"
+          >
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-medium text-zinc-400"
+                >Doanh thu tháng (VND)</span
+              >
+              <div
+                class="w-8 h-8 rounded-lg bg-zinc-800 flex items-center justify-center text-red-500"
+              >
+                <span class="material-symbols-outlined text-lg">payments</span>
+              </div>
+            </div>
+            <div class="mt-3">
+              <div class="text-2xl font-bold text-white tracking-tight">
+                185.4M
+              </div>
+              <div
+                class="flex items-center gap-1.5 mt-1 text-[11px] text-emerald-400"
+              >
+                <span class="material-symbols-outlined text-xs"
+                  >trending_up</span
+                >
+                <span>+8.2% đạt chỉ tiêu Q3</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Biểu đồ & Tỷ trọng thể loại -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Lượt xem theo ngày (2 cột) -->
+          <div
+            class="lg:col-span-2 bg-zinc-900 border border-zinc-800 rounded-2xl p-5 shadow-xl flex flex-col justify-between"
+          >
+            <div
+              class="flex items-center justify-between border-b border-zinc-800 pb-3"
+            >
+              <div>
+                <h3 class="text-sm font-semibold text-white">
+                  Biểu đồ lượt xem 7 ngày qua
+                </h3>
+                <p class="text-xs text-zinc-400">
+                  Đơn vị: Nghìn lượt xem (K views)
+                </p>
+              </div>
+              <span
+                class="text-xs px-2.5 py-1 rounded-lg bg-zinc-950 border border-zinc-800 text-red-400 font-medium"
+              >
+                Tuần 39
+              </span>
+            </div>
+
+            <!-- Cột Bar Chart CSS Native -->
+            <div
+              class="h-48 flex items-end justify-between gap-3 pt-6 pb-2 px-2"
+            >
+              <div
+                class="flex-1 flex flex-col items-center gap-2 h-full justify-end"
+              >
+                <div class="text-[10px] text-zinc-400 font-mono">42k</div>
+                <div
+                  class="w-full bg-zinc-800 hover:bg-red-600 rounded-t-lg transition-all"
+                  style="height: 50%"
+                ></div>
+                <span class="text-[11px] text-zinc-500">T2</span>
+              </div>
+              <div
+                class="flex-1 flex flex-col items-center gap-2 h-full justify-end"
+              >
+                <div class="text-[10px] text-zinc-400 font-mono">56k</div>
+                <div
+                  class="w-full bg-zinc-800 hover:bg-red-600 rounded-t-lg transition-all"
+                  style="height: 65%"
+                ></div>
+                <span class="text-[11px] text-zinc-500">T3</span>
+              </div>
+              <div
+                class="flex-1 flex flex-col items-center gap-2 h-full justify-end"
+              >
+                <div class="text-[10px] text-zinc-400 font-mono">68k</div>
+                <div
+                  class="w-full bg-zinc-800 hover:bg-red-600 rounded-t-lg transition-all"
+                  style="height: 75%"
+                ></div>
+                <span class="text-[11px] text-zinc-500">T4</span>
+              </div>
+              <div
+                class="flex-1 flex flex-col items-center gap-2 h-full justify-end"
+              >
+                <div class="text-[10px] text-zinc-400 font-mono">50k</div>
+                <div
+                  class="w-full bg-zinc-800 hover:bg-red-600 rounded-t-lg transition-all"
+                  style="height: 58%"
+                ></div>
+                <span class="text-[11px] text-zinc-500">T5</span>
+              </div>
+              <div
+                class="flex-1 flex flex-col items-center gap-2 h-full justify-end"
+              >
+                <div class="text-[10px] text-zinc-400 font-mono">85k</div>
+                <div
+                  class="w-full bg-zinc-800 hover:bg-red-600 rounded-t-lg transition-all"
+                  style="height: 88%"
+                ></div>
+                <span class="text-[11px] text-zinc-500">T6</span>
+              </div>
+              <div
+                class="flex-1 flex flex-col items-center gap-2 h-full justify-end"
+              >
+                <div class="text-[10px] text-zinc-400 font-mono">110k</div>
+                <div
+                  class="w-full bg-red-600/80 hover:bg-red-500 rounded-t-lg transition-all shadow-md shadow-red-950"
+                  style="height: 100%"
+                ></div>
+                <span class="text-[11px] text-red-400 font-semibold">T7</span>
+              </div>
+              <div
+                class="flex-1 flex flex-col items-center gap-2 h-full justify-end"
+              >
+                <div class="text-[10px] text-zinc-400 font-mono">98k</div>
+                <div
+                  class="w-full bg-red-600/80 hover:bg-red-500 rounded-t-lg transition-all shadow-md shadow-red-950"
+                  style="height: 92%"
+                ></div>
+                <span class="text-[11px] text-red-400 font-semibold">CN</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tỷ trọng thể loại xem nhiều (1 cột) -->
+          <div
+            class="bg-zinc-900 border border-zinc-800 rounded-2xl p-5 shadow-xl flex flex-col justify-between"
+          >
+            <div class="border-b border-zinc-800 pb-3">
+              <h3 class="text-sm font-semibold text-white">
+                Thể loại thịnh hành
+              </h3>
+              <p class="text-xs text-zinc-400">
+                Phân bố thời lượng xem của khán giả
+              </p>
+            </div>
+
+            <div class="space-y-3.5 my-auto py-2">
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-zinc-300">Hành động</span>
+                  <span class="text-zinc-400 font-mono">38%</span>
+                </div>
+                <div
+                  class="w-full bg-zinc-950 h-2 rounded-full overflow-hidden"
+                >
+                  <div
+                    class="bg-red-600 h-full rounded-full"
+                    style="width: 38%"
+                  ></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-zinc-300">Tình cảm & Lãng mạn</span>
+                  <span class="text-zinc-400 font-mono">26%</span>
+                </div>
+                <div
+                  class="w-full bg-zinc-950 h-2 rounded-full overflow-hidden"
+                >
+                  <div
+                    class="bg-red-500/70 h-full rounded-full"
+                    style="width: 26%"
+                  ></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-zinc-300">Khoa học viễn tưởng</span>
+                  <span class="text-zinc-400 font-mono">20%</span>
+                </div>
+                <div
+                  class="w-full bg-zinc-950 h-2 rounded-full overflow-hidden"
+                >
+                  <div
+                    class="bg-zinc-600 h-full rounded-full"
+                    style="width: 20%"
+                  ></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-zinc-300">Hoạt hình & Anime</span>
+                  <span class="text-zinc-400 font-mono">16%</span>
+                </div>
+                <div
+                  class="w-full bg-zinc-950 h-2 rounded-full overflow-hidden"
+                >
+                  <div
+                    class="bg-zinc-700 h-full rounded-full"
+                    style="width: 16%"
+                  ></div>
+                </div>
+              </div>
+            </div>
+
+            <a
+              href="/admin/genres"
+              class="text-xs text-red-400 hover:text-red-300 flex items-center gap-1 pt-2 border-t border-zinc-800"
+            >
+              <span>Xem chi tiết danh mục</span>
+              <span class="material-symbols-outlined text-sm"
+                >arrow_forward</span
+              >
+            </a>
+          </div>
+        </div>
+
+        <!-- 2 Bảng: Top Phim Đang Chiếu & Hoạt động Gần Đây -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Bảng Top Phim xem nhiều (2 cột) -->
+          <div
+            class="lg:col-span-2 bg-zinc-900 border border-zinc-800 rounded-2xl shadow-xl overflow-hidden"
+          >
+            <div
+              class="p-4 border-b border-zinc-800 flex items-center justify-between"
+            >
+              <div>
+                <h3 class="text-sm font-semibold text-white">
+                  Top Phim Xem Nhiều Nhất
+                </h3>
+                <p class="text-xs text-zinc-400">
+                  Xếp hạng theo lượt xem tích lũy tuần
+                </p>
+              </div>
+              <a
+                href="/admin/movies"
+                class="text-xs text-red-500 hover:text-red-400 font-medium"
+                >Tất cả phim</a
+              >
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-sm text-zinc-300">
+                <thead
+                  class="bg-zinc-950/70 text-xs uppercase text-zinc-400 border-b border-zinc-800"
+                >
+                  <tr>
+                    <th class="py-3 px-4 w-12">#</th>
+                    <th class="py-3 px-4">Tên phim</th>
+                    <th class="py-3 px-4">Thể loại</th>
+                    <th class="py-3 px-4">Lượt xem</th>
+                    <th class="py-3 px-4">Đánh giá</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-zinc-800/60 text-xs">
+                  <tr class="hover:bg-zinc-800/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-red-500">1</td>
+                    <td
+                      class="py-3 px-4 font-medium text-white flex items-center gap-2.5"
+                    >
+                      <div
+                        class="w-6 h-8 bg-zinc-800 rounded object-cover flex items-center justify-center text-[10px] text-zinc-400"
+                      >
+                        Poster
+                      </div>
+                      <span>Dune: Part Two</span>
+                    </td>
+                    <td class="py-3 px-4 text-zinc-400">Khoa học viễn tưởng</td>
+                    <td class="py-3 px-4 font-mono">142,300</td>
+                    <td
+                      class="py-3 px-4 text-amber-400 flex items-center gap-1 font-semibold"
+                    >
+                      <span class="material-symbols-outlined text-sm"
+                        >star</span
+                      >
+                      9.2
+                    </td>
+                  </tr>
+
+                  <tr class="hover:bg-zinc-800/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-zinc-400">2</td>
+                    <td
+                      class="py-3 px-4 font-medium text-white flex items-center gap-2.5"
+                    >
+                      <div
+                        class="w-6 h-8 bg-zinc-800 rounded object-cover flex items-center justify-center text-[10px] text-zinc-400"
+                      >
+                        Poster
+                      </div>
+                      <span>Mai (2024)</span>
+                    </td>
+                    <td class="py-3 px-4 text-zinc-400">Tình cảm & Tâm lý</td>
+                    <td class="py-3 px-4 font-mono">98,210</td>
+                    <td
+                      class="py-3 px-4 text-amber-400 flex items-center gap-1 font-semibold"
+                    >
+                      <span class="material-symbols-outlined text-sm"
+                        >star</span
+                      >
+                      8.4
+                    </td>
+                  </tr>
+
+                  <tr class="hover:bg-zinc-800/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-zinc-400">3</td>
+                    <td
+                      class="py-3 px-4 font-medium text-white flex items-center gap-2.5"
+                    >
+                      <div
+                        class="w-6 h-8 bg-zinc-800 rounded object-cover flex items-center justify-center text-[10px] text-zinc-400"
+                      >
+                        Poster
+                      </div>
+                      <span>Deadpool & Wolverine</span>
+                    </td>
+                    <td class="py-3 px-4 text-zinc-400">Hành động</td>
+                    <td class="py-3 px-4 font-mono">87,440</td>
+                    <td
+                      class="py-3 px-4 text-amber-400 flex items-center gap-1 font-semibold"
+                    >
+                      <span class="material-symbols-outlined text-sm"
+                        >star</span
+                      >
+                      8.8
+                    </td>
+                  </tr>
+
+                  <tr class="hover:bg-zinc-800/30 transition-colors">
+                    <td class="py-3 px-4 font-bold text-zinc-500">4</td>
+                    <td
+                      class="py-3 px-4 font-medium text-white flex items-center gap-2.5"
+                    >
+                      <div
+                        class="w-6 h-8 bg-zinc-800 rounded object-cover flex items-center justify-center text-[10px] text-zinc-400"
+                      >
+                        Poster
+                      </div>
+                      <span>Spirited Away</span>
+                    </td>
+                    <td class="py-3 px-4 text-zinc-400">Hoạt hình</td>
+                    <td class="py-3 px-4 font-mono">52,190</td>
+                    <td
+                      class="py-3 px-4 text-amber-400 flex items-center gap-1 font-semibold"
+                    >
+                      <span class="material-symbols-outlined text-sm"
+                        >star</span
+                      >
+                      9.5
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Danh sách Hoạt động / Đơn VIP gần đây (1 cột) -->
+          <div
+            class="bg-zinc-900 border border-zinc-800 rounded-2xl p-5 shadow-xl flex flex-col justify-between"
+          >
+            <div class="border-b border-zinc-800 pb-3">
+              <h3 class="text-sm font-semibold text-white">
+                Hoạt Động Mới Nhất
+              </h3>
+              <p class="text-xs text-zinc-400">
+                Đăng ký và bình luận từ người dùng
+              </p>
+            </div>
+
+            <div class="space-y-4 my-3 text-xs">
+              <div class="flex items-start gap-3">
+                <div
+                  class="w-7 h-7 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/20"
+                >
+                  <span class="material-symbols-outlined text-sm"
+                    >card_membership</span
+                  >
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-zinc-200 font-medium truncate">
+                    NguyenVanA đăng ký gói VIP 1 Năm
+                  </p>
+                  <span class="text-[11px] text-zinc-500"
+                    >5 phút trước • 599.000đ</span
+                  >
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <div
+                  class="w-7 h-7 rounded-full bg-red-500/10 text-red-400 flex items-center justify-center shrink-0 border border-red-500/20"
+                >
+                  <span class="material-symbols-outlined text-sm">forum</span>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-zinc-200 font-medium truncate">
+                    Bình luận mới trên "Dune: Part Two"
+                  </p>
+                  <span class="text-[11px] text-zinc-500"
+                    >12 phút trước • Bởi TranB</span
+                  >
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <div
+                  class="w-7 h-7 rounded-full bg-blue-500/10 text-blue-400 flex items-center justify-center shrink-0 border border-blue-500/20"
+                >
+                  <span class="material-symbols-outlined text-sm"
+                    >person_add</span
+                  >
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-zinc-200 font-medium truncate">
+                    Thành viên mới đăng ký tài khoản
+                  </p>
+                  <span class="text-[11px] text-zinc-500"
+                    >25 phút trước • hoangduong@gmail.com</span
+                  >
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <div
+                  class="w-7 h-7 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0 border border-amber-500/20"
+                >
+                  <span class="material-symbols-outlined text-sm">report</span>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-zinc-200 font-medium truncate">
+                    Báo cáo lỗi đường truyền tập 4 phim "Mai"
+                  </p>
+                  <span class="text-[11px] text-zinc-500"
+                    >40 phút trước • Cần kiểm tra</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <a
+              href="/admin/users"
+              class="text-xs text-zinc-400 hover:text-white flex items-center justify-center py-2 bg-zinc-950 border border-zinc-800 rounded-xl transition-colors"
+            >
+              Xem nhật ký hoạt động
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
   </body>
 </html>
-<script type="module" src="/src/main.js"></script>
-<script type="module" src="/src/js/admin/dashboard.js"></script>
