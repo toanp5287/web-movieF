@@ -62,7 +62,7 @@
       "username": "admin",
       "email": "admin@movief.com",
       "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
-      "fullname": "Nguyễn Admin",
+      "fullname": "Admin",
       "avatar": "images/avatar/admin.png",
       "roleId": 1,
       "status": "active",
@@ -81,7 +81,7 @@
       "fullname": "Nguyen Van Staff",
       "avatar": "images/avatar/default.png",
       "roleId": 2,
-      "status": "active",
+      "status": "inactive",
       "createdAt": "2026-09-02"
     },
     {
@@ -1090,6 +1090,12 @@
       "movieId": 12,
       "createdAt": "2026-10-01",
       "id": "r1jVH8W"
+    },
+    {
+      "userId": 1,
+      "movieId": 7,
+      "createdAt": "2026-10-01",
+      "id": "PNUXEATvfXI"
     }
   ],
   "histories": [
@@ -1131,15 +1137,15 @@
     {
       "userId": 1,
       "movieId": 2,
-      "progress": 3996,
-      "watchedAt": "2026-09-30T15:23:13",
+      "progress": 17,
+      "watchedAt": "2026-10-01T17:48:34",
       "id": "Cg6czTN"
     },
     {
       "userId": 1,
       "movieId": 7,
-      "progress": 4482,
-      "watchedAt": "2026-09-30T11:13:51",
+      "progress": 0,
+      "watchedAt": "2026-10-01T17:49:14",
       "id": "6PTvXf5"
     },
     {
@@ -1158,45 +1164,17 @@
     },
     {
       "userId": 1,
-      "movieId": 21,
-      "progress": 5401,
-      "watchedAt": "2026-09-30T12:22:23",
-      "id": "fu__tLJ"
-    },
-    {
-      "userId": 1,
-      "movieId": 3,
-      "progress": 4563,
-      "watchedAt": "2026-09-30T15:27:23",
-      "id": "02C5nvJ"
-    },
-    {
-      "userId": 1,
-      "movieId": 22,
-      "progress": 3834,
-      "watchedAt": "2026-09-30T12:50:09",
-      "id": "jCvtDdc"
-    },
-    {
-      "userId": 1,
       "movieId": 10,
       "progress": 0,
-      "watchedAt": "2026-10-01T17:04:07",
+      "watchedAt": "2026-10-01T17:47:17",
       "id": "2cUSQhv"
     },
     {
       "userId": 1,
       "movieId": 13,
-      "progress": 3996,
-      "watchedAt": "2026-09-30T15:17:50",
-      "id": "6CBrQwh"
-    },
-    {
-      "userId": 1,
-      "movieId": 12,
       "progress": 0,
-      "watchedAt": "2026-10-01T17:00:01",
-      "id": "ob0LICO"
+      "watchedAt": "2026-10-01T17:48:12",
+      "id": "6CBrQwh"
     }
   ],
   "reviews": [
@@ -1262,6 +1240,15 @@
       "status": "visible",
       "createdAt": "2026-10-01",
       "id": "8fnJ6Ml"
+    },
+    {
+      "userId": 1,
+      "movieId": 14,
+      "rating": 1,
+      "comment": "dở",
+      "status": "visible",
+      "createdAt": "2026-10-01",
+      "id": "gl_xDL42OnY"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

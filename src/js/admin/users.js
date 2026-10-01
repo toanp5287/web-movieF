@@ -3,9 +3,9 @@ import api from "../api";
 await kiemTraDangNhapAdmin();
 const loadUsers = async () => {
   try {
-    const res = await api.get("/users");
+    const users = await api.get("/users");
 
-    const users = res.filter((item) => item.status === "active");
+    // const users = res.filter((item) => item.status === "active");
 
     return users;
   } catch (error) {
@@ -45,8 +45,15 @@ function users(loadUsers, roles) {
   const usersPage = allUsers.slice(start, end);
 
   usersList.innerHTML = usersPage
-    .map(
-      (item) => `
+    .map((item) => {
+      const role = allRoles.find(
+        (role) => Number(role.id) === Number(item.roleId),
+      );
+
+      const isAdmin = role?.name === "admin";
+      const isBlocked = item.status === "inactive";
+
+      return `
         <tr class="table-row border-t border-gray-800">
 
           <td class="px-6 py-5">
@@ -78,10 +85,7 @@ function users(loadUsers, roles) {
                 admin_panel_settings
               </span>
 
-              ${
-                allRoles.find((role) => Number(role.id) === Number(item.roleId))
-                  ?.name || "Không xác định"
-              }
+              ${role?.name || "Không xác định"}
             </span>
           </td>
 
@@ -102,6 +106,7 @@ function users(loadUsers, roles) {
           <td class="px-6 py-5">
             <div class="flex justify-end gap-2">
 
+              <!-- Xem -->
               <button
                 title="Xem"
                 class="w-9 h-9 rounded-lg bg-gray-800 hover:bg-gray-700 flex items-center justify-center transition"
@@ -111,6 +116,7 @@ function users(loadUsers, roles) {
                 </span>
               </button>
 
+              <!-- Sửa -->
               <button
                 title="Sửa"
                 class="w-9 h-9 rounded-lg bg-gray-800 hover:bg-blue-600 flex items-center justify-center transition"
@@ -120,22 +126,41 @@ function users(loadUsers, roles) {
                 </span>
               </button>
 
-              <button
-                title="Khóa tài khoản"
-                onclick="blockUser(${item.id}, ${item.roleId})"
-                class="w-9 h-9 rounded-lg bg-gray-800 hover:bg-red-600 flex items-center justify-center transition"
-              >
-                <span class="material-symbols-outlined text-lg">
-                  block
-                </span>
-              </button>
+              <!-- Khóa / Mở tài khoản -->
+              ${
+                isAdmin
+                  ? ""
+                  : isBlocked
+                    ? `
+                      <button
+                        title="Mở tài khoản"
+                        onclick="unblockUser(${item.id})"
+                        class="w-9 h-9 rounded-lg bg-gray-800 hover:bg-green-600 flex items-center justify-center transition"
+                      >
+                        <span class="material-symbols-outlined text-lg">
+                          lock_open
+                        </span>
+                      </button>
+                    `
+                    : `
+                      <button
+                        title="Khóa tài khoản"
+                        onclick="blockUser(${item.id}, ${item.roleId})"
+                        class="w-9 h-9 rounded-lg bg-gray-800 hover:bg-red-600 flex items-center justify-center transition"
+                      >
+                        <span class="material-symbols-outlined text-lg">
+                          block
+                        </span>
+                      </button>
+                    `
+              }
 
             </div>
           </td>
 
         </tr>
-      `,
-    )
+      `;
+    })
     .join("");
 
   renderUserPagination(totalPages);
@@ -266,3 +291,27 @@ async function blockUser(idUser, roleId) {
 }
 
 window.blockUser = blockUser;
+
+async function unblockUser(idUser) {
+  try {
+    const userUnblock = await api.patch(`/users/${idUser}`, {
+      status: "active",
+    });
+
+    if (userUnblock) {
+      Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: "success",
+        title: `Đã mở khóa tài khoản ${userUnblock.name}`,
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+window.unblockUser = unblockUser;
