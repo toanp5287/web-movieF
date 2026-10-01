@@ -66,6 +66,79 @@
         border-radius: 999px;
       }
       /* Khong an scrollbar cua ca trang: nguoi dung khong biet con noi dung ben duoi. */
+
+      /* ---------- VIDEO PLAYER: thanh am luong ---------- */
+      /*
+        Nút mặc định đã có nền riêng nên không cần vẽ. Chỉ tô nút trượt để nó
+        đọc được trên nền tối: mặc định Chromium để nút trượt cỡ ~16px, to hơn
+        cả thanh h-1 nên thành một cục trắng vỡ hàng control.
+      */
+      #videoVolume::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 0.85rem;
+        height: 0.85rem;
+        border-radius: 999px;
+        background: #e2e2e8;
+        cursor: pointer;
+        border: none;
+        transition: transform 0.15s ease;
+      }
+      #videoVolume::-webkit-slider-thumb:hover {
+        transform: scale(1.15);
+      }
+      #videoVolume::-moz-range-thumb {
+        width: 0.85rem;
+        height: 0.85rem;
+        border-radius: 999px;
+        background: #e2e2e8;
+        cursor: pointer;
+        border: none;
+      }
+      /* Firefox không hiểu accent-color cho <input type=range> cũ. */
+      #videoVolume::-moz-range-track {
+        height: 0.25rem;
+        border-radius: 999px;
+        background: #333539;
+      }
+
+      /* ---------- VIDEO PLAYER: fullscreen ---------- */
+      /*
+        Fullscreen phóng cả #playerShell (video + thanh điều khiển) chứ không
+        phóng riêng #videoContainer, vì #videoControls là anh em ruột của nó nên
+        phóng riêng video sẽ làm mất sạch nút điều khiển.
+
+        Các rule này CHỈ áp dụng khi phần tử thực sự là fullscreen element
+        (`:fullscreen`) — ngoài fullscreen mọi thứ giữ nguyên như cũ. Quan
+        trọng: #videoContainer và #progressTrackContainer giữ nguyên id và vị
+        trí, vì history.js đọc đúng hai id đó bằng getBoundingClientRect() để
+        tính tiến độ xem đã lưu.
+      */
+      #playerShell:fullscreen {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 1rem;
+        background: #000;
+      }
+      /* Bỏ ràng buộc 16:9 để video co giãn theo chiều cao thực tế. */
+      #playerShell:fullscreen #videoContainer {
+        flex: 1 1 auto;
+        min-height: 0;
+        aspect-ratio: auto;
+        width: 100%;
+        border-radius: 0;
+      }
+      #playerShell:fullscreen #videoControls {
+        flex: 0 0 auto;
+        margin-top: 0.75rem;
+      }
+      #playerShell:fullscreen #videoStatus {
+        flex: 0 0 auto;
+        margin-top: 0.5rem;
+      }
     </style>
     <link rel="stylesheet" href="/src/style.css" />
   </head>
@@ -124,7 +197,7 @@
             <a
               class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors py-space-xs"
               data-path="top-phim"
-              href="/movies"
+              href="/topMovies"
             >
               Top phim
             </a>
@@ -244,6 +317,7 @@
             #progressTrackContainer.
           -->
           <section
+            id="playerShell"
             class="w-full px-gutter-mobile md:px-margin mt-space-sm"
             aria-label="Trình phát phim"
           >
@@ -393,7 +467,7 @@
             -->
             <div
               id="videoControls"
-              class="mt-space-sm flex items-center gap-2 sm:gap-space-sm"
+              class="mt-space-sm flex flex-wrap items-center gap-2 sm:gap-space-sm"
             >
               <button
                 id="btnPlayPause"
@@ -427,7 +501,7 @@
               >
               <div
                 id="progressTrackContainer"
-                class="group/seek relative h-1.5 flex-1 cursor-pointer rounded-full bg-surface-container-highest"
+                class="group/seek relative h-1.5 flex-1 basis-full sm:basis-auto order-10 sm:order-none cursor-pointer rounded-full bg-surface-container-highest"
                 role="slider"
                 tabindex="0"
                 aria-label="Tiến trình xem"
@@ -450,6 +524,39 @@
                 >0:00</span
               >
 
+              <!--
+                ÂM LƯỢNG / MUTE
+                #btnMute luôn hiện (kể cả trên mobile), #videoVolume chỉ hiện từ
+                `sm` trở lên để hàng control không bị chật trên màn hình hẹp.
+                Mức âm lượng hiện tại được lưu trong player.volume trước khi mute
+                để bấm lần sau trả về đúng mức cũ thay vì luôn về 100%.
+              -->
+              <div id="volumeGroup" class="flex shrink-0 items-center gap-1">
+                <button
+                  id="btnMute"
+                  type="button"
+                  aria-label="Tắt tiếng"
+                  title="Tắt tiếng"
+                  class="flex h-9 w-9 items-center justify-center rounded-lg bg-surface-container text-on-surface transition-colors hover:bg-surface-container-high disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  <span
+                    id="btnMuteIcon"
+                    class="material-symbols-outlined text-xl"
+                    >volume_up</span
+                  >
+                </button>
+                <input
+                  id="videoVolume"
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  value="1"
+                  aria-label="Âm lượng"
+                  class="hidden sm:block w-20 lg:w-24 h-1 cursor-pointer appearance-none rounded-full bg-surface-container-highest accent-primary-container"
+                />
+              </div>
+
               <button
                 id="btnSeekForward10"
                 type="button"
@@ -461,6 +568,26 @@
                   >forward_10</span
                 >
                 <span class="font-label-md text-label-md">10s</span>
+              </button>
+
+              <!--
+                FULLSCREEN: phóng cả #playerShell (video + thanh điều khiển) chứ
+                không chỉ #videoContainer — vì #videoControls nằm NGOÀI
+                #videoContainer nên phóng riêng video sẽ mất sạch nút điều khiển.
+                Icon đổi theo event `fullscreenchange` của Fullscreen API.
+              -->
+              <button
+                id="btnFullscreen"
+                type="button"
+                aria-label="Phóng to màn hình"
+                title="Phóng to màn hình"
+                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-surface-container text-on-surface transition-colors hover:bg-surface-container-high disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                <span
+                  id="btnFullscreenIcon"
+                  class="material-symbols-outlined text-xl"
+                  >fullscreen</span
+                >
               </button>
             </div>
             <p
