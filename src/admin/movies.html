@@ -208,7 +208,10 @@
           <span class="material-symbols-outlined">group</span>
           <span>Người dùng</span>
         </a>
-
+        <a href="/admin/authorization" class="menu-item">
+          <span class="material-symbols-outlined">admin_panel_settings</span>
+          <span>Phân quyền</span>
+        </a>
         <a href="/admin/reviews" class="menu-item">
           <span class="material-symbols-outlined">reviews</span>
           <span>Đánh giá</span>
@@ -492,8 +495,9 @@
                   >search</span
                 >
                 <input
+                  id="searchInput"
                   type="text"
-                  placeholder="Tìm kiếm phim, đạo diễn, diễn viên..."
+                  placeholder="Tìm kiếm theo tên phim..."
                   class="w-full h-10 bg-transparent px-3 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none"
                 />
               </div>
@@ -504,19 +508,12 @@
               <!-- The Loai -->
               <div class="relative hidden sm:block shrink-0">
                 <select
+                  id="genreFilter"
                   class="h-10 appearance-none bg-transparent text-zinc-300 text-xs font-medium pl-3 pr-8 cursor-pointer focus:outline-none hover:text-white transition-colors"
                 >
-                  <option class="bg-zinc-900 text-zinc-200">
+                  <option value="" class="bg-zinc-900 text-zinc-200">
                     Tất cả thể loại
                   </option>
-                  <option class="bg-zinc-900 text-zinc-200">
-                    Khoa học viễn tưởng
-                  </option>
-                  <option class="bg-zinc-900 text-zinc-200">Hành động</option>
-                  <option class="bg-zinc-900 text-zinc-200">
-                    Tâm lý & Lịch sử
-                  </option>
-                  <option class="bg-zinc-900 text-zinc-200">Hoạt hình</option>
                 </select>
                 <span
                   class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none text-base"
@@ -547,6 +544,7 @@
               <!-- Submit Button -->
               <button
                 type="button"
+                onclick="applyFilter()"
                 class="h-10 px-4 bg-red-600 hover:bg-red-500 active:scale-95 text-white rounded-lg text-xs font-semibold inline-flex items-center gap-1.5 transition-all shrink-0 ml-1 shadow-sm shadow-red-950"
               >
                 <span class="material-symbols-outlined text-base">tune</span>
@@ -569,6 +567,7 @@
                 </span>
                 <button
                   type="button"
+                  onclick="resetFilter()"
                   class="hover:text-zinc-200 transition-colors underline decoration-zinc-700"
                 >
                   Đặt lại
@@ -576,8 +575,14 @@
               </div>
               <div>
                 Đang hiển thị
-                <span class="text-zinc-200 font-semibold">1-8</span> /
-                <span class="text-zinc-200 font-semibold">120</span> phim
+                <span id="filterRange" class="text-zinc-200 font-semibold"
+                  >1-8</span
+                >
+                /
+                <span id="filterTotal" class="text-zinc-200 font-semibold"
+                  >120</span
+                >
+                phim
               </div>
             </div>
           </section>
@@ -672,8 +677,11 @@
                 <span
                   class="font-label-md text-label-md text-on-surface-variant"
                 >
-                  1 - 8 của
-                  <span class="text-on-surface font-bold">120</span> phim
+                  <span id="footerRange">1 - 8</span> của
+                  <span id="footerTotal" class="text-on-surface font-bold"
+                    >120</span
+                  >
+                  phim
                 </span>
               </div>
               <!-- Right: Pagination Buttons -->
