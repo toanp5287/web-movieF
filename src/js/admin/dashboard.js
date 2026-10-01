@@ -1,5 +1,6 @@
 import api from "../api.js";
 import { kiemTraDangNhapAdmin } from "../../utils/storage.js";
+import { clearSession, getSessionUser } from "../custumer/auth-session.js";
 
 const allowed = await kiemTraDangNhapAdmin();
 
@@ -27,10 +28,9 @@ function setText(id, value) {
 }
 
 function paintAdmin() {
-  const raw = localStorage.getItem("currentUser");
-  if (!raw) return;
+  const user = getSessionUser();
+  if (!user) return;
 
-  const user = JSON.parse(raw);
   const name = user.fullname || user.username || "Quản trị viên";
 
   document.querySelectorAll("[data-admin-name]").forEach((node) => {
@@ -155,7 +155,7 @@ async function loadDashboard() {
 
 function bindLogout() {
   document.querySelector("#adminLogout")?.addEventListener("click", () => {
-    localStorage.removeItem("currentUser");
+    clearSession();
     window.location.href = "/login";
   });
 }

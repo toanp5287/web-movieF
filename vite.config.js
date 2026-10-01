@@ -373,6 +373,8 @@ export default defineConfig({
 
             "/register": "/src/pages/register.html",
 
+            "/settings": "/src/pages/settings.html",
+
             "/admin/editMovie": "/src/admin/editMovie.html",
 
             "/admin/addMovie": "/src/admin/addMovie.html",
@@ -443,6 +445,8 @@ export default defineConfig({
         login: resolve(import.meta.dirname, "src/pages/login.html"),
 
         register: resolve(import.meta.dirname, "src/pages/register.html"),
+
+        settings: resolve(import.meta.dirname, "src/pages/settings.html"),
 
         editMovie: resolve(import.meta.dirname, "src/admin/editMovie.html"),
 

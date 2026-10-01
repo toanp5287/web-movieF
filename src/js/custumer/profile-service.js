@@ -13,6 +13,7 @@
  */
 
 import api from "../api.js";
+import { clearSession, getSessionUser } from "./auth-session.js";
 
 /* ------------------------------------------------------------------ *
  * 1. TIỆN ÍCH CHUNG
@@ -59,9 +60,9 @@ export async function hashPassword(password) {
     .join("");
 }
 
-/** Lấy user đang đăng nhập từ localStorage (cùng cơ chế với header.js / auth.js). */
+/** Lấy user đang đăng nhập (cùng cơ chế với header.js / auth.js). */
 export function getCurrentUser() {
-  return store.get("currentUser", null);
+  return getSessionUser();
 }
 
 export function setCurrentUser(user) {
@@ -493,8 +494,7 @@ export async function changePassword(userId, currentPassword, newPassword) {
 
 /** Đăng xuất: xoá phiên đăng nhập. */
 export function logout() {
-  store.remove("currentUser");
-  sessionStorage.removeItem("redirectAfterLogin");
+  clearSession();
 }
 
 /* ------------------------------------------------------------------ *

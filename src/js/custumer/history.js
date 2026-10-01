@@ -1,15 +1,7 @@
 import api from "../api.js";
+import { getSessionUser } from "./auth-session.js";
 
-function getCurrentUser() {
-  const raw = localStorage.getItem("currentUser");
-  if (!raw) return null;
-
-  try {
-    return JSON.parse(raw);
-  } catch {
-    return null;
-  }
-}
+const getCurrentUser = getSessionUser;
 
 function sameId(left, right) {
   return String(left) === String(right);

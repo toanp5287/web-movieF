@@ -21,6 +21,7 @@ const ACCOUNT_ITEMS = [
   { label: "Trang cá nhân", href: "/profile", value: "profile", icon: "user" },
   { label: "Danh sách yêu thích", href: "/profile?tab=favorites", value: "favorites", icon: "heart" },
   { label: "Lịch sử xem", href: "/profile?tab=history", value: "history", icon: "history" },
+  { label: "Đổi mật khẩu", href: "/settings#security", value: "password", icon: "key" },
   { label: "Cài đặt", href: "/settings", value: "settings", icon: "settings" },
 ];
 
@@ -245,7 +246,7 @@ async function handleLogout() {
   signOut();
   toast("Đã đăng xuất khỏi MovieF.", "success");
   setTimeout(() => {
-    window.location.href = "/login";
+    window.location.href = "/";
   }, 700);
 }
 

@@ -5,6 +5,7 @@
 import { $ } from "./utils.js";
 import { bindModalDismiss, confirmDialog, toast } from "./ui.js";
 import { loadSettings, signOut } from "./service.js";
+import { isSignedIn, requireAuth } from "../auth-session.js";
 import { renderHeader } from "./components/Header.js";
 import { renderFooter } from "./components/Footer.js";
 import { renderSettings, persistSetting } from "./components/Settings.js";
@@ -31,11 +32,14 @@ async function handleLogout() {
   signOut();
   toast("Đã đăng xuất khỏi MovieF.", "success");
   setTimeout(() => {
-    window.location.href = "/login";
+    window.location.href = "/";
   }, 700);
 }
 
 async function init() {
+  /* Bảo vệ trang cài đặt: chưa đăng nhập -> về /login kèm thông báo. */
+  if (!requireAuth({ message: "Vui lòng đăng nhập để tiếp tục." })) return;
+
   bindModalDismiss();
 
   document.body.classList.add("mf-page", "antialiased");
@@ -49,11 +53,17 @@ async function init() {
   const settings = await loadSettings();
 
   renderSettings($("[data-settings-root]"), settings, {
-    signedIn: Boolean(localStorage.getItem("currentUser")),
+    signedIn: isSignedIn(),
     onToggle: (key, value) => persistSetting(key, value),
     onChangePassword: openPasswordModal,
     onLogout: handleLogout,
   });
+
+  /* Mở thẳng hộp thoại đổi mật khẩu khi vào từ menu "Đổi mật khẩu" (/settings#security). */
+  if (window.location.hash === "#security") {
+    document.getElementById("mf-security")?.scrollIntoView({ behavior: "smooth" });
+    openPasswordModal();
+  }
 }
 
 init();

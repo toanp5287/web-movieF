@@ -14,6 +14,7 @@ import { $ } from "./utils.js";
 import { icon } from "./icons.js";
 import { bindModalDismiss, confirmDialog, toast } from "./ui.js";
 import { store, TABS } from "./store.js";
+import { requireAuth } from "../auth-session.js";
 import {
   clearHistory,
   isSignedIn,
@@ -319,7 +320,7 @@ async function handleLogout() {
   signOut();
   toast("Đã đăng xuất khỏi MovieF.", "success");
   setTimeout(() => {
-    window.location.href = "/login";
+    window.location.href = "/";
   }, 700);
 }
 
@@ -467,6 +468,11 @@ function bindGlobalEvents() {
 }
 
 async function init() {
+  /* Bảo vệ trang cá nhân: chưa đăng nhập -> về /login kèm thông báo.
+     `?demo=1` vẫn xem được hồ sơ mẫu như trước. */
+  const demoMode = new URLSearchParams(window.location.search).get("demo") === "1";
+  if (!demoMode && !requireAuth({ message: "Vui lòng đăng nhập để tiếp tục." })) return;
+
   injectStyles();
   bindModalDismiss();
   bindGlobalEvents();
