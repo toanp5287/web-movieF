@@ -115,7 +115,7 @@ async function renderUser() {
 
         <a
           href="/register"
-          class="px-4 py-2 rounded-lg bg-primary-container text-on-primary"
+          class="px-4 py-2 rounded-lg bg-primary-container text-on-primary-container font-semibold hover:bg-tertiary-container hover:shadow-lg hover:shadow-primary-container/30 active:scale-[0.99] transition-all"
         >
           Đăng ký
         </a>
