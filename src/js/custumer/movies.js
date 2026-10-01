@@ -20,10 +20,17 @@ import {
 } from "./movie-data.js";
 import { renderMovieCards } from "./movie-card.js";
 
-const PAGE_SIZE = 8;
+const PAGE_SIZE = 10;
 
 /** Trạng thái bộ lọc hiện tại (đọc từ DOM, giữ trong bộ nhớ khi vẽ lại). */
-const state = { q: "", genre: "", year: "", rating: "", sort: "newest", page: 1 };
+const state = {
+  q: "",
+  genre: "",
+  year: "",
+  rating: "",
+  sort: "newest",
+  page: 1,
+};
 
 let catalog = null;
 let grid = null;
@@ -46,7 +53,15 @@ const fold = (value) =>
 function haystack(movie) {
   if (movie._hay) return movie._hay;
   const names = genreNames(movie, catalog.genres).join(" ");
-  movie._hay = fold([movie.title, movie.description, movie.director, movie.actors.join(" "), names].join(" "));
+  movie._hay = fold(
+    [
+      movie.title,
+      movie.description,
+      movie.director,
+      movie.actors.join(" "),
+      names,
+    ].join(" "),
+  );
   return movie._hay;
 }
 
@@ -85,16 +100,21 @@ function matches(movie) {
 }
 
 const SORTERS = {
-  newest: (a, b) => (b.year || 0) - (a.year || 0) || (b.views || 0) - (a.views || 0),
+  newest: (a, b) =>
+    (b.year || 0) - (a.year || 0) || (b.views || 0) - (a.views || 0),
   oldest: (a, b) => (a.year || 0) - (b.year || 0),
-  rating: (a, b) => (ratingOf(b) ?? -1) - (ratingOf(a) ?? -1) || (b.views || 0) - (a.views || 0),
+  rating: (a, b) =>
+    (ratingOf(b) ?? -1) - (ratingOf(a) ?? -1) ||
+    (b.views || 0) - (a.views || 0),
   views: (a, b) => (b.views || 0) - (a.views || 0),
   az: (a, b) => String(a.title).localeCompare(String(b.title), "vi"),
 };
 
 /** Danh sách phim đã lọc + sắp xếp (không cắt trang). */
 function visibleMovies() {
-  return catalog.movies.filter(matches).sort(SORTERS[state.sort] || SORTERS.newest);
+  return catalog.movies
+    .filter(matches)
+    .sort(SORTERS[state.sort] || SORTERS.newest);
 }
 
 /* ------------------------------------------------------------------ *
@@ -171,12 +191,15 @@ function renderPageButtons(pages) {
       if (n >= 1 && n <= pages) nums.add(n);
     }
   }
-  const list = [...nums].filter((n) => n >= 1 && n <= pages).sort((a, b) => a - b);
+  const list = [...nums]
+    .filter((n) => n >= 1 && n <= pages)
+    .sort((a, b) => a - b);
 
   let html = "";
   let prev = 0;
   for (const n of list) {
-    if (n - prev > 1) html += `<span class="px-1 text-on-surface-variant">…</span>`;
+    if (n - prev > 1)
+      html += `<span class="px-1 text-on-surface-variant">…</span>`;
     html += btn(n, n, n === state.page);
     prev = n;
   }
@@ -220,9 +243,9 @@ function fillYearOptions() {
   const sel = document.querySelector("[data-metric='filter-year']");
   if (!sel) return;
 
-  const years = [...new Set(catalog.movies.map((m) => Number(m.year) || 0).filter(Boolean))].sort(
-    (a, b) => b - a,
-  );
+  const years = [
+    ...new Set(catalog.movies.map((m) => Number(m.year) || 0).filter(Boolean)),
+  ].sort((a, b) => b - a);
   const current = sel.value;
   sel.innerHTML =
     `<option value="">Năm: Tất cả</option>` +
@@ -249,7 +272,12 @@ function bindControls() {
     }
   }
 
-  const map = { "filter-genre": "genre", "filter-year": "year", "filter-rating": "rating", "filter-sort": "sort" };
+  const map = {
+    "filter-genre": "genre",
+    "filter-year": "year",
+    "filter-rating": "rating",
+    "filter-sort": "sort",
+  };
   for (const [metric, field] of Object.entries(map)) {
     const el = document.querySelector(`[data-metric='${metric}']`);
     if (!el) continue;
@@ -266,7 +294,9 @@ function bindControls() {
     if (pageBtn) {
       state.page = Number(pageBtn.dataset.page) || 1;
       draw();
-      document.querySelector("[data-metric='pagination']")?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      document
+        .querySelector("[data-metric='pagination']")
+        ?.scrollIntoView({ block: "nearest", behavior: "smooth" });
       return;
     }
     const nav = e.target.closest("[data-metric='pagination'] button");
