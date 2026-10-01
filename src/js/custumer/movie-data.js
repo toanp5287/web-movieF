@@ -453,6 +453,9 @@ export function formatViews(views) {
 /** Đường dẫn trang chi tiết — dùng chung cho mọi thẻ phim. */
 export const detailUrl = (id) => `/movie-detail?id=${encodeURIComponent(id)}`;
 
+/** Đường dẫn trang xem phim trực tiếp. */
+export const watchUrl = (id) => `/watch?id=${encodeURIComponent(id)}`;
+
 /**
  * Nhãn chất lượng lấy đúng từ db.json.
  *

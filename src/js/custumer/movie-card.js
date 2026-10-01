@@ -13,6 +13,7 @@ import {
   formatDuration,
   genreNames,
   qualityLabel,
+  watchUrl,
 } from "./movie-data.js";
 
 /**
@@ -51,14 +52,16 @@ function ratingBadge(movie, reviews) {
  * Dựng HTML một thẻ phim.
  * @param {object} movie    phim đã chuẩn hoá
  * @param {object} catalog  { genres, reviews }
- * @param {object} [options] { showGenre?: boolean, showDuration?: boolean }
+ * @param {object} [options] { showGenre?, showDuration?, toWatch? }
+ *        toWatch: trỏ thẻ sang /watch?id= thay vì /movie-detail?id= (dùng cho
+ *        dải "phim liên quan" trên trang xem phim).
  */
 export function renderMovieCard(movie, catalog, options = {}) {
-  const { showGenre = true, showDuration = true } = options;
+  const { showGenre = true, showDuration = true, toWatch = false } = options;
   const genres = genreNames(movie, catalog.genres);
   const duration = formatDuration(movie.duration);
   const title = escapeHtml(movie.title);
-  const href = detailUrl(movie.id);
+  const href = toWatch ? watchUrl(movie.id) : detailUrl(movie.id);
 
   // Dò meta: năm • thể loại • thời lượng (bỏ dần phần không có dữ liệu)
   const meta = [movie.year ? escapeHtml(movie.year) : ""];
