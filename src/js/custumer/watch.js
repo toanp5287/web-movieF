@@ -6,20 +6,23 @@
  * Trước đây watch.html là một khối giao diện tĩnh: khung 16:9 trong đó là một
  * <img> "keyframe" từ Google, các nút điều khiển không gắn handler, thanh tiến
  * trình bị tự xóa ngay ở lần timeupdate đầu tiên... nên không có video nào
- * phát được. Phiên bản này dùng <video> thật với bộ điều khiển gốc của trình
- * duyệt và chỉ bổ sung những thứ thật sự cần:
+ * phát được. Phiên bản này dùng <video> thật và chỉ bổ sung những thứ thật
+ * sự cần:
  *
  *   1. đọc ?id= rồi tìm phim trong data/db.json (không tự chế dữ liệu),
  *   2. dò file video riêng của phim trong data/db.json — đường dẫn trong db
  *      đang viết lộn xộn ("../videos/x.mp4", "videos/x.mp4", "/videos/x.mp4"),
- *   3. phim chưa có nguồn riêng thì dùng chung video mẫu của MovieF,
+ *   3. phim chưa có nguồn riêng thì hiện TRẠNG THÁI thay vì ép phát video mẫu,
+ *      kèm nút "Xem Trailer" nếu trailer thật sự tồn tại,
  *   4. hiện trạng thái tải / buffering / lỗi + nút thử lại, không gọi load()
  *      lặp lại và không tự phát,
  *   5. đổi phim chỉ thay src của MỘT player duy nhất, không tạo player mới.
  *
- * Lưu ý: #progressTrackContainer và #videoProgressBar được giữ lại (đặt DƯỚI
- * trình phát, không che thanh điều khiển gốc) vì src/js/custumer/history.js đọc
- * đúng hai id đó để tính tiến độ xem đã lưu.
+ * Lưu ý: KHÔNG bật `controls` gốc của trình duyệt vì nó có sẵn một thanh thời
+ * gian riêng, trùng với #progressTrackContainer. Trang dùng bộ control tuỳ
+ * biến (#videoControls: nút phát, tua ±10s, thanh tiến trình) nên chỉ có MỘT
+ * thanh thời gian. #progressTrackContainer và #videoProgressBar được giữ lại vì
+ * src/js/custumer/history.js đọc đúng hai id đó để tính tiến độ xem đã lưu.
  */
 
 import {
@@ -128,7 +131,7 @@ function probeVideo(url) {
  *
  * Ưu tiên video riêng của phim nếu file tồn tại; phim chưa có nguồn riêng thì
  * dùng chung video mẫu. Không dò file mẫu vì đã biết chắc nó tồn tại — dò thêm
- * chỉ chậy thêm một vòng chờ trước khi phát.
+ * chỉ chậm thêm một vòng chờ trước khi phát.
  *
  * @returns {Promise<{url: string, isSample: boolean}>}
  */
@@ -139,6 +142,98 @@ async function resolveVideoSource(movie) {
     if (await probeVideo(url)) return { url, isSample: false };
   }
   return { url: SHARED_SAMPLE_VIDEO, isSample: true };
+}
+
+/**
+ * Trailer chỉ dùng để xem trước, KHÔNG bao giờ làm nguồn video chính.
+ *
+ * Dùng lại probeVideo() sẵn có để chỉ trả về URL khi file thật sự tồn tại —
+ * trailer ghi trong db.json (videos/trailer/*.mp4) phần lớn không có trong
+ * public/videos, và bấm "Xem Trailer" vào một URL hỏng là tệ hơn là không
+ * hiện nút đó.
+ *
+ * @returns {Promise<string>} URL trailer hợp lệ, hoặc "" nếu không có
+ */
+async function resolveTrailerUrl(movie) {
+  const raw = String(movie?.trailer ?? "").trim();
+  if (!raw) return "";
+  const url = normalizeVideoPath(raw);
+  if (!url || isPlaceholder(url)) return "";
+  return (await probeVideo(url)) ? url : "";
+}
+
+/**
+ * Ngày/giờ phát hành — CHỉ đọc field có thật trong dữ liệu, không tự suy đoán.
+ *
+ * data/db.json hiện chỉ có `createdAt`, mà `createdAt` là "Ngày thêm" (ngày
+ * đưa phim vào hệ thống, hiển thị ở aside "Ngày thêm"), KHÔNG phải ngày chiếu —
+ * nên tuyệt đối không dùng nó để kết luận "phim chưa phát hành". Vì vậy hàm này
+ * chỉ đọc đúng hai field phát hành và trả null khi chúng không tồn tại; khi đó
+ * trang sẽ không dùng nhánh "chưa phát hành" thay vì bịa ngày ra.
+ *
+ * @returns {{at: number, label: string, hasTime: boolean}|null}
+ */
+function readReleaseMoment(movie) {
+  const date = String(movie?.releaseDate ?? "").trim();
+  const dateMatch = date.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (!dateMatch) return null;
+
+  const [, y, m, d] = dateMatch;
+  const timeMatch = String(movie?.releaseTime ?? "").match(/(\d{1,2}):(\d{2})/);
+  const hh = timeMatch ? String(Number(timeMatch[1])).padStart(2, "0") : "00";
+  const mm = timeMatch ? timeMatch[2] : "00";
+
+  return {
+    at: new Date(Number(y), Number(m) - 1, Number(d), Number(hh), Number(mm), 0, 0).getTime(),
+    label: timeMatch ? `${d}/${m}/${y} ${hh}:${mm}` : `${d}/${m}/${y}`,
+    hasTime: Boolean(timeMatch),
+  };
+}
+
+/**
+ * Quyết định trạng thái hiển thị khi phim KHÔNG có video chính.
+ *
+ * Phân biệt 4 nhánh bằng dữ liệu thật, không đoán:
+ *   A. Có `releaseDate`(+`releaseTime`) và hiện tại chưa tới  -> chưa phát hành.
+ *   B/E. Đã qua thời điểm phát hành (hoặc không có dữ liệu phát hành) nhưng
+ *        không có video chính -> "đang được cập nhật" + Xem Trailer nếu có trailer.
+ *   D. Không có video chính và không có trailer -> "chưa sẵn sàng", không nút Trailer.
+ *
+ * Trường hợp C (có URL video nhưng tải/phát lỗi) KHÔNG nằm ở đây: nó do event
+ * `error` của <video> đảm nhiệm qua overlay #videoError.
+ *
+ * @returns {{icon: string, title: string, message: string, trailerUrl: string}|null}
+ *          null nghĩa là có video chính hợp lệ -> phát bình thường.
+ */
+function resolveUnavailableState(movie, source, trailerUrl) {
+  const release = readReleaseMoment(movie);
+
+  if (release && Date.now() < release.at) {
+    return {
+      icon: "schedule",
+      title: "Phim chưa được phát hành",
+      message: `Phim sẽ được công chiếu vào ${release.label}.`,
+      trailerUrl,
+    };
+  }
+
+  if (!source.isSample) return null;
+
+  if (trailerUrl) {
+    return {
+      icon: "movie",
+      title: "Phim đang được cập nhật",
+      message: "Nội dung phim chưa sẵn sàng để xem. Vui lòng quay lại sau.",
+      trailerUrl,
+    };
+  }
+
+  return {
+    icon: "info",
+    title: "Nội dung phim chưa sẵn sàng",
+    message: "Phim hiện chưa có nội dung để xem.",
+    trailerUrl: "",
+  };
 }
 
 /* ------------------------------------------------------------------ *
@@ -215,6 +310,85 @@ function showNotFound(title, reason) {
 }
 
 /* ------------------------------------------------------------------ *
+ * 2b. TRẠNG THÁI "KHÔNG CÓ VIDEO CHÍNH"
+ * ------------------------------------------------------------------ */
+
+const stateUi = {
+  box: null,
+  icon: null,
+  title: null,
+  message: null,
+  trailer: null,
+  back: null,
+};
+
+/** Lấy các phần tử của overlay #videoState, chỉ tìm một lần. */
+function stateEls() {
+  if (stateUi.box) return stateUi;
+  stateUi.box = document.getElementById("videoState");
+  stateUi.icon = document.getElementById("videoStateIcon");
+  stateUi.title = document.getElementById("videoStateTitle");
+  stateUi.message = document.getElementById("videoStateMsg");
+  stateUi.trailer = document.getElementById("videoStateTrailerBtn");
+  stateUi.back = document.getElementById("videoStateBackDetail");
+  return stateUi;
+}
+
+/**
+ * Hiện trạng thái không có video chính và ẩn thanh điều khiển.
+ *
+ * Luôn tắt #videoLoading/#videoError trước: hai overlay đó dành cho trường hợp
+ * khác (đang tải / có URL nhưng lỗi) và không được chồng lên trạng thái này.
+ */
+function showVideoState({ icon, title, message, trailerUrl }) {
+  const el = stateEls();
+  if (!el.box) return;
+
+  setOverlay({});
+  if (el.icon) el.icon.textContent = icon || "info";
+  if (el.title) el.title.textContent = title || "";
+  if (el.message) el.message.textContent = message || "";
+
+  if (el.trailer) {
+    const show = Boolean(trailerUrl);
+    el.trailer.classList.toggle("hidden", !show);
+    if (show) el.trailer.dataset.trailerUrl = trailerUrl;
+  }
+
+  el.box.classList.remove("hidden");
+  player.controls?.classList.add("hidden");
+  if (player.status) player.status.textContent = "";
+}
+
+function hideVideoState() {
+  stateEls().box?.classList.add("hidden");
+}
+
+/**
+ * Phát trailer thay cho video chính.
+ *
+ * Trailer chỉ là bản xem trước: gán vào CÙNG một #watchVideo, không tạo player
+ * mới, và không thay đổi nguồn video chính đã lưu trong player.src trước đó.
+ */
+function playTrailer(url) {
+  if (!url) return;
+  const video = bindPlayer();
+  if (!video) return;
+
+  hideVideoState();
+  player.controls?.classList.remove("hidden");
+  setOverlay({ loading: "Đang tải trailer…" });
+  if (player.status) player.status.textContent = `Đang phát trailer: ${url}`;
+  syncProgress();
+
+  if (player.src !== url) {
+    player.src = url;
+    video.src = url;
+  }
+  video.pause();
+}
+
+/* ------------------------------------------------------------------ *
  * 3. TRÌNH PHÁT
  * ------------------------------------------------------------------ */
 
@@ -237,6 +411,12 @@ const player = {
   lastRatio: -1,
   lastTime: -1,
   lastDuration: -1,
+  /* --- control tuỳ biến (thay cho `controls` gốc của trình duyệt) --- */
+  controls: null,
+  playToggle: null,
+  playIcon: null,
+  back10: null,
+  forward10: null,
 };
 
 /** Định dạng 0:07 / 1:02:03 cho hiển thị. */
@@ -346,6 +526,45 @@ function bindPlayer() {
   player.error = document.getElementById("videoError");
   player.errorText = document.getElementById("videoErrorText");
   player.retry = document.getElementById("videoRetryBtn");
+  player.controls = document.getElementById("videoControls");
+  player.playToggle = document.getElementById("btnPlayPause");
+  player.playIcon = document.getElementById("btnPlayPauseIcon");
+  player.back10 = document.getElementById("btnSeekBack10");
+  player.forward10 = document.getElementById("btnSeekForward10");
+
+  /**
+   * Bật/tắt nút tua theo vị trí hiện tại: không tua được thì disable, tránh
+   * bấm mà không có phản ứng.
+   */
+  function updateSeekButtons() {
+    const total = Number(player.video?.duration);
+    const position = Number(player.video?.currentTime) || 0;
+    const ready = Boolean(player.video) && Number.isFinite(total) && total > 0;
+
+    if (player.back10) player.back10.disabled = !ready || position <= 0;
+    if (player.forward10) {
+      player.forward10.disabled = !ready || position >= total - 0.25;
+    }
+    if (player.playToggle) player.playToggle.disabled = !player.video;
+  }
+
+  /** Tua đúng một khoảng, luôn kẹp trong [0, duration]. */
+  function seekBy(seconds) {
+    const target = player.video;
+    if (!target) return;
+    const total = Number(target.duration);
+    if (!Number.isFinite(total) || total <= 0) return;
+    const next = (Number(target.currentTime) || 0) + seconds;
+    target.currentTime = Math.min(total, Math.max(0, next));
+    syncProgress();
+    updateSeekButtons();
+  }
+
+  function paintPlayIcon() {
+    if (!player.playIcon) return;
+    player.playIcon.textContent =
+      player.video && player.video.paused === false ? "pause" : "play_arrow";
+  }
 
   video.addEventListener("loadstart", () => {
     setOverlay({ loading: "Đang tải video…" });
@@ -354,11 +573,14 @@ function bindPlayer() {
   video.addEventListener("loadedmetadata", () => {
     setOverlay({});
     syncProgress();
+    updateSeekButtons();
+    paintPlayIcon();
   });
 
   video.addEventListener("canplay", () => {
     setOverlay({});
     syncProgress();
+    updateSeekButtons();
   });
 
   video.addEventListener("waiting", () => {
@@ -373,39 +595,84 @@ function bindPlayer() {
     setOverlay({});
   });
 
-  video.addEventListener("timeupdate", scheduleSync);
-  video.addEventListener("seeked", scheduleSync);
-  video.addEventListener("durationchange", syncProgress);
+  video.addEventListener("play", () => {
+    updateSeekButtons();
+    paintPlayIcon();
+  });
+
+  video.addEventListener("pause", () => {
+    paintPlayIcon();
+  });
+
+  video.addEventListener("timeupdate", () => {
+    scheduleSync();
+    updateSeekButtons();
+  });
+  video.addEventListener("seeked", () => {
+    scheduleSync();
+    updateSeekButtons();
+  });
+  video.addEventListener("durationchange", () => {
+    syncProgress();
+    updateSeekButtons();
+  });
 
   video.addEventListener("error", () => {
     setOverlay({ error: describeMediaError(video) });
     if (player.status) player.status.textContent = "";
   });
 
+  // Control tuỳ biến: nút phát + tua ±10 giây.
+  player.playToggle?.addEventListener("click", () => {
+    const target = player.video;
+    if (!target) return;
+    if (target.paused) {
+      // Không tự phát: chỉ phát khi người dùng bấm, và nuốt lỗi autoplay nếu có.
+      const attempt = target.play();
+      if (attempt && typeof attempt.catch === "function") attempt.catch(() => {});
+    } else {
+      target.pause();
+    }
+  });
+
+  player.back10?.addEventListener("click", () => seekBy(-10));
+  player.forward10?.addEventListener("click", () => seekBy(10));
+
+  // Nút "Xem Trailer" trong overlay trạng thái (chỉ hiện khi trailer thật).
+  stateEls().trailer?.addEventListener("click", () => {
+    const url = stateEls().trailer?.dataset.trailerUrl || "";
+    if (url) playTrailer(url);
+  });
+
   player.track?.addEventListener("click", (event) => {
     seekToRatio(ratioFromPointer(event));
+    updateSeekButtons();
   });
 
   player.track?.addEventListener("keydown", (event) => {
-    const { video } = player;
-    const total = Number(video?.duration);
-    if (!video || !Number.isFinite(total) || total <= 0) return;
+    const { video: current } = player;
+    const total = Number(current?.duration);
+    if (!current || !Number.isFinite(total) || total <= 0) return;
 
     const step = event.shiftKey ? 30 : 5;
     if (event.key === "ArrowRight" || event.key === "ArrowUp") {
       event.preventDefault();
-      video.currentTime = Math.min(total, video.currentTime + step);
+      current.currentTime = Math.min(total, current.currentTime + step);
       syncProgress();
+      updateSeekButtons();
     } else if (event.key === "ArrowLeft" || event.key === "ArrowDown") {
       event.preventDefault();
-      video.currentTime = Math.max(0, video.currentTime - step);
+      current.currentTime = Math.max(0, current.currentTime - step);
       syncProgress();
+      updateSeekButtons();
     } else if (event.key === "Home") {
       event.preventDefault();
       seekToRatio(0);
+      updateSeekButtons();
     } else if (event.key === "End") {
       event.preventDefault();
       seekToRatio(1);
+      updateSeekButtons();
     }
   });
 
@@ -415,6 +682,8 @@ function bindPlayer() {
     video.load();
   });
 
+  updateSeekButtons();
+  paintPlayIcon();
   return video;
 }
 
@@ -426,6 +695,8 @@ function mountPlayer(url) {
   const video = bindPlayer();
   if (!video) return null;
 
+  hideVideoState();
+  player.controls?.classList.remove("hidden");
   setOverlay({ loading: "Đang tải video…" });
   syncProgress();
 
@@ -434,7 +705,7 @@ function mountPlayer(url) {
     video.src = url;
   }
 
-  // Không tự phát: trình duyệt chặn autoplay có tiếng, người dùng bấm play.
+  // Không tự phát: người dùng bấm nút phát.
   video.pause();
   return video;
 }
@@ -446,6 +717,7 @@ function mountPlayer(url) {
 function renderRelated(catalog, movie) {
   const rail = document.getElementById("relatedRail");
   if (!rail) return;
+  // Grid 4 cột trong HTML: mỗi dòng tối đa 4 phim, không rail cuộn ngang.
   const related = findRelated(catalog, movie, 8);
   if (!related.length) {
     rail.innerHTML = "";
@@ -453,16 +725,6 @@ function renderRelated(catalog, movie) {
   }
   renderMovieCards(rail, related, catalog, { toWatch: true, showGenre: false });
   bindImageFallback(rail);
-}
-
-function bindRelatedRail() {
-  const rail = document.getElementById("relatedRail");
-  if (!rail) return;
-  document.querySelectorAll("[data-rail]").forEach((button) => {
-    button.addEventListener("click", () => {
-      rail.scrollBy({ left: button.dataset.rail === "next" ? 640 : -640, behavior: "smooth" });
-    });
-  });
 }
 
 /* ------------------------------------------------------------------ *
@@ -474,8 +736,6 @@ let started = false;
 async function init() {
   if (started) return;
   started = true;
-
-  bindRelatedRail();
 
   const container = document.getElementById("videoContainer");
   const body = document.getElementById("movieBody");
@@ -506,19 +766,43 @@ async function init() {
 
   container.dataset.movieId = String(movie.id);
 
+  // Gắn player TRƯỚC khi đọc player.status — nếu không, status luôn null và
+  // dòng "Đang phát: ..." không bao giờ hiện.
+  bindPlayer();
+
   const source = await resolveVideoSource(movie);
+  const trailerUrl = await resolveTrailerUrl(movie);
+
+  fillMovieInfo(movie, catalog, source);
+  document.getElementById("backToDetail").href = detailUrl(movie.id);
+  document.getElementById("backToDetailInline").href = detailUrl(movie.id);
+
+  // Phân biệt "không có video chính" với "có URL nhưng tải lỗi" (trường hợp C,
+  // do event `error` của <video> xử lý qua overlay #videoError).
+  const unavailable = resolveUnavailableState(movie, source, trailerUrl);
+
+  if (unavailable) {
+    const sourceCell = document.querySelector("[data-bind='movie-video-source']");
+    if (sourceCell) {
+      sourceCell.textContent = source.isSample ? "Chưa có nguồn phim" : "Nguồn riêng của phim";
+    }
+    const backLink = stateEls().back;
+    if (backLink) backLink.href = detailUrl(movie.id);
+
+    showVideoState(unavailable);
+    body.classList.remove("hidden");
+    renderRelated(catalog, movie);
+    return;
+  }
+
   if (player.status) {
     player.status.textContent = source.isSample
       ? `Phim này chưa có nguồn phim riêng nên đang phát video mẫu của MovieF (${source.url}).`
       : `Đang phát: ${source.url}`;
   }
 
-  fillMovieInfo(movie, catalog, source);
-  document.getElementById("backToDetail").href = detailUrl(movie.id);
-  document.getElementById("backToDetailInline").href = detailUrl(movie.id);
-  body.classList.remove("hidden");
-
   mountPlayer(source.url);
+  body.classList.remove("hidden");
   renderRelated(catalog, movie);
 }
 
