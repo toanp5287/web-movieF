@@ -107,7 +107,7 @@ export function renderSettings(root, settings = {}, handlers = {}) {
 
       ${SECTIONS.map((section) => sectionMarkup(section, settings)).join("")}
 
-      <section class="mf-card" style="padding:20px">
+      <section class="mf-card" id="mf-security" style="padding:20px;scroll-margin-top:90px">
         <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px">
           <span class="mf-stat-ico">${icon("lock", "text-[19px]")}</span>
           <div style="min-width:0">

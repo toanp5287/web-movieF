@@ -13,6 +13,7 @@
  */
 
 import api from "../../api.js";
+import { clearSession, getSessionUser as readSessionUser } from "../auth-session.js";
 import { createSeed, MOCK_MOVIES } from "./mock-data.js";
 import {
   AVATAR_FALLBACK,
@@ -40,8 +41,7 @@ const NO_TITLE = "Chưa có tên";
 
 /** Đọc user đang đăng nhập (cùng cơ chế với header.js / auth.js). */
 export function getSessionUser() {
-  const raw = storage.get("currentUser", null);
-  return raw && raw.id !== undefined ? raw : null;
+  return readSessionUser();
 }
 
 export function isSignedIn() {
@@ -397,7 +397,7 @@ export async function saveProfile(patch) {
     for (const key of ["fullname", "username", "email", "phone", "dob", "bio", "avatar"]) {
       if (patch[key] !== undefined) next[key] = patch[key];
     }
-    storage.set("currentUser", next);
+    storage.set("currentUser", { ...next, isLoggedIn: true });
   }
 
   if (await detectBackend()) {
@@ -604,7 +604,6 @@ export async function changePassword(currentPassword, newPassword) {
   }
 
   const newHash = await hashPassword(newPassword);
-  storage.set("currentUser", { ...stored, password: newHash });
 
   if (await detectBackend()) {
     try {
@@ -614,18 +613,17 @@ export async function changePassword(currentPassword, newPassword) {
     }
   }
 
+  // KHÔNG ghi mật khẩu (kể cả hash) vào phiên đăng nhập.
+  const { password: _oldPassword, ...safeUser } = stored;
+  storage.set("currentUser", { ...safeUser, isLoggedIn: true });
+
   return { ok: true, message: "Đổi mật khẩu thành công." };
 }
 
 /** Đăng xuất: dọn sạch phiên + dữ liệu phụ của tài khoản đó. */
 export function signOut() {
   const scopeId = currentScopeId();
-  storage.remove("currentUser");
+  clearSession();
   storage.remove(SETTINGS_KEY(scopeId));
   storage.remove(`${MOCK_PREFIX}${scopeId}:watchLater`);
-  try {
-    sessionStorage.removeItem("redirectAfterLogin");
-  } catch {
-    /* bỏ qua */
-  }
 }

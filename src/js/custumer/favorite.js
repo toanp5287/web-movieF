@@ -1,4 +1,5 @@
 import api from "../api.js";
+import { getSessionUser, requireAuth } from "./auth-session.js";
 
 const swalClass = {
   popup:
@@ -12,20 +13,10 @@ const swalClass = {
   timerProgressBar: "bg-red-600!",
 };
 
-function getCurrentUser() {
-  const raw = localStorage.getItem("currentUser");
-  if (!raw) return null;
-
-  try {
-    return JSON.parse(raw);
-  } catch {
-    return null;
-  }
-}
+const getCurrentUser = getSessionUser;
 
 function redirectToLogin() {
-  sessionStorage.setItem("redirectAfterLogin", window.location.href);
-  window.location.href = "/login";
+  requireAuth({ message: "Vui lòng đăng nhập để tiếp tục." });
 }
 
 function sameId(left, right) {

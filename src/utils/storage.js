@@ -1,22 +1,15 @@
 import api from "../js/api";
+import { getSessionUser, requireAuth } from "../js/custumer/auth-session";
 
 export const kiemTraDangNhapAdmin = async () => {
-  const currentUser = localStorage.getItem("currentUser");
+  const user = getSessionUser();
 
-  console.log("CURRENT USER:", currentUser);
+  console.log("CURRENT USER:", user);
 
-  if (!currentUser) {
-    sessionStorage.setItem("redirectAfterLogin", window.location.href);
-
-    window.location.href = "/login";
-    return false;
-  }
+  // Chưa đăng nhập -> nhớ trang đích rồi về trang đăng nhập.
+  if (!requireAuth({ message: "Vui lòng đăng nhập để tiếp tục." })) return false;
 
   try {
-    const user = JSON.parse(currentUser);
-
-    console.log("USER:", user);
-
     const idRole = String(user.roleId);
 
     const role = await api.get(`/roles/${idRole}`);
