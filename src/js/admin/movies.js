@@ -17,12 +17,138 @@ const loadMovies = async () => {
 let currentPage = 1;
 const moviesPerPage = 5;
 let allMovies = [];
+
+// ===============================
+// TÌM KIẾM + LỌC THEO THỂ LOẠI
+// ===============================
+
+// masterMovies: toàn bộ phim đã load. allMovies: tập đang lọc (nguồn cho phân trang).
+let masterMovies = [];
+let genres = [];
+
+const searchInput = document.querySelector("#searchInput");
+const genreFilter = document.querySelector("#genreFilter");
+
+/** Bỏ dấu + hạ chữ thường để tìm không phân biệt tiếng Việt/Anh. */
+const fold = (value) =>
+  String(value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "D")
+    .toLowerCase();
+
+/** `movies.genre` trong db.json là mảng id, nhưng record cũ có thể để null/scalar. */
+const toGenreIdList = (value) => {
+  if (Array.isArray(value)) return value.map((v) => String(v).trim()).filter(Boolean);
+  if (value === null || value === undefined || value === "") return [];
+  return [String(value).trim()];
+};
+
+const getGenres = async () => {
+  try {
+    const res = await api.get("/genres");
+    return Array.isArray(res) ? res : [];
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
+/** Đổ danh sách thể loại từ db vào select, không tạo thể loại mới. */
+function renderGenreOptions() {
+  if (!genreFilter) return;
+
+  genreFilter.innerHTML = `
+    <option value="" class="bg-zinc-900 text-zinc-200">Tất cả thể loại</option>
+    ${genres
+      .map(
+        (genre) =>
+          `<option value="${genre.id}" class="bg-zinc-900 text-zinc-200">${genre.name}</option>`,
+      )
+      .join("")}
+  `;
+}
+
+/** Lọc theo tên phim (không phân biệt hoa/thường, tìm theo một phần) VÀ thể loại. */
+function getFilteredMovies() {
+  const keyword = fold(searchInput?.value ?? "").trim();
+  const genreId = String(genreFilter?.value ?? "").trim();
+
+  return masterMovies.filter((movie) => {
+    const matchName = !keyword || fold(movie.title).includes(keyword);
+
+    const matchGenre =
+      !genreId ||
+      toGenreIdList(movie.genre).some((id) => id === genreId);
+
+    return matchName && matchGenre;
+  });
+}
+
+/** Cập nhật các con số "Đang hiển thị x-y / z phim". */
+function renderFilterInfo(total) {
+  const start = total === 0 ? 0 : (currentPage - 1) * moviesPerPage + 1;
+  const end = Math.min(currentPage * moviesPerPage, total);
+  const range = total === 0 ? "0" : `${start}-${end}`;
+
+  const set = (id, text) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = text;
+  };
+
+  set("filterRange", range);
+  set("filterTotal", String(total));
+  set("footerRange", range);
+  set("footerTotal", String(total));
+}
+
+function applyFilter() {
+  currentPage = 1;
+  renderMovies(getFilteredMovies());
+}
+
+function resetFilter() {
+  if (searchInput) searchInput.value = "";
+  if (genreFilter) genreFilter.value = "";
+
+  currentPage = 1;
+  renderMovies(masterMovies);
+}
+
+searchInput?.addEventListener("input", applyFilter);
+genreFilter?.addEventListener("change", applyFilter);
+
+window.applyFilter = applyFilter;
+window.resetFilter = resetFilter;
+
 function renderMovies(loadMovies) {
   allMovies = loadMovies;
 
   const movieList = document.querySelector("#movie-list");
 
+  if (allMovies.length === 0) {
+    movieList.innerHTML = `
+      <tr>
+        <td
+          colspan="9"
+          class="py-10 text-center text-zinc-500 font-body-sm text-body-sm"
+        >
+          Không tìm thấy phim nào phù hợp.
+        </td>
+      </tr>
+    `;
+
+    renderFilterInfo(0);
+    renderPagination(0);
+
+    return;
+  }
+
   const totalPages = Math.ceil(allMovies.length / moviesPerPage);
+
+  // Trang hiện tại có thể vượt quá số trang sau khi lọc.
+  if (currentPage > totalPages) currentPage = totalPages;
 
   const start = (currentPage - 1) * moviesPerPage;
   const end = start + moviesPerPage;
@@ -164,10 +290,18 @@ function renderMovies(loadMovies) {
     )
     .join("");
 
+  renderFilterInfo(allMovies.length);
   renderPagination(totalPages);
 }
 function renderPagination(totalPages) {
   const pagination = document.querySelector("#pagination");
+
+  // Không có phim nào khớp bộ lọc: không dựng thanh trang.
+  if (totalPages === 0) {
+    pagination.innerHTML = "";
+
+    return;
+  }
 
   pagination.innerHTML = `
     <div class="flex items-center justify-between mt-6">
@@ -237,6 +371,11 @@ window.goToPage = goToPage;
 window.nextPage = nextPage;
 window.previousPage = previousPage;
 const movies = await loadMovies();
+masterMovies = movies;
+
+genres = await getGenres();
+renderGenreOptions();
+
 renderMovies(movies);
 
 async function viewMovie(id) {

@@ -122,6 +122,7 @@ function users(loadUsers, roles) {
 
               <button
                 title="Khóa tài khoản"
+                onclick="blockUser(${item.id}, ${item.roleId})"
                 class="w-9 h-9 rounded-lg bg-gray-800 hover:bg-red-600 flex items-center justify-center transition"
               >
                 <span class="material-symbols-outlined text-lg">
@@ -226,3 +227,42 @@ users(data, rolesData);
 window.goToUserPage = goToUserPage;
 window.nextUserPage = nextUserPage;
 window.previousUserPage = previousUserPage;
+
+async function blockUser(idUser, roleId) {
+  try {
+    const role = await api.get(`/roles/${roleId}`);
+
+    // Không cho khóa tài khoản admin
+    if (role.name === "admin") {
+      Swal.fire({
+        icon: "warning",
+        title: "Không thể khóa tài khoản",
+        text: "Đây là tài khoản admin, không thể khóa tài khoản này.",
+        confirmButtonText: "Đã hiểu",
+      });
+      return;
+    }
+
+    // Khóa tài khoản
+    const userBlock = await api.patch(`/users/${idUser}`, {
+      status: "inactive",
+    });
+
+    // Chỉ hiện Toast khi khóa thành công
+    if (userBlock) {
+      Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: "success",
+        title: `Đã khóa tài khoản ${userBlock.name}`,
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+window.blockUser = blockUser;

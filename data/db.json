@@ -268,16 +268,17 @@
         "Zendaya",
         "Benedict Cumberbatch"
       ],
+      "genre": [
+        "1",
+        "5",
+        "7",
+        "8"
+      ],
       "trailer": "videos/trailer/spiderman.mp4",
       "video": "../videos/phim-demo-4.mp4",
       "status": "published",
       "views": 12450,
       "createdAt": "2026-09-02",
-      "genre": [
-        1,
-        5,
-        7
-      ],
       "quality": "hd"
     },
     {
@@ -462,7 +463,9 @@
       "title": "vinh",
       "slug": "vinh",
       "description": "dấd",
-      "genre": "2",
+      "genre": [
+        2
+      ],
       "poster": "/images/movies/1790685049643-c14577.jpg",
       "backdrop": "/images/movies/1790685049729-gvekdb.jpg",
       "year": 2022,
@@ -485,7 +488,9 @@
       "title": "cacs",
       "slug": "cacs",
       "description": "ccscaas",
-      "genre": "3",
+      "genre": [
+        3
+      ],
       "poster": "/images/movies/1790686057727-jlt183.jpg",
       "backdrop": "images/movies/endgame-bg.jpg",
       "year": 2022,
@@ -508,7 +513,9 @@
       "title": "ấc",
       "slug": "ac",
       "description": "cấc",
-      "genre": "3",
+      "genre": [
+        3
+      ],
       "poster": "",
       "backdrop": "",
       "year": 2022,
@@ -531,7 +538,9 @@
       "title": "2",
       "slug": "2",
       "description": "cấccsacaca",
-      "genre": 4,
+      "genre": [
+        4
+      ],
       "poster": "",
       "backdrop": "",
       "year": 2022,
@@ -555,7 +564,9 @@
       "title": "dấda",
       "slug": "dada",
       "description": "csacsac",
-      "genre": "1",
+      "genre": [
+        1
+      ],
       "poster": "",
       "backdrop": "",
       "year": 2022,

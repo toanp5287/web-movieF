@@ -5,6 +5,83 @@ await kiemTraDangNhapAdmin();
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
+// ===============================================================
+// TIỆN ÍCH — bám đúng cấu trúc data/db.json
+// ===============================================================
+
+/** db.json chỉ dùng "published" và "Inactive" (xoá mềm). */
+const MOVIE_STATUSES = [
+  { value: "published", label: "🟢 Đã xuất bản" },
+  { value: "Inactive", label: "🔴 Đã ẩn" },
+];
+
+/** db.json lưu year/duration là NUMBER (thiếu thì 0), không phải null. */
+function readNumber(inputId) {
+  const raw = document.getElementById(inputId).value.trim();
+
+  if (raw === "") return 0;
+
+  return Number(raw);
+}
+
+/** Số trong khoảng [min, max]; trả NaN nếu sai kiểu hoặc ngoài khoảng. */
+function parseNumberInRange(raw, min, max) {
+  if (!Number.isFinite(raw)) return NaN;
+
+  if (min !== undefined && raw < min) return NaN;
+
+  if (max !== undefined && raw > max) return NaN;
+
+  return raw;
+}
+
+function createSlug(text) {
+  return String(text ?? "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+/** Escape ký tự HTML trước khi chèn text từ db.json vào innerHTML. */
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+/**
+ * movies.genre trong db.json là mảng id, nhưng record cũ có thể để
+ * null / vắng mặt / scalar. Chuẩn hoá về mảng string để so sánh.
+ */
+function toGenreIdList(value) {
+  if (Array.isArray(value)) return value.map((v) => String(v).trim()).filter(Boolean);
+
+  if (value === null || value === undefined || value === "") return [];
+
+  return [String(value).trim()];
+}
+
+function normalizePath(path) {
+  if (!path) return "";
+
+  // Link online
+  if (path.startsWith("http://") || path.startsWith("https://")) {
+    return path;
+  }
+
+  // Ví dụ:
+  // images/movies/endgame.jpg
+  // ../videos/phim-demo-1.mp4
+  // /images/movies/endgame.jpg
+  return "/" + path.replace(/^\/+/, "").replace(/^(\.\.\/)+/, "");
+}
+
 async function getMovie(id) {
   try {
     const movie = await api.get(`/movies/${id}`);
@@ -14,38 +91,57 @@ async function getMovie(id) {
       throw new Error("Không tìm thấy phim");
     }
 
-    const normalizePath = (path) => {
-      if (!path) return "";
-
-      // Link online
-      if (path.startsWith("http://") || path.startsWith("https://")) {
-        return path;
-      }
-
-      // Ví dụ:
-      // images/movies/endgame.jpg
-      // ../videos/phim-demo-1.mp4
-      // /images/movies/endgame.jpg
-      return "/" + path.replace(/^\/+/, "").replace(/^(\.\.\/)+/, "");
-    };
+    const genresData = Array.isArray(resGenres)
+      ? resGenres
+      : Array.isArray(resGenres?.data)
+        ? resGenres.data
+        : [];
 
     const posterPath = normalizePath(movie.poster);
     const videoPath = normalizePath(movie.video);
 
-    const currentGenreId = movie.genreId ?? movie.genre ?? "";
+    // Preload MỌI thể loại của phim (một phim có thể thuộc nhiều thể loại).
+    const currentGenreIds = toGenreIdList(movie.genre);
 
-    const genreOptions = resGenres
-      .map(
-        (genre) => `
-          <option
-            value="${genre.id}"
-            ${String(genre.id) === String(currentGenreId) ? "selected" : ""}
+    const genreCheckboxes = genresData
+      .map((genre) => {
+        const isChecked = currentGenreIds.includes(String(genre.id));
+
+        return `
+          <label
+            class="flex items-center gap-2.5 px-3 py-2 rounded-xl
+                   bg-cinema-950 border border-cinema-700/70
+                   text-gray-200 text-sm cursor-pointer
+                   hover:border-cinema-600 transition-colors"
           >
-            ${genre.name}
-          </option>
-        `,
-      )
+            <input
+              type="checkbox"
+              name="genre"
+              value="${escapeHtml(genre.id)}"
+              ${isChecked ? "checked" : ""}
+              class="w-4 h-4 accent-brand cursor-pointer"
+            />
+
+            <span>${escapeHtml(genre.name)}</span>
+          </label>
+        `;
+      })
       .join("");
+
+    const statusOptions = MOVIE_STATUSES.map(
+      (item) => `
+        <option
+          value="${item.value}"
+          ${movie.status === item.value ? "selected" : ""}
+        >
+          ${item.label}
+        </option>
+      `,
+    ).join("");
+
+    // ===============================================================
+    // FORM
+    // ===============================================================
 
     document.getElementById("editMovieForm").innerHTML = `
   <!-- ID -->
@@ -56,7 +152,7 @@ async function getMovie(id) {
 
     <input
       type="text"
-      value="${movie.id || ""}"
+      value="${escapeHtml(movie.id)}"
       readonly
       class="w-full px-4 py-3 rounded-xl
              bg-cinema-950
@@ -78,7 +174,7 @@ async function getMovie(id) {
     <input
       id="title"
       type="text"
-      value="${movie.title || ""}"
+      value="${escapeHtml(movie.title)}"
       required
       placeholder="Nhập tên phim..."
       class="w-full px-4 py-3 rounded-xl
@@ -105,7 +201,7 @@ async function getMovie(id) {
     <input
       id="slug"
       type="text"
-      value="${movie.slug || ""}"
+      value="${escapeHtml(movie.slug)}"
       placeholder="avengers-endgame"
       class="w-full px-4 py-3 rounded-xl
              bg-cinema-950
@@ -117,6 +213,10 @@ async function getMovie(id) {
              focus:ring-2
              focus:ring-brand/20"
     />
+
+    <p class="text-xs text-gray-400 mt-2">
+      Để trống để tự sinh slug từ tên phim.
+    </p>
   </div>
 
   <!-- Thông tin -->
@@ -134,7 +234,7 @@ async function getMovie(id) {
       <input
         id="director"
         type="text"
-        value="${movie.director || ""}"
+        value="${escapeHtml(movie.director)}"
         placeholder="VD: Anthony Russo, Joe Russo"
         class="w-full px-4 py-3 rounded-xl
                bg-cinema-950
@@ -158,7 +258,7 @@ async function getMovie(id) {
       <input
         id="country"
         type="text"
-        value="${movie.country || ""}"
+        value="${escapeHtml(movie.country)}"
         placeholder="VD: USA"
         class="w-full px-4 py-3 rounded-xl
                bg-cinema-950
@@ -184,7 +284,7 @@ async function getMovie(id) {
         type="number"
         min="1900"
         max="2100"
-        value="${movie.year || ""}"
+        value="${escapeHtml(movie.year ?? 0) || ""}"
         class="w-full px-4 py-3 rounded-xl
                bg-cinema-950
                border border-cinema-700/70
@@ -206,8 +306,8 @@ async function getMovie(id) {
       <input
         id="duration"
         type="number"
-        min="1"
-        value="${movie.duration || ""}"
+        min="0"
+        value="${escapeHtml(movie.duration ?? 0) || ""}"
         class="w-full px-4 py-3 rounded-xl
                bg-cinema-950
                border border-cinema-700/70
@@ -234,49 +334,32 @@ async function getMovie(id) {
                text-white"
       >
         <option
+          value=""
+          ${!movie.quality ? "selected" : ""}
+        >
+          -- Không có --
+        </option>
+
+        <option
           value="hd"
-          ${movie.quality?.toLowerCase() === "hd" ? "selected" : ""}
+          ${String(movie.quality).toLowerCase() === "hd" ? "selected" : ""}
         >
           HD (720p)
         </option>
 
         <option
           value="full hd"
-          ${movie.quality?.toLowerCase() === "full hd" ? "selected" : ""}
+          ${String(movie.quality).toLowerCase() === "full hd" ? "selected" : ""}
         >
           Full HD (1080p)
         </option>
 
         <option
           value="4k"
-          ${movie.quality?.toLowerCase() === "4k" ? "selected" : ""}
+          ${String(movie.quality).toLowerCase() === "4k" ? "selected" : ""}
         >
           4K Ultra HD
         </option>
-      </select>
-    </div>
-
-    <!-- Thể loại -->
-    <div>
-      <label
-        for="genre"
-        class="block mb-2 text-sm font-semibold text-gray-200"
-      >
-        Thể loại
-      </label>
-
-      <select
-        id="genre"
-        class="w-full px-4 py-3 rounded-xl
-               bg-cinema-950
-               border border-cinema-700/70
-               text-white"
-      >
-        <option value="">
-          -- Chọn thể loại --
-        </option>
-
-        ${genreOptions}
       </select>
     </div>
 
@@ -296,28 +379,33 @@ async function getMovie(id) {
                border border-cinema-700/70
                text-white"
       >
-        <option
-          value="published"
-          ${movie.status === "published" ? "selected" : ""}
-        >
-          🟢 Published
-        </option>
-
-        <option
-          value="active"
-          ${movie.status === "active" ? "selected" : ""}
-        >
-          🟢 Active
-        </option>
-
-        <option
-          value="inactive"
-          ${movie.status === "inactive" ? "selected" : ""}
-        >
-          🔴 Inactive
-        </option>
+        ${statusOptions}
       </select>
     </div>
+  </div>
+
+  <!-- Thể loại -->
+  <div>
+    <label
+      for="genre"
+      class="block mb-2 text-sm font-semibold text-gray-200"
+    >
+      Thể loại
+      <span class="text-gray-500 font-normal">
+        (có thể chọn nhiều)
+      </span>
+    </label>
+
+    <div
+      id="genre"
+      class="grid grid-cols-1 sm:grid-cols-2 gap-2"
+    >
+      ${genreCheckboxes}
+    </div>
+
+    <p class="text-xs text-gray-400 mt-2">
+      Lưu dưới dạng mảng id thể loại, ví dụ <code>[1, 5, 7]</code>.
+    </p>
   </div>
 
   <!-- Diễn viên -->
@@ -332,7 +420,9 @@ async function getMovie(id) {
     <input
       id="actors"
       type="text"
-      value="${(movie.actors || []).join(", ")}"
+      value="${escapeHtml(
+        Array.isArray(movie.actors) ? movie.actors.join(", ") : "",
+      )}"
       placeholder="VD: Robert Downey Jr., Chris Evans"
       class="w-full px-4 py-3 rounded-xl
              bg-cinema-950
@@ -381,8 +471,8 @@ async function getMovie(id) {
           ? `
             <img
               id="posterPreview"
-              src="${posterPath}"
-              alt="${movie.title || "Poster"}"
+              src="${escapeHtml(posterPath)}"
+              alt="${escapeHtml(movie.title)}"
               class="w-32 aspect-[2/3]
                      object-cover
                      rounded-xl"
@@ -390,6 +480,7 @@ async function getMovie(id) {
           `
           : `
             <div
+              id="posterPlaceholder"
               class="w-32 aspect-[2/3]
                      rounded-xl
                      bg-cinema-950
@@ -408,59 +499,99 @@ async function getMovie(id) {
     >
       Chưa chọn ảnh mới
     </p>
-
-    <input
-      type="hidden"
-      id="poster"
-      value="${movie.poster || ""}"
-    />
   </div>
 
   <!-- Backdrop -->
   <div>
     <label
-      for="backdrop"
+      for="backdropFile"
       class="block mb-2 text-sm font-semibold text-gray-200"
     >
       Backdrop
     </label>
 
     <input
+      id="backdropFile"
+      type="file"
+      accept="image/*"
+      class="w-full px-4 py-3 rounded-xl
+             bg-cinema-950
+             border border-cinema-700/70
+             text-white
+             file:mr-4
+             file:py-2
+             file:px-4
+             file:rounded-lg
+             file:border-0
+             file:bg-brand
+             file:text-white
+             file:font-semibold"
+    />
+
+    <input
       id="backdrop"
       type="text"
-      value="${movie.backdrop || ""}"
+      value="${escapeHtml(movie.backdrop)}"
       placeholder="/images/movies/endgame-bg.jpg"
       class="w-full px-4 py-3 rounded-xl
              bg-cinema-950
              border border-cinema-700/70
              text-white
+             placeholder-gray-500
              focus:outline-none
              focus:border-brand"
     />
+
+    <p class="text-xs text-gray-400 mt-2">
+      Chọn file mới để thay ảnh nền, hoặc sửa đường dẫn bên dưới.
+    </p>
   </div>
 
   <!-- Trailer -->
   <div>
     <label
-      for="trailer"
+      for="trailerFile"
       class="block mb-2 text-sm font-semibold text-gray-200"
     >
       Trailer
     </label>
 
     <input
+      id="trailerFile"
+      type="file"
+      accept="video/mp4,video/webm,video/ogg"
+      class="w-full px-4 py-3 rounded-xl
+             bg-cinema-950
+             border border-cinema-700/70
+             text-white
+             file:mr-4
+             file:py-2
+             file:px-4
+             file:rounded-lg
+             file:border-0
+             file:bg-brand
+             file:text-white
+             file:font-semibold"
+    />
+
+    <input
       id="trailer"
       type="text"
-      value="${movie.trailer || ""}"
+      value="${escapeHtml(movie.trailer)}"
       placeholder="/videos/trailer/endgame.mp4"
       class="w-full px-4 py-3 rounded-xl
              bg-cinema-950
              border border-cinema-700/70
              text-white
+             placeholder-gray-500
              focus:outline-none
              focus:border-brand
              font-mono text-sm"
     />
+
+    <p class="text-xs text-gray-400 mt-2">
+      Chọn file mới để thay trailer, hoặc sửa đường dẫn bên dưới.
+    </p>
   </div>
 
   <!-- Video -->
@@ -510,7 +641,7 @@ async function getMovie(id) {
               preload="metadata"
             >
               <source
-                src="${videoPath}"
+                src="${escapeHtml(videoPath)}"
                 type="video/mp4"
               />
             </video>
@@ -546,12 +677,6 @@ async function getMovie(id) {
         playsinline
       ></video>
     </div>
-
-    <input
-      type="hidden"
-      id="video"
-      value="${movie.video || ""}"
-    />
   </div>
 
   <!-- Mô tả -->
@@ -574,7 +699,7 @@ async function getMovie(id) {
              focus:outline-none
              focus:border-brand
              resize-y"
-    >${movie.description || ""}</textarea>
+    >${escapeHtml(movie.description)}</textarea>
   </div>
 
   <!-- Views + CreatedAt: chỉ xem -->
@@ -589,7 +714,7 @@ async function getMovie(id) {
 
       <input
         type="text"
-        value="${movie.views || 0}"
+        value="${escapeHtml(movie.views ?? 0)}"
         readonly
         class="w-full px-4 py-3 rounded-xl
                bg-cinema-950
@@ -608,7 +733,7 @@ async function getMovie(id) {
 
       <input
         type="text"
-        value="${movie.createdAt || ""}"
+        value="${escapeHtml(movie.createdAt)}"
         readonly
         class="w-full px-4 py-3 rounded-xl
                bg-cinema-950
@@ -657,6 +782,7 @@ async function getMovie(id) {
 
   </div>
 `;
+
     document
       .getElementById("editMovieForm")
       .addEventListener("submit", (event) => {
@@ -664,12 +790,14 @@ async function getMovie(id) {
 
         editMovie(id, movie);
       });
+
     // =========================
     // PREVIEW POSTER MỚI
     // =========================
 
     const posterFile = document.getElementById("posterFile");
     const posterPreview = document.getElementById("posterPreview");
+    const posterPlaceholder = document.getElementById("posterPlaceholder");
     const posterFileName = document.getElementById("posterFileName");
 
     if (posterFile) {
@@ -678,6 +806,8 @@ async function getMovie(id) {
 
         if (!file) return;
 
+        posterFileName.textContent = `Đã chọn: ${file.name}`;
+
         const imageUrl = URL.createObjectURL(file);
 
         if (posterPreview) {
@@ -685,9 +815,7 @@ async function getMovie(id) {
           posterPreview.classList.remove("hidden");
         }
 
-        if (posterFileName) {
-          posterFileName.textContent = `Đã chọn: ${file.name}`;
-        }
+        posterPlaceholder?.classList.add("hidden");
       });
     }
 
@@ -708,11 +836,9 @@ async function getMovie(id) {
 
         if (!file) return;
 
-        const videoUrl = URL.createObjectURL(file);
-
         videoFileName.textContent = `Đã chọn: ${file.name}`;
 
-        newVideoPreview.src = videoUrl;
+        newVideoPreview.src = URL.createObjectURL(file);
 
         newVideoPreviewContainer.classList.remove("hidden");
 
@@ -730,22 +856,18 @@ async function getMovie(id) {
   }
 }
 
-// ===============================
-// UPLOAD FILE
-// ===============================
+// ===============================================================
+// LƯU THAY ĐỔI
+// ===============================================================
 
 async function editMovie(id, oldMovie) {
   try {
     const title = document.getElementById("title").value.trim();
 
-    const slug = title
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/đ/g, "d")
-      .replace(/[^a-z0-9\s-]/g, "")
-      .trim()
-      .replace(/\s+/g, "-");
+    // Ô slug có sẵn giá trị cũ: chỉ tự sinh khi người dùng xoá hết.
+    const slugField = document.getElementById("slug").value.trim();
+
+    const slug = slugField || createSlug(title);
 
     const description = document.getElementById("description").value.trim();
 
@@ -753,13 +875,16 @@ async function editMovie(id, oldMovie) {
 
     const country = document.getElementById("country").value.trim();
 
-    const year = Number(document.getElementById("year").value);
+    const year = parseNumberInRange(readNumber("year"), 1900, 2100);
 
-    const duration = Number(document.getElementById("duration").value);
+    const duration = parseNumberInRange(readNumber("duration"), 0);
 
     const quality = document.getElementById("quality").value;
 
-    const genre = document.getElementById("genre").value;
+    // movies.genre là MẢNG id -> đọc từ các checkbox đã tick.
+    const genre = Array.from(
+      document.querySelectorAll('#editMovieForm input[name="genre"]:checked'),
+    ).map((box) => box.value);
 
     const status = document.getElementById("status").value;
 
@@ -769,72 +894,100 @@ async function editMovie(id, oldMovie) {
       .map((item) => item.trim())
       .filter(Boolean);
 
-    const backdrop = document.getElementById("backdrop").value.trim();
+    // ===============================================================
+    // VALIDATE
+    // ===============================================================
 
-    const trailer = document.getElementById("trailer").value.trim();
+    if (!title) {
+      throw new Error("Vui lòng nhập tên phim!");
+    }
 
-    // ===============================
+    if (!slug) {
+      throw new Error("Slug không hợp lệ. Vui lòng nhập lại tên phim!");
+    }
+
+    if (Number.isNaN(year)) {
+      throw new Error("Năm phát hành phải là số từ 1900 đến 2100!");
+    }
+
+    if (Number.isNaN(duration)) {
+      throw new Error("Thời lượng phải là số phút lớn hơn hoặc bằng 0!");
+    }
+
+    if (!MOVIE_STATUSES.some((item) => item.value === status)) {
+      throw new Error("Trạng thái không hợp lệ!");
+    }
+
+    // ===============================================================
     // FILE CŨ
-    // ===============================
+    // ===============================================================
     const oldPoster = oldMovie.poster || "";
     const oldVideo = oldMovie.video || "";
 
-    // ===============================
+    // ===============================================================
     // FILE MỚI
-    // ===============================
+    // ===============================================================
     const posterFile = document.getElementById("posterFile").files[0];
 
     const videoFile = document.getElementById("videoFile").files[0];
 
+    const backdropFile = document.getElementById("backdropFile").files[0];
+
+    const trailerFile = document.getElementById("trailerFile").files[0];
+
     let poster = oldPoster;
     let video = oldVideo;
 
-    // ===============================
+    let backdrop = document.getElementById("backdrop").value.trim();
+
+    let trailer = document.getElementById("trailer").value.trim();
+
+    // ===============================================================
     // POSTER MỚI
-    // ===============================
+    // ===============================================================
     if (posterFile) {
       console.log("📸 Đang upload poster mới...");
 
-      // Upload poster mới trước
-      const newPoster = await uploadFile(posterFile, "image");
+      poster = await uploadFile(posterFile, "image");
 
-      // Xóa poster cũ
-      if (oldPoster && oldPoster !== newPoster) {
-        await deleteFile(oldPoster);
-      }
-
-      // Gán poster mới
-      poster = newPoster;
+      // Xóa poster cũ — chỉ khi không còn phim nào dùng chung file đó.
+      await deleteFileIfUnused(oldPoster, poster, id);
 
       console.log("✅ Poster mới:", poster);
     }
 
-    // ===============================
+    // ===============================================================
     // VIDEO MỚI
-    // ===============================
+    // ===============================================================
     if (videoFile) {
       console.log("🎬 Đang upload video mới...");
 
-      // Upload video mới trước
-      const newVideo = await uploadFile(videoFile, "video");
+      video = await uploadFile(videoFile, "video");
 
-      // Xóa video cũ
-      if (oldVideo && oldVideo !== newVideo) {
-        await deleteFile(oldVideo);
-      }
-
-      // Gán video mới
-      video = newVideo;
+      await deleteFileIfUnused(oldVideo, video, id);
 
       console.log("✅ Video mới:", video);
     }
 
-    // ===============================
-    // DATA PHIM
-    // ===============================
-    const movieData = {
-      ...oldMovie,
+    // ===============================================================
+    // BACKDROP / TRAILER MỚI
+    // ===============================================================
+    // Ảnh nền dùng chung endpoint upload-image với poster.
+    if (backdropFile) {
+      backdrop = await uploadFile(backdropFile, "image");
+    }
 
+    // Trailer dùng chung endpoint upload-video với video.
+    if (trailerFile) {
+      trailer = await uploadFile(trailerFile, "video");
+    }
+
+    // ===============================================================
+    // DATA PHIM
+    // ===============================================================
+    // Giữ nguyên id / views / createdAt; các field khác lấy từ form.
+    // `quality` là field tuỳ chọn: xoá hẳn key nếu không chọn.
+    const movieData = {
       id: id,
 
       title: title,
@@ -857,7 +1010,7 @@ async function editMovie(id, oldMovie) {
 
       actors: actors,
 
-      genre: genre ? Number(genre) : null,
+      genre: genre,
 
       trailer: trailer,
 
@@ -865,23 +1018,23 @@ async function editMovie(id, oldMovie) {
 
       status: status,
 
-      views: oldMovie.views || 0,
-
-      quality: quality,
+      views: Number(oldMovie.views) || 0,
 
       createdAt: oldMovie.createdAt,
+
+      ...(quality ? { quality: quality } : {}),
     };
 
     console.log("📦 DATA UPDATE:", movieData);
 
-    // ===============================
+    // ===============================================================
     // UPDATE JSON SERVER
-    // ===============================
+    // ===============================================================
     await api.put(`/movies/${id}`, movieData);
 
-    // ===============================
+    // ===============================================================
     // THÔNG BÁO
-    // ===============================
+    // ===============================================================
     await Swal.fire({
       icon: "success",
       title: "Cập nhật thành công",
@@ -901,9 +1054,60 @@ async function editMovie(id, oldMovie) {
   }
 }
 
-// ===============================
+// ===============================================================
 // XÓA FILE CŨ
-// ===============================
+// ===============================================================
+
+/**
+ * Xoá file cũ sau khi thay media, NHƯNG bỏ qua nếu phim khác vẫn đang
+ * dùng chung file đó (ví dụ /videos/no-video.mp4 được nhiều phim trỏ tới).
+ */
+async function deleteFileIfUnused(filePath, newPath, currentId) {
+  if (!filePath) return;
+
+  if (filePath === newPath) return;
+
+  // Không xóa link online
+  if (filePath.startsWith("http://") || filePath.startsWith("https://")) {
+    return;
+  }
+
+  const stillUsed = await isUsedByOtherMovies(filePath, currentId);
+
+  if (stillUsed) {
+    console.log("⚠️ GIỮ FILE ĐANG DÙNG CHUNG:", filePath);
+
+    return;
+  }
+
+  await deleteFile(filePath);
+}
+
+/** true nếu còn phim khác (khác currentId) trỏ tới filePath. */
+async function isUsedByOtherMovies(filePath, currentId) {
+  try {
+    const res = await api.get("/movies");
+
+    if (!Array.isArray(res)) return false;
+
+    return res.some((movie) => {
+      if (String(movie.id) === String(currentId)) return false;
+
+      return (
+        movie.poster === filePath ||
+        movie.video === filePath ||
+        movie.backdrop === filePath ||
+        movie.trailer === filePath
+      );
+    });
+  } catch (error) {
+    // Không xác minh được thì giữ file an toàn hơn là xoá nhầm.
+    console.warn("Không kiểm tra được file dùng chung, giữ lại:", filePath);
+
+    return true;
+  }
+}
+
 async function deleteFile(filePath) {
   if (!filePath) return;
 
@@ -932,9 +1136,11 @@ async function deleteFile(filePath) {
     throw new Error(result.message || "Không thể xóa file cũ!");
   }
 }
-// ===============================
+
+// ===============================================================
 // UPLOAD FILE
-// ===============================
+// ===============================================================
+
 async function uploadFile(file, type) {
   if (!file) return "";
 
@@ -961,4 +1167,5 @@ async function uploadFile(file, type) {
 
   return result.url;
 }
+
 getMovie(id);

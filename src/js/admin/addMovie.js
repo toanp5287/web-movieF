@@ -8,13 +8,75 @@ await kiemTraDangNhapAdmin();
 // ======================================================
 
 function createSlug(text) {
-  return text
+  return String(text ?? "")
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/đ/g, "d")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
+}
+
+// ======================================================
+// THỂ LOẠI
+// ======================================================
+// movies.genre trong db.json là MẢNG id (một phim có thể thuộc nhiều thể loại:
+// "genre": [1, 5, 7]). Vì vậy form dùng nhiều checkbox, không dùng <select>
+// đơn, và payload luôn gửi mảng — kể cả khi không chọn thì gửi [].
+
+/** Đọc các thể loại đang được tick, trả về mảng id. */
+function getSelectedGenreIds() {
+  return Array.from(
+    document.querySelectorAll('#addMovieForm input[name="genre"]:checked'),
+  ).map((box) => box.value);
+}
+
+// ======================================================
+// TRẠNG THÁI / SỐ
+// ======================================================
+
+/** db.json chỉ dùng "published" và "Inactive" (xoá mềm). */
+const MOVIE_STATUSES = [
+  { value: "published", label: "🟢 Đã xuất bản" },
+  { value: "Inactive", label: "🔴 Đã ẩn" },
+];
+
+/** Trạng thái mặc định khi thêm mới. */
+const DEFAULT_STATUS = "published";
+
+/**
+ * db.json lưu year/duration là NUMBER (thiếu thì 0), không phải null/string.
+ * Ô input rỗng -> 0. Trả về NaN nếu người dùng gõ sai kiểu số.
+ */
+function readNumber(inputId) {
+  const raw = document.getElementById(inputId).value.trim();
+
+  if (raw === "") return 0;
+
+  return Number(raw);
+}
+
+/** Số trong khoảng [min, max]; trả NaN nếu sai kiểu hoặc ngoài khoảng. */
+function parseNumberInRange(raw, min, max) {
+  if (!Number.isFinite(raw)) return NaN;
+
+  if (min !== undefined && raw < min) return NaN;
+
+  if (max !== undefined && raw > max) return NaN;
+
+  return raw;
+}
+
+/**
+ * db.json lưu createdAt dạng "YYYY-MM-DD" theo GIỜ ĐỊA PHƯƠNG.
+ * toISOString() dùng UTC nên có thể lệch ngày, nên format thủ công.
+ */
+function toDateString(date) {
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${date.getFullYear()}-${month}-${day}`;
 }
 
 // ======================================================
@@ -71,21 +133,48 @@ async function initAddMovieForm() {
     // Lấy thể loại
     const resGenres = await api.get("/genres");
 
-    const genresData = resGenres.data || resGenres;
-
-    const genresOptions = genresData
-      .map((genre) => {
-        return `
-          <option value="${genre.id}">
-            ${genre.name}
-          </option>
-        `;
-      })
-      .join("");
+    const genresData = Array.isArray(resGenres)
+      ? resGenres
+      : Array.isArray(resGenres?.data)
+        ? resGenres.data
+        : [];
 
     // ==================================================
     // FORM
     // ==================================================
+
+    const statusOptions = MOVIE_STATUSES.map(
+      (item) => `
+        <option
+          value="${item.value}"
+          ${item.value === DEFAULT_STATUS ? "selected" : ""}
+        >
+          ${item.label}
+        </option>
+      `,
+    ).join("");
+
+    const genreCheckboxes = genresData
+      .map(
+        (genre) => `
+          <label
+            class="flex items-center gap-2.5 px-3 py-2 rounded-xl
+                   bg-zinc-950 border border-zinc-800
+                   text-zinc-300 text-sm cursor-pointer
+                   hover:border-zinc-700 transition-colors"
+          >
+            <input
+              type="checkbox"
+              name="genre"
+              value="${genre.id}"
+              class="w-4 h-4 accent-brand cursor-pointer"
+            />
+
+            <span>${genre.name}</span>
+          </label>
+        `,
+      )
+      .join("");
 
     formContainer.innerHTML = `
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -204,33 +293,28 @@ async function initAddMovieForm() {
                 uppercase tracking-wider text-zinc-400"
               >
                 Thể loại
-                <span class="text-brand">*</span>
+                <span class="text-zinc-600 normal-case tracking-normal">
+                  (có thể chọn nhiều)
+                </span>
               </label>
 
-              <select
+              <div
                 id="genre"
-                name="genre"
-                required
-                class="w-full px-3 py-2.5 rounded-xl
-                bg-zinc-950 border border-zinc-800
-                text-white text-sm
-                focus:outline-none focus:border-brand"
+                class="grid grid-cols-1 sm:grid-cols-2 gap-2"
               >
+                ${genreCheckboxes}
+              </div>
 
-                <option value="">
-                  -- Chọn thể loại --
-                </option>
-
-                ${genresOptions}
-
-              </select>
+              <p class="text-[11px] text-zinc-500 mt-1.5">
+                Phim được lưu với <code>genre</code> là mảng id thể loại.
+              </p>
 
             </div>
 
 
-            <!-- NĂM + THỜI LƯỢNG -->
+            <!-- NĂM + THỜI LƯỢNG + CHẤT LƯỢNG -->
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
               <div>
 
@@ -277,6 +361,35 @@ async function initAddMovieForm() {
                   bg-zinc-950 border border-zinc-800
                   text-white placeholder-zinc-600 text-sm"
                 />
+
+              </div>
+
+
+              <div>
+
+                <label
+                  for="quality"
+                  class="block mb-2 text-xs font-semibold
+                  uppercase tracking-wider text-zinc-400"
+                >
+                  Chất lượng
+                </label>
+
+                <select
+                  id="quality"
+                  name="quality"
+                  class="w-full px-3 py-2.5 rounded-xl
+                  bg-zinc-950 border border-zinc-800
+                  text-white text-sm
+                  focus:outline-none focus:border-brand"
+                >
+
+                  <option value="">-- Không có --</option>
+                  <option value="hd">HD (720p)</option>
+                  <option value="full hd">Full HD (1080p)</option>
+                  <option value="4k">4K Ultra HD</option>
+
+                </select>
 
               </div>
 
@@ -377,11 +490,7 @@ async function initAddMovieForm() {
               text-white text-sm"
             >
 
-          <option value="published">🟢 Đã xuất bản</option>
-<option value="draft">🟡 Bản nháp</option>
-<option value="coming_soon">🔵 Sắp ra mắt</option>
-
-              
+              ${statusOptions}
 
             </select>
 
@@ -788,11 +897,18 @@ async function handleSubmitForm(e) {
 
   const title = document.getElementById("title").value.trim();
 
-  const genreId = document.getElementById("genre").value;
+  // movies.genre là mảng id -> đọc từ các checkbox đã tick.
+  const genreIds = getSelectedGenreIds();
+
+  const year = parseNumberInRange(readNumber("year"), 1900, 2100);
+
+  const duration = parseNumberInRange(readNumber("duration"), 0);
 
   // ====================================================
   // VALIDATE
   // ====================================================
+  // Chỉ `title` là bắt buộc. db.json có phim thiếu thể loại/năm/thời lượng
+  // (genre: [], year: 0, duration: 0) nên các ô còn lại được để trống.
 
   if (!title) {
     Swal.fire({
@@ -804,11 +920,31 @@ async function handleSubmitForm(e) {
     return;
   }
 
-  if (!genreId) {
+  if (!createSlug(title)) {
     Swal.fire({
       icon: "warning",
-      title: "Thiếu thông tin",
-      text: "Vui lòng chọn thể loại phim!",
+      title: "Tên phim không hợp lệ",
+      text: "Tên phim cần có ít nhất một chữ cái hoặc số để tạo slug.",
+    });
+
+    return;
+  }
+
+  if (Number.isNaN(year)) {
+    Swal.fire({
+      icon: "warning",
+      title: "Năm phát hành không hợp lệ",
+      text: "Năm phải là số từ 1900 đến 2100.",
+    });
+
+    return;
+  }
+
+  if (Number.isNaN(duration)) {
+    Swal.fire({
+      icon: "warning",
+      title: "Thời lượng không hợp lệ",
+      text: "Thời lượng phải là số phút lớn hơn hoặc bằng 0.",
     });
 
     return;
@@ -892,6 +1028,12 @@ async function handleSubmitForm(e) {
     // ==================================================
     // TẠO PAYLOAD
     // ==================================================
+    // Không gửi `id`: json-server tự sinh id (randomBytes(8) base64url, 11 ký tự)
+    // đúng như các phim id nanoid sẵn có trong db.json.
+    // `year`/`duration` luôn là NUMBER (thiếu -> 0), không dùng null.
+    // `genre` luôn là MẢNG id (có thể rỗng).
+
+    const quality = document.getElementById("quality").value;
 
     const payload = {
       title: title,
@@ -900,15 +1042,15 @@ async function handleSubmitForm(e) {
 
       description: document.getElementById("description").value.trim(),
 
-      genre: genreId,
+      genre: genreIds,
 
       poster: posterUrl,
 
       backdrop: backdropUrl,
 
-      year: Number(document.getElementById("year").value) || null,
+      year: year,
 
-      duration: Number(document.getElementById("duration").value) || null,
+      duration: duration,
 
       country: document.getElementById("country").value.trim(),
 
@@ -928,7 +1070,10 @@ async function handleSubmitForm(e) {
 
       views: 0,
 
-      createdAt: new Date().toISOString().split("T")[0],
+      createdAt: toDateString(new Date()),
+
+      // quality là field tuỳ chọn trong db.json: chỉ ghi khi thật sự chọn.
+      ...(quality ? { quality: quality } : {}),
     };
 
     // ==================================================
