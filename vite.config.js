@@ -381,6 +381,7 @@ export default defineConfig({
             "/admin/users": "/src/admin/users.html",
             "/admin/genres": "/src/admin/genres.html",
             "/admin/dashBoard": "/src/admin/dashBoard.html",
+            "/admin/authorization": "/src/admin/authorization.html",
           };
 
           if (routes[path]) {
