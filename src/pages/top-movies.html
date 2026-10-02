@@ -1,0 +1,1836 @@
+<!doctype html>
+
+<html class="dark" lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="web_standard" name="shell-type" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @layer base {
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          overscroll-behavior: none;
+        }
+        main > :first-child {
+          margin-top: 0 !important;
+        }
+        main > :last-child {
+          margin-bottom: 0 !important;
+        }
+      }
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+    <link rel="stylesheet" href="/src/style.css" />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-dim": "#111318",
+              "primary-fixed-dim": "#ffb4aa",
+              "on-background": "#e2e2e8",
+              "surface-container-low": "#191c20",
+              outline: "#af8782",
+              "on-secondary-fixed": "#2a1700",
+              "primary-fixed": "#ffdad5",
+              "on-error-container": "#ffdad6",
+              "on-secondary-container": "#5b3800",
+              "surface-container-high": "#282a2f",
+              "on-secondary": "#472a00",
+              "secondary-container": "#ee9800",
+              tertiary: "#ffb3b2",
+              "on-primary-container": "#fff7f6",
+              "on-tertiary-container": "#fff7f6",
+              "surface-container-highest": "#333539",
+              "tertiary-fixed": "#ffdad9",
+              surface: "#111318",
+              "surface-container-lowest": "#0c0e12",
+              "inverse-on-surface": "#2e3035",
+              "secondary-fixed-dim": "#ffb95f",
+              background: "#111318",
+              "outline-variant": "#5e3f3b",
+              "secondary-fixed": "#ffddb8",
+              error: "#ffb4ab",
+              "on-surface": "#e2e2e8",
+              "surface-variant": "#333539",
+              "on-tertiary-fixed-variant": "#92001f",
+              "on-primary-fixed-variant": "#930007",
+              "error-container": "#93000a",
+              "on-error": "#690005",
+              "on-primary": "#690003",
+              "tertiary-container": "#da2a3e",
+              "primary-container": "#e50914",
+              "inverse-surface": "#e2e2e8",
+              "on-primary-fixed": "#410001",
+              "surface-container": "#1d2024",
+              "surface-bright": "#37393e",
+              "inverse-primary": "#c0000c",
+              "on-surface-variant": "#e9bcb6",
+              "on-tertiary-fixed": "#410008",
+              "surface-tint": "#ffb4aa",
+              secondary: "#ffb95f",
+              "tertiary-fixed-dim": "#ffb3b2",
+              "on-tertiary": "#680013",
+              "on-secondary-fixed-variant": "#653e00",
+              primary: "#ffb4aa",
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+            spacing: {
+              gutter: "1.5rem",
+              "space-lg": "1.5rem",
+              "space-md": "1rem",
+              margin: "3rem",
+              "space-sm": "0.5rem",
+              "space-xs": "0.25rem",
+              "margin-mobile": "1.25rem",
+              "gutter-mobile": "1rem",
+              "space-xl": "2.5rem",
+            },
+            fontFamily: {
+              "label-md": ["Inter"],
+              "title-sm": ["Inter"],
+              "title-md": ["Inter"],
+              "body-md": ["Inter"],
+              "headline-md": ["Plus Jakarta Sans"],
+              "display-hero": ["Plus Jakarta Sans"],
+              "headline-lg": ["Plus Jakarta Sans"],
+              "headline-sm": ["Plus Jakarta Sans"],
+              "label-caps": ["Inter"],
+              "body-sm": ["Inter"],
+              "headline-xl": ["Plus Jakarta Sans"],
+              "body-lg": ["Inter"],
+              "headline-lg-mobile": ["Plus Jakarta Sans"],
+              "headline-xl-mobile": ["Plus Jakarta Sans"],
+              "display-hero-mobile": ["Plus Jakarta Sans"],
+            },
+            fontSize: {
+              "label-md": [
+                "12px",
+                {
+                  lineHeight: "16px",
+                  letterSpacing: "0.04em",
+                  fontWeight: "500",
+                },
+              ],
+              "title-sm": [
+                "14px",
+                { lineHeight: "20px", letterSpacing: "0em", fontWeight: "600" },
+              ],
+              "title-md": [
+                "16px",
+                {
+                  lineHeight: "24px",
+                  letterSpacing: "-0.005em",
+                  fontWeight: "600",
+                },
+              ],
+              "body-md": [
+                "15px",
+                { lineHeight: "24px", letterSpacing: "0em", fontWeight: "400" },
+              ],
+              "headline-md": [
+                "24px",
+                {
+                  lineHeight: "32px",
+                  letterSpacing: "-0.015em",
+                  fontWeight: "600",
+                },
+              ],
+              "display-hero": [
+                "64px",
+                {
+                  lineHeight: "72px",
+                  letterSpacing: "-0.03em",
+                  fontWeight: "800",
+                },
+              ],
+              "headline-lg": [
+                "32px",
+                {
+                  lineHeight: "40px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "600",
+                },
+              ],
+              "headline-sm": [
+                "20px",
+                {
+                  lineHeight: "28px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "600",
+                },
+              ],
+              "label-caps": [
+                "11px",
+                {
+                  lineHeight: "16px",
+                  letterSpacing: "0.08em",
+                  fontWeight: "700",
+                },
+              ],
+              "body-sm": [
+                "13px",
+                {
+                  lineHeight: "20px",
+                  letterSpacing: "0.01em",
+                  fontWeight: "400",
+                },
+              ],
+              "headline-xl": [
+                "40px",
+                {
+                  lineHeight: "48px",
+                  letterSpacing: "-0.025em",
+                  fontWeight: "700",
+                },
+              ],
+              "body-lg": [
+                "18px",
+                {
+                  lineHeight: "28px",
+                  letterSpacing: "-0.005em",
+                  fontWeight: "400",
+                },
+              ],
+              "headline-lg-mobile": [
+                "24px",
+                {
+                  lineHeight: "32px",
+                  letterSpacing: "-0.015em",
+                  fontWeight: "600",
+                },
+              ],
+              "headline-xl-mobile": [
+                "28px",
+                {
+                  lineHeight: "36px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "700",
+                },
+              ],
+              "display-hero-mobile": [
+                "36px",
+                {
+                  lineHeight: "44px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "800",
+                },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="bg-surface font-body-md text-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container min-h-screen flex flex-col"
+  >
+    <header
+      class="fixed top-0 left-0 right-0 w-full z-50 bg-surface-container-lowest/85 backdrop-blur-xl border-b border-white/5"
+      id="header"
+    >
+      <div
+        class="h-20 w-full px-gutter-mobile md:px-margin flex items-center justify-between gap-space-md"
+      >
+        <div class="flex items-center gap-space-lg lg:gap-space-xl">
+          <a
+            class="flex items-center gap-space-sm group"
+            data-path="trang-chu"
+            href="/"
+          >
+            <img
+              alt="MovieF Logo"
+              class="h-8 w-auto object-contain"
+              src="/images/logo/logo.svg"
+            />
+            <span
+              class="font-headline-md text-headline-md tracking-tight text-on-surface font-extrabold hidden sm:inline-block group-hover:text-primary transition-colors"
+            >
+              Movie<span class="text-primary-container">F</span>
+            </span>
+          </a>
+          <nav
+            class="hidden md:flex items-center gap-space-md lg:gap-space-lg"
+            data-active-classes="text-on-surface font-semibold"
+          >
+            <a
+              class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors py-space-xs"
+              data-path="trang-chu"
+              href="/"
+            >
+              Trang chủ
+            </a>
+            <a
+              class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors py-space-xs"
+              data-path="phim"
+              href="/movies"
+            >
+              Phim
+            </a>
+            <a
+              class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors py-space-xs"
+              data-path="the-loai"
+              href="/genres"
+            >
+              Thể loại
+            </a>
+            <a
+              class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors py-space-xs"
+              data-path="top-phim"
+              href="/topMovies"
+            >
+              Top phim
+            </a>
+          </nav>
+        </div>
+        <div class="flex items-center gap-space-sm sm:gap-space-md">
+          <div class="relative hidden xl:flex items-center">
+            <span
+              class="material-symbols-outlined absolute left-3 text-on-surface-variant text-lg pointer-events-none"
+            >
+              search
+            </span>
+            <input
+              class="w-64 xl:w-72 pl-9 pr-space-md py-space-xs bg-surface-container-low text-on-surface placeholder-on-surface-variant font-body-sm text-body-sm rounded-lg border border-white/10 focus:outline-none focus:border-outline focus:ring-1 focus:ring-outline transition-all"
+              placeholder="Tìm kiếm phim, diễn viên..."
+              type="text"
+            />
+          </div>
+          <button
+            class="xl:hidden flex items-center justify-center p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+            type="button"
+          >
+            <span class="material-symbols-outlined text-xl">search</span>
+          </button>
+          <button
+            class="relative hidden lg:flex items-center justify-center p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+            type="button"
+          >
+            <span class="material-symbols-outlined text-2xl"
+              >notifications</span
+            >
+            <span
+              class="absolute top-1.5 right-1.5 w-2 h-2 bg-primary-container rounded-full ring-2 ring-surface-container-lowest"
+            ></span>
+          </button>
+          <div
+            class="flex items-center gap-space-xs pl-space-xs"
+            id="user"
+          ></div>
+        </div>
+      </div>
+    </header>
+    <main class="w-full pt-20 bg-surface flex-1">
+      <div class="flex flex-col w-full relative">
+        <!-- Atmospheric Ambient Background Light Field -->
+        <div
+          class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-96 bg-gradient-to-b from-primary-container/10 via-primary-container/5 to-transparent blur-3xl pointer-events-none -z-10"
+        ></div>
+        <div
+          class="absolute top-[380px] left-1/2 -translate-x-1/2 w-[720px] h-[350px] bg-secondary-container/10 blur-[130px] pointer-events-none -z-10"
+        ></div>
+        <!-- 1. PAGE HERO / COMPACT BANNER -->
+        <section
+          class="w-full px-margin-mobile lg:px-margin pt-space-lg pb-space-md"
+        >
+          <div class="flex flex-col items-center text-center max-w-3xl mx-auto">
+            <!-- Tag / Badge -->
+            <div
+              class="inline-flex items-center gap-space-xs px-space-md py-1 rounded-full bg-surface-container-high shadow-[0_0_18px_rgba(229,9,20,0.25)] mb-space-sm"
+            >
+              <span
+                class="material-symbols-outlined text-primary-container text-[18px]"
+                style="font-variation-settings: &quot;FILL&quot; 1"
+                >military_tech</span
+              >
+              <span
+                class="font-label-caps text-label-caps uppercase text-primary tracking-widest"
+                >Bảng Vinh Danh Điện Ảnh</span
+              >
+            </div>
+            <!-- Large Page Title -->
+            <h1
+              class="font-headline-xl lg:font-display-hero text-headline-xl lg:text-display-hero font-extrabold tracking-tight text-on-surface mb-space-xs"
+            >
+              TOP PHIM
+              <span
+                class="bg-gradient-to-r from-primary-container via-primary to-secondary bg-clip-text text-transparent"
+                >ĐỈNH CAO</span
+              >
+            </h1>
+            <!-- Subtitle -->
+            <p
+              class="font-body-md text-body-md text-on-surface-variant max-w-2xl"
+            >
+              Những bộ phim xuất sắc và được yêu thích nhất trên MovieF — Cập
+              nhật liên tục theo đánh giá cộng đồng, điểm số phê bình và lưu
+              lượng phòng vé toàn cầu.
+            </p>
+          </div>
+        </section>
+        <!-- 2. RANKING FILTERS BAR -->
+        <section class="w-full px-margin-mobile lg:px-margin mb-space-xl">
+          <div
+            class="w-full bg-surface-container-low rounded-xl p-space-xs flex flex-col xl:flex-row items-center justify-between gap-space-md shadow-[0_12px_32px_-8px_rgba(0,0,0,0.7)]"
+          >
+            <!-- Time Range Selector Tabs -->
+            <div
+              class="flex items-center p-1 bg-surface-container-lowest rounded-lg w-full xl:w-auto overflow-x-auto"
+            >
+              <button
+                class="filter-tab px-space-md py-2 rounded-lg font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-all whitespace-nowrap"
+                type="button"
+              >
+                Hôm nay
+              </button>
+              <button
+                class="filter-tab px-space-lg py-2 rounded-lg font-title-sm text-title-sm text-on-primary-container bg-primary-container shadow-[0_0_20px_rgba(229,9,20,0.45)] whitespace-nowrap font-bold"
+                type="button"
+              >
+                Tuần này
+              </button>
+              <button
+                class="filter-tab px-space-md py-2 rounded-lg font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-all whitespace-nowrap"
+                type="button"
+              >
+                Tháng này
+              </button>
+              <button
+                class="filter-tab px-space-md py-2 rounded-lg font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-all whitespace-nowrap"
+                type="button"
+              >
+                Mọi thời đại
+              </button>
+            </div>
+            <!-- Quick Filter Dropdowns & Stats -->
+            <div
+              class="flex flex-wrap items-center gap-space-sm w-full xl:w-auto justify-between xl:justify-end"
+            >
+              <!-- Genre Dropdown -->
+              <div class="relative">
+                <button
+                  class="flex items-center gap-space-xs px-space-md py-2 rounded-lg bg-surface-container font-title-sm text-title-sm text-on-surface hover:bg-surface-container-high transition-colors"
+                  id="genreDropdownBtn"
+                  type="button"
+                >
+                  <span
+                    class="material-symbols-outlined text-[18px] text-on-surface-variant"
+                    >category</span
+                  >
+                  <span>Thể loại: Tất cả</span>
+                  <span
+                    class="material-symbols-outlined text-[16px] text-on-surface-variant"
+                    >expand_more</span
+                  >
+                </button>
+              </div>
+              <!-- Metric Filter -->
+              <div class="relative">
+                <button
+                  class="flex items-center gap-space-xs px-space-md py-2 rounded-lg bg-surface-container font-title-sm text-title-sm text-on-surface hover:bg-surface-container-high transition-colors"
+                  id="metricDropdownBtn"
+                  type="button"
+                >
+                  <span
+                    class="material-symbols-outlined text-[18px] text-secondary"
+                    >star</span
+                  >
+                  <span>Tiêu chí: IMDb cao nhất</span>
+                  <span
+                    class="material-symbols-outlined text-[16px] text-on-surface-variant"
+                    >swap_vert</span
+                  >
+                </button>
+              </div>
+              <!-- Total Counter Badge -->
+              <div
+                class="flex items-center gap-space-xs px-space-md py-2 rounded-lg bg-surface-container-highest"
+              >
+                <span
+                  class="inline-block w-2 h-2 rounded-full bg-secondary-container"
+                ></span>
+                <span
+                  class="font-label-caps text-label-caps uppercase text-on-surface tracking-wider"
+                  >100 Phim Xếp Hạng</span
+                >
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- 3. TOP 3 FEATURED PODIUM / SPOTLIGHT -->
+        <section class="w-full px-margin-mobile lg:px-margin mb-space-xl">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-end">
+            <!-- LEFT: TOP 2 — Oppenheimer -->
+            <div
+              class="order-2 lg:order-1 lg:col-span-3 bg-surface-container rounded-xl p-space-md flex flex-col relative group transition-all duration-300 hover:-translate-y-2 shadow-xl hover:shadow-[0_20px_35px_-10px_rgba(0,0,0,0.8)]"
+            >
+              <!-- Rank Crown / Metallic Silver Badge -->
+              <div
+                class="absolute -top-4 -left-3 z-20 flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-slate-200 via-slate-400 to-slate-600 shadow-[0_4px_16px_rgba(203,213,225,0.4)]"
+              >
+                <span
+                  class="font-headline-sm text-headline-sm font-black text-surface-container-lowest tracking-tighter"
+                  >#02</span
+                >
+              </div>
+              <div class="absolute top-space-md right-space-md z-20">
+                <span
+                  class="px-space-xs py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md font-label-caps text-label-caps text-on-surface"
+                  >BẠC</span
+                >
+              </div>
+              <!-- Poster (2:3) -->
+              <div
+                class="relative w-full aspect-[2/3] rounded-lg overflow-hidden mb-space-md bg-surface-container-lowest"
+              >
+                <img
+                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  data-alt="Official dramatic movie poster of Oppenheimer featuring Cillian Murphy standing in front of an immense atomic fireball explosion, rich warm golden sparks, dramatic dark shadows, high cinematic contrast, 4K film quality."
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrqkx8XPrMIyNOd2wKhIPwdWz3btByPwzTohHkjSpI-PotFeMKXP81gsjHWaGNF-SgfLKjGUiYvLerp4hn3fOzTuvBbiCw74RP2CAQGuisD4-p-nNNO4f3xnJygo1gmrVBSzYmJ_mzgUVTJPdPMANFIXRU7yEGumGSLquchozmc39TBwbGixgpE-U5fk-e4YyM9d6SBrDZk2a7LbDUgNx_sDmTwbtBX9LuPalNsg9rXOki_Xhlv524"
+                />
+                <div
+                  class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-transparent opacity-60"
+                ></div>
+                <div
+                  class="absolute bottom-space-sm left-space-sm flex items-center gap-1.5 px-space-xs py-0.5 rounded bg-surface-container-lowest/90 backdrop-blur-sm"
+                >
+                  <span
+                    class="material-symbols-outlined text-secondary text-[16px]"
+                    style="font-variation-settings: &quot;FILL&quot; 1"
+                    >star</span
+                  >
+                  <span
+                    class="font-title-sm text-title-sm font-bold text-on-surface"
+                    >9.0</span
+                  >
+                </div>
+              </div>
+              <!-- Movie Details -->
+              <div class="flex flex-col flex-1">
+                <span
+                  class="font-label-caps text-label-caps uppercase text-on-surface-variant mb-1"
+                  >Tiểu sử • Lịch sử • Chính kịch</span
+                >
+                <h2
+                  class="font-headline-sm text-headline-sm font-bold text-on-surface leading-tight line-clamp-1"
+                >
+                  Oppenheimer
+                </h2>
+                <span
+                  class="font-body-sm text-body-sm text-on-surface-variant mb-space-sm"
+                  >Kẻ Chế Tạo Bom Nguyên Tử</span
+                >
+                <!-- Meta Grid -->
+                <div
+                  class="grid grid-cols-2 gap-space-xs py-space-xs bg-surface-container-low rounded-lg px-space-sm mb-space-md text-on-surface-variant font-body-sm text-body-sm"
+                >
+                  <div class="flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[16px]"
+                      >calendar_today</span
+                    >
+                    <span>2023</span>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[16px]"
+                      >schedule</span
+                    >
+                    <span>3h 00m</span>
+                  </div>
+                  <div class="col-span-2 flex items-center gap-1 text-primary">
+                    <span class="material-symbols-outlined text-[16px]"
+                      >visibility</span
+                    >
+                    <span>142.8K lượt xem</span>
+                  </div>
+                </div>
+                <!-- Actions -->
+                <div class="flex items-center gap-space-xs mt-auto">
+                  <a
+                    class="flex-1 py-2 px-space-md rounded-lg bg-surface-container-highest hover:bg-primary-container text-on-surface hover:text-on-primary font-title-sm text-title-sm font-semibold flex items-center justify-center gap-space-xs transition-colors"
+                    href="#"
+                  >
+                    <span class="material-symbols-outlined text-[18px]"
+                      >play_arrow</span
+                    >
+                    <span>Xem ngay</span>
+                  </a>
+                  <button
+                    aria-label="Lưu phim"
+                    class="p-2 rounded-lg bg-surface-container-highest hover:bg-surface-container-low text-on-surface-variant hover:text-primary transition-colors"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined text-[20px]"
+                      >bookmark</span
+                    >
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- CENTER (DOMINANT & ELEVATED): TOP 1 — Dune: Part Two -->
+            <div
+              class="order-1 lg:order-2 lg:col-span-6 bg-gradient-to-b from-surface-container-high via-surface-container to-surface-container rounded-2xl p-space-lg flex flex-col relative group transition-all duration-300 lg:-translate-y-4 shadow-[0_24px_60px_-12px_rgba(229,9,20,0.35)]"
+            >
+              <!-- Golden Glowing Crown Badge -->
+              <div
+                class="absolute -top-7 left-1/2 -translate-x-1/2 z-30 flex items-center gap-space-xs px-space-lg py-2 rounded-full bg-gradient-to-r from-secondary-container via-primary-container to-secondary-container shadow-[0_0_30px_rgba(238,152,0,0.6)] animate-pulse"
+              >
+                <span
+                  class="material-symbols-outlined text-on-primary-container text-[22px]"
+                  style="font-variation-settings: &quot;FILL&quot; 1"
+                  >workspace_premium</span
+                >
+                <span
+                  class="font-headline-sm text-headline-sm font-black text-on-primary-container tracking-wide"
+                  >QUÁN QUÂN #01</span
+                >
+              </div>
+              <div
+                class="grid grid-cols-1 md:grid-cols-12 gap-space-lg pt-space-xs items-center"
+              >
+                <!-- Poster Column (2:3) -->
+                <div
+                  class="md:col-span-5 relative aspect-[2/3] rounded-xl overflow-hidden bg-surface-container-lowest shadow-2xl"
+                >
+                  <img
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    data-alt="Cinematic poster of Dune Part Two showcasing Timothée Chalamet as Paul Atreides and Zendaya as Chani in the golden orange desert sands of Arrakis, massive sandworm emerging in atmospheric dust storm, brilliant lens flare, ultra-high resolution."
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMyhdKH8UjjwT_1r57AdWEAjwsteC47Z17PVmCu2BNXAP-vP-pR9UHHjSNLzQCC85llwzf8hVVXkyjKRhUdXUbqeMwcs0naGBzl0L_1aSb49m5GujtKdjrOk6vV0CXTtmIHStVHNP5zQRPwsxFP65FG9X9Ej0PnBFgsQAZFSUqlgSlCgjf-zyY52bwDKv7kWKo3KtV6O4qyTdCEIH2xzakJypwZew1kB4dlvIV64w1ELPJG7g2RDJK"
+                  />
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 via-transparent to-transparent"
+                  ></div>
+                  <div
+                    class="absolute top-space-sm left-space-sm px-space-sm py-1 rounded bg-secondary-container text-on-secondary-container font-label-caps text-label-caps uppercase font-extrabold tracking-wider shadow-md"
+                  >
+                    Top 1 Thịnh Hành
+                  </div>
+                  <div
+                    class="absolute bottom-space-sm left-space-sm flex items-center gap-1.5 px-space-sm py-1 rounded-lg bg-surface-container-lowest/90 backdrop-blur-md"
+                  >
+                    <span
+                      class="material-symbols-outlined text-secondary text-[20px]"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >star</span
+                    >
+                    <span
+                      class="font-headline-sm text-headline-sm font-extrabold text-on-surface"
+                      >9.2</span
+                    >
+                    <span
+                      class="text-on-surface-variant font-label-md text-label-md"
+                      >/10</span
+                    >
+                  </div>
+                </div>
+                <!-- Content Column -->
+                <div class="md:col-span-7 flex flex-col h-full justify-between">
+                  <div>
+                    <div
+                      class="flex items-center gap-space-xs mb-space-xs flex-wrap"
+                    >
+                      <span
+                        class="font-label-caps text-label-caps uppercase text-secondary font-bold"
+                        >Khoa học viễn tưởng • Phiêu lưu • Hành động</span
+                      >
+                      <span
+                        class="w-1.5 h-1.5 rounded-full bg-surface-variant"
+                      ></span>
+                      <span
+                        class="px-2 py-0.5 rounded bg-surface-container-highest font-label-caps text-label-caps text-on-surface-variant"
+                        >IMAX 4K</span
+                      >
+                    </div>
+                    <h2
+                      class="font-headline-lg text-headline-lg font-black text-on-surface leading-tight tracking-tight mb-1"
+                    >
+                      Dune: Hành Tinh Cát - Phần Hai
+                    </h2>
+                    <span
+                      class="font-title-sm text-title-sm text-primary mb-space-sm block font-medium"
+                      >Dune: Part Two (2024)</span
+                    >
+                    <p
+                      class="font-body-sm text-body-sm text-on-surface-variant line-clamp-3 mb-space-md"
+                    >
+                      Hành trình báo thù định mệnh của Paul Atreides cùng người
+                      Fremen, đối mặt với vận mệnh vũ trụ trong cuộc chiến vĩ
+                      đại nhất lịch sử Arrakis.
+                    </p>
+                    <!-- Data Chips Grid -->
+                    <div
+                      class="grid grid-cols-3 gap-space-xs p-space-sm bg-surface-container-low rounded-xl mb-space-lg text-center"
+                    >
+                      <div class="flex flex-col">
+                        <span
+                          class="font-label-caps text-label-caps text-on-surface-variant"
+                          >NĂM</span
+                        >
+                        <span
+                          class="font-title-sm text-title-sm font-bold text-on-surface"
+                          >2024</span
+                        >
+                      </div>
+                      <div class="flex flex-col">
+                        <span
+                          class="font-label-caps text-label-caps text-on-surface-variant"
+                          >THỜI LƯỢNG</span
+                        >
+                        <span
+                          class="font-title-sm text-title-sm font-bold text-on-surface"
+                          >2h 46m</span
+                        >
+                      </div>
+                      <div class="flex flex-col">
+                        <span
+                          class="font-label-caps text-label-caps text-on-surface-variant"
+                          >LƯỢT XEM</span
+                        >
+                        <span
+                          class="font-title-sm text-title-sm font-bold text-primary-container"
+                          >384.5K</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <!-- CTAs -->
+                  <div class="flex items-center gap-space-sm flex-wrap">
+                    <a
+                      class="flex-1 min-w-[140px] py-3 px-space-lg rounded-xl bg-primary-container hover:bg-primary-container/90 text-on-primary-container font-title-md text-title-md font-bold flex items-center justify-center gap-space-xs shadow-[0_8px_24px_rgba(229,9,20,0.4)] transition-all transform hover:scale-[1.02]"
+                      href="#"
+                    >
+                      <span
+                        class="material-symbols-outlined text-[24px]"
+                        style="font-variation-settings: &quot;FILL&quot; 1"
+                        >play_arrow</span
+                      >
+                      <span>Xem ngay</span>
+                    </a>
+                    <button
+                      class="py-3 px-space-md rounded-xl bg-surface-container-highest hover:bg-surface-bright text-on-surface font-title-sm text-title-sm flex items-center gap-space-xs transition-colors"
+                      type="button"
+                    >
+                      <span class="material-symbols-outlined text-[20px]"
+                        >movie</span
+                      >
+                      <span>Trailer</span>
+                    </button>
+                    <button
+                      aria-label="Thêm vào danh sách yêu thích"
+                      class="p-3 rounded-xl bg-surface-container-highest hover:bg-surface-container-low text-primary-container transition-colors"
+                      id="top1FavBtn"
+                      type="button"
+                    >
+                      <span
+                        class="material-symbols-outlined text-[22px]"
+                        style="font-variation-settings: &quot;FILL&quot; 1"
+                        >favorite</span
+                      >
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- RIGHT: TOP 3 — The Dark Knight -->
+            <div
+              class="order-3 lg:order-3 lg:col-span-3 bg-surface-container rounded-xl p-space-md flex flex-col relative group transition-all duration-300 hover:-translate-y-2 shadow-xl hover:shadow-[0_20px_35px_-10px_rgba(0,0,0,0.8)]"
+            >
+              <!-- Rank Bronze Badge -->
+              <div
+                class="absolute -top-4 -left-3 z-20 flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-amber-600 via-amber-700 to-amber-900 shadow-[0_4px_16px_rgba(180,83,9,0.4)]"
+              >
+                <span
+                  class="font-headline-sm text-headline-sm font-black text-on-primary-container tracking-tighter"
+                  >#03</span
+                >
+              </div>
+              <div class="absolute top-space-md right-space-md z-20">
+                <span
+                  class="px-space-xs py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md font-label-caps text-label-caps text-on-surface"
+                  >ĐỒNG</span
+                >
+              </div>
+              <!-- Poster (2:3) -->
+              <div
+                class="relative w-full aspect-[2/3] rounded-lg overflow-hidden mb-space-md bg-surface-container-lowest"
+              >
+                <img
+                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  data-alt="Moody cinematic poster of The Dark Knight showing Christian Bale as Batman overlooking a burning Gotham City skyline in dark slate navy tones and flickering fiery orange embers, dramatic noir lighting."
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGjcxF7vfEQ1RRERj-03PWkJE2l-fjKSU84cBAQpCtcU8wnxKpHil38yZOS4no1DUfskBFI8NguWK_fOEMoCInTZ7wShTfBpAsvF6obpc1UR16B8wtoH7fz9biNGowJ2E_98o-CxS9EgPLt0Jg9KwcdKRadXh115l1OuuWxltrsmUYY3uEc9YnozIrQ_Vjc4IGm9SW-OeuheDoxZvE5RrrmxW7wudZycqtMhxpIRo2VfytKEl5TqSu"
+                />
+                <div
+                  class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-transparent opacity-60"
+                ></div>
+                <div
+                  class="absolute bottom-space-sm left-space-sm flex items-center gap-1.5 px-space-xs py-0.5 rounded bg-surface-container-lowest/90 backdrop-blur-sm"
+                >
+                  <span
+                    class="material-symbols-outlined text-secondary text-[16px]"
+                    style="font-variation-settings: &quot;FILL&quot; 1"
+                    >star</span
+                  >
+                  <span
+                    class="font-title-sm text-title-sm font-bold text-on-surface"
+                    >9.0</span
+                  >
+                </div>
+              </div>
+              <!-- Movie Details -->
+              <div class="flex flex-col flex-1">
+                <span
+                  class="font-label-caps text-label-caps uppercase text-on-surface-variant mb-1"
+                  >Hành động • Tội phạm • Kịch tính</span
+                >
+                <h2
+                  class="font-headline-sm text-headline-sm font-bold text-on-surface leading-tight line-clamp-1"
+                >
+                  The Dark Knight
+                </h2>
+                <span
+                  class="font-body-sm text-body-sm text-on-surface-variant mb-space-sm"
+                  >Kỵ Sĩ Bóng Đêm</span
+                >
+                <!-- Meta Grid -->
+                <div
+                  class="grid grid-cols-2 gap-space-xs py-space-xs bg-surface-container-low rounded-lg px-space-sm mb-space-md text-on-surface-variant font-body-sm text-body-sm"
+                >
+                  <div class="flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[16px]"
+                      >calendar_today</span
+                    >
+                    <span>2008</span>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[16px]"
+                      >schedule</span
+                    >
+                    <span>2h 32m</span>
+                  </div>
+                  <div class="col-span-2 flex items-center gap-1 text-primary">
+                    <span class="material-symbols-outlined text-[16px]"
+                      >visibility</span
+                    >
+                    <span>298.1K lượt xem</span>
+                  </div>
+                </div>
+                <!-- Actions -->
+                <div class="flex items-center gap-space-xs mt-auto">
+                  <a
+                    class="flex-1 py-2 px-space-md rounded-lg bg-surface-container-highest hover:bg-primary-container text-on-surface hover:text-on-primary font-title-sm text-title-sm font-semibold flex items-center justify-center gap-space-xs transition-colors"
+                    href="#"
+                  >
+                    <span class="material-symbols-outlined text-[18px]"
+                      >play_arrow</span
+                    >
+                    <span>Xem ngay</span>
+                  </a>
+                  <button
+                    aria-label="Lưu phim"
+                    class="p-2 rounded-lg bg-surface-container-highest hover:bg-surface-container-low text-on-surface-variant hover:text-primary transition-colors"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined text-[20px]"
+                      >bookmark</span
+                    >
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- 4. BẢNG XẾP HẠNG CHI TIẾT (RANKING LIST #4 - #10) -->
+        <section class="w-full px-margin-mobile lg:px-margin mb-space-xl">
+          <!-- Header of the Ranking List -->
+          <div
+            class="flex flex-col md:flex-row md:items-end justify-between gap-space-md mb-space-lg"
+          >
+            <div>
+              <div class="flex items-center gap-space-xs mb-1">
+                <span
+                  class="inline-block w-2.5 h-6 bg-primary-container rounded-full"
+                ></span>
+                <h2
+                  class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight"
+                >
+                  BẢNG XẾP HẠNG CHI TIẾT
+                </h2>
+              </div>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">
+                Thứ hạng từ #4 đến #10 được tổng hợp từ điểm phê bình IMDb và
+                phản hồi người xem MovieF
+              </p>
+            </div>
+            <!-- Search in List -->
+            <div class="relative w-full md:w-80">
+              <span
+                class="material-symbols-outlined text-on-surface-variant absolute left-space-md top-1/2 -translate-y-1/2 text-[20px]"
+                >search</span
+              >
+              <input
+                class="w-full pl-11 pr-space-md py-2.5 bg-surface-container rounded-xl text-on-surface placeholder:text-on-surface-variant font-body-sm text-body-sm focus:outline-none focus:bg-surface-container-high transition-colors"
+                placeholder="Tìm phim trong bảng xếp hạng..."
+                type="text"
+              />
+            </div>
+          </div>
+          <!-- Vertical List of Ranking Cards -->
+          <div class="flex flex-col gap-space-sm">
+            <!-- CARD #04: Interstellar -->
+            <div
+              class="group bg-surface-container rounded-xl p-space-md flex flex-col sm:flex-row items-center justify-between gap-space-md hover:bg-surface-container-high transition-all shadow-md"
+            >
+              <div class="flex items-center gap-space-md w-full sm:w-auto">
+                <!-- Typographic Rank Numeral -->
+                <span
+                  class="font-headline-xl text-headline-xl font-black text-outline/40 w-14 text-center group-hover:text-primary transition-colors"
+                  >#04</span
+                >
+                <!-- Thumbnail Poster -->
+                <div
+                  class="relative w-20 h-28 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container-lowest"
+                >
+                  <img
+                    class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    data-alt="Vertical movie poster of Interstellar displaying Matthew McConaughey in an astronaut helmet gazing at a cosmic wormhole surrounded by icy clouds, dark deep space blue and silver contrast."
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCg3bZVOlJqJd72DmCLsoowhx7qznwt6VhJ1IBraYf_hHB-XjfYR2Agmc7og3dv4NUJN3w4E5fI1IrF0nqeLgdjdjDzVS7XfpRYfXSKGt_6yamlUVTp1f4KWlvjGfSwRd4e4SXqGErDB6CTBxfYHVg-oPZ4xuh0mjuTS_OybUCeFHXYjpXmCgvx4jsuT2sElQi9bXiNA_JyDEg6R2vpbwUIx2vRvCGr8QzTwucezkpJZTrFfgo_c4OW"
+                  />
+                </div>
+                <!-- Movie Info -->
+                <div class="flex flex-col min-w-0">
+                  <div class="flex items-center gap-space-xs flex-wrap mb-1">
+                    <h3
+                      class="font-title-md text-title-md font-bold text-on-surface truncate group-hover:text-primary-container transition-colors"
+                    >
+                      Interstellar
+                    </h3>
+                    <span
+                      class="text-on-surface-variant font-body-sm text-body-sm"
+                      >(2014)</span
+                    >
+                    <span
+                      class="px-2 py-0.5 rounded bg-surface-container-lowest text-primary font-label-caps text-label-caps"
+                      >4K UHD</span
+                    >
+                    <span
+                      class="px-2 py-0.5 rounded bg-surface-container-lowest text-on-surface-variant font-label-caps text-label-caps"
+                      >Dolby Atmos</span
+                    >
+                  </div>
+                  <span
+                    class="font-body-sm text-body-sm text-on-surface-variant mb-1"
+                    >Hố Đen Tử Thần</span
+                  >
+                  <div
+                    class="flex items-center gap-space-md font-body-sm text-body-sm text-on-surface-variant"
+                  >
+                    <span>2h 49m</span>
+                    <span>•</span>
+                    <span>Khoa học viễn tưởng • Phiêu lưu</span>
+                  </div>
+                </div>
+              </div>
+              <!-- Metric & Action Right -->
+              <div
+                class="flex items-center justify-between sm:justify-end gap-space-lg w-full sm:w-auto"
+              >
+                <div class="flex flex-col items-end">
+                  <div class="flex items-center gap-1">
+                    <span
+                      class="material-symbols-outlined text-secondary text-[18px]"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >star</span
+                    >
+                    <span
+                      class="font-title-md text-title-md font-bold text-on-surface"
+                      >8.7</span
+                    >
+                    <span
+                      class="text-on-surface-variant font-label-md text-label-md"
+                      >IMDb</span
+                    >
+                  </div>
+                  <span
+                    class="font-body-sm text-body-sm text-on-surface-variant"
+                    >215.4K xem</span
+                  >
+                </div>
+                <div class="flex items-center gap-space-xs">
+                  <a
+                    class="px-space-md py-2 rounded-lg bg-surface-container-highest hover:bg-primary-container text-on-surface hover:text-on-primary-container font-title-sm text-title-sm font-semibold flex items-center gap-1 transition-all"
+                    href="#"
+                  >
+                    <span class="material-symbols-outlined text-[18px]"
+                      >play_arrow</span
+                    >
+                    <span>Xem phim</span>
+                  </a>
+                  <button
+                    aria-label="Yêu thích"
+                    class="p-2 rounded-lg bg-surface-container-highest hover:bg-surface-bright text-on-surface-variant hover:text-primary-container transition-colors"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined text-[20px]"
+                      >favorite</span
+                    >
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- CARD #05: Spider-Man: Across the Spider-Verse -->
+            <div
+              class="group bg-surface-container rounded-xl p-space-md flex flex-col sm:flex-row items-center justify-between gap-space-md hover:bg-surface-container-high transition-all shadow-md"
+            >
+              <div class="flex items-center gap-space-md w-full sm:w-auto">
+                <span
+                  class="font-headline-xl text-headline-xl font-black text-outline/40 w-14 text-center group-hover:text-primary transition-colors"
+                  >#05</span
+                >
+                <div
+                  class="relative w-20 h-28 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container-lowest"
+                >
+                  <img
+                    class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    data-alt="Movie poster for Spider-Man Across the Spider-Verse featuring Miles Morales falling upside down in a vibrant multiverse city bathed in neon magenta, turquoise, and comic halftones."
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9dU6OnNINdd9n48qqPJ_F0jcRHg4zyFN994ta-5rXqeCEFQqhT9MZ1U280bzmam2M2H9j8lLOGe8KEl6AGrwVZ_2c5jfl0oRxYBvsZhVaEoN6JB05q7tPJGjEdKrhPnaA2_TI_7O0MBZiPMk6QkfW7FYxUvg5PjRecVZ1sSwAm6q7wUJOzUuxzO_Wxm0EnpHq7N6YlUPpeP3UyXkHrp6jhYIAadjfZSzv5-YHle27m7fxVbKY8Is-"
+                  />
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <div class="flex items-center gap-space-xs flex-wrap mb-1">
+                    <h3
+                      class="font-title-md text-title-md font-bold text-on-surface truncate group-hover:text-primary-container transition-colors"
+                    >
+                      Spider-Man: Across the Spider-Verse
+                    </h3>
+                    <span
+                      class="text-on-surface-variant font-body-sm text-body-sm"
+                      >(2023)</span
+                    >
+                    <span
+                      class="px-2 py-0.5 rounded bg-surface-container-lowest text-primary font-label-caps text-label-caps"
+                      >HDR10</span
+                    >
+                  </div>
+                  <span
+                    class="font-body-sm text-body-sm text-on-surface-variant mb-1"
+                    >Người Nhện: Du Hành Vũ Trụ Nhện</span
+                  >
+                  <div
+                    class="flex items-center gap-space-md font-body-sm text-body-sm text-on-surface-variant"
+                  >
+                    <span>2h 20m</span>
+                    <span>•</span>
+                    <span>Hoạt hình • Hành động</span>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="flex items-center justify-between sm:justify-end gap-space-lg w-full sm:w-auto"
+              >
+                <div class="flex flex-col items-end">
+                  <div class="flex items-center gap-1">
+                    <span
+                      class="material-symbols-outlined text-secondary text-[18px]"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >star</span
+                    >
+                    <span
+                      class="font-title-md text-title-md font-bold text-on-surface"
+                      >8.6</span
+                    >
+                    <span
+                      class="text-on-surface-variant font-label-md text-label-md"
+                      >IMDb</span
+                    >
+                  </div>
+                  <span
+                    class="font-body-sm text-body-sm text-on-surface-variant"
+                    >198.2K xem</span
+                  >
+                </div>
+                <div class="flex items-center gap-space-xs">
+                  <a
+                    class="px-space-md py-2 rounded-lg bg-surface-container-highest hover:bg-primary-container text-on-surface hover:text-on-primary-container font-title-sm text-title-sm font-semibold flex items-center gap-1 transition-all"
+                    href="#"
+                  >
+                    <span class="material-symbols-outlined text-[18px]"
+                      >play_arrow</span
+                    >
+                    <span>Xem phim</span>
+                  </a>
+                  <button
+                    aria-label="Yêu thích"
+                    class="p-2 rounded-lg bg-surface-container-highest hover:bg-surface-bright text-on-surface-variant hover:text-primary-container transition-colors"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined text-[20px]"
+                      >favorite</span
+                    >
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- CARD #06: The Godfather -->
+            <div
+              class="group bg-surface-container rounded-xl p-space-md flex flex-col sm:flex-row items-center justify-between gap-space-md hover:bg-surface-container-high transition-all shadow-md"
+            >
+              <div class="flex items-center gap-space-md w-full sm:w-auto">
+                <span
+                  class="font-headline-xl text-headline-xl font-black text-outline/40 w-14 text-center group-hover:text-primary transition-colors"
+                  >#06</span
+                >
+                <div
+                  class="relative w-20 h-28 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container-lowest"
+                >
+                  <img
+                    class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    data-alt="Iconic noir film poster of The Godfather starring Marlon Brando in a dark tuxedo with a red rose, dramatic chiaroscuro side lighting against an obsidian black backdrop."
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfY1JIqDcl2_GjDyjIW8HgIhC9MF4jdb0WLrPgKRwqorkFDf25QxMNpWTVCgucclwYVqtBxf5RpY6OYL_3HTyMQJx9ayO956jS6Y2Q6Mj-_Zl6tdQmodafvkGQED0mZRU5vxt70ncKsMBOyvTedVEshviTJ1b9g52AGKpyb31me3NySSW6I8SCNMskw4Ai7Sthz7KHYUbAgHGoHBNODamUCsKAB7QZkAWUxDDplt2f-NE-JnCarbHP"
+                  />
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <div class="flex items-center gap-space-xs flex-wrap mb-1">
+                    <h3
+                      class="font-title-md text-title-md font-bold text-on-surface truncate group-hover:text-primary-container transition-colors"
+                    >
+                      The Godfather
+                    </h3>
+                    <span
+                      class="text-on-surface-variant font-body-sm text-body-sm"
+                      >(1972)</span
+                    >
+                    <span
+                      class="px-2 py-0.5 rounded bg-surface-container-lowest text-secondary font-label-caps text-label-caps"
+                      >Huyền Thoại</span
+                    >
+                  </div>
+                  <span
+                    class="font-body-sm text-body-sm text-on-surface-variant mb-1"
+                    >Bố Già</span
+                  >
+                  <div
+                    class="flex items-center gap-space-md font-body-sm text-body-sm text-on-surface-variant"
+                  >
+                    <span>2h 55m</span>
+                    <span>•</span>
+                    <span>Tội phạm • Chính kịch</span>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="flex items-center justify-between sm:justify-end gap-space-lg w-full sm:w-auto"
+              >
+                <div class="flex flex-col items-end">
+                  <div class="flex items-center gap-1">
+                    <span
+                      class="material-symbols-outlined text-secondary text-[18px]"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >star</span
+                    >
+                    <span
+                      class="font-title-md text-title-md font-bold text-on-surface"
+                      >9.2</span
+                    >
+                    <span
+                      class="text-on-surface-variant font-label-md text-label-md"
+                      >IMDb</span
+                    >
+                  </div>
+                  <span
+                    class="font-body-sm text-body-sm text-on-surface-variant"
+                    >176.9K xem</span
+                  >
+                </div>
+                <div class="flex items-center gap-space-xs">
+                  <a
+                    class="px-space-md py-2 rounded-lg bg-surface-container-highest hover:bg-primary-container text-on-surface hover:text-on-primary-container font-title-sm text-title-sm font-semibold flex items-center gap-1 transition-all"
+                    href="#"
+                  >
+                    <span class="material-symbols-outlined text-[18px]"
+                      >play_arrow</span
+                    >
+                    <span>Xem phim</span>
+                  </a>
+                  <button
+                    aria-label="Yêu thích"
+                    class="p-2 rounded-lg bg-surface-container-highest hover:bg-surface-bright text-on-surface-variant hover:text-primary-container transition-colors"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined text-[20px]"
+                      >favorite</span
+                    >
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- CARD #07: Inception -->
+            <div
+              class="group bg-surface-container rounded-xl p-space-md flex flex-col sm:flex-row items-center justify-between gap-space-md hover:bg-surface-container-high transition-all shadow-md"
+            >
+              <div class="flex items-center gap-space-md w-full sm:w-auto">
+                <span
+                  class="font-headline-xl text-headline-xl font-black text-outline/40 w-14 text-center group-hover:text-primary transition-colors"
+                  >#07</span
+                >
+                <div
+                  class="relative w-20 h-28 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container-lowest"
+                >
+                  <img
+                    class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    data-alt="Movie poster for Inception showing Leonardo DiCaprio and team standing on a bending Parisian city street folding upward against physics, moody overcast skies, cinematic cool tones."
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVJhkn-sSCjZkCpRm0orDev7EsvGu3Cyncwaqq-UTNYcfjCFx9sFdvyd4G1QIFXDUMVCaBz7VuAY9do2tfPSyKwxi6uk9GDPZ4qQBkopAft2g8JOEwTOiyGC7GWdv5lx42U1An8nE4COgs7pzSLMpCDLB2LrSTshIqdjo4RLAoqBji5vJOlHRS5nERhEx0FSwRHc7m4u88SyvSxBuAn2LYw0J0V9JIX0Za03dFKFMllcsmL8g8WB84"
+                  />
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <div class="flex items-center gap-space-xs flex-wrap mb-1">
+                    <h3
+                      class="font-title-md text-title-md font-bold text-on-surface truncate group-hover:text-primary-container transition-colors"
+                    >
+                      Inception
+                    </h3>
+                    <span
+                      class="text-on-surface-variant font-body-sm text-body-sm"
+                      >(2010)</span
+                    >
+                  </div>
+                  <span
+                    class="font-body-sm text-body-sm text-on-surface-variant mb-1"
+                    >Kẻ Đánh Cắp Giấc Mơ</span
+                  >
+                  <div
+                    class="flex items-center gap-space-md font-body-sm text-body-sm text-on-surface-variant"
+                  >
+                    <span>2h 28m</span>
+                    <span>•</span>
+                    <span>Hành động • Viễn tưởng</span>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="flex items-center justify-between sm:justify-end gap-space-lg w-full sm:w-auto"
+              >
+                <div class="flex flex-col items-end">
+                  <div class="flex items-center gap-1">
+                    <span
+                      class="material-symbols-outlined text-secondary text-[18px]"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >star</span
+                    >
+                    <span
+                      class="font-title-md text-title-md font-bold text-on-surface"
+                      >8.8</span
+                    >
+                    <span
+                      class="text-on-surface-variant font-label-md text-label-md"
+                      >IMDb</span
+                    >
+                  </div>
+                  <span
+                    class="font-body-sm text-body-sm text-on-surface-variant"
+                    >164.0K xem</span
+                  >
+                </div>
+                <div class="flex items-center gap-space-xs">
+                  <a
+                    class="px-space-md py-2 rounded-lg bg-surface-container-highest hover:bg-primary-container text-on-surface hover:text-on-primary-container font-title-sm text-title-sm font-semibold flex items-center gap-1 transition-all"
+                    href="#"
+                  >
+                    <span class="material-symbols-outlined text-[18px]"
+                      >play_arrow</span
+                    >
+                    <span>Xem phim</span>
+                  </a>
+                  <button
+                    aria-label="Yêu thích"
+                    class="p-2 rounded-lg bg-surface-container-highest hover:bg-surface-bright text-on-surface-variant hover:text-primary-container transition-colors"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined text-[20px]"
+                      >favorite</span
+                    >
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- CARD #08: Blade Runner 2049 -->
+            <div
+              class="group bg-surface-container rounded-xl p-space-md flex flex-col sm:flex-row items-center justify-between gap-space-md hover:bg-surface-container-high transition-all shadow-md"
+            >
+              <div class="flex items-center gap-space-md w-full sm:w-auto">
+                <span
+                  class="font-headline-xl text-headline-xl font-black text-outline/40 w-14 text-center group-hover:text-primary transition-colors"
+                  >#08</span
+                >
+                <div
+                  class="relative w-20 h-28 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container-lowest"
+                >
+                  <img
+                    class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    data-alt="Atmospheric movie poster of Blade Runner 2049 featuring Ryan Gosling in a trench coat standing beside a futuristic spinner car in a dusty orange post-apocalyptic Las Vegas haze, ultra aesthetic cyberpunk lighting."
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnB_deIaZLO3Y98wA9J7AiK6GBTiT00LH2WDzcLE33lZMBvsThVVzLDRUz4Q5AeG47cT-VTf9qywnlKqvbIVj4ZcN4y-ryJqcTp5FeUmcoo3MJ4aB4P15H01dyQ2rsRLhZ_ADjND5krFZjN0d8io_4srH_eTBmVqokwItLkHyNnEhIFUuGhQNX7HbT5xmVh9hJiUu2pfCAO3L3UiLOBGAQAwN5yIgyX4Kh4uFGp2PeqpKAtUsVzHnB"
+                  />
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <div class="flex items-center gap-space-xs flex-wrap mb-1">
+                    <h3
+                      class="font-title-md text-title-md font-bold text-on-surface truncate group-hover:text-primary-container transition-colors"
+                    >
+                      Blade Runner 2049
+                    </h3>
+                    <span
+                      class="text-on-surface-variant font-body-sm text-body-sm"
+                      >(2017)</span
+                    >
+                  </div>
+                  <span
+                    class="font-body-sm text-body-sm text-on-surface-variant mb-1"
+                    >Tội Phạm Nhân Bản 2049</span
+                  >
+                  <div
+                    class="flex items-center gap-space-md font-body-sm text-body-sm text-on-surface-variant"
+                  >
+                    <span>2h 44m</span>
+                    <span>•</span>
+                    <span>Cyberpunk • Viễn tưởng</span>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="flex items-center justify-between sm:justify-end gap-space-lg w-full sm:w-auto"
+              >
+                <div class="flex flex-col items-end">
+                  <div class="flex items-center gap-1">
+                    <span
+                      class="material-symbols-outlined text-secondary text-[18px]"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >star</span
+                    >
+                    <span
+                      class="font-title-md text-title-md font-bold text-on-surface"
+                      >8.0</span
+                    >
+                    <span
+                      class="text-on-surface-variant font-label-md text-label-md"
+                      >IMDb</span
+                    >
+                  </div>
+                  <span
+                    class="font-body-sm text-body-sm text-on-surface-variant"
+                    >138.5K xem</span
+                  >
+                </div>
+                <div class="flex items-center gap-space-xs">
+                  <a
+                    class="px-space-md py-2 rounded-lg bg-surface-container-highest hover:bg-primary-container text-on-surface hover:text-on-primary-container font-title-sm text-title-sm font-semibold flex items-center gap-1 transition-all"
+                    href="#"
+                  >
+                    <span class="material-symbols-outlined text-[18px]"
+                      >play_arrow</span
+                    >
+                    <span>Xem phim</span>
+                  </a>
+                  <button
+                    aria-label="Yêu thích"
+                    class="p-2 rounded-lg bg-surface-container-highest hover:bg-surface-bright text-on-surface-variant hover:text-primary-container transition-colors"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined text-[20px]"
+                      >favorite</span
+                    >
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- CARD #09: Parasite -->
+            <div
+              class="group bg-surface-container rounded-xl p-space-md flex flex-col sm:flex-row items-center justify-between gap-space-md hover:bg-surface-container-high transition-all shadow-md"
+            >
+              <div class="flex items-center gap-space-md w-full sm:w-auto">
+                <span
+                  class="font-headline-xl text-headline-xl font-black text-outline/40 w-14 text-center group-hover:text-primary transition-colors"
+                  >#09</span
+                >
+                <div
+                  class="relative w-20 h-28 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container-lowest"
+                >
+                  <img
+                    class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    data-alt="Dramatic film poster of Parasite showing family members standing in a lush green garden lawn with black censor bars across their eyes, moody psychological tension, modern Korean architecture."
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPT-YqABfx1CSv_O_SsGbWw3DKlVebw32YqD1z5FNyJNem7jNKGVEDWh4RUwfWQrbmsDHVX95ain6cOml4GQRDMGaihDKo9OIVwOmUsKs77DygLbHOrR4_nF7ig4JmLiURgmfXoJcor6v4MnFcngbWgVt8jqeNkaE5gwwC1-JO5_zyF9KQzXZGoX6L8JZhEicmo29NpRWpTitLKw2gLQkU2SVY9J3NE4z6TihLzTJuzTEkTsSUHT7P"
+                  />
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <div class="flex items-center gap-space-xs flex-wrap mb-1">
+                    <h3
+                      class="font-title-md text-title-md font-bold text-on-surface truncate group-hover:text-primary-container transition-colors"
+                    >
+                      Parasite
+                    </h3>
+                    <span
+                      class="text-on-surface-variant font-body-sm text-body-sm"
+                      >(2019)</span
+                    >
+                    <span
+                      class="px-2 py-0.5 rounded bg-surface-container-lowest text-secondary-fixed font-label-caps text-label-caps"
+                      >Oscar Best Picture</span
+                    >
+                  </div>
+                  <span
+                    class="font-body-sm text-body-sm text-on-surface-variant mb-1"
+                    >Ký Sinh Trùng</span
+                  >
+                  <div
+                    class="flex items-center gap-space-md font-body-sm text-body-sm text-on-surface-variant"
+                  >
+                    <span>2h 12m</span>
+                    <span>•</span>
+                    <span>Tâm lý • Giật gân</span>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="flex items-center justify-between sm:justify-end gap-space-lg w-full sm:w-auto"
+              >
+                <div class="flex flex-col items-end">
+                  <div class="flex items-center gap-1">
+                    <span
+                      class="material-symbols-outlined text-secondary text-[18px]"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >star</span
+                    >
+                    <span
+                      class="font-title-md text-title-md font-bold text-on-surface"
+                      >8.5</span
+                    >
+                    <span
+                      class="text-on-surface-variant font-label-md text-label-md"
+                      >IMDb</span
+                    >
+                  </div>
+                  <span
+                    class="font-body-sm text-body-sm text-on-surface-variant"
+                    >129.3K xem</span
+                  >
+                </div>
+                <div class="flex items-center gap-space-xs">
+                  <a
+                    class="px-space-md py-2 rounded-lg bg-surface-container-highest hover:bg-primary-container text-on-surface hover:text-on-primary-container font-title-sm text-title-sm font-semibold flex items-center gap-1 transition-all"
+                    href="#"
+                  >
+                    <span class="material-symbols-outlined text-[18px]"
+                      >play_arrow</span
+                    >
+                    <span>Xem phim</span>
+                  </a>
+                  <button
+                    aria-label="Yêu thích"
+                    class="p-2 rounded-lg bg-surface-container-highest hover:bg-surface-bright text-on-surface-variant hover:text-primary-container transition-colors"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined text-[20px]"
+                      >favorite</span
+                    >
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- CARD #10: Spirited Away -->
+            <div
+              class="group bg-surface-container rounded-xl p-space-md flex flex-col sm:flex-row items-center justify-between gap-space-md hover:bg-surface-container-high transition-all shadow-md"
+            >
+              <div class="flex items-center gap-space-md w-full sm:w-auto">
+                <span
+                  class="font-headline-xl text-headline-xl font-black text-outline/40 w-14 text-center group-hover:text-primary transition-colors"
+                  >#10</span
+                >
+                <div
+                  class="relative w-20 h-28 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container-lowest"
+                >
+                  <img
+                    class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    data-alt="Artistic anime movie poster of Spirited Away featuring Chihiro standing beside No-Face on a vintage train moving over calm ocean water during sunset, dreamy Studio Ghibli art style with rich painted lighting."
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAr6LjQnqIyvYUOKPdlNHUYlbyw2u4ara__ixM0zkZzA0A0y8OeGY7jshAgj_OfQxTwfsSMCmak3myUwvyCiTLq7twZA0HbfQnEEzs8fSCOnljZjLefoxIPeiPk-UMtg69LLuE1OMfoWeNiZNXO1cE9RzhQ1shWPuO2oQTyPMTZfTReM-yuDpRO8l2paQX2WGt-UtroTBKnx3_8B6_lkvw5LSnZmtEgPlVZ_YhupjTLWySjqFFI9Tc8"
+                  />
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <div class="flex items-center gap-space-xs flex-wrap mb-1">
+                    <h3
+                      class="font-title-md text-title-md font-bold text-on-surface truncate group-hover:text-primary-container transition-colors"
+                    >
+                      Spirited Away
+                    </h3>
+                    <span
+                      class="text-on-surface-variant font-body-sm text-body-sm"
+                      >(2001)</span
+                    >
+                    <span
+                      class="px-2 py-0.5 rounded bg-surface-container-lowest text-tertiary font-label-caps text-label-caps"
+                      >Ghibli Studio</span
+                    >
+                  </div>
+                  <span
+                    class="font-body-sm text-body-sm text-on-surface-variant mb-1"
+                    >Vùng Đất Linh Hồn</span
+                  >
+                  <div
+                    class="flex items-center gap-space-md font-body-sm text-body-sm text-on-surface-variant"
+                  >
+                    <span>2h 05m</span>
+                    <span>•</span>
+                    <span>Hoạt hình Ghibli • Kỳ ảo</span>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="flex items-center justify-between sm:justify-end gap-space-lg w-full sm:w-auto"
+              >
+                <div class="flex flex-col items-end">
+                  <div class="flex items-center gap-1">
+                    <span
+                      class="material-symbols-outlined text-secondary text-[18px]"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >star</span
+                    >
+                    <span
+                      class="font-title-md text-title-md font-bold text-on-surface"
+                      >8.6</span
+                    >
+                    <span
+                      class="text-on-surface-variant font-label-md text-label-md"
+                      >IMDb</span
+                    >
+                  </div>
+                  <span
+                    class="font-body-sm text-body-sm text-on-surface-variant"
+                    >112.7K xem</span
+                  >
+                </div>
+                <div class="flex items-center gap-space-xs">
+                  <a
+                    class="px-space-md py-2 rounded-lg bg-surface-container-highest hover:bg-primary-container text-on-surface hover:text-on-primary-container font-title-sm text-title-sm font-semibold flex items-center gap-1 transition-all"
+                    href="#"
+                  >
+                    <span class="material-symbols-outlined text-[18px]"
+                      >play_arrow</span
+                    >
+                    <span>Xem phim</span>
+                  </a>
+                  <button
+                    aria-label="Yêu thích"
+                    class="p-2 rounded-lg bg-surface-container-highest hover:bg-surface-bright text-on-surface-variant hover:text-primary-container transition-colors"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined text-[20px]"
+                      >favorite</span
+                    >
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 5. VIEW MORE BUTTON -->
+          <div class="flex justify-center mt-space-xl">
+            <button
+              class="group px-space-xl py-3.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-title-md text-title-md font-bold flex items-center gap-space-sm shadow-lg hover:shadow-[0_0_24px_rgba(229,9,20,0.3)] transition-all"
+              type="button"
+            >
+              <span>Xem thêm 90 bộ phim khác</span>
+              <span
+                class="material-symbols-outlined text-primary-container transition-transform duration-300 group-hover:translate-y-1"
+                >expand_circle_down</span
+              >
+            </button>
+          </div>
+        </section>
+        <!-- 6. EMPTY STATE & INTERACTION PREVIEW SHOWCASE -->
+        <section class="w-full px-margin-mobile lg:px-margin mb-space-xl">
+          <div
+            class="p-space-lg rounded-2xl bg-surface-container-lowest flex flex-col items-center text-center max-w-xl mx-auto shadow-2xl relative overflow-hidden"
+          >
+            <!-- Ambient Backlight -->
+            <div
+              class="absolute -top-12 left-1/2 -translate-x-1/2 w-48 h-48 bg-primary-container/15 blur-2xl pointer-events-none"
+            ></div>
+            <!-- Icon Clapperboard with Soft Red Halo -->
+            <div
+              class="w-16 h-16 rounded-2xl bg-surface-container-high flex items-center justify-center mb-space-md shadow-[0_0_24px_rgba(229,9,20,0.3)]"
+            >
+              <span
+                class="material-symbols-outlined text-primary-container text-[36px]"
+                >movie_filter</span
+              >
+            </div>
+            <!-- Title & Description -->
+            <h4
+              class="font-headline-sm text-headline-sm font-bold text-on-surface mb-space-xs"
+            >
+              Chưa có phim trong bảng xếp hạng
+            </h4>
+            <p
+              class="font-body-sm text-body-sm text-on-surface-variant mb-space-lg max-w-md"
+            >
+              Hãy thử thay đổi mốc thời gian hoặc bộ lọc thể loại khác để khám
+              phá các tuyệt phẩm điện ảnh thịnh hành.
+            </p>
+            <!-- Reset Action -->
+            <button
+              class="px-space-lg py-2.5 rounded-xl bg-primary-container hover:bg-primary-container/90 text-on-primary-container font-title-sm text-title-sm font-semibold flex items-center gap-space-xs shadow-md transition-all"
+              type="button"
+            >
+              <span class="material-symbols-outlined text-[18px]"
+                >restart_alt</span
+              >
+              <span>Đặt lại bộ lọc</span>
+            </button>
+          </div>
+        </section>
+      </div>
+      <script>
+        // Tab micro-interactions
+        document.querySelectorAll(".filter-tab").forEach((tab) => {
+          tab.addEventListener("click", function () {
+            document.querySelectorAll(".filter-tab").forEach((t) => {
+              t.className =
+                "filter-tab px-space-md py-2 rounded-lg font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-all whitespace-nowrap";
+            });
+            this.className =
+              "filter-tab px-space-lg py-2 rounded-lg font-title-sm text-title-sm text-on-primary-container bg-primary-container shadow-[0_0_20px_rgba(229,9,20,0.45)] whitespace-nowrap font-bold";
+          });
+        });
+
+        // Favorite Button Toggle
+        const favBtn = document.getElementById("top1FavBtn");
+        if (favBtn) {
+          favBtn.addEventListener("click", function () {
+            const icon = this.querySelector(".material-symbols-outlined");
+            if (icon) {
+              if (icon.style.fontVariationSettings.includes("'FILL' 1")) {
+                icon.style.fontVariationSettings = "'FILL' 0";
+                this.classList.remove("text-primary-container");
+                this.classList.add("text-on-surface-variant");
+              } else {
+                icon.style.fontVariationSettings = "'FILL' 1";
+                this.classList.add("text-primary-container");
+                this.classList.remove("text-on-surface-variant");
+              }
+            }
+          });
+        }
+      </script>
+    </main>
+    <footer
+      id="footer"
+      class="w-full bg-surface-container-low border-t border-white/5 mt-space-xl"
+    >
+      <div class="w-full px-gutter-mobile md:px-margin py-space-xl">
+        <div
+          class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-space-xl mb-space-xl"
+        >
+          <div class="md:col-span-2 flex flex-col gap-space-md">
+            <div class="flex items-center gap-space-sm">
+              <img
+                alt="Poster phim Mật Vụ Bóng Đêm"
+                class="h-7 w-auto object-contain"
+                src="/images/logo/logo.svg"
+              />
+              <span
+                class="font-headline-sm text-headline-sm tracking-tight text-on-surface font-bold"
+              >
+                Movie<span class="text-primary-container">F</span>
+              </span>
+            </div>
+            <p
+              class="font-body-sm text-body-sm text-on-surface-variant max-w-sm"
+            >
+              Nền tảng phát trực tuyến trải nghiệm điện ảnh đỉnh cao, đem rạp
+              chiếu phim chất lượng chuẩn 4K đến mọi gia đình.
+            </p>
+            <div class="flex items-center gap-space-sm pt-space-xs">
+              <a
+                class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+                href="#"
+              >
+                <span class="material-symbols-outlined text-base"
+                  >smart_display</span
+                >
+              </a>
+              <a
+                class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+                href="#"
+              >
+                <span class="material-symbols-outlined text-base">public</span>
+              </a>
+              <a
+                class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+                href="#"
+              >
+                <span class="material-symbols-outlined text-base">forum</span>
+              </a>
+            </div>
+          </div>
+          <div class="flex flex-col gap-space-sm">
+            <span
+              class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider"
+            >
+              Khám phá
+            </span>
+            <ul class="flex flex-col gap-space-xs">
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Giới thiệu
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Phim chiếu rạp
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Phim bộ độc quyền
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Bảng xếp hạng
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="flex flex-col gap-space-sm">
+            <span
+              class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider"
+            >
+              Quy định &amp; Hỗ trợ
+            </span>
+            <ul class="flex flex-col gap-space-xs">
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Điều khoản sử dụng
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Chính sách bảo mật
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Liên hệ
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Trung tâm trợ giúp
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="flex flex-col gap-space-sm">
+            <span
+              class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider"
+            >
+              Ứng dụng
+            </span>
+            <p class="font-body-sm text-body-sm text-on-surface-variant">
+              Xem phim mọi lúc, mọi nơi trên Smart TV, di động và máy tính bảng.
+            </p>
+            <div class="flex flex-col gap-space-xs pt-space-xs">
+              <div
+                class="flex items-center gap-space-sm p-space-xs bg-surface-container rounded-lg"
+              >
+                <span class="material-symbols-outlined text-primary">tv</span>
+                <span class="font-label-md text-label-md text-on-surface">
+                  Smart TV &amp; Android TV
+                </span>
+              </div>
+              <div
+                class="flex items-center gap-space-sm p-space-xs bg-surface-container rounded-lg"
+              >
+                <span class="material-symbols-outlined text-primary"
+                  >smartphone</span
+                >
+                <span class="font-label-md text-label-md text-on-surface">
+                  iOS &amp; Android Apps
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="pt-space-md border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-space-sm text-center sm:text-left"
+        >
+          <p class="font-body-sm text-body-sm text-on-surface-variant">
+            © 2024 MovieF Streaming Platform. Bản quyền thuộc về MovieF.
+          </p>
+          <div
+            class="flex items-center gap-space-md font-body-sm text-body-sm text-on-surface-variant"
+          >
+            <a class="hover:text-on-surface transition-colors" href="#">
+              Quyền riêng tư
+            </a>
+            <a class="hover:text-on-surface transition-colors" href="#">
+              Cookie
+            </a>
+            <a class="hover:text-on-surface transition-colors" href="#">
+              Trợ giúp
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+<script type="module" src="/src/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="module" src="/src/js/custumer/auth.js"></script>
+<script type="module" src="/src/js/custumer/header.js"></script>
