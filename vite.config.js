@@ -369,6 +369,7 @@ export default defineConfig({
             "/genres": "/src/pages/genres.html",
 
             "/profile": "/src/pages/profile.html",
+
             "/login": "/src/pages/login.html",
 
             "/register": "/src/pages/register.html",
