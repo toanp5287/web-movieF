@@ -78,7 +78,7 @@
       "username": "staff01",
       "email": "staff01@movief.com",
       "password": "123456",
-      "fullname": "Nguyen Van Staff",
+      "fullname": "Nguyen Van satffff",
       "avatar": "images/avatar/default.png",
       "roleId": 2,
       "status": "inactive",
@@ -1175,6 +1175,20 @@
       "progress": 0,
       "watchedAt": "2026-10-01T17:48:12",
       "id": "6CBrQwh"
+    },
+    {
+      "userId": 1,
+      "movieId": 22,
+      "progress": 0,
+      "watchedAt": "2026-10-01T18:23:37",
+      "id": "OI7wFvZthqA"
+    },
+    {
+      "userId": 1,
+      "movieId": 3,
+      "progress": 3,
+      "watchedAt": "2026-10-01T19:09:37",
+      "id": "dju5K7U_yNY"
     }
   ],
   "reviews": [

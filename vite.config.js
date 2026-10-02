@@ -356,7 +356,7 @@ export default defineConfig({
           const routes = {
             "/": "/src/pages/home.html",
 
-            "/admin": "/src/admin/movies.html",
+            "/admin": "/src/admin/dashBoard.html",
 
             "/movies": "/src/pages/movies.html",
 
@@ -369,6 +369,9 @@ export default defineConfig({
             "/genres": "/src/pages/genres.html",
 
             "/profile": "/src/pages/profile.html",
+            "/membership": "/src/pages/membership.html",
+
+            "/topMovies": "/src/pages/top-movies.html",
             "/login": "/src/pages/login.html",
 
             "/register": "/src/pages/register.html",
@@ -378,8 +381,9 @@ export default defineConfig({
             "/admin/addMovie": "/src/admin/addMovie.html",
             "/admin/users": "/src/admin/users.html",
             "/admin/genres": "/src/admin/genres.html",
-            "/admin/dashBoard": "/src/admin/dashBoard.html",
+            "/admin/movies": "/src/admin/movies.html",
             "/admin/authorization": "/src/admin/authorization.html",
+            "/admin/reviews": "/src/admin/reviews.html",
           };
 
           if (routes[path]) {

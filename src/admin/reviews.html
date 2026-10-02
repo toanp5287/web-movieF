@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="vi" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản lý Đánh giá - MovieF Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+    <style>
+      /* Style riêng cho cấu trúc Sidebar mới của bạn */
+      .sidebar {
+        width: 256px;
+        background-color: #09090b; /* zinc-950 */
+        border-right: 1px solid rgba(39, 39, 42, 0.8); /* zinc-800 */
+        padding: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        z-index: 40;
+      }
+      .sidebar-logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+        padding-left: 0.25rem;
+        flex-shrink: 0;
+      }
+      .sidebar-logo-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 0.75rem;
+        background-color: #e50914;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        box-shadow: 0 4px 6px -1px rgba(69, 10, 10, 0.5);
+      }
+      .sidebar-title {
+        font-size: 1.125rem;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        color: white;
+        line-height: 1.25;
+      }
+      .sidebar-subtitle {
+        font-size: 0.6875rem;
+        font-weight: 500;
+        color: #71717a; /* gray-500 */
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .menu-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.375rem;
+        flex: 1 1 0%;
+        overflow-y: auto;
+      }
+      .menu-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.625rem 0.875rem;
+        border-radius: 0.75rem;
+        color: #a1a1aa; /* gray-400 */
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.2s;
+        border: 1px solid transparent;
+      }
+      .menu-item:hover:not(.active) {
+        color: #f4f4f5;
+        background-color: #18181b; /* zinc-900 */
+      }
+      /* Cấu hình sáng màu đỏ cho nút Active */
+      .menu-item.active {
+        background-color: #18181b; /* zinc-900 */
+        color: white;
+        border-color: #27272a; /* zinc-800 */
+        font-weight: 600;
+      }
+      .menu-item.active .material-symbols-outlined {
+        color: #ef4444; /* red-500 */
+      }
+      .sidebar-account {
+        border-top: 1px solid rgba(39, 39, 42, 0.8);
+        padding-top: 1rem;
+        margin-top: 0.5rem;
+        flex-shrink: 0;
+      }
+      .sidebar-avatar {
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 9999px;
+        object-fit: cover;
+      }
+      .sidebar-account-name {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #e4e4e7;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .sidebar-account-mail {
+        font-size: 0.6875rem;
+        color: #71717a;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .sidebar-account-btn {
+        color: #a1a1aa;
+        padding: 0.25rem;
+        border-radius: 0.5rem;
+        transition: color 0.2s;
+      }
+      .sidebar-account-btn:hover {
+        color: #f4f4f5;
+      }
+    </style>
+  </head>
+  <body class="bg-zinc-950 text-zinc-100 min-h-screen antialiased flex">
+    <!-- === SIDEBAR TỪ NGƯỜI DÙNG CUNG CẤP === -->
+    <aside class="sidebar fixed left-0 top-0 bottom-0">
+      <!-- LOGO -->
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon">
+          <span class="material-symbols-outlined">movie</span>
+        </div>
+        <div>
+          <h1 class="sidebar-title">MovieF</h1>
+          <p class="sidebar-subtitle">Admin Panel</p>
+        </div>
+      </div>
+
+      <!-- MENU -->
+      <nav class="menu-nav">
+        <a href="/admin" class="menu-item">
+          <span class="material-symbols-outlined">dashboard</span>
+          <span>Dashboard</span>
+        </a>
+
+        <a href="/admin/movies" class="menu-item">
+          <span class="material-symbols-outlined">movie</span>
+          <span>Quản lý phim</span>
+        </a>
+
+        <a href="/admin/genres" class="menu-item">
+          <span class="material-symbols-outlined">category</span>
+          <span>Thể loại</span>
+        </a>
+
+        <a href="/admin/users" class="menu-item">
+          <span class="material-symbols-outlined">group</span>
+          <span>Người dùng</span>
+        </a>
+        <a href="/admin/authorization" class="menu-item">
+          <span class="material-symbols-outlined">admin_panel_settings</span>
+          <span>Phân quyền</span>
+        </a>
+
+        <!-- ACTIVE MỤC ĐÁNH GIÁ TẠI ĐÂY -->
+        <a href="/admin/reviews" class="menu-item active">
+          <span class="material-symbols-outlined">reviews</span>
+          <span>Đánh giá</span>
+        </a>
+
+        <!-- <a href="/admin/comments" class="menu-item">
+          <span class="material-symbols-outlined">comment</span>
+          <span>Bình luận</span>
+        </a> -->
+
+        <a href="/admin/statistics" class="menu-item">
+          <span class="material-symbols-outlined">bar_chart</span>
+          <span>Thống kê</span>
+        </a>
+
+        <a href="/admin/trash" class="menu-item">
+          <span class="material-symbols-outlined">delete</span>
+          <span>Thùng rác</span>
+        </a>
+      </nav>
+
+      <!-- ADMIN ACCOUNT -->
+      <div class="sidebar-account">
+        <div class="flex items-center gap-3">
+          <img
+            src="/images/avatar/admin.png"
+            alt="Admin"
+            class="sidebar-avatar"
+            onerror="
+              this.src =
+                'https://ui-avatars.com/api/?name=Admin+MovieF&background=e50914&color=fff'
+            "
+          />
+          <div class="flex-1 min-w-0">
+            <p class="sidebar-account-name">MovieF Admin</p>
+            <p class="sidebar-account-mail">admin@movief.com</p>
+          </div>
+          <button class="sidebar-account-btn">
+            <span class="material-symbols-outlined text-lg">more_vert</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- === MAIN CONTENT (Dịch sang phải 256px qua ml-64 để tránh sidebar) === -->
+    <main class="flex-1 ml-64 min-h-screen p-6 lg:p-8">
+      <div class="max-w-6xl mx-auto space-y-6">
+        <!-- Header -->
+        <div
+          class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-800/80 pb-5"
+        >
+          <div>
+            <h1
+              class="text-2xl font-bold tracking-tight text-white flex items-center gap-2.5"
+            >
+              <span class="material-symbols-outlined text-red-500 text-2xl"
+                >reviews</span
+              >
+              Quản lý Đánh giá Phim
+            </h1>
+            <p class="text-xs text-zinc-400 mt-1">
+              Theo dõi và kiểm soát hiển thị các đánh giá từ người dùng
+            </p>
+          </div>
+        </div>
+
+        <!-- Filter & Search Bar -->
+        <section
+          class="bg-zinc-900/90 border border-zinc-800 p-2.5 rounded-2xl shadow-xl flex flex-col gap-2"
+        >
+          <div
+            class="flex items-center bg-zinc-950/80 rounded-xl border border-zinc-800 focus-within:border-red-500/60 focus-within:ring-2 focus-within:ring-red-500/15 transition-all p-1"
+          >
+            <div class="flex-1 flex items-center pl-3 min-w-0">
+              <span
+                class="material-symbols-outlined text-zinc-500 text-xl pointer-events-none select-none"
+                >search</span
+              >
+              <input
+                id="searchInput"
+                type="text"
+                placeholder="Tìm theo nội dung, ID người dùng, ID phim..."
+                class="w-full h-10 bg-transparent px-3 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none"
+              />
+            </div>
+
+            <div class="h-5 w-px bg-zinc-800 hidden sm:block"></div>
+
+            <!-- Lọc Số Sao -->
+            <div class="relative hidden sm:block shrink-0">
+              <select
+                id="ratingFilter"
+                class="h-10 appearance-none bg-transparent text-zinc-300 text-xs font-medium pl-3 pr-8 cursor-pointer focus:outline-none hover:text-white transition-colors"
+              >
+                <option value="" class="bg-zinc-900 text-zinc-200">
+                  Tất cả số sao
+                </option>
+                <option value="5" class="bg-zinc-900 text-zinc-200">
+                  5 sao
+                </option>
+                <option value="4" class="bg-zinc-900 text-zinc-200">
+                  4 sao
+                </option>
+                <option value="3" class="bg-zinc-900 text-zinc-200">
+                  3 sao
+                </option>
+                <option value="2" class="bg-zinc-900 text-zinc-200">
+                  2 sao
+                </option>
+                <option value="1" class="bg-zinc-900 text-zinc-200">
+                  1 sao
+                </option>
+              </select>
+              <span
+                class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none text-base"
+                >expand_more</span
+              >
+            </div>
+
+            <div class="h-5 w-px bg-zinc-800 hidden md:block"></div>
+
+            <!-- Lọc Trạng Thái (visible / hidden) -->
+            <div class="relative hidden md:block shrink-0">
+              <select
+                id="statusFilter"
+                class="h-10 appearance-none bg-transparent text-zinc-300 text-xs font-medium pl-3 pr-8 cursor-pointer focus:outline-none hover:text-white transition-colors"
+              >
+                <option value="" class="bg-zinc-900 text-zinc-200">
+                  Mọi trạng thái
+                </option>
+                <option value="visible" class="bg-zinc-900 text-zinc-200">
+                  Hiển thị (visible)
+                </option>
+                <option value="hidden" class="bg-zinc-900 text-zinc-200">
+                  Tạm ẩn (hidden)
+                </option>
+              </select>
+              <span
+                class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none text-base"
+                >expand_more</span
+              >
+            </div>
+
+            <button
+              onclick="filterData()"
+              class="h-10 px-4 bg-red-600 hover:bg-red-500 active:scale-95 text-white rounded-lg text-xs font-semibold inline-flex items-center gap-1.5 transition-all shrink-0 ml-1 shadow-sm shadow-red-950"
+            >
+              <span class="material-symbols-outlined text-base">tune</span>
+              <span>Lọc</span>
+            </button>
+          </div>
+
+          <div
+            class="flex items-center justify-between px-2 text-xs text-zinc-400"
+          >
+            <button
+              onclick="resetFilter()"
+              class="hover:text-zinc-200 transition-colors underline decoration-zinc-700"
+            >
+              Đặt lại bộ lọc
+            </button>
+            <div>
+              Đang hiển thị
+              <span id="recordCount" class="text-zinc-200 font-semibold"
+                >0</span
+              >
+              đánh giá
+            </div>
+          </div>
+        </section>
+
+        <!-- Bảng Dữ Liệu Đánh Giá -->
+        <div
+          class="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden shadow-xl"
+        >
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm text-zinc-300">
+              <thead
+                class="bg-zinc-950/70 text-xs uppercase text-zinc-400 border-b border-zinc-800 tracking-wider"
+              >
+                <tr>
+                  <th scope="col" class="py-3.5 px-4 w-24">ID</th>
+                  <th scope="col" class="py-3.5 px-4">Người dùng</th>
+                  <th scope="col" class="py-3.5 px-4">Phim</th>
+                  <th scope="col" class="py-3.5 px-4 w-28">Đánh giá</th>
+                  <th scope="col" class="py-3.5 px-4 min-w-[200px]">
+                    Nội dung
+                  </th>
+                  <th scope="col" class="py-3.5 px-4">Ngày tạo</th>
+                  <th scope="col" class="py-3.5 px-4 w-28">Trạng thái</th>
+                  <th scope="col" class="py-3.5 px-4 text-right">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="tableBody" class="divide-y divide-zinc-800/60">
+                <!-- Dữ liệu JS render -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Modal Chi Tiết Đánh Giá -->
+    <div
+      id="reviewModal"
+      class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden"
+    >
+      <div
+        class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 w-full max-w-lg shadow-2xl relative"
+      >
+        <div
+          class="flex items-center justify-between pb-3 border-b border-zinc-800"
+        >
+          <h3 class="text-base font-semibold text-white">Chi tiết đánh giá</h3>
+          <button
+            onclick="closeModal()"
+            class="material-symbols-outlined text-zinc-400 hover:text-white"
+          >
+            close
+          </button>
+        </div>
+
+        <div class="mt-4 space-y-3 text-xs text-zinc-300">
+          <div class="flex items-center justify-between">
+            <span class="text-zinc-500">Mã đánh giá (ID):</span>
+            <span id="modalId" class="font-mono text-zinc-200"></span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-zinc-500">Người dùng:</span>
+            <span id="modalUser" class="text-zinc-200 font-medium"></span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-zinc-500">Phim:</span>
+            <span id="modalMovie" class="font-semibold text-white"></span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-zinc-500">Điểm số:</span>
+            <div id="modalRating" class="flex text-amber-400"></div>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-zinc-500">Ngày tạo:</span>
+            <span id="modalDate" class="text-zinc-400 font-mono"></span>
+          </div>
+          <div>
+            <span class="text-zinc-500 block mb-1">Nội dung bình luận:</span>
+            <div
+              id="modalComment"
+              class="p-3 bg-zinc-950 border border-zinc-800 rounded-xl text-zinc-200 leading-relaxed font-sans text-xs"
+            ></div>
+          </div>
+        </div>
+
+        <div
+          class="flex items-center justify-end gap-2 pt-4 mt-4 border-t border-zinc-800"
+        >
+          <button
+            type="button"
+            onclick="closeModal()"
+            class="px-4 py-2 rounded-xl text-xs text-zinc-300 hover:bg-zinc-800 transition-colors"
+          >
+            Đóng
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript Xử Lý -->
+    <script>
+      // Dữ liệu JSON mẫu
+      let reviews = [
+        {
+          userId: 1,
+          movieId: 11,
+          rating: 5,
+          comment: "ggwehshdfjfhdfjdfj",
+          status: "visible",
+          createdAt: "2026-10-01",
+          id: "mLBS0Tp",
+        },
+        {
+          userId: 2,
+          movieId: 11,
+          rating: 4,
+          comment: "Phim xem rất bánh cuốn, hình ảnh âm thanh mãn nhãn!",
+          status: "visible",
+          createdAt: "2026-10-01",
+          id: "kJ98xZa",
+        },
+        {
+          userId: 3,
+          movieId: 14,
+          rating: 1,
+          comment: "Nội dung quảng cáo spam linh tinh...",
+          status: "hidden",
+          createdAt: "2026-09-29",
+          id: "qW12eRt",
+        },
+      ];
+
+      // Ánh xạ ID sang tên
+      const usersMap = {
+        1: "User #1 (NguyenVanA)",
+        2: "User #2 (TranThiB)",
+        3: "User #3 (SpamBot)",
+      };
+      const moviesMap = { 11: "Dune: Part Two", 14: "Mai (2024)" };
+
+      const tableBody = document.getElementById("tableBody");
+      const recordCount = document.getElementById("recordCount");
+      const searchInput = document.getElementById("searchInput");
+      const ratingFilter = document.getElementById("ratingFilter");
+      const statusFilter = document.getElementById("statusFilter");
+      const modal = document.getElementById("reviewModal");
+
+      // Hàm vẽ sao
+      function renderStars(rating) {
+        let starsHtml = "";
+        for (let i = 1; i <= 5; i++) {
+          if (i <= rating) {
+            starsHtml += `<span class="material-symbols-outlined text-[14px] fill-current">star</span>`;
+          } else {
+            starsHtml += `<span class="material-symbols-outlined text-[14px] text-zinc-600">star</span>`;
+          }
+        }
+        return `<div class="flex text-amber-400 items-center">${starsHtml} <span class="ml-1 text-xs font-semibold text-zinc-300 font-mono">${rating}</span></div>`;
+      }
+
+      function render(data = reviews) {
+        recordCount.textContent = data.length;
+
+        if (data.length === 0) {
+          tableBody.innerHTML = `
+            <tr>
+              <td colspan="8" class="py-10 text-center text-zinc-500 text-xs">
+                Không tìm thấy đánh giá nào phù hợp với bộ lọc.
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        tableBody.innerHTML = data
+          .map(
+            (item) => `
+          <tr class="hover:bg-zinc-800/30 transition-colors">
+            <td class="py-3 px-4 font-mono text-xs text-zinc-400">${item.id}</td>
+            <td class="py-3 px-4">
+              <span class="font-medium text-white">${usersMap[item.userId] || "User #" + item.userId}</span>
+            </td>
+            <td class="py-3 px-4">
+              <span class="text-zinc-300 font-medium">${moviesMap[item.movieId] || "Phim #" + item.movieId}</span>
+            </td>
+            <td class="py-3 px-4">
+              ${renderStars(item.rating)}
+            </td>
+            <td class="py-3 px-4 text-xs text-zinc-300 max-w-xs truncate" title="${item.comment}">
+              ${item.comment}
+            </td>
+            <td class="py-3 px-4 font-mono text-xs text-zinc-400">${item.createdAt}</td>
+            <td class="py-3 px-4">
+              ${
+                item.status === "visible"
+                  ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium text-emerald-400 bg-emerald-500/10 border border-emerald-500/20">
+                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Hiển thị
+                   </span>`
+                  : `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium text-zinc-400 bg-zinc-800 border border-zinc-700">
+                     <span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>Tạm ẩn
+                   </span>`
+              }
+            </td>
+            <td class="py-3 px-4 text-right space-x-1 shrink-0">
+              <button onclick="viewReview('${item.id}')" class="p-1.5 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors" title="Xem chi tiết">
+                <span class="material-symbols-outlined text-base">visibility</span>
+              </button>
+              <button onclick="toggleStatus('${item.id}')" class="p-1.5 text-zinc-400 hover:text-amber-400 hover:bg-zinc-800 rounded-lg transition-colors" title="${item.status === "visible" ? "Ẩn đánh giá" : "Hiện đánh giá"}">
+                <span class="material-symbols-outlined text-base">${item.status === "visible" ? "visibility_off" : "visibility"}</span>
+              </button>
+              <button onclick="deleteReview('${item.id}')" class="p-1.5 text-zinc-400 hover:text-red-400 hover:bg-zinc-800 rounded-lg transition-colors" title="Xóa đánh giá">
+                <span class="material-symbols-outlined text-base">delete</span>
+              </button>
+            </td>
+          </tr>
+        `,
+          )
+          .join("");
+      }
+
+      function filterData() {
+        const keyword = searchInput.value.trim().toLowerCase();
+        const rating = ratingFilter.value;
+        const status = statusFilter.value;
+
+        const filtered = reviews.filter((r) => {
+          const matchKeyword =
+            !keyword ||
+            r.comment.toLowerCase().includes(keyword) ||
+            r.id.toLowerCase().includes(keyword) ||
+            String(r.userId).includes(keyword) ||
+            String(r.movieId).includes(keyword);
+
+          const matchRating = !rating || String(r.rating) === rating;
+          const matchStatus = !status || r.status === status;
+
+          return matchKeyword && matchRating && matchStatus;
+        });
+
+        render(filtered);
+      }
+
+      searchInput.addEventListener("input", filterData);
+      ratingFilter.addEventListener("change", filterData);
+      statusFilter.addEventListener("change", filterData);
+
+      function resetFilter() {
+        searchInput.value = "";
+        ratingFilter.value = "";
+        statusFilter.value = "";
+        render(reviews);
+      }
+
+      function viewReview(id) {
+        const item = reviews.find((r) => r.id === id);
+        if (!item) return;
+
+        document.getElementById("modalId").textContent = item.id;
+        document.getElementById("modalUser").textContent =
+          usersMap[item.userId] || `User #${item.userId}`;
+        document.getElementById("modalMovie").textContent =
+          moviesMap[item.movieId] || `Phim #${item.movieId}`;
+        document.getElementById("modalRating").innerHTML = renderStars(
+          item.rating,
+        );
+        document.getElementById("modalDate").textContent = item.createdAt;
+        document.getElementById("modalComment").textContent = item.comment;
+
+        modal.classList.remove("hidden");
+      }
+
+      function closeModal() {
+        modal.classList.add("hidden");
+      }
+
+      function toggleStatus(id) {
+        const index = reviews.findIndex((r) => r.id === id);
+        if (index !== -1) {
+          reviews[index].status =
+            reviews[index].status === "visible" ? "hidden" : "visible";
+          filterData();
+        }
+      }
+
+      function deleteReview(id) {
+        if (confirm(`Bạn có chắc muốn xóa đánh giá #${id}?`)) {
+          reviews = reviews.filter((r) => r.id !== id);
+          filterData();
+        }
+      }
+
+      // Khởi tạo hiển thị ban đầu
+      render();
+    </script>
+  </body>
+</html>
