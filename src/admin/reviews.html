@@ -433,44 +433,47 @@
 
     <!-- JavaScript Xử Lý -->
     <script>
-      // Dữ liệu JSON mẫu
-      let reviews = [
-        {
-          userId: 1,
-          movieId: 11,
-          rating: 5,
-          comment: "ggwehshdfjfhdfjdfj",
-          status: "visible",
-          createdAt: "2026-10-01",
-          id: "mLBS0Tp",
-        },
-        {
-          userId: 2,
-          movieId: 11,
-          rating: 4,
-          comment: "Phim xem rất bánh cuốn, hình ảnh âm thanh mãn nhãn!",
-          status: "visible",
-          createdAt: "2026-10-01",
-          id: "kJ98xZa",
-        },
-        {
-          userId: 3,
-          movieId: 14,
-          rating: 1,
-          comment: "Nội dung quảng cáo spam linh tinh...",
-          status: "hidden",
-          createdAt: "2026-09-29",
-          id: "qW12eRt",
-        },
-      ];
+      // =========================================================
+      // 1. LẤY DANH SÁCH REVIEW TỪ JSON SERVER
+      // =========================================================
 
-      // Ánh xạ ID sang tên
+      const review = async () => {
+        try {
+          const res = await fetch("http://localhost:3000/reviews");
+
+          if (!res.ok) {
+            throw new Error(`Lỗi HTTP: ${res.status}`);
+          }
+
+          const reviews = await res.json();
+          return reviews;
+        } catch (error) {
+          console.error("Lỗi khi lấy reviews:", error);
+          return [];
+        }
+      };
+
+      // Mảng reviews thực tế lấy từ API
+      let reviews = [];
+
+      // =========================================================
+      // 2. ÁNH XẠ ID SANG TÊN
+      // =========================================================
+
       const usersMap = {
         1: "User #1 (NguyenVanA)",
         2: "User #2 (TranThiB)",
         3: "User #3 (SpamBot)",
       };
-      const moviesMap = { 11: "Dune: Part Two", 14: "Mai (2024)" };
+
+      const moviesMap = {
+        11: "Dune: Part Two",
+        14: "Mai (2024)",
+      };
+
+      // =========================================================
+      // 3. LẤY ELEMENT
+      // =========================================================
 
       const tableBody = document.getElementById("tableBody");
       const recordCount = document.getElementById("recordCount");
@@ -479,30 +482,55 @@
       const statusFilter = document.getElementById("statusFilter");
       const modal = document.getElementById("reviewModal");
 
-      // Hàm vẽ sao
+      // =========================================================
+      // 4. HIỂN THỊ SAO
+      // =========================================================
+
       function renderStars(rating) {
         let starsHtml = "";
+
         for (let i = 1; i <= 5; i++) {
           if (i <= rating) {
-            starsHtml += `<span class="material-symbols-outlined text-[14px] fill-current">star</span>`;
+            starsHtml += `
+          <span class="material-symbols-outlined text-[14px] fill-current">
+            star
+          </span>
+        `;
           } else {
-            starsHtml += `<span class="material-symbols-outlined text-[14px] text-zinc-600">star</span>`;
+            starsHtml += `
+          <span class="material-symbols-outlined text-[14px] text-zinc-600">
+            star
+          </span>
+        `;
           }
         }
-        return `<div class="flex text-amber-400 items-center">${starsHtml} <span class="ml-1 text-xs font-semibold text-zinc-300 font-mono">${rating}</span></div>`;
+
+        return `
+      <div class="flex text-amber-400 items-center">
+        ${starsHtml}
+        <span class="ml-1 text-xs font-semibold text-zinc-300 font-mono">
+          ${rating}
+        </span>
+      </div>
+    `;
       }
 
-      function render(data = reviews) {
+      // =========================================================
+      // 5. HIỂN THỊ DANH SÁCH REVIEW
+      // =========================================================
+
+      function render(data) {
         recordCount.textContent = data.length;
 
         if (data.length === 0) {
           tableBody.innerHTML = `
-            <tr>
-              <td colspan="8" class="py-10 text-center text-zinc-500 text-xs">
-                Không tìm thấy đánh giá nào phù hợp với bộ lọc.
-              </td>
-            </tr>
-          `;
+        <tr>
+          <td colspan="8" class="py-10 text-center text-zinc-500 text-xs">
+            Không tìm thấy đánh giá nào phù hợp với bộ lọc.
+          </td>
+        </tr>
+      `;
+
           return;
         }
 
@@ -510,41 +538,105 @@
           .map(
             (item) => `
           <tr class="hover:bg-zinc-800/30 transition-colors">
-            <td class="py-3 px-4 font-mono text-xs text-zinc-400">${item.id}</td>
-            <td class="py-3 px-4">
-              <span class="font-medium text-white">${usersMap[item.userId] || "User #" + item.userId}</span>
+
+            <!-- ID -->
+            <td class="py-3 px-4 font-mono text-xs text-zinc-400">
+              ${item.id}
             </td>
+
+            <!-- USER -->
             <td class="py-3 px-4">
-              <span class="text-zinc-300 font-medium">${moviesMap[item.movieId] || "Phim #" + item.movieId}</span>
+              <span class="font-medium text-white">
+                ${usersMap[item.userId] || "User #" + item.userId}
+              </span>
             </td>
+
+            <!-- MOVIE -->
+            <td class="py-3 px-4">
+              <span class="text-zinc-300 font-medium">
+                ${moviesMap[item.movieId] || "Phim #" + item.movieId}
+              </span>
+            </td>
+
+            <!-- RATING -->
             <td class="py-3 px-4">
               ${renderStars(item.rating)}
             </td>
-            <td class="py-3 px-4 text-xs text-zinc-300 max-w-xs truncate" title="${item.comment}">
+
+            <!-- COMMENT -->
+            <td
+              class="py-3 px-4 text-xs text-zinc-300 max-w-xs truncate"
+              title="${item.comment}"
+            >
               ${item.comment}
             </td>
-            <td class="py-3 px-4 font-mono text-xs text-zinc-400">${item.createdAt}</td>
+
+            <!-- DATE -->
+            <td class="py-3 px-4 font-mono text-xs text-zinc-400">
+              ${item.createdAt}
+            </td>
+
+            <!-- STATUS -->
             <td class="py-3 px-4">
               ${
                 item.status === "visible"
-                  ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium text-emerald-400 bg-emerald-500/10 border border-emerald-500/20">
-                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Hiển thị
-                   </span>`
-                  : `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium text-zinc-400 bg-zinc-800 border border-zinc-700">
-                     <span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>Tạm ẩn
-                   </span>`
+                  ? `
+                    <span
+                      class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium text-emerald-400 bg-emerald-500/10 border border-emerald-500/20"
+                    >
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                      Hiển thị
+                    </span>
+                  `
+                  : `
+                    <span
+                      class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium text-zinc-400 bg-zinc-800 border border-zinc-700"
+                    >
+                      <span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>
+                      Tạm ẩn
+                    </span>
+                  `
               }
             </td>
+
+            <!-- ACTION -->
             <td class="py-3 px-4 text-right space-x-1 shrink-0">
-              <button onclick="viewReview('${item.id}')" class="p-1.5 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors" title="Xem chi tiết">
-                <span class="material-symbols-outlined text-base">visibility</span>
+
+              <!-- XEM -->
+              <button
+                onclick="viewReview('${item.id}')"
+                class="p-1.5 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors"
+                title="Xem chi tiết"
+              >
+                <span class="material-symbols-outlined text-base">
+                  visibility
+                </span>
               </button>
-              <button onclick="toggleStatus('${item.id}')" class="p-1.5 text-zinc-400 hover:text-amber-400 hover:bg-zinc-800 rounded-lg transition-colors" title="${item.status === "visible" ? "Ẩn đánh giá" : "Hiện đánh giá"}">
-                <span class="material-symbols-outlined text-base">${item.status === "visible" ? "visibility_off" : "visibility"}</span>
+
+              <!-- ẨN / HIỆN -->
+              <button
+                onclick="toggleStatus('${item.id}')"
+                class="p-1.5 text-zinc-400 hover:text-amber-400 hover:bg-zinc-800 rounded-lg transition-colors"
+                title="${
+                  item.status === "visible" ? "Ẩn đánh giá" : "Hiện đánh giá"
+                }"
+              >
+                <span class="material-symbols-outlined text-base">
+                  ${item.status === "visible" ? "visibility_off" : "visibility"}
+                </span>
               </button>
-              <button onclick="deleteReview('${item.id}')" class="p-1.5 text-zinc-400 hover:text-red-400 hover:bg-zinc-800 rounded-lg transition-colors" title="Xóa đánh giá">
-                <span class="material-symbols-outlined text-base">delete</span>
+
+              <!-- XÓA -->
+              <button
+                onclick="deleteReview('${item.id}')"
+                class="p-1.5 text-zinc-400 hover:text-red-400 hover:bg-zinc-800 rounded-lg transition-colors"
+                title="Xóa đánh giá"
+              >
+                <span class="material-symbols-outlined text-base">
+                  delete
+                </span>
               </button>
+
             </td>
           </tr>
         `,
@@ -552,20 +644,28 @@
           .join("");
       }
 
+      // =========================================================
+      // 6. LỌC REVIEW
+      // =========================================================
+
       function filterData() {
         const keyword = searchInput.value.trim().toLowerCase();
         const rating = ratingFilter.value;
         const status = statusFilter.value;
 
         const filtered = reviews.filter((r) => {
+          const comment = String(r.comment || "").toLowerCase();
+          const id = String(r.id || "").toLowerCase();
+
           const matchKeyword =
             !keyword ||
-            r.comment.toLowerCase().includes(keyword) ||
-            r.id.toLowerCase().includes(keyword) ||
+            comment.includes(keyword) ||
+            id.includes(keyword) ||
             String(r.userId).includes(keyword) ||
             String(r.movieId).includes(keyword);
 
           const matchRating = !rating || String(r.rating) === rating;
+
           const matchStatus = !status || r.status === status;
 
           return matchKeyword && matchRating && matchStatus;
@@ -574,57 +674,141 @@
         render(filtered);
       }
 
+      // =========================================================
+      // 7. EVENT FILTER
+      // =========================================================
+
       searchInput.addEventListener("input", filterData);
+
       ratingFilter.addEventListener("change", filterData);
+
       statusFilter.addEventListener("change", filterData);
+
+      // =========================================================
+      // 8. RESET FILTER
+      // =========================================================
 
       function resetFilter() {
         searchInput.value = "";
         ratingFilter.value = "";
         statusFilter.value = "";
+
         render(reviews);
       }
 
+      // =========================================================
+      // 9. XEM CHI TIẾT REVIEW
+      // =========================================================
+
       function viewReview(id) {
-        const item = reviews.find((r) => r.id === id);
+        const item = reviews.find((r) => String(r.id) === String(id));
+
         if (!item) return;
 
         document.getElementById("modalId").textContent = item.id;
+
         document.getElementById("modalUser").textContent =
           usersMap[item.userId] || `User #${item.userId}`;
+
         document.getElementById("modalMovie").textContent =
           moviesMap[item.movieId] || `Phim #${item.movieId}`;
+
         document.getElementById("modalRating").innerHTML = renderStars(
           item.rating,
         );
+
         document.getElementById("modalDate").textContent = item.createdAt;
+
         document.getElementById("modalComment").textContent = item.comment;
 
         modal.classList.remove("hidden");
       }
 
+      // =========================================================
+      // 10. ĐÓNG MODAL
+      // =========================================================
+
       function closeModal() {
         modal.classList.add("hidden");
       }
 
-      function toggleStatus(id) {
-        const index = reviews.findIndex((r) => r.id === id);
-        if (index !== -1) {
-          reviews[index].status =
-            reviews[index].status === "visible" ? "hidden" : "visible";
+      // =========================================================
+      // 11. ẨN / HIỆN REVIEW
+      // =========================================================
+
+      async function toggleStatus(id) {
+        const item = reviews.find((r) => String(r.id) === String(id));
+
+        if (!item) return;
+
+        const newStatus = item.status === "visible" ? "hidden" : "visible";
+
+        try {
+          const res = await fetch(`http://localhost:3000/reviews/${id}`, {
+            method: "PATCH",
+
+            headers: {
+              "Content-Type": "application/json",
+            },
+
+            body: JSON.stringify({
+              status: newStatus,
+            }),
+          });
+
+          if (!res.ok) {
+            throw new Error(`Lỗi HTTP: ${res.status}`);
+          }
+
+          // Cập nhật dữ liệu local
+          item.status = newStatus;
+
+          // Render lại theo bộ lọc hiện tại
           filterData();
+        } catch (error) {
+          console.error("Lỗi khi cập nhật trạng thái:", error);
         }
       }
 
-      function deleteReview(id) {
-        if (confirm(`Bạn có chắc muốn xóa đánh giá #${id}?`)) {
-          reviews = reviews.filter((r) => r.id !== id);
+      // =========================================================
+      // 12. XÓA REVIEW
+      // =========================================================
+
+      async function deleteReview(id) {
+        const confirmDelete = confirm(`Bạn có chắc muốn xóa đánh giá #${id}?`);
+
+        if (!confirmDelete) return;
+
+        try {
+          const res = await fetch(`http://localhost:3000/reviews/${id}`, {
+            method: "DELETE",
+          });
+
+          if (!res.ok) {
+            throw new Error(`Lỗi HTTP: ${res.status}`);
+          }
+
+          // Xóa khỏi mảng local
+          reviews = reviews.filter((r) => String(r.id) !== String(id));
+
+          // Render lại
           filterData();
+        } catch (error) {
+          console.error("Lỗi khi xóa review:", error);
         }
       }
 
-      // Khởi tạo hiển thị ban đầu
-      render();
+      // =========================================================
+      // 13. LOAD REVIEW BAN ĐẦU
+      // =========================================================
+
+      async function loadReviews() {
+        reviews = await review();
+
+        render(reviews);
+      }
+
+      loadReviews();
     </script>
   </body>
 </html>
