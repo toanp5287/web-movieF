@@ -1,0 +1,1156 @@
+<!doctype html>
+
+<html class="dark" lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="web_dashboard" name="shell-type" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @layer base {
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          overscroll-behavior: none;
+        }
+        main > :first-child {
+          margin-top: 0 !important;
+        }
+        main > :last-child {
+          margin-bottom: 0 !important;
+        }
+      }
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+    <link rel="stylesheet" href="../css/style.css" />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              background: "#10131a",
+              "tertiary-fixed-dim": "#ffb95f",
+              "on-secondary": "#003824",
+              "on-error": "#690005",
+              "surface-tint": "#ffb4aa",
+              "on-tertiary-fixed": "#2a1700",
+              "inverse-on-surface": "#2d3038",
+              error: "#ffb4ab",
+              "on-surface": "#e0e2ec",
+              "inverse-primary": "#c0000c",
+              outline: "#af8782",
+              "secondary-container": "#00a572",
+              "on-secondary-fixed-variant": "#005236",
+              "surface-container-low": "#191c23",
+              "surface-container-highest": "#32353c",
+              "on-primary-fixed": "#410001",
+              "on-secondary-container": "#00311f",
+              "primary-fixed": "#ffdad5",
+              secondary: "#4edea3",
+              "on-error-container": "#ffdad6",
+              "on-background": "#e0e2ec",
+              "surface-container-high": "#272a31",
+              "surface-container-lowest": "#0b0e15",
+              "tertiary-container": "#a06500",
+              "on-tertiary": "#472a00",
+              surface: "#10131a",
+              "inverse-surface": "#e0e2ec",
+              "surface-variant": "#32353c",
+              "on-primary": "#690003",
+              "secondary-fixed": "#6ffbbe",
+              primary: "#ffb4aa",
+              "primary-fixed-dim": "#ffb4aa",
+              "error-container": "#93000a",
+              "surface-dim": "#10131a",
+              "tertiary-fixed": "#ffddb8",
+              tertiary: "#ffb95f",
+              "surface-bright": "#363941",
+              "outline-variant": "#5e3f3b",
+              "on-primary-container": "#fff7f6",
+              "on-tertiary-fixed-variant": "#653e00",
+              "surface-container": "#1d2027",
+              "primary-container": "#e50914",
+              "on-secondary-fixed": "#002113",
+              "secondary-fixed-dim": "#4edea3",
+              "on-surface-variant": "#e9bcb6",
+              "on-tertiary-container": "#fff7f1",
+              "on-primary-fixed-variant": "#930007",
+            },
+            borderRadius: {
+              DEFAULT: "0.125rem",
+              lg: "0.25rem",
+              xl: "0.5rem",
+              full: "0.75rem",
+            },
+            spacing: {
+              "space-xl": "1.5rem",
+              gutter: "1rem",
+              margin: "1.5rem",
+              "margin-mobile": "1rem",
+              "gutter-lg": "1.5rem",
+              "space-lg": "1rem",
+              "space-xs": "0.25rem",
+              "space-sm": "0.5rem",
+              "space-md": "0.75rem",
+            },
+            fontFamily: {
+              "headline-xl": ["Plus Jakarta Sans"],
+              "label-md": ["Plus Jakarta Sans"],
+              "headline-lg": ["Plus Jakarta Sans"],
+              "label-sm": ["Plus Jakarta Sans"],
+              "headline-md": ["Plus Jakarta Sans"],
+              "headline-sm": ["Plus Jakarta Sans"],
+              "code-sm": ["JetBrains Mono"],
+              "body-md": ["Plus Jakarta Sans"],
+              "body-sm": ["Plus Jakarta Sans"],
+              "body-lg": ["Plus Jakarta Sans"],
+            },
+            fontSize: {
+              "headline-xl": [
+                "32px",
+                {
+                  lineHeight: "40px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "700",
+                },
+              ],
+              "label-md": [
+                "13px",
+                {
+                  lineHeight: "18px",
+                  letterSpacing: "0.01em",
+                  fontWeight: "500",
+                },
+              ],
+              "headline-lg": [
+                "24px",
+                {
+                  lineHeight: "32px",
+                  letterSpacing: "-0.015em",
+                  fontWeight: "600",
+                },
+              ],
+              "label-sm": [
+                "11px",
+                {
+                  lineHeight: "16px",
+                  letterSpacing: "0.04em",
+                  fontWeight: "600",
+                },
+              ],
+              "headline-md": [
+                "20px",
+                {
+                  lineHeight: "28px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "600",
+                },
+              ],
+              "headline-sm": [
+                "16px",
+                {
+                  lineHeight: "24px",
+                  letterSpacing: "-0.005em",
+                  fontWeight: "600",
+                },
+              ],
+              "code-sm": ["12px", { lineHeight: "16px", fontWeight: "500" }],
+              "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+              "body-sm": ["12px", { lineHeight: "18px", fontWeight: "400" }],
+              "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="bg-surface font-body-md text-body-md text-on-surface antialiased"
+  >
+    <aside class="sidebar fixed left-0 top-0 bottom-0">
+      <!-- LOGO -->
+      <a href="/"
+        ><div class="sidebar-logo">
+          <div class="sidebar-logo-icon">
+            <span class="material-symbols-outlined">movie</span>
+          </div>
+          <div>
+            <h1 class="sidebar-title">MovieF</h1>
+            <p class="sidebar-subtitle">Admin Panel</p>
+          </div>
+        </div></a
+      >
+
+      <!-- MENU -->
+      <nav class="menu-nav">
+        <a href="/admin" class="menu-item">
+          <span class="material-symbols-outlined">dashboard</span>
+          <span>Dashboard</span>
+        </a>
+
+        <a href="/admin/movies" class="menu-item">
+          <span class="material-symbols-outlined">movie</span>
+          <span>Quản lý phim</span>
+        </a>
+        <a href="/admin/phimBo" class="menu-item active">
+          <span class="material-symbols-outlined">delete</span>
+          <span>Quản lý mùa phim</span>
+        </a>
+        <a href="/admin/phimBo" class="menu-item">
+          <span class="material-symbols-outlined">delete</span>
+          <span>Quản lý tập phim</span>
+        </a>
+        <a href="/admin/genres" class="menu-item">
+          <span class="material-symbols-outlined">category</span>
+          <span>Thể loại</span>
+        </a>
+
+        <a href="/admin/users" class="menu-item">
+          <span class="material-symbols-outlined">group</span>
+          <span>Người dùng</span>
+        </a>
+
+        <a href="/admin/reviews" class="menu-item">
+          <span class="material-symbols-outlined">reviews</span>
+          <span>Đánh giá</span>
+        </a>
+
+        <a href="/admin/comments" class="menu-item">
+          <span class="material-symbols-outlined">comment</span>
+          <span>Bình luận</span>
+        </a>
+
+        <a href="/admin/statistics" class="menu-item">
+          <span class="material-symbols-outlined">bar_chart</span>
+          <span>Thống kê</span>
+        </a>
+
+        <a href="/admin/trash" class="menu-item">
+          <span class="material-symbols-outlined">delete</span>
+          <span>Thùng rác</span>
+        </a>
+      </nav>
+
+      <!-- ADMIN ACCOUNT -->
+      <div class="sidebar-account">
+        <div class="flex items-center gap-3">
+          <img
+            src="/images/avatar/admin.png"
+            alt="Admin"
+            class="sidebar-avatar"
+            onerror="
+              this.src =
+                'https://ui-avatars.com/api/?name=Admin+MovieF&background=e50914&color=fff'
+            "
+          />
+          <div class="flex-1 min-w-0">
+            <p class="sidebar-account-name">MovieF Admin</p>
+            <p class="sidebar-account-mail">admin@movief.com</p>
+          </div>
+          <button class="sidebar-account-btn">
+            <span class="material-symbols-outlined text-lg">more_vert</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+    <div class="pl-64">
+      <header
+        class="fixed top-0 left-64 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.25)] z-40"
+      >
+        <div
+          class="h-16 w-full px-gutter-lg flex items-center justify-between gap-space-lg"
+        >
+          <div class="flex items-center gap-space-md flex-1 max-w-lg">
+            <div class="relative w-full">
+              <span
+                class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-space-lg"
+                >search</span
+              ><input
+                class="w-full h-10 pl-10 pr-space-md rounded-lg bg-surface-container-low text-on-surface placeholder-outline font-body-sm text-body-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                placeholder="Tìm kiếm trong hệ thống..."
+                type="text"
+              />
+            </div>
+          </div>
+          <div class="flex items-center gap-space-lg">
+            <div class="relative flex items-center justify-center">
+              <button
+                aria-label="Thông báo"
+                class="relative p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
+                type="button"
+              >
+                <span class="material-symbols-outlined">notifications</span
+                ><span
+                  class="absolute top-1 right-1 h-2 w-2 rounded-full bg-primary-container ring-2 ring-surface-container-lowest"
+                ></span>
+              </button>
+            </div>
+            <div class="h-6 w-px bg-surface-container-high"></div>
+            <div class="flex items-center gap-space-md pl-space-xs">
+              <img
+                alt="Profile"
+                class="w-8 h-8 rounded-full object-cover"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBurrFOQEKvCPtIsR5IW6Hnf5tq5XwZCsED-ntF4eStPZKEG0HcwvqgkN3sV-bmXFaRz6LA7drMQFZkLZUOYZCIoQOwTFoQPgeb6aFyWvN5DcDU91GVYIehGTML0NUui4L1dJQVWfjWzvLa6e2NZIBZkuVMRqSPAo3ZqwECUhF40AXJxbTXDDMCRhhwoDhop0cPm1H8MLT3_whSuxjplyD3U37pm16feCXmAvz7_rZ3xw-W8i8fTE3l"
+              />
+              <div class="hidden md:flex flex-col">
+                <span
+                  class="font-label-md text-label-md text-on-surface leading-tight"
+                  >Quản trị viên</span
+                ><span
+                  class="font-label-sm text-label-sm text-primary leading-tight font-semibold"
+                  >Admin</span
+                >
+              </div>
+              <span
+                class="material-symbols-outlined text-on-surface-variant text-space-lg cursor-pointer"
+                >expand_more</span
+              >
+            </div>
+          </div>
+        </div>
+      </header>
+      <main class="w-full pt-16 bg-surface min-h-screen">
+        <div class="flex flex-col w-full">
+          <div
+            class="px-gutter-lg py-space-lg flex flex-col gap-space-lg max-w-7xl mx-auto w-full"
+          >
+            <!-- Top Action Bar & Breadcrumbs -->
+            <div
+              class="flex flex-col md:flex-row md:items-center justify-between gap-space-md"
+            >
+              <div class="flex flex-col gap-space-xs">
+                <nav
+                  aria-label="Breadcrumb"
+                  class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm"
+                >
+                  <a class="hover:text-on-surface transition-colors" href="#"
+                    >Quản lý phim</a
+                  >
+                  <span
+                    class="material-symbols-outlined text-space-sm opacity-60"
+                    >chevron_right</span
+                  >
+                  <span
+                    class="text-on-surface hover:text-primary transition-colors"
+                    >Stranger Things</span
+                  >
+                  <span
+                    class="material-symbols-outlined text-space-sm opacity-60"
+                    >chevron_right</span
+                  >
+                  <span class="text-primary font-semibold"
+                    >Quản lý mùa phim</span
+                  >
+                </nav>
+                <div class="flex items-center gap-space-md">
+                  <h1
+                    class="font-headline-xl text-headline-xl text-on-surface tracking-tight"
+                  >
+                    Quản lý mùa phim
+                  </h1>
+                  <span
+                    class="px-space-xs py-0.5 rounded-full font-code-sm text-code-sm bg-surface-container-high text-on-surface-variant"
+                    >S-ID: #ST-8492</span
+                  >
+                </div>
+              </div>
+              <div class="flex items-center gap-space-md">
+                <a
+                  class="inline-flex items-center gap-space-xs px-space-md py-space-sm rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-body-sm text-body-sm transition-colors shadow-sm"
+                  href="#"
+                >
+                  <span class="material-symbols-outlined text-space-lg"
+                    >arrow_back</span
+                  >
+                  <span>Quay lại Quản lý phim</span>
+                </a>
+                <button
+                  class="inline-flex items-center gap-space-xs px-space-md py-space-sm rounded-lg bg-primary-container text-on-primary-container hover:brightness-110 active:scale-95 font-headline-sm text-headline-sm transition-all shadow-md"
+                  id="open-create-season-btn"
+                  type="button"
+                >
+                  <span class="material-symbols-outlined text-space-lg"
+                    >add</span
+                  >
+                  <span>Thêm mùa phim</span>
+                </button>
+              </div>
+            </div>
+            <!-- Movie Overview Meta Card (Read-only Reference) -->
+            <div
+              class="w-full bg-surface-container-low rounded-xl p-space-md md:p-space-lg shadow-md flex flex-col md:flex-row gap-space-lg items-start md:items-center justify-between relative overflow-hidden"
+            >
+              <!-- Glow ambient backdrop effect -->
+              <div
+                class="absolute -right-24 -top-24 w-80 h-80 rounded-full bg-primary-container/10 blur-3xl pointer-events-none"
+              ></div>
+              <div
+                class="flex flex-col sm:flex-row items-start sm:items-center gap-space-lg z-10 w-full md:w-auto"
+              >
+                <!-- Series Poster -->
+                <div
+                  class="relative w-24 sm:w-28 h-36 flex-shrink-0 rounded-lg overflow-hidden shadow-lg bg-surface-container-lowest"
+                >
+                  <img
+                    alt="Stranger Things Poster"
+                    class="w-full h-full object-cover"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIF0neJNpN8XZd7v7hvO4XZjH3NdSmxpUSrY8yI1nDauHuKqsyM4D7boAyW36YX1hU4h54nmmexJkMIFGQ5st5LTSOpPTK6AjaZxc_FFV-Df0jxMz25qIOwc73LxcrJ5uaHMfUSLnnUEwaypG8wUyRDueA7TuPVziuQnylkDP7gBXa6r3L5bnZDlUByD71HpgtpyfTvdSM_aBvxGK6rS1ioLl5kj88sEcrKnLgW3EPhpYDzSnI7X7M"
+                  />
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"
+                  ></div>
+                </div>
+                <!-- Series Key Info -->
+                <div class="flex flex-col gap-space-xs">
+                  <div class="flex flex-wrap items-center gap-space-sm">
+                    <span
+                      class="px-space-xs py-0.5 rounded-full font-label-sm text-label-sm uppercase bg-surface-container-highest text-on-surface font-semibold tracking-wider"
+                      >Phim bộ</span
+                    >
+                    <span
+                      class="inline-flex items-center gap-1.5 px-space-xs py-0.5 rounded-full font-label-sm text-label-sm bg-secondary-container/20 text-secondary"
+                    >
+                      <span
+                        class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"
+                      ></span>
+                      Đang hoạt động
+                    </span>
+                    <span
+                      class="font-code-sm text-code-sm text-on-surface-variant"
+                      >Phát hành: 2016</span
+                    >
+                  </div>
+                  <h2
+                    class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight"
+                  >
+                    Stranger Things
+                  </h2>
+                  <div
+                    class="flex flex-wrap items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant"
+                  >
+                    <span>Thể loại:</span>
+                    <span class="text-on-surface font-medium"
+                      >Khoa học viễn tưởng, Bí ẩn, Kinh dị, Siêu nhiên</span
+                    >
+                  </div>
+                  <div class="flex items-center gap-space-md pt-space-xs">
+                    <div
+                      class="flex items-center gap-1 font-label-md text-label-md text-tertiary"
+                    >
+                      <span
+                        class="material-symbols-outlined text-space-lg"
+                        style="font-variation-settings: &quot;FILL&quot; 1"
+                        >star</span
+                      >
+                      <span class="font-bold">8.7</span>
+                      <span class="text-on-surface-variant font-normal"
+                        >/ 10 (IMDb)</span
+                      >
+                    </div>
+                    <span class="text-outline-variant">•</span>
+                    <span
+                      class="font-label-md text-label-md text-on-surface-variant"
+                      >2 Mùa đã biên tập (17 tập)</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <!-- Action & Meta Read-only tag -->
+              <div
+                class="flex flex-col sm:flex-row md:flex-col items-start md:items-end justify-between gap-space-md z-10 w-full md:w-auto"
+              >
+                <button
+                  class="inline-flex items-center gap-space-xs px-space-md py-space-sm rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-md text-label-md transition-colors shadow-sm w-full sm:w-auto justify-center"
+                  id="open-trailer-modal-btn"
+                  type="button"
+                >
+                  <span
+                    class="material-symbols-outlined text-primary text-space-lg"
+                    style="font-variation-settings: &quot;FILL&quot; 1"
+                    >play_circle</span
+                  >
+                  <span>Xem trailer</span>
+                </button>
+                <span
+                  class="font-label-sm text-label-sm text-on-surface-variant/70 italic flex items-center gap-1"
+                >
+                  <span class="material-symbols-outlined text-space-sm"
+                    >info</span
+                  >
+                  Thông tin cố định từ danh mục phim
+                </span>
+              </div>
+            </div>
+            <!-- Management Controls Bar -->
+            <div
+              class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-space-md pt-space-xs"
+            >
+              <div class="flex items-center gap-space-sm">
+                <h3 class="font-headline-md text-headline-md text-on-surface">
+                  Danh sách các mùa
+                </h3>
+                <span
+                  class="px-space-xs py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container-high text-on-surface font-medium"
+                  >2 mùa</span
+                >
+              </div>
+              <!-- Filter/View Switcher -->
+              <div class="flex items-center gap-space-sm self-end sm:self-auto">
+                <button
+                  class="px-space-md py-space-xs rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md shadow-sm"
+                  id="view-active-toggle"
+                  type="button"
+                >
+                  Đang hiển thị (2)
+                </button>
+                <button
+                  class="px-space-md py-space-xs rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant font-label-md text-label-md transition-colors"
+                  id="view-empty-toggle"
+                  type="button"
+                >
+                  Xem chế độ trống (Demo)
+                </button>
+              </div>
+            </div>
+            <!-- Seasons List Display (Populated State) -->
+            <div class="flex flex-col gap-space-md" id="seasons-grid">
+              <!-- Season 1 Card -->
+              <div
+                class="w-full bg-surface-container-low rounded-xl p-space-md md:p-space-lg shadow-sm hover:shadow-md transition-shadow group flex flex-col md:flex-row items-start md:items-center justify-between gap-space-lg"
+              >
+                <div class="flex items-start gap-space-md max-w-3xl">
+                  <div
+                    class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-primary font-headline-md text-headline-md font-bold flex-shrink-0 shadow-inner"
+                  >
+                    01
+                  </div>
+                  <div class="flex flex-col gap-space-xs">
+                    <div class="flex flex-wrap items-center gap-space-sm">
+                      <h4
+                        class="font-headline-sm text-headline-sm text-on-surface font-semibold group-hover:text-primary transition-colors"
+                      >
+                        Mùa 1 - Chương 1: Sự biến mất của Will Byers
+                      </h4>
+                      <span
+                        class="inline-flex items-center gap-1 px-space-xs py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container-highest text-on-surface"
+                      >
+                        <span
+                          class="material-symbols-outlined text-space-sm text-secondary"
+                          >video_library</span
+                        >
+                        Tổng số tập: 8 tập
+                      </span>
+                      <span
+                        class="px-space-xs py-0.5 rounded-full font-code-sm text-code-sm text-secondary bg-secondary-container/10"
+                        >Đã phát hành</span
+                      >
+                    </div>
+                    <p
+                      class="font-body-md text-body-md text-on-surface-variant line-clamp-2"
+                    >
+                      Khi một cậu bé biến mất không dấu vết, một thị trấn nhỏ
+                      phát hiện ra một bí ẩn liên quan đến các thí nghiệm bí
+                      mật, các lực lượng siêu nhiên kinh hoàng và một cô bé kỳ
+                      lạ sở hữu siêu năng lực.
+                    </p>
+                    <div
+                      class="flex items-center gap-space-md text-on-surface-variant font-code-sm text-code-sm pt-space-xs"
+                    >
+                      <span class="flex items-center gap-1">
+                        <span class="material-symbols-outlined text-space-sm"
+                          >calendar_month</span
+                        >
+                        Khởi chiếu: 15/07/2016
+                      </span>
+                      <span>•</span>
+                      <span class="flex items-center gap-1">
+                        <span class="material-symbols-outlined text-space-sm"
+                          >high_quality</span
+                        >
+                        4K Ultra HD • Dolby Atmos
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Action Buttons -->
+                <div
+                  class="flex items-center gap-space-sm w-full md:w-auto justify-end pt-space-sm md:pt-0"
+                >
+                  <button
+                    class="inline-flex items-center gap-space-xs px-space-md py-space-sm rounded-lg bg-primary-container text-on-primary-container hover:brightness-110 active:scale-95 font-label-md text-label-md font-semibold transition-all shadow-md"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined text-space-lg"
+                      >playlist_play</span
+                    >
+                    <span>Quản lý tập (8)</span>
+                  </button>
+                  <button
+                    class="p-space-sm rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface transition-colors"
+                    onclick="
+                      openEditModal(
+                        1,
+                        'Chương 1: Sự biến mất của Will Byers',
+                        'Khi một cậu bé biến mất không dấu vết, một thị trấn nhỏ phát hiện ra một bí ẩn liên quan đến các thí nghiệm bí mật...',
+                      )
+                    "
+                    title="Sửa thông tin mùa"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined text-space-lg"
+                      >edit</span
+                    >
+                  </button>
+                  <button
+                    class="p-space-sm rounded-lg bg-surface-container-high hover:bg-error-container hover:text-on-error-container text-outline transition-colors"
+                    onclick="confirmDeleteSeason(1)"
+                    title="Xóa mùa phim"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined text-space-lg"
+                      >delete</span
+                    >
+                  </button>
+                </div>
+              </div>
+              <!-- Season 2 Card -->
+              <div
+                class="w-full bg-surface-container-low rounded-xl p-space-md md:p-space-lg shadow-sm hover:shadow-md transition-shadow group flex flex-col md:flex-row items-start md:items-center justify-between gap-space-lg"
+              >
+                <div class="flex items-start gap-space-md max-w-3xl">
+                  <div
+                    class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-primary font-headline-md text-headline-md font-bold flex-shrink-0 shadow-inner"
+                  >
+                    02
+                  </div>
+                  <div class="flex flex-col gap-space-xs">
+                    <div class="flex flex-wrap items-center gap-space-sm">
+                      <h4
+                        class="font-headline-sm text-headline-sm text-on-surface font-semibold group-hover:text-primary transition-colors"
+                      >
+                        Mùa 2 - Chương 2: Quái vật bóng tối
+                      </h4>
+                      <span
+                        class="inline-flex items-center gap-1 px-space-xs py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container-highest text-on-surface"
+                      >
+                        <span
+                          class="material-symbols-outlined text-space-sm text-secondary"
+                          >video_library</span
+                        >
+                        Tổng số tập: 9 tập
+                      </span>
+                      <span
+                        class="px-space-xs py-0.5 rounded-full font-code-sm text-code-sm text-secondary bg-secondary-container/10"
+                        >Đã phát hành</span
+                      >
+                    </div>
+                    <p
+                      class="font-body-md text-body-md text-on-surface-variant line-clamp-2"
+                    >
+                      Đã gần một năm kể từ khi Will trở về, nhưng thị trấn
+                      Hawkins vẫn chưa thoát khỏi mối đe dọa của Thế Giới Ngược.
+                      Một thực thể to lớn hơn, nguy hiểm hơn đang ẩn nấp ngay
+                      dưới bề mặt của vùng quê yên bình.
+                    </p>
+                    <div
+                      class="flex items-center gap-space-md text-on-surface-variant font-code-sm text-code-sm pt-space-xs"
+                    >
+                      <span class="flex items-center gap-1">
+                        <span class="material-symbols-outlined text-space-sm"
+                          >calendar_month</span
+                        >
+                        Khởi chiếu: 27/10/2017
+                      </span>
+                      <span>•</span>
+                      <span class="flex items-center gap-1">
+                        <span class="material-symbols-outlined text-space-sm"
+                          >high_quality</span
+                        >
+                        4K Ultra HD • HDR10
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Action Buttons -->
+                <div
+                  class="flex items-center gap-space-sm w-full md:w-auto justify-end pt-space-sm md:pt-0"
+                >
+                  <button
+                    class="inline-flex items-center gap-space-xs px-space-md py-space-sm rounded-lg bg-primary-container text-on-primary-container hover:brightness-110 active:scale-95 font-label-md text-label-md font-semibold transition-all shadow-md"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined text-space-lg"
+                      >playlist_play</span
+                    >
+                    <span>Quản lý tập (9)</span>
+                  </button>
+                  <button
+                    class="p-space-sm rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface transition-colors"
+                    onclick="
+                      openEditModal(
+                        2,
+                        'Chương 2: Quái vật bóng tối',
+                        'Đã gần một năm kể từ khi Will trở về, nhưng thị trấn Hawkins vẫn chưa thoát khỏi mối đe dọa của Thế Giới Ngược...',
+                      )
+                    "
+                    title="Sửa thông tin mùa"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined text-space-lg"
+                      >edit</span
+                    >
+                  </button>
+                  <button
+                    class="p-space-sm rounded-lg bg-surface-container-high hover:bg-error-container hover:text-on-error-container text-outline transition-colors"
+                    onclick="confirmDeleteSeason(2)"
+                    title="Xóa mùa phim"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined text-space-lg"
+                      >delete</span
+                    >
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Empty State Container (Hidden by default, can be toggled via switcher button) -->
+            <div
+              class="hidden w-full bg-surface-container-low rounded-xl p-space-xl flex-col items-center justify-center text-center py-16 shadow-inner"
+              id="empty-state-view"
+            >
+              <div
+                class="w-20 h-20 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant mb-space-md"
+              >
+                <span class="material-symbols-outlined text-4xl opacity-50"
+                  >movie_filter</span
+                >
+              </div>
+              <h3
+                class="font-headline-md text-headline-md text-on-surface font-semibold mb-space-xs"
+              >
+                Phim này chưa có mùa nào
+              </h3>
+              <p
+                class="font-body-md text-body-md text-on-surface-variant max-w-md mb-space-lg"
+              >
+                Tạo mùa đầu tiên để bắt đầu thêm các tập phim, cấu hình luồng
+                phát trực tuyến và phụ đề ngôn ngữ.
+              </p>
+              <button
+                class="inline-flex items-center gap-space-xs px-space-md py-space-sm rounded-lg bg-primary-container text-on-primary-container hover:brightness-110 active:scale-95 font-headline-sm text-headline-sm transition-all shadow-md"
+                onclick="
+                  document.getElementById('open-create-season-btn').click()
+                "
+                type="button"
+              >
+                <span class="material-symbols-outlined text-space-lg">add</span>
+                <span>+ Thêm mùa phim</span>
+              </button>
+            </div>
+            <!-- Technical Guide Banner for Admin -->
+            <div
+              class="w-full bg-surface-container-lowest rounded-xl p-space-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-md text-on-surface-variant font-body-sm text-body-sm shadow-sm"
+            >
+              <div class="flex items-center gap-space-md">
+                <span
+                  class="material-symbols-outlined text-primary text-space-lg"
+                  >info</span
+                >
+                <span>
+                  Cấu trúc dữ liệu:
+                  <strong class="text-on-surface font-medium">Mùa phim</strong>
+                  chỉ lưu trữ số mùa, tiêu đề và tóm tắt. Video HLS, tập và phụ
+                  đề được quản lý tại mục <strong>Quản lý tập</strong>.
+                </span>
+              </div>
+              <div
+                class="flex items-center gap-space-sm font-code-sm text-code-sm text-outline"
+              >
+                <span class="w-2 h-2 rounded-full bg-secondary"></span>
+                Sync: Realtime Master
+              </div>
+            </div>
+          </div>
+          <!-- MODAL: Thêm/Sửa Mùa Phim (Season Form Dialog) -->
+          <div
+            class="fixed inset-0 z-50 hidden items-center justify-center bg-black/75 backdrop-blur-sm p-space-md"
+            id="season-modal"
+          >
+            <div
+              class="bg-surface-container-low rounded-xl w-full max-w-lg shadow-2xl overflow-hidden flex flex-col transform transition-all animate-in fade-in zoom-in-95 duration-150"
+            >
+              <!-- Modal Header -->
+              <div
+                class="px-space-lg py-space-md bg-surface-container flex items-center justify-between"
+              >
+                <div class="flex items-center gap-space-sm">
+                  <div
+                    class="w-8 h-8 rounded-lg bg-primary-container/20 text-primary flex items-center justify-center font-bold"
+                  >
+                    <span class="material-symbols-outlined text-space-lg"
+                      >video_settings</span
+                    >
+                  </div>
+                  <div>
+                    <h3
+                      class="font-headline-sm text-headline-sm text-on-surface font-semibold"
+                      id="modal-title"
+                    >
+                      Thêm mùa phim mới
+                    </h3>
+                    <p
+                      class="font-label-sm text-label-sm text-on-surface-variant"
+                    >
+                      Phim: Stranger Things
+                    </p>
+                  </div>
+                </div>
+                <button
+                  class="p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+                  id="close-modal-btn"
+                  type="button"
+                >
+                  <span class="material-symbols-outlined text-space-lg"
+                    >close</span
+                  >
+                </button>
+              </div>
+              <!-- Modal Body (Form Fields) -->
+              <form
+                class="p-space-lg flex flex-col gap-space-md"
+                id="season-form"
+              >
+                <!-- Input: Số mùa (seasonNumber) -->
+                <div class="flex flex-col gap-space-xs">
+                  <label
+                    class="font-label-md text-label-md text-on-surface flex items-center justify-between"
+                    for="season-number-input"
+                  >
+                    <span
+                      >Số mùa (Season Number)
+                      <span class="text-primary font-bold">*</span></span
+                    >
+                    <span
+                      class="font-code-sm text-code-sm text-on-surface-variant"
+                      >Bắt buộc</span
+                    >
+                  </label>
+                  <div class="relative">
+                    <span
+                      class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-space-lg"
+                      >tag</span
+                    >
+                    <input
+                      class="w-full h-11 pl-10 pr-space-md rounded-lg bg-surface-container-lowest text-on-surface placeholder-outline font-body-md text-body-md focus:outline-none focus:ring-1 focus:ring-primary shadow-inner"
+                      id="season-number-input"
+                      max="99"
+                      min="1"
+                      name="seasonNumber"
+                      placeholder="VD: 3"
+                      required=""
+                      type="number"
+                      value="3"
+                    />
+                  </div>
+                  <span
+                    class="font-label-sm text-label-sm text-on-surface-variant"
+                    >Chỉ nhập số nguyên dương (1, 2, 3...)</span
+                  >
+                </div>
+                <!-- Input: Tên mùa (title) -->
+                <div class="flex flex-col gap-space-xs">
+                  <label
+                    class="font-label-md text-label-md text-on-surface flex items-center justify-between"
+                    for="season-title-input"
+                  >
+                    <span
+                      >Tên mùa (Tiêu đề đại diện)
+                      <span class="text-primary font-bold">*</span></span
+                    >
+                    <span
+                      class="font-code-sm text-code-sm text-on-surface-variant"
+                      >Bắt buộc</span
+                    >
+                  </label>
+                  <input
+                    class="w-full h-11 px-space-md rounded-lg bg-surface-container-lowest text-on-surface placeholder-outline font-body-md text-body-md focus:outline-none focus:ring-1 focus:ring-primary shadow-inner"
+                    id="season-title-input"
+                    name="title"
+                    placeholder="VD: Mùa 3 hoặc Tên chủ đề mùa (Chương 3: Trận chiến Starcourt)"
+                    required=""
+                    type="text"
+                  />
+                </div>
+                <!-- Input: Mô tả mùa (description) -->
+                <div class="flex flex-col gap-space-xs">
+                  <label
+                    class="font-label-md text-label-md text-on-surface flex items-center justify-between"
+                    for="season-desc-input"
+                  >
+                    <span>Mô tả ngắn của mùa</span>
+                    <span
+                      class="font-label-sm text-label-sm text-on-surface-variant"
+                      >Không bắt buộc</span
+                    >
+                  </label>
+                  <textarea
+                    class="w-full p-space-md rounded-lg bg-surface-container-lowest text-on-surface placeholder-outline font-body-md text-body-md focus:outline-none focus:ring-1 focus:ring-primary shadow-inner resize-none"
+                    id="season-desc-input"
+                    name="description"
+                    placeholder="Mô tả tóm tắt nội dung của mùa phim này..."
+                    rows="4"
+                  ></textarea>
+                </div>
+                <div
+                  class="p-space-sm rounded-lg bg-surface-container-high/60 flex items-start gap-space-sm text-on-surface-variant font-label-sm text-label-sm"
+                >
+                  <span
+                    class="material-symbols-outlined text-space-md text-tertiary"
+                    >notification_important</span
+                  >
+                  <span
+                    >Lưu ý: Không tải lên video hoặc tập phim tại biểu mẫu này.
+                    Sau khi tạo mùa, vui lòng bấm
+                    <strong>Quản lý tập</strong> để thêm tệp video và phụ
+                    đề.</span
+                  >
+                </div>
+                <!-- Modal Actions -->
+                <div
+                  class="flex items-center justify-end gap-space-md pt-space-sm"
+                >
+                  <button
+                    class="px-space-md py-space-sm rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface font-body-sm text-body-sm transition-colors"
+                    id="cancel-modal-btn"
+                    type="button"
+                  >
+                    Hủy
+                  </button>
+                  <button
+                    class="inline-flex items-center gap-space-xs px-space-lg py-space-sm rounded-lg bg-primary-container text-on-primary-container hover:brightness-110 active:scale-95 font-headline-sm text-headline-sm font-semibold transition-all shadow-md"
+                    type="submit"
+                  >
+                    <span class="material-symbols-outlined text-space-lg"
+                      >save</span
+                    >
+                    <span>Lưu mùa phim</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- MODAL: Trailer Video Preview -->
+          <div
+            class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-md p-space-md"
+            id="trailer-modal"
+          >
+            <div
+              class="bg-surface-container-low rounded-xl w-full max-w-3xl shadow-2xl overflow-hidden flex flex-col"
+            >
+              <div
+                class="px-space-lg py-space-md bg-surface-container flex items-center justify-between"
+              >
+                <div class="flex items-center gap-space-sm">
+                  <span
+                    class="material-symbols-outlined text-primary text-space-lg"
+                    style="font-variation-settings: &quot;FILL&quot; 1"
+                    >play_circle</span
+                  >
+                  <span
+                    class="font-headline-sm text-headline-sm text-on-surface font-semibold"
+                    >Xem trước Trailer: Stranger Things</span
+                  >
+                </div>
+                <button
+                  class="p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+                  id="close-trailer-btn"
+                  type="button"
+                >
+                  <span class="material-symbols-outlined text-space-lg"
+                    >close</span
+                  >
+                </button>
+              </div>
+              <!-- Video Player Simulator -->
+              <div
+                class="relative w-full aspect-video bg-black flex items-center justify-center group overflow-hidden"
+              >
+                <img
+                  alt="Stranger Things Preview"
+                  class="w-full h-full object-cover opacity-60"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIF0neJNpN8XZd7v7hvO4XZjH3NdSmxpUSrY8yI1nDauHuKqsyM4D7boAyW36YX1hU4h54nmmexJkMIFGQ5st5LTSOpPTK6AjaZxc_FFV-Df0jxMz25qIOwc73LxcrJ5uaHMfUSLnnUEwaypG8wUyRDueA7TuPVziuQnylkDP7gBXa6r3L5bnZDlUByD71HpgtpyfTvdSM_aBvxGK6rS1ioLl5kj88sEcrKnLgW3EPhpYDzSnI7X7M"
+                />
+                <div
+                  class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/40"
+                ></div>
+                <button
+                  class="relative z-10 w-16 h-16 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-2xl hover:scale-110 transition-transform"
+                  type="button"
+                >
+                  <span
+                    class="material-symbols-outlined text-3xl"
+                    style="font-variation-settings: &quot;FILL&quot; 1"
+                    >play_arrow</span
+                  >
+                </button>
+                <div
+                  class="absolute bottom-4 left-4 right-4 z-10 flex items-center justify-between text-on-surface font-code-sm text-code-sm bg-surface-container-lowest/80 px-space-md py-space-xs rounded-lg backdrop-blur-sm"
+                >
+                  <div class="flex items-center gap-space-sm">
+                    <span
+                      class="w-2 h-2 rounded-full bg-primary-container"
+                    ></span>
+                    <span>Trailer chính thức • Netflix Global</span>
+                  </div>
+                  <span>02:14 / 02:45</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Inline Micro-interactions Script -->
+          <script>
+            (function initSeasonManagement() {
+              const modal = document.getElementById("season-modal");
+              const trailerModal = document.getElementById("trailer-modal");
+              const openBtn = document.getElementById("open-create-season-btn");
+              const closeBtn = document.getElementById("close-modal-btn");
+              const cancelBtn = document.getElementById("cancel-modal-btn");
+              const openTrailerBtn = document.getElementById(
+                "open-trailer-modal-btn",
+              );
+              const closeTrailerBtn =
+                document.getElementById("close-trailer-btn");
+              const form = document.getElementById("season-form");
+              const modalTitle = document.getElementById("modal-title");
+              const seasonNumInput = document.getElementById(
+                "season-number-input",
+              );
+              const seasonTitleInput =
+                document.getElementById("season-title-input");
+              const seasonDescInput =
+                document.getElementById("season-desc-input");
+
+              const viewActiveToggle =
+                document.getElementById("view-active-toggle");
+              const viewEmptyToggle =
+                document.getElementById("view-empty-toggle");
+              const seasonsGrid = document.getElementById("seasons-grid");
+              const emptyStateView =
+                document.getElementById("empty-state-view");
+
+              // Toggle Empty State demo view
+              viewEmptyToggle?.addEventListener("click", () => {
+                seasonsGrid.classList.add("hidden");
+                emptyStateView.classList.remove("hidden");
+                emptyStateView.classList.add("flex");
+                viewEmptyToggle.className =
+                  "px-space-md py-space-xs rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md shadow-sm";
+                viewActiveToggle.className =
+                  "px-space-md py-space-xs rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant font-label-md text-label-md transition-colors";
+              });
+
+              viewActiveToggle?.addEventListener("click", () => {
+                seasonsGrid.classList.remove("hidden");
+                emptyStateView.classList.add("hidden");
+                emptyStateView.classList.remove("flex");
+                viewActiveToggle.className =
+                  "px-space-md py-space-xs rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md shadow-sm";
+                viewEmptyToggle.className =
+                  "px-space-md py-space-xs rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant font-label-md text-label-md transition-colors";
+              });
+
+              // Open Modal - Create
+              openBtn?.addEventListener("click", () => {
+                modalTitle.textContent = "Thêm mùa phim mới";
+                seasonNumInput.value = "3";
+                seasonTitleInput.value = "";
+                seasonDescInput.value = "";
+                modal.classList.remove("hidden");
+                modal.classList.add("flex");
+                seasonTitleInput.focus();
+              });
+
+              // Close Modal handlers
+              const closeModal = () => {
+                modal.classList.add("hidden");
+                modal.classList.remove("flex");
+              };
+
+              closeBtn?.addEventListener("click", closeModal);
+              cancelBtn?.addEventListener("click", closeModal);
+              modal?.addEventListener("click", (e) => {
+                if (e.target === modal) closeModal();
+              });
+
+              // Trailer Modal handlers
+              openTrailerBtn?.addEventListener("click", () => {
+                trailerModal.classList.remove("hidden");
+                trailerModal.classList.add("flex");
+              });
+
+              const closeTrailer = () => {
+                trailerModal.classList.add("hidden");
+                trailerModal.classList.remove("flex");
+              };
+              closeTrailerBtn?.addEventListener("click", closeTrailer);
+              trailerModal?.addEventListener("click", (e) => {
+                if (e.target === trailerModal) closeTrailer();
+              });
+
+              // Form Submit handler
+              form?.addEventListener("submit", (e) => {
+                e.preventDefault();
+                const num = seasonNumInput.value;
+                const title = seasonTitleInput.value;
+                alert("Đã lưu thành công Mùa " + num + ": " + title);
+                closeModal();
+              });
+
+              // Global functions for inline action buttons
+              window.openEditModal = function (seasonNum, title, desc) {
+                modalTitle.textContent = "Chỉnh sửa Mùa " + seasonNum;
+                seasonNumInput.value = seasonNum;
+                seasonTitleInput.value = title;
+                seasonDescInput.value = desc;
+                modal.classList.remove("hidden");
+                modal.classList.add("flex");
+                seasonTitleInput.focus();
+              };
+
+              window.confirmDeleteSeason = function (seasonNum) {
+                if (
+                  confirm(
+                    "Bạn có chắc chắn muốn xóa Mùa " +
+                      seasonNum +
+                      " cùng toàn bộ danh sách tập của mùa này không? Hành động này không thể hoàn tác.",
+                  )
+                ) {
+                  alert("Đã xóa thành công Mùa " + seasonNum);
+                }
+              };
+            })();
+          </script>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
+
+<script type="module" src="/src/main.js"></script>
