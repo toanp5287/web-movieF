@@ -203,56 +203,6 @@
   ],
   "season": [
     {
-      "id": "1",
-      "movieId": "40",
-      "seasonNumber": 1,
-      "title": "Mùa 1",
-      "description": "Mùa đầu tiên của Stranger Things.",
-      "poster": "/images/movies/stranger-things-season-1.jpg",
-      "releaseYear": 2016,
-      "status": true
-    },
-    {
-      "id": "2",
-      "movieId": "40",
-      "seasonNumber": 2,
-      "title": "Mùa 2",
-      "description": "Nhóm bạn tiếp tục khám phá những bí ẩn siêu nhiên tại Hawkins.",
-      "poster": "/images/movies/stranger-things-season-2.jpg",
-      "releaseYear": 2017,
-      "status": true
-    },
-    {
-      "id": "3",
-      "movieId": "40",
-      "seasonNumber": 3,
-      "title": "Mùa 3",
-      "description": "Nhóm bạn đối mặt với những mối nguy hiểm mới tại Hawkins.",
-      "poster": "/images/movies/stranger-things-season-3.jpg",
-      "releaseYear": 2019,
-      "status": true
-    },
-    {
-      "id": "4",
-      "movieId": "40",
-      "seasonNumber": 4,
-      "title": "Mùa 4",
-      "description": "Những bí mật đen tối mới xuất hiện và đe dọa nhóm bạn.",
-      "poster": "/images/movies/stranger-things-season-4.jpg",
-      "releaseYear": 2022,
-      "status": true
-    },
-    {
-      "id": "5",
-      "movieId": "23",
-      "seasonNumber": 1,
-      "title": "Mùa 1",
-      "description": "Cuộc tranh giành quyền lực trong gia tộc Targaryen bắt đầu.",
-      "poster": "/images/movies/house-of-the-dragon-season-1.jpg",
-      "releaseYear": 2022,
-      "status": true
-    },
-    {
       "id": "6",
       "movieId": "23",
       "seasonNumber": 2,
@@ -281,6 +231,27 @@
       "poster": "/images/movies/ghost-in-the-shell-season-2.jpg",
       "releaseYear": 2022,
       "status": true
+    },
+    {
+      "id": "6QYnrvRXqD4",
+      "movieId": "23",
+      "seasonNumber": 3,
+      "title": "vdsvdsvsd",
+      "description": "vsdvsdvsdv",
+      "poster": "dfsvvsdvds",
+      "releaseYear": 2025,
+      "status": true
+    },
+    {
+      "id": "OEpfGcjPjfI",
+      "movieId": "23",
+      "seasonNumber": 11,
+      "title": "ewqfasfadsfa",
+      "description": "dSdwsDASdas",
+      "poster": "dfsvvsdvds",
+      "releaseYear": 2025,
+      "status": true,
+      "isDeleted": true
     }
   ],
   "Episodes": [
@@ -372,27 +343,6 @@
     }
   ],
   "movies": [
-    {
-      "id": "40",
-      "title": "Stranger Things",
-      "slug": "stranger-things",
-      "description": "Một nhóm bạn trẻ khám phá những bí ẩn siêu nhiên và những sự kiện kỳ lạ xảy ra tại thị trấn Hawkins.",
-      "poster": "/images/movies/stranger-things.jpg",
-      "backdrop": "/images/movies/stranger-things-backdrop.jpg",
-      "trailer": "/videos/stranger-things-trailer.mp4",
-      "video": "",
-      "type": "series",
-      "releaseYear": 2016,
-      "duration": null,
-      "country": "USA",
-      "director": "",
-      "actors": [],
-      "genre": [],
-      "quality": "4k",
-      "status": true,
-      "views": 0,
-      "createdAt": "2026-09-30"
-    },
     {
       "id": "2",
       "title": "Spider-Man: No Way Home",

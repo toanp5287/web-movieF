@@ -3,948 +3,386 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MovieF Admin - Quản lý tập phim</title>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com" rel="preconnect" />
-    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
       rel="stylesheet"
     />
 
-    <!-- Material Symbols -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- Tailwind CSS của project -->
-    <link rel="stylesheet" href="../css/style.css" />
-
-    <style>
-      /* ===== MOVIEF ADMIN THEME ===== */
-      html,
-      body {
-        margin: 0;
-        padding: 0;
-        background: #0f0f0f;
-        color: #e5e5e5;
-        font-family: "Plus Jakarta Sans", "Inter", sans-serif;
-      }
-
-      body {
-        overscroll-behavior: none;
-      }
-
-      main > :first-child {
-        margin-top: 0 !important;
-      }
-
-      main > :last-child {
-        margin-bottom: 0 !important;
-      }
-
-      ::-webkit-scrollbar {
-        display: none;
-      }
-
-      /* ---------- SIDEBAR ---------- */
-      .sidebar {
-        width: 16rem;
-        padding: 1.25rem;
-        background: #0f0f0f;
-        border-right: 1px solid #1f1f1f;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        overflow-y: auto;
-        z-index: 30;
-      }
-
-      .sidebar-logo {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        padding: 0 0.5rem;
-        margin-bottom: 2rem;
-      }
-
-      .sidebar-logo-icon {
-        width: 2.5rem;
-        height: 2.5rem;
-        flex-shrink: 0;
-        border-radius: 0.75rem;
-        background: #e50914;
-        color: #ffffff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 4px 12px rgba(229, 9, 20, 0.4);
-      }
-
-      .sidebar-title {
-        font-size: 1.25rem;
-        font-weight: 700;
-        line-height: 1.4;
-        color: #ffffff;
-      }
-
-      .sidebar-subtitle {
-        font-size: 0.75rem;
-        line-height: 1.4;
-        color: #71717a;
-      }
-
-      /* ---------- MENU ---------- */
-      .menu-nav {
-        display: flex;
-        flex-direction: column;
-        gap: 0.375rem;
-      }
-
-      .menu-item {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        padding: 0.625rem 0.875rem;
-        border-radius: 0.75rem;
-        font-size: 0.875rem;
-        font-weight: 500;
-        line-height: 1.4;
-        color: #a1a1aa;
-        text-decoration: none;
-        transition:
-          background-color 0.2s ease,
-          color 0.2s ease;
-      }
-
-      .menu-item .material-symbols-outlined {
-        font-size: 1.25rem;
-      }
-
-      .menu-item:hover {
-        background: #1a1a1a;
-        color: #ffffff;
-      }
-
-      .menu-item.active {
-        background: #e50914;
-        color: #ffffff;
-        font-weight: 600;
-      }
-
-      /* ---------- ADMIN ACCOUNT ---------- */
-      .sidebar-account {
-        border-top: 1px solid #1f1f1f;
-        padding-top: 1rem;
-      }
-
-      .sidebar-avatar {
-        width: 2.25rem;
-        height: 2.25rem;
-        flex-shrink: 0;
-        border-radius: 9999px;
-        object-fit: cover;
-        outline: 1px solid #27272a;
-      }
-
-      .sidebar-account-name {
-        font-size: 0.75rem;
-        font-weight: 600;
-        color: #e4e4e7;
-      }
-
-      .sidebar-account-mail {
-        font-size: 11px;
-        color: #71717a;
-      }
-
-      .sidebar-account-btn {
-        padding: 0.25rem;
-        border-radius: 0.5rem;
-        color: #a1a1aa;
-        transition: color 0.2s ease;
-      }
-
-      .sidebar-account-btn:hover {
-        color: #e4e4e7;
-      }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#e50914",
+            },
+            fontFamily: {
+              sans: ["Plus Jakarta Sans", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
   </head>
-  <body class="bg-surface font-body-md text-on-surface min-h-screen">
+
+  <body
+    class="bg-[#0f0f0f] font-sans text-sm text-zinc-200 antialiased min-h-screen"
+  >
     <!-- SIDEBAR -->
-    <aside class="sidebar fixed left-0 top-0 bottom-0">
-      <!-- LOGO -->
-      <div class="sidebar-logo">
-        <div class="sidebar-logo-icon">
-          <span class="material-symbols-outlined">live_tv</span>
-        </div>
-        <div>
-          <h1 class="sidebar-title">MovieF</h1>
-          <p class="sidebar-subtitle">Admin Panel</p>
-        </div>
+    <aside
+      class="fixed left-0 top-0 bottom-0 w-64 bg-[#141414] border-r border-zinc-800 flex flex-col justify-between z-30"
+    >
+      <div>
+        <!-- Logo -->
+        <a
+          href="/admin"
+          class="flex items-center gap-3 px-6 h-16 border-b border-zinc-800"
+        >
+          <div
+            class="w-9 h-9 rounded-xl bg-primary text-white flex items-center justify-center font-bold"
+          >
+            <span class="material-symbols-outlined text-xl">live_tv</span>
+          </div>
+          <span class="text-base font-bold text-white tracking-wide"
+            >MovieF</span
+          >
+        </a>
+
+        <!-- Menu Navigation -->
+        <nav class="p-3 space-y-1">
+          <a
+            href="/admin"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition"
+          >
+            <span class="material-symbols-outlined text-xl">dashboard</span>
+            <span>Dashboard</span>
+          </a>
+          <a
+            href="/admin/movies"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition"
+          >
+            <span class="material-symbols-outlined text-xl">movie</span>
+            <span>Phim lẻ</span>
+          </a>
+          <a
+            href="/admin/tv-series"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition"
+          >
+            <span class="material-symbols-outlined text-xl">tv_gen</span>
+            <span>Phim bộ</span>
+          </a>
+          <a
+            href="/admin/episodes"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-primary text-white font-medium"
+          >
+            <span class="material-symbols-outlined text-xl">video_library</span>
+            <span>Tập phim</span>
+          </a>
+          <a
+            href="/admin/genres"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition"
+          >
+            <span class="material-symbols-outlined text-xl">category</span>
+            <span>Thể loại</span>
+          </a>
+          <a
+            href="/admin/users"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition"
+          >
+            <span class="material-symbols-outlined text-xl">group</span>
+            <span>Người dùng</span>
+          </a>
+        </nav>
       </div>
 
-      <!-- MENU -->
-      <nav class="menu-nav">
-        <a href="/admin" class="menu-item">
-          <span class="material-symbols-outlined">dashboard</span>
-          <span>Dashboard</span>
-        </a>
-
-        <a href="/admin/movies" class="menu-item">
-          <span class="material-symbols-outlined">movie</span>
-          <span>Phim lẻ</span>
-        </a>
-
-        <a href="/admin/tv-series" class="menu-item active">
-          <span class="material-symbols-outlined">tv_gen</span>
-          <span>Quản lý phim bộ</span>
-        </a>
-
-        <a href="/admin/genres" class="menu-item">
-          <span class="material-symbols-outlined">category</span>
-          <span>Thể loại</span>
-        </a>
-
-        <a href="/admin/users" class="menu-item">
-          <span class="material-symbols-outlined">group</span>
-          <span>Người dùng</span>
-        </a>
-
-        <a href="/admin/authorization" class="menu-item">
-          <span class="material-symbols-outlined">admin_panel_settings</span>
-          <span>Phân quyền</span>
-        </a>
-
-        <a href="/admin/reviews" class="menu-item">
-          <span class="material-symbols-outlined">reviews</span>
-          <span>Đánh giá</span>
-        </a>
-
-        <a href="/admin/comments" class="menu-item">
-          <span class="material-symbols-outlined">comment</span>
-          <span>Bình luận</span>
-        </a>
-
-        <a href="/admin/statistics" class="menu-item">
-          <span class="material-symbols-outlined">bar_chart</span>
-          <span>Thống kê</span>
-        </a>
-
-        <a href="/admin/trash" class="menu-item">
-          <span class="material-symbols-outlined">delete</span>
-          <span>Thùng rác</span>
-        </a>
-      </nav>
-
-      <!-- ADMIN ACCOUNT -->
-      <div class="sidebar-account">
-        <div class="flex items-center gap-3">
-          <img
-            src="/images/avatar/admin.png"
-            alt="Admin"
-            class="sidebar-avatar"
-            onerror="
-              this.src =
-                'https://ui-avatars.com/api/?name=Admin+MovieF&background=e50914&color=fff'
-            "
-          />
-          <div class="flex-1 min-w-0">
-            <p class="sidebar-account-name">MovieF Admin</p>
-            <p class="sidebar-account-mail">admin@movief.com</p>
-          </div>
-          <button class="sidebar-account-btn">
-            <span class="material-symbols-outlined text-lg">more_vert</span>
-          </button>
+      <!-- Admin Profile Box -->
+      <div class="p-4 border-t border-zinc-800 flex items-center gap-3">
+        <div
+          class="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center text-xs font-bold text-zinc-300"
+        >
+          AD
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="text-xs font-medium text-white truncate">Administrator</p>
+          <p class="text-[11px] text-zinc-500 truncate">admin@movief.com</p>
         </div>
       </div>
     </aside>
 
-    <!-- MAIN WRAPPER -->
+    <!-- MAIN CONTENT -->
     <div class="pl-64 flex flex-col min-h-screen">
       <!-- HEADER -->
       <header
-        class="fixed top-0 left-64 right-0 h-16 bg-surface/80 backdrop-blur-xl z-40 shadow-[0_1px_8px_rgba(0,0,0,0.04)] px-space-lg flex items-center justify-between gap-space-md"
+        class="h-16 border-b border-zinc-800 flex items-center justify-between px-8 bg-[#0f0f0f]"
       >
-        <div class="flex items-center gap-space-sm">
-          <span class="font-label-md text-label-md text-on-surface-variant"
-            >MovieF Admin</span
-          >
-          <span class="text-on-surface-variant/40">/</span>
-          <span class="font-title-sm text-title-sm text-on-surface capitalize"
-            >Phim truyền hình & Phim bộ</span
-          >
+        <div>
+          <h1 class="text-base font-semibold text-white">Quản lý tập phim</h1>
+          <p class="text-xs text-zinc-500">Stranger Things - Mùa 4</p>
         </div>
-
-        <div class="flex items-center gap-space-md">
+        <div class="flex items-center gap-3">
           <button
-            aria-label="Thông báo"
-            class="relative p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
             type="button"
+            class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-primary hover:bg-red-600 text-white text-xs font-medium transition"
           >
-            <span class="material-symbols-outlined text-xl">notifications</span>
-            <span
-              class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary-container ring-2 ring-surface"
-            ></span>
+            <span class="material-symbols-outlined text-base">add</span>
+            <span>Thêm tập mới</span>
           </button>
-          <div class="flex items-center gap-space-sm pl-space-sm">
-            <img
-              alt="Profile"
-              class="w-8 h-8 rounded-full object-cover"
-              src="https://lh3.googleusercontent.com/aida/AEtjO1U0_WeREXlsW21uASPbJPP_lxP_gmAQ8JRvUnAaxrdOBoxPeo7MCeWJwKvpGT08QRMwxmEcuplw-uaF8cOaM7vJoxu3YCTk2z9BMckBNQiBalEdIorObjSYlSRAj8OxWP5tQdukk9hfx2LM7uUVj8CJBIEBszAG8vS250KGfjZYD8dHUdPyXPjWnBvdCmjTEhX8do4_F5iPk1mkHGdNDbYIByEB-dAtsNyoe4B0A4B0snAw4aDQKtosPA"
-            />
-            <span
-              class="font-title-sm text-title-sm text-on-surface hidden sm:inline-block"
-              >Quản trị viên</span
-            >
-          </div>
         </div>
       </header>
 
-      <!-- CONTENT -->
-      <main class="w-full pt-16 bg-surface px-space-lg py-space-lg flex-1">
-        <div class="flex flex-col w-full">
-          <!-- Header Section -->
-          <section
-            class="flex flex-col md:flex-row md:items-end justify-between gap-space-md pb-space-lg"
-          >
-            <div class="flex flex-col gap-1 max-w-2xl">
-              <div
-                class="flex items-center gap-space-xs text-on-surface-variant"
-              >
-                <span
-                  class="font-label-caps text-label-caps uppercase tracking-wider text-primary"
-                  >TV Shows & Series</span
-                >
-                <span class="text-on-surface-variant/40">/</span>
-                <span
-                  class="font-label-caps text-label-caps uppercase tracking-wider"
-                  >Danh mục phim bộ</span
-                >
-              </div>
-              <h1
-                class="font-headline-xl text-headline-xl text-on-surface tracking-tight"
-              >
-                Quản lý phim bộ
-              </h1>
-              <p class="font-body-md text-body-md text-on-surface-variant">
-                Quản lý thông tin series, mùa chiếu (seasons), tiến độ cập nhật
-                tập phim và máy chủ lưu trữ.
-              </p>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="flex flex-wrap items-center gap-space-sm">
-              <button
-                class="flex items-center gap-space-xs px-space-md py-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-title-sm text-title-sm shadow-sm transition-all duration-200"
-                type="button"
-              >
-                <span class="material-symbols-outlined text-lg">sync</span>
-                <span>Đồng bộ tiến độ tập</span>
-              </button>
-              <button
-                class="flex items-center gap-space-xs px-space-md py-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-title-sm text-title-sm shadow-sm transition-all duration-200"
-                type="button"
-              >
-                <span class="material-symbols-outlined text-lg"
-                  >file_upload</span
-                >
-                <span>Nhập JSON Series</span>
-              </button>
-              <button
-                onclick="addSeries()"
-                class="flex items-center gap-space-xs px-space-md py-2.5 rounded-lg bg-primary-container text-on-primary-container font-title-sm text-title-sm shadow-md hover:bg-primary-container/90 transition-all duration-200 shadow-primary-container/20 hover:shadow-primary-container/40"
-                type="button"
-              >
-                <span class="material-symbols-outlined text-lg font-bold"
-                  >add</span
-                >
-                <span>Thêm phim bộ mới</span>
-              </button>
-            </div>
-          </section>
-
-          <!-- Metrics Bar (Metrics tối ưu cho TV Series) -->
-          <section
-            class="grid grid-cols-2 lg:grid-cols-4 gap-space-md mb-space-lg"
-          >
-            <!-- Card 1 -->
-            <div
-              class="bg-surface-container-low p-space-md rounded-xl flex items-center justify-between shadow-sm"
+      <!-- MAIN BODY -->
+      <main class="p-8 space-y-4 flex-1">
+        <!-- Filter Controls: Chọn phim, mùa & tìm kiếm tập -->
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex flex-wrap items-center gap-2">
+            <!-- Chọn Phim Bộ -->
+            <select
+              class="h-9 bg-zinc-900 border border-zinc-800 rounded-lg px-3 text-xs text-zinc-200 focus:outline-none focus:border-zinc-700"
             >
-              <div class="flex flex-col">
-                <span
-                  class="font-label-caps text-label-caps uppercase text-on-surface-variant"
-                  >Tổng số phim bộ</span
-                >
-                <span
-                  class="font-headline-md text-headline-md text-on-surface mt-1"
-                  >64</span
-                >
-                <span
-                  class="font-label-md text-label-md text-primary flex items-center gap-0.5 mt-0.5"
-                >
-                  <span class="material-symbols-outlined text-xs"
-                    >arrow_upward</span
-                  >
-                  +2 bộ mới tuần này
-                </span>
-              </div>
-              <div
-                class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center"
-              >
-                <span class="material-symbols-outlined text-2xl text-on-surface"
-                  >tv</span
-                >
-              </div>
-            </div>
+              <option selected>Stranger Things</option>
+              <option>House of the Dragon</option>
+              <option>Breaking Bad</option>
+            </select>
 
-            <!-- Card 2 -->
-            <div
-              class="bg-surface-container-low p-space-md rounded-xl flex items-center justify-between shadow-sm"
+            <!-- Chọn Mùa -->
+            <select
+              class="h-9 bg-zinc-900 border border-zinc-800 rounded-lg px-3 text-xs text-zinc-200 focus:outline-none focus:border-zinc-700"
             >
-              <div class="flex flex-col">
-                <span
-                  class="font-label-caps text-label-caps uppercase text-on-surface-variant"
-                  >Tổng số tập phim</span
-                >
-                <span
-                  class="font-headline-md text-headline-md text-on-surface mt-1"
-                  >1,480</span
-                >
-                <span
-                  class="font-label-md text-label-md text-on-surface-variant mt-0.5"
-                  >118 mùa (Seasons)</span
-                >
-              </div>
-              <div
-                class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center"
+              <option>Mùa 1 (8 tập)</option>
+              <option>Mùa 2 (9 tập)</option>
+              <option>Mùa 3 (8 tập)</option>
+              <option selected>Mùa 4 (9 tập)</option>
+            </select>
+
+            <!-- Tìm kiếm tên hoặc số tập -->
+            <div class="relative w-64">
+              <span
+                class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-zinc-500 text-base"
+                >search</span
               >
-                <span class="material-symbols-outlined text-2xl text-secondary"
-                  >video_library</span
-                >
-              </div>
+              <input
+                type="text"
+                placeholder="Tìm tập hoặc tên tập..."
+                class="w-full h-9 bg-zinc-900 border border-zinc-800 rounded-lg pl-8 pr-3 text-xs text-white placeholder:text-zinc-500 focus:outline-none focus:border-zinc-700"
+              />
             </div>
+          </div>
 
-            <!-- Card 3 -->
-            <div
-              class="bg-surface-container-low p-space-md rounded-xl flex items-center justify-between shadow-sm"
-            >
-              <div class="flex flex-col">
-                <span
-                  class="font-label-caps text-label-caps uppercase text-on-surface-variant"
-                  >Đang cập nhật tập</span
-                >
-                <span
-                  class="font-headline-md text-headline-md text-on-surface mt-1"
-                  >26</span
-                >
-                <span
-                  class="font-label-md text-label-md text-primary flex items-center gap-0.5 mt-0.5"
-                >
-                  <span class="material-symbols-outlined text-xs"
-                    >schedule</span
-                  >
-                  Cập nhật theo lịch
-                </span>
-              </div>
-              <div
-                class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center"
-              >
-                <span class="material-symbols-outlined text-2xl text-amber-500"
-                  >pending_actions</span
-                >
-              </div>
-            </div>
+          <span class="text-xs text-zinc-500">Đang hiển thị 9 tập</span>
+        </div>
 
-            <!-- Card 4 -->
-            <div
-              class="bg-surface-container-low p-space-md rounded-xl flex items-center justify-between shadow-sm"
-            >
-              <div class="flex flex-col">
-                <span
-                  class="font-label-caps text-label-caps uppercase text-on-surface-variant"
-                  >Đã hoàn thành (Trọn bộ)</span
-                >
-                <span
-                  class="font-headline-md text-headline-md text-on-surface mt-1"
-                  >38</span
-                >
-                <span
-                  class="font-label-md text-label-md text-secondary flex items-center gap-0.5 mt-0.5"
-                >
-                  <span class="material-symbols-outlined text-xs"
-                    >verified</span
-                  >
-                  Chiếm 59.3%
-                </span>
-              </div>
-              <div
-                class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center"
-              >
-                <span
-                  class="material-symbols-outlined text-2xl text-emerald-500"
-                  >task_alt</span
-                >
-              </div>
-            </div>
-          </section>
-
-          <!-- Filter & Search Command Panel -->
-          <section
-            class="bg-zinc-900/90 backdrop-blur border border-zinc-800 p-2.5 rounded-2xl shadow-xl flex flex-col gap-2"
-          >
-            <!-- Single Search Bar -->
-            <div
-              class="flex items-center bg-zinc-950/80 rounded-xl border border-zinc-800/80 focus-within:border-red-500/60 focus-within:ring-2 focus-within:ring-red-500/20 transition-all p-1"
-            >
-              <!-- Icon & Input -->
-              <div class="flex-1 flex items-center pl-3 min-w-0">
-                <span
-                  class="material-symbols-outlined text-zinc-400 text-xl pointer-events-none select-none"
-                  >search</span
-                >
-                <input
-                  id="seriesSearchInput"
-                  type="text"
-                  placeholder="Tìm kiếm phim bộ, đạo diễn, diễn viên..."
-                  class="w-full h-10 bg-transparent px-3 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none"
-                />
-              </div>
-
-              <!-- Divider -->
-              <div class="h-5 w-px bg-zinc-800 hidden sm:block"></div>
-
-              <!-- Thể loại -->
-              <div class="relative hidden sm:block shrink-0">
-                <select
-                  id="genreFilter"
-                  class="h-10 appearance-none bg-transparent text-zinc-300 text-xs font-medium pl-3 pr-8 cursor-pointer focus:outline-none hover:text-white transition-colors"
-                >
-                  <option value="" class="bg-zinc-900 text-zinc-200">
-                    Tất cả thể loại
-                  </option>
-                  <option value="han-quoc" class="bg-zinc-900 text-zinc-200">
-                    Phim Hàn Quốc
-                  </option>
-                  <option value="au-my" class="bg-zinc-900 text-zinc-200">
-                    Phim Âu Mỹ
-                  </option>
-                  <option value="anime" class="bg-zinc-900 text-zinc-200">
-                    Anime / Hoạt hình
-                  </option>
-                  <option value="trung-quoc" class="bg-zinc-900 text-zinc-200">
-                    Phim Trung Quốc
-                  </option>
-                </select>
-                <span
-                  class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none text-base"
-                  >expand_more</span
-                >
-              </div>
-
-              <!-- Divider -->
-              <div class="h-5 w-px bg-zinc-800 hidden md:block"></div>
-
-              <!-- Tình trạng tập -->
-              <div class="relative hidden md:block shrink-0">
-                <select
-                  id="statusFilter"
-                  class="h-10 appearance-none bg-transparent text-zinc-300 text-xs font-medium pl-3 pr-8 cursor-pointer focus:outline-none hover:text-white transition-colors"
-                >
-                  <option value="" class="bg-zinc-900 text-zinc-200">
-                    Tiến độ phát sóng
-                  </option>
-                  <option value="ongoing" class="bg-zinc-900 text-zinc-200">
-                    Đang cập nhật tập
-                  </option>
-                  <option value="completed" class="bg-zinc-900 text-zinc-200">
-                    Trọn bộ / Hoàn thành
-                  </option>
-                  <option value="upcoming" class="bg-zinc-900 text-zinc-200">
-                    Sắp chiếu
-                  </option>
-                </select>
-                <span
-                  class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none text-base"
-                  >expand_more</span
-                >
-              </div>
-
-              <!-- Submit Button -->
-              <button
-                type="button"
-                onclick="applySeriesFilter()"
-                class="h-10 px-4 bg-red-600 hover:bg-red-500 active:scale-95 text-white rounded-lg text-xs font-semibold inline-flex items-center gap-1.5 transition-all shrink-0 ml-1 shadow-sm shadow-red-950"
-              >
-                <span class="material-symbols-outlined text-base">tune</span>
-                <span>Lọc phim</span>
-              </button>
-            </div>
-
-            <!-- Bottom Details -->
-            <div
-              class="flex items-center justify-between px-2 text-xs text-zinc-400"
-            >
-              <div class="flex items-center gap-2">
-                <span
-                  class="inline-flex items-center gap-1.5 text-red-400 font-medium"
-                >
+        <!-- Table Danh sách tập -->
+        <div
+          class="border border-zinc-800 rounded-xl overflow-hidden bg-[#141414]"
+        >
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="border-b border-zinc-800 text-zinc-400 font-medium">
+                <th class="py-3 px-4 w-16 text-center">Tập</th>
+                <th class="py-3 px-4">Tên tập phim</th>
+                <th class="py-3 px-4">Thời lượng</th>
+                <th class="py-3 px-4">Nguồn video (Server / HLS)</th>
+                <th class="py-3 px-4">Trạng thái</th>
+                <th class="py-3 px-4 text-right">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-zinc-800/60 text-zinc-300">
+              <!-- Tập 1 -->
+              <tr class="hover:bg-zinc-800/30 transition">
+                <td class="py-3 px-4 text-center font-semibold text-white">
+                  01
+                </td>
+                <td class="py-3 px-4">
+                  <div class="font-medium text-white">
+                    Chương 1: Câu lạc bộ Hellfire
+                  </div>
+                  <div class="text-[11px] text-zinc-500">
+                    Chapter One: The Hellfire Club
+                  </div>
+                </td>
+                <td class="py-3 px-4 text-zinc-400">76 phút</td>
+                <td class="py-3 px-4">
                   <span
-                    class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"
-                  ></span>
-                  Bộ lọc đang bật
-                </span>
-                <button
-                  type="button"
-                  onclick="resetSeriesFilter()"
-                  class="hover:text-zinc-200 transition-colors underline decoration-zinc-700"
-                >
-                  Đặt lại
-                </button>
-              </div>
-              <div>
-                Đang hiển thị
-                <span id="filterRange" class="text-zinc-200 font-semibold"
-                  >1-8</span
-                >
-                /
-                <span id="filterTotal" class="text-zinc-200 font-semibold"
-                  >64</span
-                >
-                bộ phim
-              </div>
-            </div>
-          </section>
-
-          <!-- Series Catalog Data Table -->
-          <section
-            class="bg-surface-container-low rounded-xl shadow-xl overflow-hidden flex flex-col mt-4"
-          >
-            <div class="overflow-x-auto">
-              <table class="w-full text-left border-collapse">
-                <!-- Table Header -->
-                <thead>
-                  <tr
-                    class="bg-surface-container-lowest text-on-surface-variant font-label-caps text-label-caps uppercase tracking-wider"
+                    class="font-mono text-[11px] text-zinc-400 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded"
                   >
-                    <th
-                      class="py-space-md pl-space-md pr-space-xs w-12 text-center"
-                      scope="col"
-                    >
-                      <label
-                        class="relative flex items-center justify-center cursor-pointer"
-                      >
-                        <input
-                          class="peer sr-only"
-                          id="selectAllCheckbox"
-                          type="checkbox"
-                        />
-                        <span
-                          class="w-4 h-4 rounded bg-surface-container flex items-center justify-center peer-checked:bg-primary-container transition-colors"
-                        >
-                          <span
-                            class="material-symbols-outlined text-xs text-on-primary-container opacity-0 peer-checked:opacity-100 font-bold"
-                            >check</span
-                          >
-                        </span>
-                      </label>
-                    </th>
-                    <th class="py-space-md px-space-md" scope="col">
-                      Tên phim bộ
-                    </th>
-                    <th class="py-space-md px-space-md" scope="col">
-                      Thể loại
-                    </th>
-                    <th class="py-space-md px-space-md" scope="col">Số mùa</th>
-                    <th class="py-space-md px-space-md" scope="col">
-                      Tiến độ tập
-                    </th>
-                    <th class="py-space-md px-space-md" scope="col">
-                      Chất lượng
-                    </th>
-                    <th class="py-space-md px-space-md" scope="col">
-                      Trạng thái
-                    </th>
-                    <th
-                      class="py-space-md px-space-md text-right pr-space-lg"
-                      scope="col"
-                    >
-                      Thao tác
-                    </th>
-                  </tr>
-                </thead>
-                <!-- Table Body -->
-                <tbody
-                  id="series-list"
-                  class="divide-y divide-zinc-800/60 text-on-surface font-body-sm text-body-sm"
-                >
-                  <!-- Hàng mẫu 1 -->
-                  <tr class="hover:bg-surface-container transition-colors">
-                    <td class="py-space-md pl-space-md pr-space-xs text-center">
-                      <input
-                        type="checkbox"
-                        class="rounded bg-zinc-800 text-red-600 focus:ring-0 cursor-pointer"
-                      />
-                    </td>
-                    <td class="py-space-md px-space-md">
-                      <div class="flex items-center gap-3">
-                        <img
-                          src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=100&auto=format&fit=crop&q=60"
-                          alt="Poster"
-                          class="w-10 h-14 object-cover rounded-md flex-shrink-0"
-                        />
-                        <div>
-                          <div class="font-semibold text-white">
-                            Stranger Things
-                          </div>
-                          <div class="text-xs text-zinc-400">
-                            Cậu Bé Mất Tích (2016)
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="py-space-md px-space-md">
-                      <span
-                        class="inline-block px-2 py-0.5 rounded text-xs bg-zinc-800 text-zinc-300"
-                        >Sci-Fi, Bí ẩn</span
-                      >
-                    </td>
-                    <td class="py-space-md px-space-md">
-                      <span class="font-medium text-zinc-200">4 Mùa</span>
-                    </td>
-                    <td class="py-space-md px-space-md">
-                      <div class="flex items-center gap-2">
-                        <span
-                          class="px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-950/60 text-emerald-400 border border-emerald-800/50"
-                        >
-                          34/34 Tập (Xong)
-                        </span>
-                      </div>
-                    </td>
-                    <td class="py-space-md px-space-md">
-                      <span
-                        class="px-2 py-0.5 rounded bg-zinc-800 text-amber-400 text-xs font-semibold"
-                        >4K UHD</span
-                      >
-                    </td>
-                    <td class="py-space-md px-space-md">
-                      <span
-                        class="inline-flex items-center gap-1.5 text-xs text-emerald-400"
-                      >
-                        <span
-                          class="w-1.5 h-1.5 rounded-full bg-emerald-500"
-                        ></span>
-                        Đang phát
-                      </span>
-                    </td>
-                    <td class="py-space-md px-space-md text-right pr-space-lg">
-                      <div class="flex items-center justify-end gap-1">
-                        <!-- Nút xem & quản lý danh sách tập -->
-                        <a
-                          href="/admin/tv-series/1/episodes"
-                          title="Quản lý tập phim"
-                          class="p-1.5 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition"
-                        >
-                          <span class="material-symbols-outlined text-lg"
-                            >format_list_bulleted</span
-                          >
-                        </a>
-                        <button
-                          type="button"
-                          title="Sửa thông tin series"
-                          onclick="editSeries(1)"
-                          class="p-1.5 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition"
-                        >
-                          <span class="material-symbols-outlined text-lg"
-                            >edit</span
-                          >
-                        </button>
-                        <button
-                          type="button"
-                          title="Xóa"
-                          onclick="deleteSeries(1)"
-                          class="p-1.5 text-red-400 hover:text-red-300 hover:bg-red-950/30 rounded-lg transition"
-                        >
-                          <span class="material-symbols-outlined text-lg"
-                            >delete</span
-                          >
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-
-                  <!-- Hàng mẫu 2 -->
-                  <tr class="hover:bg-surface-container transition-colors">
-                    <td class="py-space-md pl-space-md pr-space-xs text-center">
-                      <input
-                        type="checkbox"
-                        class="rounded bg-zinc-800 text-red-600 focus:ring-0 cursor-pointer"
-                      />
-                    </td>
-                    <td class="py-space-md px-space-md">
-                      <div class="flex items-center gap-3">
-                        <img
-                          src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=100&auto=format&fit=crop&q=60"
-                          alt="Poster"
-                          class="w-10 h-14 object-cover rounded-md flex-shrink-0"
-                        />
-                        <div>
-                          <div class="font-semibold text-white">
-                            House of the Dragon
-                          </div>
-                          <div class="text-xs text-zinc-400">
-                            Gia Tộc Rồng - Mùa 2 (2024)
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="py-space-md px-space-md">
-                      <span
-                        class="inline-block px-2 py-0.5 rounded text-xs bg-zinc-800 text-zinc-300"
-                        >Hành động, Fantasy</span
-                      >
-                    </td>
-                    <td class="py-space-md px-space-md">
-                      <span class="font-medium text-zinc-200">2 Mùa</span>
-                    </td>
-                    <td class="py-space-md px-space-md">
-                      <div class="flex items-center gap-2">
-                        <span
-                          class="px-2 py-0.5 rounded-full text-xs font-medium bg-amber-950/60 text-amber-400 border border-amber-800/50"
-                        >
-                          Tập 6/8 (Đang cập nhật)
-                        </span>
-                      </div>
-                    </td>
-                    <td class="py-space-md px-space-md">
-                      <span
-                        class="px-2 py-0.5 rounded bg-zinc-800 text-blue-400 text-xs font-semibold"
-                        >1080p FHD</span
-                      >
-                    </td>
-                    <td class="py-space-md px-space-md">
-                      <span
-                        class="inline-flex items-center gap-1.5 text-xs text-amber-400"
-                      >
-                        <span
-                          class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"
-                        ></span>
-                        Đang ra tập
-                      </span>
-                    </td>
-                    <td class="py-space-md px-space-md text-right pr-space-lg">
-                      <div class="flex items-center justify-end gap-1">
-                        <a
-                          href="/admin/tv-series/2/episodes"
-                          title="Quản lý tập phim"
-                          class="p-1.5 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition"
-                        >
-                          <span class="material-symbols-outlined text-lg"
-                            >format_list_bulleted</span
-                          >
-                        </a>
-                        <button
-                          type="button"
-                          title="Sửa thông tin series"
-                          onclick="editSeries(2)"
-                          class="p-1.5 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition"
-                        >
-                          <span class="material-symbols-outlined text-lg"
-                            >edit</span
-                          >
-                        </button>
-                        <button
-                          type="button"
-                          title="Xóa"
-                          onclick="deleteSeries(2)"
-                          class="p-1.5 text-red-400 hover:text-red-300 hover:bg-red-950/30 rounded-lg transition"
-                        >
-                          <span class="material-symbols-outlined text-lg"
-                            >delete</span
-                          >
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <!-- Phân trang -->
-            <div
-              class="p-space-md bg-surface-container-lowest/80 flex flex-col sm:flex-row items-center justify-between gap-space-md"
-            >
-              <div class="flex items-center gap-space-md">
-                <div class="flex items-center gap-2">
+                    Server VIP 1 (4K)
+                  </span>
+                </td>
+                <td class="py-3 px-4">
                   <span
-                    class="font-body-sm text-body-sm text-on-surface-variant"
-                    >Hiển thị</span
+                    class="inline-flex items-center gap-1.5 text-emerald-400 text-[11px]"
                   >
-                  <select
-                    class="bg-surface-container text-on-surface font-label-md text-label-md px-2.5 py-1.5 rounded cursor-pointer focus:outline-none focus:bg-surface-container-high"
+                    <span
+                      class="w-1.5 h-1.5 rounded-full bg-emerald-400"
+                    ></span>
+                    Sẵn sàng
+                  </span>
+                </td>
+                <td class="py-3 px-4 text-right">
+                  <div class="inline-flex items-center gap-2">
+                    <button
+                      type="button"
+                      title="Chỉnh sửa tập"
+                      class="text-zinc-400 hover:text-white transition"
+                    >
+                      <span class="material-symbols-outlined text-base"
+                        >edit</span
+                      >
+                    </button>
+                    <button
+                      type="button"
+                      title="Xóa tập"
+                      class="text-zinc-400 hover:text-red-400 transition"
+                    >
+                      <span class="material-symbols-outlined text-base"
+                        >delete</span
+                      >
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Tập 2 -->
+              <tr class="hover:bg-zinc-800/30 transition">
+                <td class="py-3 px-4 text-center font-semibold text-white">
+                  02
+                </td>
+                <td class="py-3 px-4">
+                  <div class="font-medium text-white">
+                    Chương 2: Lời nguyền của Vecna
+                  </div>
+                  <div class="text-[11px] text-zinc-500">
+                    Chapter Two: Vecna's Curse
+                  </div>
+                </td>
+                <td class="py-3 px-4 text-zinc-400">77 phút</td>
+                <td class="py-3 px-4">
+                  <span
+                    class="font-mono text-[11px] text-zinc-400 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded"
                   >
-                    <option>8 / trang</option>
-                    <option>16 / trang</option>
-                    <option>32 / trang</option>
-                  </select>
-                </div>
-                <span class="text-on-surface-variant/40">|</span>
-                <span
-                  class="font-label-md text-label-md text-on-surface-variant"
-                >
-                  <span id="footerRange">1 - 8</span> của
-                  <span id="footerTotal" class="text-on-surface font-bold"
-                    >64</span
+                    Server VIP 1 (4K)
+                  </span>
+                </td>
+                <td class="py-3 px-4">
+                  <span
+                    class="inline-flex items-center gap-1.5 text-emerald-400 text-[11px]"
                   >
-                  bộ phim
-                </span>
-              </div>
-              <div id="pagination"></div>
+                    <span
+                      class="w-1.5 h-1.5 rounded-full bg-emerald-400"
+                    ></span>
+                    Sẵn sàng
+                  </span>
+                </td>
+                <td class="py-3 px-4 text-right">
+                  <div class="inline-flex items-center gap-2">
+                    <button
+                      type="button"
+                      title="Chỉnh sửa tập"
+                      class="text-zinc-400 hover:text-white transition"
+                    >
+                      <span class="material-symbols-outlined text-base"
+                        >edit</span
+                      >
+                    </button>
+                    <button
+                      type="button"
+                      title="Xóa tập"
+                      class="text-zinc-400 hover:text-red-400 transition"
+                    >
+                      <span class="material-symbols-outlined text-base"
+                        >delete</span
+                      >
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Tập 3 -->
+              <tr class="hover:bg-zinc-800/30 transition">
+                <td class="py-3 px-4 text-center font-semibold text-white">
+                  03
+                </td>
+                <td class="py-3 px-4">
+                  <div class="font-medium text-white">
+                    Chương 3: Quái vật và siêu anh hùng
+                  </div>
+                  <div class="text-[11px] text-zinc-500">
+                    Chapter Three: The Monster and the Superhero
+                  </div>
+                </td>
+                <td class="py-3 px-4 text-zinc-400">63 phút</td>
+                <td class="py-3 px-4">
+                  <span
+                    class="font-mono text-[11px] text-amber-400/90 bg-amber-950/40 border border-amber-900/50 px-2 py-0.5 rounded"
+                  >
+                    Đang encode video
+                  </span>
+                </td>
+                <td class="py-3 px-4">
+                  <span
+                    class="inline-flex items-center gap-1.5 text-amber-400 text-[11px]"
+                  >
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                    Chờ xử lý
+                  </span>
+                </td>
+                <td class="py-3 px-4 text-right">
+                  <div class="inline-flex items-center gap-2">
+                    <button
+                      type="button"
+                      title="Chỉnh sửa tập"
+                      class="text-zinc-400 hover:text-white transition"
+                    >
+                      <span class="material-symbols-outlined text-base"
+                        >edit</span
+                      >
+                    </button>
+                    <button
+                      type="button"
+                      title="Xóa tập"
+                      class="text-zinc-400 hover:text-red-400 transition"
+                    >
+                      <span class="material-symbols-outlined text-base"
+                        >delete</span
+                      >
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Footer thanh phân trang/chuyển trang -->
+          <div
+            class="p-3 border-t border-zinc-800 flex items-center justify-between text-xs text-zinc-500"
+          >
+            <span>Tổng cộng 9 tập</span>
+            <div class="flex items-center gap-1">
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition"
+              >
+                Trước
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition"
+              >
+                Sau
+              </button>
             </div>
-          </section>
+          </div>
         </div>
       </main>
     </div>
-
-    <!-- DRAWER CHI TIẾT / SỬA PHIM BỘ -->
-    <div id="seriesDetailDrawer" class="fixed inset-0 z-50 invisible">
-      <!-- Nền đen mờ -->
-      <div
-        id="seriesDetailOverlay"
-        class="absolute inset-0 bg-black/60 opacity-0 transition-opacity duration-300"
-        onclick="closeSeriesDetail()"
-      ></div>
-
-      <!-- Drawer panel -->
-      <div
-        id="seriesDetailPanel"
-        class="absolute top-0 right-0 h-full w-full max-w-lg bg-surface-container shadow-2xl translate-x-full transition-transform duration-300 ease-out overflow-y-auto"
-      >
-        <!-- Header -->
-        <div
-          class="sticky top-0 z-10 bg-surface-container border-b border-surface-container-highest flex items-center justify-between p-5"
-        >
-          <h2 class="text-lg font-bold">Thông tin chi tiết Phim Bộ</h2>
-          <button
-            type="button"
-            onclick="closeSeriesDetail()"
-            class="p-2 rounded-lg hover:bg-surface-container-highest transition"
-          >
-            <span class="material-symbols-outlined">close</span>
-          </button>
-        </div>
-
-        <!-- Form / Content -->
-        <div id="seriesDetailContent" class="p-5 space-y-4">
-          <!-- Dynamic rendering từ JS tương tự movieDetailContent -->
-        </div>
-      </div>
-    </div>
   </body>
 </html>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script type="module" src="./../../src/js/admin/tv-series.js"></script>
-<script type="module" src="/src/main.js"></script>
