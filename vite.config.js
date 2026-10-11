@@ -384,8 +384,8 @@ export default defineConfig({
             "/admin/movies": "/src/admin/movies.html",
             "/admin/authorization": "/src/admin/authorization.html",
             "/admin/reviews": "/src/admin/reviews.html",
-            "/admin/phimBo": "/src/admin/phimBo.html",
-            "/admin/sesion": "/src/admin/sessionMovies.html",
+            "/admin/episodes": "/src/admin/phimBo.html",
+            "/admin/session": "/src/admin/sessionMovies.html",
           };
 
           if (routes[path]) {
