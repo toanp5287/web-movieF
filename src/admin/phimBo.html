@@ -126,58 +126,257 @@
       >
         <div>
           <h1 class="text-base font-semibold text-white">Quản lý tập phim</h1>
-          <p class="text-xs text-zinc-500">Stranger Things - Mùa 4</p>
+          <p id="pageSubtitle" class="text-xs text-zinc-500">
+            Đang tải dữ liệu...
+          </p>
         </div>
         <div class="flex items-center gap-3">
+          <!-- NÚT THÊM TẬP MỚI -->
           <button
+            id="btn-add-episode"
             type="button"
             class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-primary hover:bg-red-600 text-white text-xs font-medium transition"
           >
             <span class="material-symbols-outlined text-base">add</span>
             <span>Thêm tập mới</span>
           </button>
+
+          <!-- MODAL THÊM TẬP PHIM -->
+          <div
+            id="modal-add-episode"
+            class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+          >
+            <div
+              class="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl border border-white/10 bg-[#111318] text-white shadow-2xl"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="add-episode-title"
+            >
+              <!-- HEADER -->
+              <div
+                class="sticky top-0 z-10 flex items-center justify-between border-b border-white/10 bg-[#111318] px-6 py-4"
+              >
+                <div>
+                  <h2 id="add-episode-title" class="text-lg font-semibold">
+                    Thêm tập phim mới
+                  </h2>
+                  <p class="mt-1 text-sm text-gray-400">
+                    Nhập thông tin tập phim cần thêm.
+                  </p>
+                </div>
+
+                <button
+                  id="btn-close-episode"
+                  type="button"
+                  class="rounded-lg p-2 text-gray-400 transition hover:bg-white/10 hover:text-white"
+                  aria-label="Đóng form"
+                >
+                  <span class="material-symbols-outlined">close</span>
+                </button>
+              </div>
+
+              <!-- FORM -->
+
+              <!-- FORM THÊM TẬP PHIM -->
+              <form
+                id="form-add-episode"
+                class="space-y-5 p-6"
+                enctype="multipart/form-data"
+              >
+                <!-- SỐ TẬP -->
+                <div>
+                  <label
+                    for="episode-number"
+                    class="mb-2 block text-sm font-medium text-white"
+                  >
+                    Số tập <span class="text-red-500">*</span>
+                  </label>
+
+                  <input
+                    id="episode-number"
+                    name="episodeNumber"
+                    type="number"
+                    min="1"
+                    step="1"
+                    required
+                    placeholder="Ví dụ: 1"
+                    class="w-full rounded-lg border border-white/10 bg-[#1b1e25] px-4 py-3 text-sm text-white outline-none placeholder:text-gray-500 transition focus:border-red-500 focus:ring-1 focus:ring-red-500"
+                  />
+
+                  <p class="mt-1 text-xs text-gray-500">
+                    Số tập phải là số nguyên lớn hơn 0.
+                  </p>
+                </div>
+
+                <!-- TÊN TẬP PHIM -->
+                <div>
+                  <label
+                    for="episode-title"
+                    class="mb-2 block text-sm font-medium text-white"
+                  >
+                    Tên tập phim <span class="text-red-500">*</span>
+                  </label>
+
+                  <input
+                    id="episode-title"
+                    name="title"
+                    type="text"
+                    required
+                    maxlength="200"
+                    placeholder="Nhập tên tập phim"
+                    class="w-full rounded-lg border border-white/10 bg-[#1b1e25] px-4 py-3 text-sm text-white outline-none placeholder:text-gray-500 transition focus:border-red-500 focus:ring-1 focus:ring-red-500"
+                  />
+                </div>
+
+                <!-- MÔ TẢ -->
+                <div>
+                  <label
+                    for="episode-description"
+                    class="mb-2 block text-sm font-medium text-white"
+                  >
+                    Mô tả tập phim
+                  </label>
+
+                  <textarea
+                    id="episode-description"
+                    name="description"
+                    rows="4"
+                    maxlength="2000"
+                    placeholder="Nhập nội dung mô tả tập phim..."
+                    class="w-full resize-y rounded-lg border border-white/10 bg-[#1b1e25] px-4 py-3 text-sm text-white outline-none placeholder:text-gray-500 transition focus:border-red-500 focus:ring-1 focus:ring-red-500"
+                  ></textarea>
+                </div>
+
+                <!-- VIDEO TẬP PHIM -->
+                <div>
+                  <label
+                    for="episode-video"
+                    class="mb-2 block text-sm font-medium text-white"
+                  >
+                    Video tập phim <span class="text-red-500">*</span>
+                  </label>
+
+                  <div
+                    class="rounded-lg border border-dashed border-white/20 bg-[#1b1e25] p-4 transition hover:border-red-500/60"
+                  >
+                    <input
+                      id="episode-video"
+                      name="video"
+                      type="file"
+                      accept="video/*"
+                      required
+                      class="block w-full cursor-pointer text-sm text-gray-300 file:mr-3 file:cursor-pointer file:rounded-md file:border-0 file:bg-red-600 file:px-4 file:py-2 file:font-medium file:text-white file:transition hover:file:bg-red-700"
+                    />
+
+                    <div
+                      class="mt-3 flex items-start gap-2 text-xs text-gray-400"
+                    >
+                      <span
+                        class="material-symbols-outlined text-base text-red-500"
+                      >
+                        info
+                      </span>
+
+                      <p>
+                        Chọn video từ máy tính. File sẽ được tải lên máy chủ và
+                        lưu trong
+                        <code class="text-red-400">public/videos/</code>. Hệ
+                        thống chỉ lưu đường dẫn video trong
+                        <code class="text-red-400">db.json</code>.
+                      </p>
+                    </div>
+
+                    <p
+                      id="episode-video-info"
+                      class="mt-2 hidden break-all text-xs text-gray-400"
+                    ></p>
+                  </div>
+                </div>
+
+                <!-- TRẠNG THÁI -->
+                <div>
+                  <label
+                    for="episode-status"
+                    class="mb-2 block text-sm font-medium text-white"
+                  >
+                    Trạng thái
+                  </label>
+
+                  <select
+                    id="episode-status"
+                    name="status"
+                    class="w-full rounded-lg border border-white/10 bg-[#1b1e25] px-4 py-3 text-sm text-white outline-none transition focus:border-red-500 focus:ring-1 focus:ring-red-500"
+                  >
+                    <option value="true">Đang phát hành</option>
+                    <option value="false">Ẩn tập phim</option>
+                  </select>
+
+                  <p class="mt-1 text-xs text-gray-500">
+                    Tập phim bị ẩn sẽ không được hiển thị cho người xem nếu phần
+                    hiển thị có kiểm tra trạng thái.
+                  </p>
+                </div>
+
+                <!-- FOOTER -->
+                <div
+                  class="flex flex-col-reverse gap-3 border-t border-white/10 pt-5 sm:flex-row sm:justify-end"
+                >
+                  <button
+                    id="btn-cancel-episode"
+                    type="button"
+                    class="rounded-lg border border-white/10 px-5 py-2.5 text-sm font-medium text-gray-300 transition hover:bg-white/10"
+                  >
+                    Hủy
+                  </button>
+
+                  <button
+                    id="btn-save-episode"
+                    type="submit"
+                    class="inline-flex items-center justify-center gap-2 rounded-lg bg-red-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-[#111318]"
+                  >
+                    <span class="material-symbols-outlined text-base"
+                      >save</span
+                    >
+                    Lưu tập phim
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
       </header>
 
       <!-- MAIN BODY -->
       <main class="p-8 space-y-4 flex-1">
         <!-- Filter Controls: Chọn phim, mùa & tìm kiếm tập -->
-        <div class="flex flex-wrap items-center justify-between gap-3">
-          <div class="flex flex-wrap items-center gap-2">
-            <!-- Chọn Phim Bộ -->
-            <select
-              class="h-9 bg-zinc-900 border border-zinc-800 rounded-lg px-3 text-xs text-zinc-200 focus:outline-none focus:border-zinc-700"
+        <div
+          class="flex items-center justify-between gap-3 bg-zinc-900/60 border border-zinc-800/80 p-3.5 rounded-2xl"
+        >
+          <!-- Thanh tìm kiếm duy nhất -->
+          <div class="relative flex-1">
+            <span
+              class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500 text-base"
             >
-              <option selected>Stranger Things</option>
-              <option>House of the Dragon</option>
-              <option>Breaking Bad</option>
-            </select>
-
-            <!-- Chọn Mùa -->
-            <select
-              class="h-9 bg-zinc-900 border border-zinc-800 rounded-lg px-3 text-xs text-zinc-200 focus:outline-none focus:border-zinc-700"
-            >
-              <option>Mùa 1 (8 tập)</option>
-              <option>Mùa 2 (9 tập)</option>
-              <option>Mùa 3 (8 tập)</option>
-              <option selected>Mùa 4 (9 tập)</option>
-            </select>
-
-            <!-- Tìm kiếm tên hoặc số tập -->
-            <div class="relative w-64">
-              <span
-                class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-zinc-500 text-base"
-                >search</span
-              >
-              <input
-                type="text"
-                placeholder="Tìm tập hoặc tên tập..."
-                class="w-full h-9 bg-zinc-900 border border-zinc-800 rounded-lg pl-8 pr-3 text-xs text-white placeholder:text-zinc-500 focus:outline-none focus:border-zinc-700"
-              />
-            </div>
+              search
+            </span>
+            <input
+              type="text"
+              id="searchKeyword"
+              placeholder="Tìm kiếm phim, mùa hoặc tên tập..."
+              class="w-full h-10 bg-zinc-950 border border-zinc-800 rounded-xl pl-10 pr-4 text-xs text-white placeholder:text-zinc-500 focus:outline-none focus:border-zinc-600 transition-colors"
+            />
           </div>
 
-          <span class="text-xs text-zinc-500">Đang hiển thị 9 tập</span>
+          <!-- Thống kê số lượng -->
+          <div class="shrink-0">
+            <span
+              class="text-xs text-zinc-400 font-medium px-3.5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl inline-block"
+            >
+              Đang hiển thị
+              <span id="resultCount" class="text-white font-semibold">0</span>
+              kết quả
+            </span>
+          </div>
         </div>
 
         <!-- Table Danh sách tập -->
@@ -195,167 +394,14 @@
                 <th class="py-3 px-4 text-right">Thao tác</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-zinc-800/60 text-zinc-300">
-              <!-- Tập 1 -->
-              <tr class="hover:bg-zinc-800/30 transition">
-                <td class="py-3 px-4 text-center font-semibold text-white">
-                  01
-                </td>
-                <td class="py-3 px-4">
-                  <div class="font-medium text-white">
-                    Chương 1: Câu lạc bộ Hellfire
-                  </div>
-                  <div class="text-[11px] text-zinc-500">
-                    Chapter One: The Hellfire Club
-                  </div>
-                </td>
-                <td class="py-3 px-4 text-zinc-400">76 phút</td>
-                <td class="py-3 px-4">
-                  <span
-                    class="font-mono text-[11px] text-zinc-400 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded"
-                  >
-                    Server VIP 1 (4K)
-                  </span>
-                </td>
-                <td class="py-3 px-4">
-                  <span
-                    class="inline-flex items-center gap-1.5 text-emerald-400 text-[11px]"
-                  >
-                    <span
-                      class="w-1.5 h-1.5 rounded-full bg-emerald-400"
-                    ></span>
-                    Sẵn sàng
-                  </span>
-                </td>
-                <td class="py-3 px-4 text-right">
-                  <div class="inline-flex items-center gap-2">
-                    <button
-                      type="button"
-                      title="Chỉnh sửa tập"
-                      class="text-zinc-400 hover:text-white transition"
-                    >
-                      <span class="material-symbols-outlined text-base"
-                        >edit</span
-                      >
-                    </button>
-                    <button
-                      type="button"
-                      title="Xóa tập"
-                      class="text-zinc-400 hover:text-red-400 transition"
-                    >
-                      <span class="material-symbols-outlined text-base"
-                        >delete</span
-                      >
-                    </button>
-                  </div>
-                </td>
-              </tr>
-
-              <!-- Tập 2 -->
-              <tr class="hover:bg-zinc-800/30 transition">
-                <td class="py-3 px-4 text-center font-semibold text-white">
-                  02
-                </td>
-                <td class="py-3 px-4">
-                  <div class="font-medium text-white">
-                    Chương 2: Lời nguyền của Vecna
-                  </div>
-                  <div class="text-[11px] text-zinc-500">
-                    Chapter Two: Vecna's Curse
-                  </div>
-                </td>
-                <td class="py-3 px-4 text-zinc-400">77 phút</td>
-                <td class="py-3 px-4">
-                  <span
-                    class="font-mono text-[11px] text-zinc-400 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded"
-                  >
-                    Server VIP 1 (4K)
-                  </span>
-                </td>
-                <td class="py-3 px-4">
-                  <span
-                    class="inline-flex items-center gap-1.5 text-emerald-400 text-[11px]"
-                  >
-                    <span
-                      class="w-1.5 h-1.5 rounded-full bg-emerald-400"
-                    ></span>
-                    Sẵn sàng
-                  </span>
-                </td>
-                <td class="py-3 px-4 text-right">
-                  <div class="inline-flex items-center gap-2">
-                    <button
-                      type="button"
-                      title="Chỉnh sửa tập"
-                      class="text-zinc-400 hover:text-white transition"
-                    >
-                      <span class="material-symbols-outlined text-base"
-                        >edit</span
-                      >
-                    </button>
-                    <button
-                      type="button"
-                      title="Xóa tập"
-                      class="text-zinc-400 hover:text-red-400 transition"
-                    >
-                      <span class="material-symbols-outlined text-base"
-                        >delete</span
-                      >
-                    </button>
-                  </div>
-                </td>
-              </tr>
-
-              <!-- Tập 3 -->
-              <tr class="hover:bg-zinc-800/30 transition">
-                <td class="py-3 px-4 text-center font-semibold text-white">
-                  03
-                </td>
-                <td class="py-3 px-4">
-                  <div class="font-medium text-white">
-                    Chương 3: Quái vật và siêu anh hùng
-                  </div>
-                  <div class="text-[11px] text-zinc-500">
-                    Chapter Three: The Monster and the Superhero
-                  </div>
-                </td>
-                <td class="py-3 px-4 text-zinc-400">63 phút</td>
-                <td class="py-3 px-4">
-                  <span
-                    class="font-mono text-[11px] text-amber-400/90 bg-amber-950/40 border border-amber-900/50 px-2 py-0.5 rounded"
-                  >
-                    Đang encode video
-                  </span>
-                </td>
-                <td class="py-3 px-4">
-                  <span
-                    class="inline-flex items-center gap-1.5 text-amber-400 text-[11px]"
-                  >
-                    <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                    Chờ xử lý
-                  </span>
-                </td>
-                <td class="py-3 px-4 text-right">
-                  <div class="inline-flex items-center gap-2">
-                    <button
-                      type="button"
-                      title="Chỉnh sửa tập"
-                      class="text-zinc-400 hover:text-white transition"
-                    >
-                      <span class="material-symbols-outlined text-base"
-                        >edit</span
-                      >
-                    </button>
-                    <button
-                      type="button"
-                      title="Xóa tập"
-                      class="text-zinc-400 hover:text-red-400 transition"
-                    >
-                      <span class="material-symbols-outlined text-base"
-                        >delete</span
-                      >
-                    </button>
-                  </div>
+            <tbody
+              id="phimBo"
+              class="divide-y divide-zinc-800/60 text-zinc-300"
+            >
+              <!-- Danh sách tập phim do phimBo.js đổ vào đây -->
+              <tr>
+                <td colspan="6" class="py-10 text-center text-zinc-500">
+                  Đang tải dữ liệu tập phim...
                 </td>
               </tr>
             </tbody>
@@ -365,16 +411,18 @@
           <div
             class="p-3 border-t border-zinc-800 flex items-center justify-between text-xs text-zinc-500"
           >
-            <span>Tổng cộng 9 tập</span>
+            <span id="totalEpisodes">Tổng cộng 0 tập</span>
             <div class="flex items-center gap-1">
               <button
                 type="button"
+                id="prevPage"
                 class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition"
               >
                 Trước
               </button>
               <button
                 type="button"
+                id="nextPage"
                 class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition"
               >
                 Sau
@@ -386,3 +434,6 @@
     </div>
   </body>
 </html>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="module" src="./../../src/js/admin/phimBo.js"></script>
+<script type="module" src="./../../src/js/admin/createPhimBo.js"></script>

@@ -233,31 +233,20 @@
       "status": true
     },
     {
-      "id": "6QYnrvRXqD4",
       "movieId": "23",
       "seasonNumber": 3,
-      "title": "vdsvdsvsd",
-      "description": "vsdvsdvsdv",
-      "poster": "dfsvvsdvds",
-      "releaseYear": 2025,
-      "status": true
-    },
-    {
-      "id": "OEpfGcjPjfI",
-      "movieId": "23",
-      "seasonNumber": 11,
-      "title": "ewqfasfadsfa",
-      "description": "dSdwsDASdas",
-      "poster": "dfsvvsdvds",
+      "title": "vinh1234",
+      "description": "gágsgaefgsafgsdfgsfagasfgsaga",
+      "poster": "/images/movies/1791982053864-z6r047.png",
       "releaseYear": 2025,
       "status": true,
-      "isDeleted": true
+      "id": "SMyzc5LP86I"
     }
   ],
-  "Episodes": [
+  "episodes": [
     {
       "id": "1",
-      "seasonId": "1",
+      "seasonId": "6",
       "episodeNumber": 1,
       "title": "Chapter One: The Vanishing of Will Byers",
       "description": "Will Byers mất tích một cách bí ẩn.",
@@ -290,6 +279,30 @@
       "duration": 51,
       "releaseDate": "2016-07-15",
       "status": true
+    },
+    {
+      "id": "DnQwlw8ET1Q",
+      "seasonId": "6",
+      "episodeNumber": 2,
+      "title": "fdegsdsfds",
+      "description": "fdasfdsfdsf",
+      "video": "/videos/big-buck-bunny.mp4",
+      "thumbnail": "",
+      "duration": 0,
+      "releaseDate": "2026-10-14",
+      "status": true
+    },
+    {
+      "id": "NapTCsj1wbg",
+      "seasonId": "6",
+      "episodeNumber": 3,
+      "title": "fadfafads",
+      "description": "fdaefsadfdas",
+      "video": "/videos/big-buck-bunny.mp4",
+      "thumbnail": "",
+      "duration": 0,
+      "releaseDate": "2026-10-14",
+      "status": false
     }
   ],
   "genres": [
