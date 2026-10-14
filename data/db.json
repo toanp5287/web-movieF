@@ -67,7 +67,7 @@
       "roleId": 1,
       "status": "active",
       "createdAt": "2026-09-01",
-      "phone": "",
+      "phone": "0362836488",
       "dob": "1995-08-15",
       "gender": "nam",
       "birthday": "1995-08-15",
@@ -1133,14 +1133,14 @@
       "userId": 1,
       "movieId": 2,
       "progress": 3996,
-      "watchedAt": "2026-09-30T15:23:13",
+      "watchedAt": "2026-10-01T16:51:46",
       "id": "Cg6czTN"
     },
     {
       "userId": 1,
       "movieId": 7,
       "progress": 4482,
-      "watchedAt": "2026-09-30T11:13:51",
+      "watchedAt": "2026-10-01T16:51:53",
       "id": "6PTvXf5"
     },
     {
@@ -1168,7 +1168,7 @@
       "userId": 1,
       "movieId": 3,
       "progress": 4563,
-      "watchedAt": "2026-09-30T15:27:23",
+      "watchedAt": "2026-10-01T16:52:20",
       "id": "02C5nvJ"
     },
     {
@@ -1189,7 +1189,7 @@
       "userId": 1,
       "movieId": 13,
       "progress": 3996,
-      "watchedAt": "2026-09-30T15:17:50",
+      "watchedAt": "2026-10-01T16:52:06",
       "id": "6CBrQwh"
     }
   ],
