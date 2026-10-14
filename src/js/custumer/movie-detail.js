@@ -30,8 +30,16 @@ import {
   sameId,
 } from "./movie-data.js";
 import { renderMovieCards } from "./movie-card.js";
+import api from "../api.js";
 
 const bind = (name, root = document) => root.querySelector(`[data-bind="${name}"]`);
+const REVIEW_TEXT = {
+  1: "1/5 - Không thích",
+  2: "2/5 - Tạm được",
+  3: "3/5 - Khá ổn",
+  4: "4/5 - Rất hay",
+  5: "5/5 - Cực phẩm đỉnh cao",
+};
 
 const setText = (name, value) => {
   const el = bind(name);
@@ -290,6 +298,7 @@ function renderReviews(movie, catalog) {
   const rows = catalog.reviews.filter(
     (r) => sameId(r.movieId, movie.id) && String(r.status ?? "visible") === "visible",
   );
+  const sessionUser = getCurrentUser();
 
   if (!rows.length) {
     list.innerHTML = `<div class="p-5 rounded-xl bg-surface-container-low flex flex-col items-center text-center gap-2">
@@ -305,6 +314,7 @@ function renderReviews(movie, catalog) {
       const user = catalog.users?.find((u) => sameId(u.id, r.userId));
       const name = user?.fullname || user?.username || "Người dùng";
       const rating = Number(r.rating) || 0;
+      const mine = Boolean(sessionUser) && sameId(sessionUser.id, r.userId);
       return `
                 <div class="p-5 rounded-xl bg-surface-container-low flex flex-col gap-3">
                   <div class="flex items-start justify-between">
@@ -335,6 +345,26 @@ function renderReviews(movie, catalog) {
                     )}</span>
                   </div>
                   <p class="font-body-md text-body-md text-on-surface leading-relaxed">${escapeHtml(r.comment || "")}</p>
+                  ${
+                    mine
+                      ? `<div class="flex items-center gap-2 pt-1">
+                           <button
+                             type="button"
+                             class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-colors"
+                             data-review-edit="${escapeHtml(String(r.id))}"
+                           >
+                             Sửa
+                           </button>
+                           <button
+                             type="button"
+                             class="px-3 py-1.5 rounded-lg bg-error/20 text-error font-label-md text-label-md hover:bg-error/30 transition-colors"
+                             data-review-delete="${escapeHtml(String(r.id))}"
+                           >
+                             Xoá
+                           </button>
+                         </div>`
+                      : ""
+                  }
                 </div>`;
     })
     .join("");
@@ -372,6 +402,176 @@ function renderSpecs(movie) {
 /** Phim đang hiển thị, dùng lại khi ảnh diễn viên dò xong. */
 let currentMovie = null;
 let currentCatalog = null;
+let selectedRating = 5;
+let editingReviewId = null;
+
+function getCurrentUser() {
+  const raw = localStorage.getItem("currentUser");
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+function normalizeId(id) {
+  return /^\d+$/.test(String(id)) ? Number(id) : id;
+}
+
+function setStars(rating) {
+  selectedRating = Math.min(5, Math.max(1, Number(rating) || 5));
+  document.querySelectorAll(".star-btn").forEach((btn) => {
+    const value = Number(btn.getAttribute("data-rating"));
+    const icon = btn.querySelector(".material-symbols-outlined");
+    if (!icon) return;
+    icon.style.fontVariationSettings = value <= selectedRating ? "'FILL' 1" : "'FILL' 0";
+  });
+  const label = document.getElementById("rating-label");
+  if (label) label.textContent = REVIEW_TEXT[selectedRating];
+}
+
+function fillComposerFromReview(review) {
+  editingReviewId = review?.id ?? null;
+  const comment = document.getElementById("comment-input");
+  if (comment) comment.value = review?.comment || "";
+  setStars(review?.rating || 5);
+
+  const submit = document.getElementById("submit-comment");
+  if (submit) submit.textContent = review ? "Cập nhật đánh giá" : "Gửi bình luận";
+}
+
+function notify(icon, title) {
+  if (typeof Swal !== "undefined") {
+    Swal.fire({
+      toast: true,
+      position: "top-end",
+      icon,
+      title,
+      showConfirmButton: false,
+      timer: 2200,
+      timerProgressBar: true,
+    });
+    return;
+  }
+  window.alert(title);
+}
+
+function findMyReview(movie, catalog) {
+  const user = getCurrentUser();
+  if (!user) return null;
+  return (
+    catalog.reviews.find(
+      (r) =>
+        sameId(r.movieId, movie.id) &&
+        sameId(r.userId, user.id) &&
+        String(r.status ?? "visible") === "visible",
+    ) || null
+  );
+}
+
+function refreshReviewBlocks(movie, catalog) {
+  renderRating(movie, catalog);
+  renderRatingSummary(movie, catalog);
+  renderReviews(movie, catalog);
+}
+
+function bindReviewActions(movie, catalog) {
+  const list = bind("reviews");
+  if (!list) return;
+
+  list.addEventListener("click", async (event) => {
+    const editBtn = event.target.closest("[data-review-edit]");
+    if (editBtn) {
+      const review = catalog.reviews.find((r) => sameId(r.id, editBtn.dataset.reviewEdit));
+      if (!review) return;
+      fillComposerFromReview(review);
+      document.getElementById("comment-input")?.focus();
+      document.getElementById("comment-input")?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
+    const removeBtn = event.target.closest("[data-review-delete]");
+    if (!removeBtn) return;
+
+    const review = catalog.reviews.find((r) => sameId(r.id, removeBtn.dataset.reviewDelete));
+    if (!review) return;
+
+    const ok = window.confirm("Bạn có chắc muốn xoá đánh giá này?");
+    if (!ok) return;
+
+    try {
+      await api.delete(`/reviews/${review.id}`);
+      catalog.reviews = catalog.reviews.filter((r) => !sameId(r.id, review.id));
+      refreshReviewBlocks(movie, catalog);
+      fillComposerFromReview(findMyReview(movie, catalog));
+      notify("success", "Đã xoá đánh giá.");
+    } catch (error) {
+      console.error("[movie-detail] Xoá review lỗi:", error);
+      notify("error", "Không thể xoá đánh giá, vui lòng thử lại.");
+    }
+  });
+}
+
+function bindReviewComposer(movie, catalog) {
+  const stars = document.querySelectorAll(".star-btn");
+  const submit = document.getElementById("submit-comment");
+  const comment = document.getElementById("comment-input");
+  if (!stars.length || !submit || !comment) return;
+
+  stars.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      setStars(btn.getAttribute("data-rating"));
+    });
+  });
+
+  fillComposerFromReview(findMyReview(movie, catalog));
+
+  submit.addEventListener("click", async () => {
+    const user = getCurrentUser();
+    if (!user) {
+      notify("info", "Vui lòng đăng nhập để gửi đánh giá.");
+      return;
+    }
+
+    const content = comment.value.trim();
+    if (!content) {
+      notify("warning", "Vui lòng nhập nội dung đánh giá.");
+      comment.focus();
+      return;
+    }
+
+    const payload = {
+      userId: normalizeId(user.id),
+      movieId: normalizeId(movie.id),
+      rating: selectedRating,
+      comment: content,
+      status: "visible",
+      createdAt: new Date().toISOString().slice(0, 10),
+    };
+
+    try {
+      if (editingReviewId) {
+        const updated = await api.patch(`/reviews/${editingReviewId}`, payload);
+        catalog.reviews = catalog.reviews.map((r) =>
+          sameId(r.id, editingReviewId) ? { ...r, ...updated } : r,
+        );
+        notify("success", "Đã cập nhật đánh giá.");
+      } else {
+        const created = await api.post("/reviews", payload);
+        catalog.reviews.unshift(created);
+        editingReviewId = created?.id ?? null;
+        notify("success", "Đã gửi đánh giá.");
+      }
+
+      refreshReviewBlocks(movie, catalog);
+      fillComposerFromReview(findMyReview(movie, catalog));
+    } catch (error) {
+      console.error("[movie-detail] Lưu review lỗi:", error);
+      notify("error", "Không thể lưu đánh giá, vui lòng thử lại.");
+    }
+  });
+}
 
 // Ảnh diễn viên được dò ở nền để trang hiện nhanh; có ảnh thật thì vẽ lại khối cast.
 window.addEventListener(AVATARS_RESOLVED, () => {
@@ -423,6 +623,8 @@ async function init() {
   renderSpecs(movie);
   renderCast(movie, catalog);
   renderReviews(movie, catalog);
+  bindReviewActions(movie, catalog);
+  bindReviewComposer(movie, catalog);
   renderRelated(movie, catalog);
 
   bindImageFallback(document);

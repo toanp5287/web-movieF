@@ -6,7 +6,6 @@
       "displayName": "Quản trị viên",
       "description": "Quản lý toàn bộ hệ thống MovieF",
       "permissions": [
-        "dashboard.view",
         "movie.view",
         "movie.create",
         "movie.update",
@@ -20,7 +19,8 @@
         "user.update",
         "user.delete",
         "review.view",
-        "review.delete"
+        "review.delete",
+        "dashboard.view"
       ]
     },
     {
@@ -62,7 +62,7 @@
       "username": "admin",
       "email": "admin@movief.com",
       "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
-      "fullname": "Nguyễn Admin",
+      "fullname": "Admin",
       "avatar": "images/avatar/admin.png",
       "roleId": 1,
       "status": "active",
@@ -78,10 +78,10 @@
       "username": "staff01",
       "email": "staff01@movief.com",
       "password": "123456",
-      "fullname": "Nguyen Van Staff",
+      "fullname": "Nguyen Van satffff",
       "avatar": "images/avatar/default.png",
       "roleId": 2,
-      "status": "active",
+      "status": "inactive",
       "createdAt": "2026-09-02"
     },
     {
@@ -201,6 +201,97 @@
       "createdAt": "2026-09-30T16:00:02.937Z"
     }
   ],
+  "season": [
+    {
+      "id": "6",
+      "movieId": "23",
+      "seasonNumber": 2,
+      "title": "Mùa 2",
+      "description": "Cuộc xung đột giữa các phe Targaryen ngày càng khốc liệt.",
+      "poster": "/images/movies/house-of-the-dragon-season-2.jpg",
+      "releaseYear": 2024,
+      "status": true
+    },
+    {
+      "id": "7",
+      "movieId": "24",
+      "seasonNumber": 1,
+      "title": "Mùa 1",
+      "description": "Motoko Kusanagi và Sở 9 đối mặt với những mối đe dọa trong thế giới tương lai.",
+      "poster": "/images/movies/ghost-in-the-shell-season-1.jpg",
+      "releaseYear": 2020,
+      "status": true
+    },
+    {
+      "id": "8",
+      "movieId": "24",
+      "seasonNumber": 2,
+      "title": "Mùa 2",
+      "description": "Sở 9 tiếp tục điều tra những mối đe dọa mới trong thời đại hậu nhân.",
+      "poster": "/images/movies/ghost-in-the-shell-season-2.jpg",
+      "releaseYear": 2022,
+      "status": true
+    },
+    {
+      "id": "6QYnrvRXqD4",
+      "movieId": "23",
+      "seasonNumber": 3,
+      "title": "vdsvdsvsd",
+      "description": "vsdvsdvsdv",
+      "poster": "dfsvvsdvds",
+      "releaseYear": 2025,
+      "status": true
+    },
+    {
+      "id": "OEpfGcjPjfI",
+      "movieId": "23",
+      "seasonNumber": 11,
+      "title": "ewqfasfadsfa",
+      "description": "dSdwsDASdas",
+      "poster": "dfsvvsdvds",
+      "releaseYear": 2025,
+      "status": true,
+      "isDeleted": true
+    }
+  ],
+  "Episodes": [
+    {
+      "id": "1",
+      "seasonId": "1",
+      "episodeNumber": 1,
+      "title": "Chapter One: The Vanishing of Will Byers",
+      "description": "Will Byers mất tích một cách bí ẩn.",
+      "video": "/videos/stranger-things-ep1.mp4",
+      "thumbnail": "/images/movies/stranger-things-ep1.jpg",
+      "duration": 48,
+      "releaseDate": "2016-07-15",
+      "status": true
+    },
+    {
+      "id": "2",
+      "seasonId": "1",
+      "episodeNumber": 2,
+      "title": "Chapter Two: The Weirdo on Maple Street",
+      "description": "Nhóm bạn gặp một cô gái bí ẩn có năng lực đặc biệt.",
+      "video": "/videos/stranger-things-ep2.mp4",
+      "thumbnail": "/images/movies/stranger-things-ep2.jpg",
+      "duration": 55,
+      "releaseDate": "2016-07-15",
+      "status": true
+    },
+    {
+      "id": "3",
+      "seasonId": "1",
+      "episodeNumber": 3,
+      "title": "Chapter Three: Holly, Jolly",
+      "description": "Những manh mối mới xuất hiện trong quá trình tìm kiếm Will.",
+      "video": "/videos/stranger-things-ep3.mp4",
+      "thumbnail": "/images/movies/stranger-things-ep3.jpg",
+      "duration": 51,
+      "releaseDate": "2016-07-15",
+      "status": true
+    }
+  ],
   "genres": [
     {
       "id": "1",
@@ -257,9 +348,12 @@
       "title": "Spider-Man: No Way Home",
       "slug": "spider-man-no-way-home",
       "description": "Peter Parker đối mặt với những kẻ thù đến từ các vũ trụ khác.",
-      "poster": "images/movies/spiderman.jpg",
-      "backdrop": "images/movies/spiderman-bg.jpg",
-      "year": 2021,
+      "poster": "/images/movies/spiderman.jpg",
+      "backdrop": "/images/movies/spiderman-bg.jpg",
+      "trailer": "/videos/phim-demo-4.mp4",
+      "video": "/videos/phim-demo-4.mp4",
+      "type": "movie",
+      "releaseYear": 2021,
       "duration": 148,
       "country": "USA",
       "director": "Jon Watts",
@@ -274,21 +368,22 @@
         "7",
         "8"
       ],
-      "trailer": "videos/trailer/spiderman.mp4",
-      "video": "../videos/phim-demo-4.mp4",
-      "status": "published",
+      "quality": "hd",
+      "status": true,
       "views": 12450,
-      "createdAt": "2026-09-02",
-      "quality": "hd"
+      "createdAt": "2026-09-02"
     },
     {
       "id": "3",
       "title": "Interstellar",
       "slug": "interstellar",
       "description": "Một nhóm phi hành gia thực hiện nhiệm vụ tìm kiếm hành tinh mới cho nhân loại.",
-      "poster": "images/movies/interstellar.jpg",
-      "backdrop": "images/movies/interstellar.jpg",
-      "year": 2014,
+      "poster": "/images/movies/interstellar.jpg",
+      "backdrop": "/images/movies/interstellar.jpg",
+      "trailer": "/videos/trailer/interstellar.mp4",
+      "video": "/videos/tears-of-steel-trailer.mp4",
+      "type": "movie",
+      "releaseYear": 2014,
       "duration": 169,
       "country": "USA",
       "director": "Christopher Nolan",
@@ -297,22 +392,23 @@
         "Anne Hathaway",
         "Jessica Chastain"
       ],
-      "trailer": "videos/trailer/interstellar.mp4",
-      "video": "../videos/phim-demo-3.mp4",
-      "status": "published",
+      "genre": [],
+      "quality": "hd",
+      "status": true,
       "views": 18420,
-      "createdAt": "2026-09-03",
-      "genre": null,
-      "quality": "hd"
+      "createdAt": "2026-09-03"
     },
     {
       "id": "4",
       "title": "Your Name",
       "slug": "your-name",
       "description": "Hai người xa lạ kết nối với nhau thông qua những giấc mơ kỳ lạ.",
-      "poster": "images/movies/your-name.jpg",
-      "backdrop": "images/movies/your-name-bg.jpg",
-      "year": 2016,
+      "poster": "/images/movies/your-name.jpg",
+      "backdrop": "/images/movies/your-name-bg.jpg",
+      "trailer": "/videos/trailer/your-name.mp4",
+      "video": "/videos/tears-of-steel-trailer.mp4",
+      "type": "movie",
+      "releaseYear": 2016,
       "duration": 106,
       "country": "Japan",
       "director": "Makoto Shinkai",
@@ -320,9 +416,9 @@
         "Ryunosuke Kamiki",
         "Mone Kamishiraishi"
       ],
-      "trailer": "videos/trailer/your-name.mp4",
-      "video": "../videos/tears-of-steel-trailer.mp4",
-      "status": "published",
+      "genre": [],
+      "quality": "hd",
+      "status": true,
       "views": 9860,
       "createdAt": "2026-09-04"
     },
@@ -331,9 +427,12 @@
       "title": "The Conjuring",
       "slug": "the-conjuring",
       "description": "Một gia đình chuyển đến căn nhà mới và gặp những hiện tượng kỳ bí.",
-      "poster": "images/movies/conjuring.jpg",
-      "backdrop": "images/movies/conjuring-bg.jpg",
-      "year": 2013,
+      "poster": "/images/movies/conjuring.jpg",
+      "backdrop": "/images/movies/conjuring-bg.jpg",
+      "trailer": "/videos/phim-demo-2.mp4",
+      "video": "/videos/movies/conjuring.mp4",
+      "type": "movie",
+      "releaseYear": 2013,
       "duration": 112,
       "country": "USA",
       "director": "James Wan",
@@ -342,9 +441,9 @@
         "Patrick Wilson",
         "Lili Taylor"
       ],
-      "trailer": "../videos/phim-demo-2.mp4",
-      "video": "videos/movies/conjuring.mp4",
-      "status": "published",
+      "genre": [],
+      "quality": "hd",
+      "status": true,
       "views": 7340,
       "createdAt": "2026-09-05"
     },
@@ -353,9 +452,12 @@
       "title": "Toy Story 4",
       "slug": "toy-story-4",
       "description": "Woody và những người bạn bước vào một cuộc phiêu lưu mới.",
-      "poster": "images/movies/toy-story-4.jpg",
-      "backdrop": "images/movies/toy-story-4-bg.jpg",
-      "year": 2019,
+      "poster": "/images/movies/toy-story-4.jpg",
+      "backdrop": "/images/movies/toy-story-4-bg.jpg",
+      "trailer": "/videos/trailer/toy-story-4.mp4",
+      "video": "/videos/movies/toy-story-4.mp4",
+      "type": "movie",
+      "releaseYear": 2019,
       "duration": 100,
       "country": "USA",
       "director": "Josh Cooley",
@@ -364,9 +466,9 @@
         "Tim Allen",
         "Annie Potts"
       ],
-      "trailer": "videos/trailer/toy-story-4.mp4",
-      "video": "videos/movies/toy-story-4.mp4",
-      "status": "published",
+      "genre": [],
+      "quality": "hd",
+      "status": true,
       "views": 6420,
       "createdAt": "2026-09-06"
     },
@@ -375,9 +477,12 @@
       "title": "Dune: Part Two",
       "slug": "dune-part-two",
       "description": "Paul Atreides tiếp tục hành trình cùng người dân Arrakis.",
-      "poster": "images/movies/dune-2.jpg",
-      "backdrop": "images/movies/dune-2-bg.jpg",
-      "year": 2024,
+      "poster": "/images/movies/dune-2.jpg",
+      "backdrop": "/images/movies/dune-2-bg.jpg",
+      "trailer": "/videos/trailer/dune-2.mp4",
+      "video": "/videos/movies/dune-2.mp4",
+      "type": "movie",
+      "releaseYear": 2024,
       "duration": 166,
       "country": "USA",
       "director": "Denis Villeneuve",
@@ -386,9 +491,9 @@
         "Zendaya",
         "Rebecca Ferguson"
       ],
-      "trailer": "videos/trailer/dune-2.mp4",
-      "video": "videos/movies/dune-2.mp4",
-      "status": "published",
+      "genre": [],
+      "quality": "hd",
+      "status": true,
       "views": 11320,
       "createdAt": "2026-09-07"
     },
@@ -397,9 +502,12 @@
       "title": "La La Land",
       "slug": "la-la-land",
       "description": "Câu chuyện tình yêu giữa một nhạc sĩ và một nữ diễn viên trẻ tại Los Angeles.",
-      "poster": "images/movies/la-la-land.jpg",
-      "backdrop": "images/movies/la-la-land-bg.jpg",
-      "year": 2016,
+      "poster": "/images/movies/la-la-land.jpg",
+      "backdrop": "/images/movies/la-la-land-bg.jpg",
+      "trailer": "/videos/trailer/la-la-land.mp4",
+      "video": "/videos/movies/la-la-land.mp4",
+      "type": "movie",
+      "releaseYear": 2016,
       "duration": 128,
       "country": "USA",
       "director": "Damien Chazelle",
@@ -407,9 +515,9 @@
         "Ryan Gosling",
         "Emma Stone"
       ],
-      "trailer": "videos/trailer/la-la-land.mp4",
-      "video": "videos/movies/la-la-land.mp4",
-      "status": "Inactive",
+      "genre": [],
+      "quality": "hd",
+      "status": false,
       "views": 8120,
       "createdAt": "2026-09-08"
     },
@@ -418,9 +526,12 @@
       "title": "Inside Out 2",
       "slug": "inside-out-2",
       "description": "Riley bước vào tuổi thiếu niên và trải qua những cảm xúc mới.",
-      "poster": "images/movies/inside-out-2.jpg",
-      "backdrop": "images/movies/inside-out-2-bg.jpg",
-      "year": 2024,
+      "poster": "/images/movies/inside-out-2.jpg",
+      "backdrop": "/images/movies/inside-out-2-bg.jpg",
+      "trailer": "/videos/trailer/inside-out-2.mp4",
+      "video": "/videos/movies/inside-out-2.mp4",
+      "type": "movie",
+      "releaseYear": 2024,
       "duration": 96,
       "country": "USA",
       "director": "Kelsey Mann",
@@ -429,9 +540,9 @@
         "Maya Hawke",
         "Kensington Tallman"
       ],
-      "trailer": "videos/trailer/inside-out-2.mp4",
-      "video": "videos/movies/inside-out-2.mp4",
-      "status": "published",
+      "genre": [],
+      "quality": "hd",
+      "status": true,
       "views": 15600,
       "createdAt": "2026-09-09"
     },
@@ -440,9 +551,12 @@
       "title": "The Batman",
       "slug": "the-batman",
       "description": "Batman điều tra những bí ẩn và tội ác xảy ra tại Gotham.",
-      "poster": "images/movies/the-batman.jpg",
-      "backdrop": "images/movies/the-batman-bg.jpg",
-      "year": 2022,
+      "poster": "/images/movies/the-batman.jpg",
+      "backdrop": "/images/movies/the-batman-bg.jpg",
+      "trailer": "/videos/trailer/the-batman.mp4",
+      "video": "/videos/movies/the-batman.mp4",
+      "type": "movie",
+      "releaseYear": 2022,
       "duration": 176,
       "country": "USA",
       "director": "Matt Reeves",
@@ -451,24 +565,23 @@
         "Zoë Kravitz",
         "Paul Dano"
       ],
-      "trailer": "videos/trailer/the-batman.mp4",
-      "video": "videos/movies/the-batman.mp4",
-      "status": "published",
+      "genre": [],
+      "quality": "hd",
+      "status": true,
       "views": 10450,
-      "createdAt": "2026-09-10",
-      "genre": null,
-      "quality": "hd"
+      "createdAt": "2026-09-10"
     },
     {
+      "id": "--SUm4rVppI",
       "title": "vinh",
       "slug": "vinh",
       "description": "dấd",
-      "genre": [
-        2
-      ],
       "poster": "/images/movies/1790685049643-c14577.jpg",
       "backdrop": "/images/movies/1790685049729-gvekdb.jpg",
-      "year": 2022,
+      "trailer": "/videos/1790685049779-09nsjs.mp4",
+      "video": "/videos/1790685050339-5s5u5f.mp4",
+      "type": "movie",
+      "releaseYear": 2022,
       "duration": 120,
       "country": "USA",
       "director": "Jon Watts",
@@ -477,23 +590,25 @@
         "Chris Evans",
         "Mark Ruffalo"
       ],
-      "trailer": "/videos/1790685049779-09nsjs.mp4",
-      "video": "/videos/1790685050339-5s5u5f.mp4",
-      "status": "Inactive",
+      "genre": [
+        "2"
+      ],
+      "quality": "hd",
+      "status": false,
       "views": 0,
-      "createdAt": "2026-09-29",
-      "id": "--SUm4rVppI"
+      "createdAt": "2026-09-29"
     },
     {
+      "id": "WR4YLk3p0OQ",
       "title": "cacs",
       "slug": "cacs",
       "description": "ccscaas",
-      "genre": [
-        3
-      ],
       "poster": "/images/movies/1790686057727-jlt183.jpg",
-      "backdrop": "images/movies/endgame-bg.jpg",
-      "year": 2022,
+      "backdrop": "/images/movies/endgame-bg.jpg",
+      "trailer": "",
+      "video": "/videos/1790686057804-3fwkuz.mp4",
+      "type": "movie",
+      "releaseYear": 2022,
       "duration": 111,
       "country": "USA",
       "director": "Anthony Russo, Joe Russo",
@@ -502,23 +617,25 @@
         "Chris Evans",
         "Mark Ruffalo"
       ],
-      "trailer": "",
-      "video": "/videos/1790686057804-3fwkuz.mp4",
-      "status": "Inactive",
+      "genre": [
+        "3"
+      ],
+      "quality": "hd",
+      "status": false,
       "views": 0,
-      "createdAt": "2026-09-29",
-      "id": "WR4YLk3p0OQ"
+      "createdAt": "2026-09-29"
     },
     {
+      "id": "bVu3J8_WK7U",
       "title": "ấc",
       "slug": "ac",
       "description": "cấc",
-      "genre": [
-        3
-      ],
       "poster": "",
       "backdrop": "",
-      "year": 2022,
+      "trailer": "",
+      "video": "/videos/no-video.mp4",
+      "type": "movie",
+      "releaseYear": 2022,
       "duration": 111,
       "country": "USA",
       "director": "Anthony Russo, Joe Russo",
@@ -527,23 +644,25 @@
         "Chris Evans",
         "Mark Ruffalo"
       ],
-      "trailer": "",
-      "video": "/videos/no-video.mp4",
-      "status": "Inactive",
+      "genre": [
+        "3"
+      ],
+      "quality": "hd",
+      "status": false,
       "views": 0,
-      "createdAt": "2026-09-29",
-      "id": "bVu3J8_WK7U"
+      "createdAt": "2026-09-29"
     },
     {
+      "id": "vUFHoLVspJc",
       "title": "2",
       "slug": "2",
       "description": "cấccsacaca",
-      "genre": [
-        4
-      ],
       "poster": "",
       "backdrop": "",
-      "year": 2022,
+      "trailer": "",
+      "video": "/videos/no-video.mp4",
+      "type": "movie",
+      "releaseYear": 2022,
       "duration": 111,
       "country": "USA",
       "director": "Jon Watts",
@@ -552,24 +671,25 @@
         "Chris Evans",
         "Mark Ruffalo"
       ],
-      "trailer": "",
-      "video": "/videos/no-video.mp4",
-      "status": "Inactive",
+      "genre": [
+        "4"
+      ],
+      "quality": "hd",
+      "status": false,
       "views": 0,
-      "createdAt": "2026-09-29",
-      "id": "vUFHoLVspJc",
-      "quality": "hd"
+      "createdAt": "2026-09-29"
     },
     {
+      "id": "C_RCsnN_TRo",
       "title": "dấda",
       "slug": "dada",
       "description": "csacsac",
-      "genre": [
-        1
-      ],
       "poster": "",
       "backdrop": "",
-      "year": 2022,
+      "trailer": "",
+      "video": "/videos/no-video.mp4",
+      "type": "movie",
+      "releaseYear": 2022,
       "duration": 1111,
       "country": "ddsa",
       "director": "dsadasd",
@@ -578,21 +698,25 @@
         "Chris Evans",
         "Mark Ruffalo"
       ],
-      "trailer": "",
-      "video": "/videos/no-video.mp4",
-      "status": "Inactive",
+      "genre": [
+        "1"
+      ],
+      "quality": "hd",
+      "status": false,
       "views": 0,
-      "createdAt": "2026-09-29",
-      "id": "C_RCsnN_TRo"
+      "createdAt": "2026-09-29"
     },
     {
       "id": "11",
       "title": "Spider-Man: Across the Spider-Verse",
       "slug": "spider-man-across-the-spider-verse",
       "description": "Miles Morales bị đưa vào đa vũ trụ và gặp Hội đồng Spider-Man. Khi các anh hùng không thống nhất cách đối phó với mối đe dọa mới, Miles phải một mình đối đầu để bảo vệ những người anh yêu thương.",
-      "poster": "images/movies/spiderverse.jpg",
+      "poster": "/images/movies/spiderverse.jpg",
       "backdrop": "",
-      "year": 2023,
+      "trailer": "",
+      "video": "",
+      "type": "movie",
+      "releaseYear": 2023,
       "duration": 140,
       "country": "USA",
       "director": "Joaquim Dos Santos, Kemp Powers, Justin K. Thompson",
@@ -603,15 +727,14 @@
         "Luna Lauren Velez",
         "Oscar Isaac"
       ],
-      "trailer": "",
-      "video": "",
-      "status": "published",
-      "views": 0,
       "genre": [
         "1",
         "6",
         "7"
       ],
+      "quality": "hd",
+      "status": true,
+      "views": 0,
       "createdAt": "2026-09-30"
     },
     {
@@ -619,9 +742,12 @@
       "title": "Oppenheimer",
       "slug": "oppenheimer",
       "description": "Câu chuyện về nhà vật lý J. Robert Oppenheimer và vai trò của ông trong việc phát triển bom nguyên tử trong Thế chiến thứ hai.",
-      "poster": "images/movies/oppenheimer.jpg",
+      "poster": "/images/movies/oppenheimer.jpg",
       "backdrop": "",
-      "year": 2023,
+      "trailer": "",
+      "video": "",
+      "type": "movie",
+      "releaseYear": 2023,
       "duration": 180,
       "country": "USA, UK",
       "director": "Christopher Nolan",
@@ -633,14 +759,13 @@
         "Florence Pugh",
         "Josh Hartnett"
       ],
-      "trailer": "",
-      "video": "",
-      "status": "published",
-      "views": 0,
       "genre": [
         "7",
         "8"
       ],
+      "quality": "hd",
+      "status": true,
+      "views": 0,
       "createdAt": "2026-09-30"
     },
     {
@@ -648,9 +773,12 @@
       "title": "Inception",
       "slug": "inception",
       "description": "Một tên trộm chuyên đánh cắp bí mật thông qua công nghệ chia sẻ giấc mơ được giao nhiệm vụ ngược lại: cài một ý tưởng vào tâm trí của một CEO.",
-      "poster": "images/movies/inception.jpg",
+      "poster": "/images/movies/inception.jpg",
       "backdrop": "",
-      "year": 2010,
+      "trailer": "",
+      "video": "",
+      "type": "movie",
+      "releaseYear": 2010,
       "duration": 148,
       "country": "USA, UK",
       "director": "Christopher Nolan",
@@ -662,14 +790,13 @@
         "Ken Watanabe",
         "Marion Cotillard"
       ],
-      "trailer": "",
-      "video": "",
-      "status": "published",
-      "views": 0,
       "genre": [
         "1",
         "5"
       ],
+      "quality": "hd",
+      "status": true,
+      "views": 0,
       "createdAt": "2026-09-30"
     },
     {
@@ -677,9 +804,12 @@
       "title": "Arrival",
       "slug": "arrival",
       "description": "Khi những tàu vũ trụ khổng lồ đáp xuống khắp Trái Đất, chuyên gia ngôn ngữ Louise Banks cùng đội nghiên cứu phải tìm cách giao tiếp với người ngoài hành tinh trước khi một cuộc chiến toàn cầu nổ ra.",
-      "poster": "images/movies/arrival.jpg",
+      "poster": "/images/movies/arrival.jpg",
       "backdrop": "",
-      "year": 2016,
+      "trailer": "",
+      "video": "",
+      "type": "movie",
+      "releaseYear": 2016,
       "duration": 116,
       "country": "USA",
       "director": "Denis Villeneuve",
@@ -689,13 +819,12 @@
         "Forest Whitaker",
         "Michael Stuhlbarg"
       ],
-      "trailer": "",
-      "video": "",
-      "status": "published",
-      "views": 0,
       "genre": [
         "5"
       ],
+      "quality": "hd",
+      "status": true,
+      "views": 0,
       "createdAt": "2026-09-30"
     },
     {
@@ -703,9 +832,12 @@
       "title": "The Matrix",
       "slug": "the-matrix",
       "description": "Lập trình viên Thomas Anderson phát hiện thế giới của mình chỉ là một hệ thống mô phỏng do trí tuệ nhân tạo điều khiển, và anh phải tham gia cuộc chiến chống lại nó.",
-      "poster": "images/movies/matrix.jpg",
+      "poster": "/images/movies/matrix.jpg",
       "backdrop": "",
-      "year": 1999,
+      "trailer": "",
+      "video": "",
+      "type": "movie",
+      "releaseYear": 1999,
       "duration": 136,
       "country": "USA, Australia",
       "director": "Lana Wachowski, Lilly Wachowski",
@@ -716,14 +848,13 @@
         "Hugo Weaving",
         "Joe Pantoliano"
       ],
-      "trailer": "",
-      "video": "",
-      "status": "published",
-      "views": 0,
       "genre": [
         "1",
         "5"
       ],
+      "quality": "hd",
+      "status": true,
+      "views": 0,
       "createdAt": "2026-09-30"
     },
     {
@@ -731,9 +862,12 @@
       "title": "Avengers: Endgame",
       "slug": "avengers-endgame",
       "description": "Sau những biến cố tàn khốc của Avengers: Infinity War, các siêu anh hùng còn lại tập hợp lần nữa để đảo ngược hành động của Thanos và khôi phục trật tự vũ trụ.",
-      "poster": "images/movies/endgame.jpg",
+      "poster": "/images/movies/endgame.jpg",
       "backdrop": "",
-      "year": 2019,
+      "trailer": "",
+      "video": "",
+      "type": "movie",
+      "releaseYear": 2019,
       "duration": 181,
       "country": "USA",
       "director": "Anthony Russo, Joe Russo",
@@ -745,15 +879,14 @@
         "Mark Ruffalo",
         "Jeremy Renner"
       ],
-      "trailer": "",
-      "video": "",
-      "status": "published",
-      "views": 0,
       "genre": [
         "1",
         "5",
         "7"
       ],
+      "quality": "hd",
+      "status": true,
+      "views": 0,
       "createdAt": "2026-09-30"
     },
     {
@@ -761,9 +894,12 @@
       "title": "Blade Runner 2049",
       "slug": "blade-runner-2049",
       "description": "Ba mươi năm sau các sự kiện của Blade Runner, thanh tra LAPD K phát hiện một bí mật bị chôn sâu có thể đẩy xã hội còn lại vào hỗn loạn, và anh phải tìm kiếm Rick Deckard.",
-      "poster": "images/movies/blade-runner-2049.jpg",
+      "poster": "/images/movies/blade-runner-2049.jpg",
       "backdrop": "",
-      "year": 2017,
+      "trailer": "",
+      "video": "",
+      "type": "movie",
+      "releaseYear": 2017,
       "duration": 164,
       "country": "USA",
       "director": "Denis Villeneuve",
@@ -775,13 +911,12 @@
         "Robin Wright",
         "Jared Leto"
       ],
-      "trailer": "",
-      "video": "",
-      "status": "published",
-      "views": 0,
       "genre": [
         "5"
       ],
+      "quality": "hd",
+      "status": true,
+      "views": 0,
       "createdAt": "2026-09-30"
     },
     {
@@ -789,9 +924,12 @@
       "title": "The Godfather",
       "slug": "the-godfather",
       "description": "Ông trùm già của một gia đình tội phạm chuyển giao quyền kiểm soát đế chế bí mật của mình cho đứa con trai miễn cưỡng.",
-      "poster": "images/movies/godfather.jpg",
+      "poster": "/images/movies/godfather.jpg",
       "backdrop": "",
-      "year": 1972,
+      "trailer": "",
+      "video": "",
+      "type": "movie",
+      "releaseYear": 1972,
       "duration": 175,
       "country": "USA",
       "director": "Francis Ford Coppola",
@@ -802,13 +940,12 @@
         "Robert Duvall",
         "Diane Keaton"
       ],
-      "trailer": "",
-      "video": "",
-      "status": "published",
-      "views": 0,
       "genre": [
         "8"
       ],
+      "quality": "hd",
+      "status": true,
+      "views": 0,
       "createdAt": "2026-09-30"
     },
     {
@@ -816,9 +953,12 @@
       "title": "Joker: Folie à Deux",
       "slug": "joker-folie-a-deux",
       "description": "Trong khi vật lộn với hai mặt đối lập của mình, Arthur Fleck không chỉ tìm thấy tình yêu mà còn khám phá ra thứ âm nhạc luôn ẩn bên trong anh.",
-      "poster": "images/movies/joker.jpg",
+      "poster": "/images/movies/joker.jpg",
       "backdrop": "",
-      "year": 2024,
+      "trailer": "",
+      "video": "",
+      "type": "movie",
+      "releaseYear": 2024,
       "duration": 138,
       "country": "USA",
       "director": "Todd Phillips",
@@ -829,13 +969,12 @@
         "Catherine Keener",
         "Zazie Beetz"
       ],
-      "trailer": "",
-      "video": "",
-      "status": "published",
-      "views": 0,
       "genre": [
         "8"
       ],
+      "quality": "hd",
+      "status": true,
+      "views": 0,
       "createdAt": "2026-09-30"
     },
     {
@@ -843,9 +982,12 @@
       "title": "The Dark Knight",
       "slug": "the-dark-knight",
       "description": "Khi tên tội phạm Joker tàn phá thành phố Gotham, Batman, James Gordon và Harvey Dent phải cùng nhau chấm dứt sự điên rồ đó.",
-      "poster": "images/movies/dark-knight.jpg",
+      "poster": "/images/movies/dark-knight.jpg",
       "backdrop": "",
-      "year": 2008,
+      "trailer": "",
+      "video": "",
+      "type": "movie",
+      "releaseYear": 2008,
       "duration": 152,
       "country": "USA, UK",
       "director": "Christopher Nolan",
@@ -857,14 +999,13 @@
         "Maggie Gyllenhaal",
         "Gary Oldman"
       ],
-      "trailer": "",
-      "video": "",
-      "status": "published",
-      "views": 0,
       "genre": [
         "1",
         "8"
       ],
+      "quality": "hd",
+      "status": true,
+      "views": 0,
       "createdAt": "2026-09-30"
     },
     {
@@ -872,9 +1013,12 @@
       "title": "The Lord of the Rings: The Return of the King",
       "slug": "the-lord-of-the-rings-the-return-of-the-king",
       "description": "Gandalf và Aragorn dẫn quân của loài người chống lại đạo quân của Sauron để kéo sự chú ý của hắn rời khỏi Frodo và Sam khi họ tiến về Núi Doom với Chiếc Nhẫn.",
-      "poster": "images/movies/return-of-the-king.jpg",
+      "poster": "/images/movies/return-of-the-king.jpg",
       "backdrop": "",
-      "year": 2003,
+      "trailer": "",
+      "video": "",
+      "type": "movie",
+      "releaseYear": 2003,
       "duration": 201,
       "country": "New Zealand, USA",
       "director": "Peter Jackson",
@@ -886,13 +1030,12 @@
         "Liv Tyler",
         "Cate Blanchett"
       ],
-      "trailer": "",
-      "video": "",
-      "status": "published",
-      "views": 0,
       "genre": [
         "7"
       ],
+      "quality": "hd",
+      "status": true,
+      "views": 0,
       "createdAt": "2026-09-30"
     },
     {
@@ -900,9 +1043,12 @@
       "title": "The Shawshank Redemption",
       "slug": "the-shawshank-redemption",
       "description": "Andy Dufresne, một ngân hàng gia tài bị kết án oan, tạo dựng một đời sống mới trong nhà tù Shawshank và trở thành nguồn cảm hứng cho người bạn tù Red nhờ niềm hy vọng và sự kiên nhẫn của mình.",
-      "poster": "images/movies/shawshank.jpg",
+      "poster": "/images/movies/shawshank.jpg",
       "backdrop": "",
-      "year": 1994,
+      "trailer": "",
+      "video": "",
+      "type": "movie",
+      "releaseYear": 1994,
       "duration": 142,
       "country": "USA",
       "director": "Frank Darabont",
@@ -913,13 +1059,12 @@
         "William Sadler",
         "Clancy Brown"
       ],
-      "trailer": "",
-      "video": "",
-      "status": "published",
-      "views": 0,
       "genre": [
         "8"
       ],
+      "quality": "hd",
+      "status": true,
+      "views": 0,
       "createdAt": "2026-09-30"
     },
     {
@@ -927,10 +1072,13 @@
       "title": "House of the Dragon",
       "slug": "house-of-the-dragon",
       "description": "Phim truyền hình HBO dựa trên cuốn Fire & Blood của George R. R. Martin, lấy bối cảnh khoảng 200 năm trước các sự kiện của Game of Thrones, kể về cuộc tranh ngôi bá trời của nhà Targaryen. Đồng sáng tác và showrunner: Ryan Condal cùng George R. R. Martin.",
-      "poster": "images/movies/house-of-the-dragon.jpg",
+      "poster": "/images/movies/house-of-the-dragon.jpg",
       "backdrop": "",
-      "year": 2022,
-      "duration": 0,
+      "trailer": "",
+      "video": "",
+      "type": "series",
+      "releaseYear": 2022,
+      "duration": null,
       "country": "USA",
       "director": "",
       "actors": [
@@ -941,14 +1089,13 @@
         "Ewan Mitchell",
         "Tom Glynn-Carney"
       ],
-      "trailer": "",
-      "video": "",
-      "status": "published",
-      "views": 0,
       "genre": [
         "7",
         "8"
       ],
+      "quality": "hd",
+      "status": true,
+      "views": 0,
       "createdAt": "2026-09-30"
     },
     {
@@ -956,10 +1103,13 @@
       "title": "Ghost in the Shell: SAC_2045",
       "slug": "ghost-in-the-shell-sac-2045",
       "description": "Anime ONA Nhật Bản dựa trên manga Ghost in the Shell của Masamune Shirow. Năm 2045, nữ cộng sĩ máy cương giả Motoko Kusanagi trở lại Sở 9 để đối phó với mối đe dọa từ những kẻ hậu nhân.",
-      "poster": "images/movies/ghost-in-the-shell.jpg",
+      "poster": "/images/movies/ghost-in-the-shell.jpg",
       "backdrop": "",
-      "year": 2020,
-      "duration": 0,
+      "trailer": "",
+      "video": "",
+      "type": "series",
+      "releaseYear": 2020,
+      "duration": null,
       "country": "Japan",
       "director": "Kenji Kamiyama, Shinji Aramaki",
       "actors": [
@@ -970,15 +1120,14 @@
         "Osamu Saka",
         "Sakiko Tamagawa"
       ],
-      "trailer": "",
-      "video": "",
-      "status": "published",
-      "views": 0,
       "genre": [
         "1",
         "5",
         "6"
       ],
+      "quality": "hd",
+      "status": true,
+      "views": 0,
       "createdAt": "2026-09-30"
     },
     {
@@ -986,16 +1135,19 @@
       "title": "The Abyss: Reborn",
       "slug": "the-abyss-reborn",
       "description": "",
-      "poster": "images/movies/the-abyss.jpg",
+      "poster": "/images/movies/the-abyss.jpg",
       "backdrop": "",
-      "year": 0,
+      "trailer": "",
+      "video": "",
+      "type": "movie",
+      "releaseYear": 0,
       "duration": 0,
       "country": "",
       "director": "",
       "actors": [],
-      "trailer": "",
-      "video": "",
-      "status": "published",
+      "genre": [],
+      "quality": "hd",
+      "status": true,
       "views": 0,
       "createdAt": "2026-09-30"
     },
@@ -1004,16 +1156,19 @@
       "title": "Tokyo Drift: Redline",
       "slug": "tokyo-drift-redline",
       "description": "",
-      "poster": "images/movies/tokyo-drift.jpg",
+      "poster": "/images/movies/tokyo-drift.jpg",
       "backdrop": "",
-      "year": 0,
+      "trailer": "",
+      "video": "",
+      "type": "movie",
+      "releaseYear": 0,
       "duration": 0,
       "country": "",
       "director": "",
       "actors": [],
-      "trailer": "",
-      "video": "",
-      "status": "published",
+      "genre": [],
+      "quality": "hd",
+      "status": true,
       "views": 0,
       "createdAt": "2026-09-30"
     },
@@ -1022,16 +1177,19 @@
       "title": "Crimson Nocturne",
       "slug": "crimson-nocturne",
       "description": "",
-      "poster": "images/movies/crimson-nocturne.jpg",
+      "poster": "/images/movies/crimson-nocturne.jpg",
       "backdrop": "",
-      "year": 0,
+      "trailer": "",
+      "video": "",
+      "type": "movie",
+      "releaseYear": 0,
       "duration": 0,
       "country": "",
       "director": "",
       "actors": [],
-      "trailer": "",
-      "video": "",
-      "status": "published",
+      "genre": [],
+      "quality": "hd",
+      "status": true,
       "views": 0,
       "createdAt": "2026-09-30"
     },
@@ -1040,16 +1198,19 @@
       "title": "The Last Verdict",
       "slug": "the-last-verdict",
       "description": "",
-      "poster": "images/movies/the-last-verdict.jpg",
+      "poster": "/images/movies/the-last-verdict.jpg",
       "backdrop": "",
-      "year": 0,
+      "trailer": "",
+      "video": "",
+      "type": "movie",
+      "releaseYear": 0,
       "duration": 0,
       "country": "",
       "director": "",
       "actors": [],
-      "trailer": "",
-      "video": "",
-      "status": "published",
+      "genre": [],
+      "quality": "hd",
+      "status": true,
       "views": 0,
       "createdAt": "2026-09-30"
     }
@@ -1084,16 +1245,21 @@
       "userId": 5,
       "movieId": 2,
       "createdAt": "2026-09-16"
+    },
+    {
+      "userId": 1,
+      "movieId": 12,
+      "createdAt": "2026-10-01",
+      "id": "r1jVH8W"
+    },
+    {
+      "userId": 1,
+      "movieId": 7,
+      "createdAt": "2026-10-01",
+      "id": "PNUXEATvfXI"
     }
   ],
   "histories": [
-    {
-      "id": "1",
-      "userId": 3,
-      "movieId": 1,
-      "progress": 3600,
-      "watchedAt": "2026-09-18T10:30:00"
-    },
     {
       "id": "2",
       "userId": 3,
@@ -1132,22 +1298,22 @@
     {
       "userId": 1,
       "movieId": 2,
-      "progress": 3996,
-      "watchedAt": "2026-10-01T16:51:46",
+      "progress": 17,
+      "watchedAt": "2026-10-01T17:48:34",
       "id": "Cg6czTN"
     },
     {
       "userId": 1,
       "movieId": 7,
-      "progress": 4482,
-      "watchedAt": "2026-10-01T16:51:53",
+      "progress": 0,
+      "watchedAt": "2026-10-02T02:44:10",
       "id": "6PTvXf5"
     },
     {
       "userId": 1,
       "movieId": 11,
-      "progress": 3780,
-      "watchedAt": "2026-09-30T12:49:38",
+      "progress": 0,
+      "watchedAt": "2026-10-01T17:02:20",
       "id": "-lo2BWG"
     },
     {
@@ -1159,38 +1325,38 @@
     },
     {
       "userId": 1,
-      "movieId": 21,
-      "progress": 5401,
-      "watchedAt": "2026-09-30T12:22:23",
-      "id": "fu__tLJ"
-    },
-    {
-      "userId": 1,
-      "movieId": 3,
-      "progress": 4563,
-      "watchedAt": "2026-10-01T16:52:20",
-      "id": "02C5nvJ"
-    },
-    {
-      "userId": 1,
-      "movieId": 22,
-      "progress": 3834,
-      "watchedAt": "2026-09-30T12:50:09",
-      "id": "jCvtDdc"
-    },
-    {
-      "userId": 1,
       "movieId": 10,
-      "progress": 4749,
-      "watchedAt": "2026-09-30T15:19:34",
+      "progress": 0,
+      "watchedAt": "2026-10-01T17:47:17",
       "id": "2cUSQhv"
     },
     {
       "userId": 1,
       "movieId": 13,
-      "progress": 3996,
-      "watchedAt": "2026-10-01T16:52:06",
+      "progress": 0,
+      "watchedAt": "2026-10-01T17:48:12",
       "id": "6CBrQwh"
+    },
+    {
+      "userId": 1,
+      "movieId": 22,
+      "progress": 0,
+      "watchedAt": "2026-10-01T18:23:37",
+      "id": "OI7wFvZthqA"
+    },
+    {
+      "userId": 1,
+      "movieId": 3,
+      "progress": 13,
+      "watchedAt": "2026-10-02T03:49:49",
+      "id": "dju5K7U_yNY"
+    },
+    {
+      "userId": "8TZCZPkPe4Q",
+      "movieId": 13,
+      "progress": 0,
+      "watchedAt": "2026-10-02T03:10:39",
+      "id": "I-0rhzw-zlk"
     }
   ],
   "reviews": [
@@ -1238,6 +1404,42 @@
       "comment": "Không khí phim khá đáng sợ.",
       "status": "visible",
       "createdAt": "2026-09-17"
+    },
+    {
+      "userId": 1,
+      "movieId": 11,
+      "rating": 5,
+      "comment": "ggwehshdfjfhdfjdfj",
+      "status": "visible",
+      "createdAt": "2026-10-01",
+      "id": "mLBS0Tp"
+    },
+    {
+      "userId": 1,
+      "movieId": 10,
+      "rating": 5,
+      "comment": "ghnjnjj",
+      "status": "visible",
+      "createdAt": "2026-10-01",
+      "id": "8fnJ6Ml"
+    },
+    {
+      "userId": 1,
+      "movieId": 14,
+      "rating": 1,
+      "comment": "dở",
+      "status": "visible",
+      "createdAt": "2026-10-01",
+      "id": "gl_xDL42OnY"
+    },
+    {
+      "userId": 1,
+      "movieId": 3,
+      "rating": 5,
+      "comment": "fèadfaffs",
+      "status": "visible",
+      "createdAt": "2026-10-02",
+      "id": "C3SgFz5n-d4"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

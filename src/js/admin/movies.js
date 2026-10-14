@@ -40,7 +40,8 @@ const fold = (value) =>
 
 /** `movies.genre` trong db.json là mảng id, nhưng record cũ có thể để null/scalar. */
 const toGenreIdList = (value) => {
-  if (Array.isArray(value)) return value.map((v) => String(v).trim()).filter(Boolean);
+  if (Array.isArray(value))
+    return value.map((v) => String(v).trim()).filter(Boolean);
   if (value === null || value === undefined || value === "") return [];
   return [String(value).trim()];
 };
@@ -79,8 +80,7 @@ function getFilteredMovies() {
     const matchName = !keyword || fold(movie.title).includes(keyword);
 
     const matchGenre =
-      !genreId ||
-      toGenreIdList(movie.genre).some((id) => id === genreId);
+      !genreId || toGenreIdList(movie.genre).some((id) => id === genreId);
 
     return matchName && matchGenre;
   });
@@ -224,9 +224,7 @@ function renderMovies(loadMovies) {
             ${movie.views?.toLocaleString("vi-VN") || 0}
           </td>
 
-          <td class="py-3.5 px-space-md">
-            ⭐ ${movie.rating}
-          </td>
+        
 
           <td class="py-3.5 px-space-md">
             <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-zinc-800">

@@ -417,6 +417,23 @@ const player = {
   playIcon: null,
   back10: null,
   forward10: null,
+  /* --- âm lượng / mute --- */
+  mute: null,
+  muteIcon: null,
+  volume: null,
+  /**
+   * Mức âm lượng trước khi mute.
+   *
+   * Không dùng `video.volume` làm nguồn khôi phục vì khi muted, Chrome vẫn giữ
+   * nguyên volume — nhưng nếu sau đó người dùng kéo thanh trượt thì ý nghĩa
+   * "mức trước khi mute" đã mất. Giữ riêng ở đây để bấm unmute luôn trả về
+   * đúng mức người dùng đang nghe.
+   */
+  volumeBeforeMute: 1,
+  /* --- fullscreen --- */
+  shell: null,
+  fullscreenBtn: null,
+  fullscreenIcon: null,
 };
 
 /** Định dạng 0:07 / 1:02:03 cho hiển thị. */
@@ -509,6 +526,179 @@ function ratioFromPointer(event) {
   return Math.min(1, Math.max(0, (event.clientX - box.left) / box.width));
 }
 
+/**
+ * Vẽ lại icon nút Mute theo trạng thái thật của <video>.
+ *
+ * Icon bám theo `video.muted` + `video.volume` chứ không theo nút vừa bấm, nên
+ * tạm âm ở một chỗ khác (ví dụ người dùng điều khiển bằng phím cứng trên bàn
+ * phím) vẫn hiển thị đúng.
+ */
+function paintVolumeIcon() {
+  if (!player.muteIcon) return;
+  const { video } = player;
+
+  const label = !video
+    ? "volume_up"
+    : video.muted || video.volume === 0
+      ? "volume_off"
+      : video.volume < 0.5
+        ? "volume_down"
+        : "volume_up";
+
+  player.muteIcon.textContent = label;
+
+  const button = player.mute;
+  if (button) {
+    const muted = Boolean(video && (video.muted || video.volume === 0));
+    button.setAttribute("aria-label", muted ? "Bật tiếng" : "Tắt tiếng");
+    button.title = muted ? "Bật tiếng" : "Tắt tiếng";
+  }
+
+  // Thanh trượt phải hiển thị đúng mức đang nghe: 0 khi đang mute.
+  if (player.volume) {
+    const shown = video && video.muted ? 0 : video ? video.volume : 1;
+    const next = String(Number(shown.toFixed(2)));
+    if (player.volume.value !== next) player.volume.value = next;
+  }
+}
+
+/** Đặt mức âm lượng và cập nhật nút trượt + icon. */
+function setVolume(value) {
+  const { video } = player;
+  if (!video) return;
+
+  const next = Math.min(1, Math.max(0, Number(value) || 0));
+  video.volume = next;
+
+  // Kéo thanh trượt lên khỏi 0 chính là cách duy nhất để "bật lại" tiếng đang
+  // tắt, nên phải bỏ muted — nếu không slider chạy nhưng vẫn không có tiếng.
+  if (next > 0) video.muted = false;
+
+  paintVolumeIcon();
+}
+
+function toggleMute() {
+  const { video } = player;
+  if (!video) return;
+
+  if (video.muted || video.volume === 0) {
+    // Trả về mức trước khi mute; nếu trước đó vốn đã là 0 thì chọn mức dễ nghe.
+    const restore = player.volumeBeforeMute > 0 ? player.volumeBeforeMute : 1;
+    video.muted = false;
+    setVolume(restore);
+  } else {
+    // Nhớ mức hiện tại TRƯỚC khi tắt để lần bật lại không bị mất.
+    player.volumeBeforeMute = video.volume;
+    video.muted = true;
+  }
+
+  paintVolumeIcon();
+}
+
+/* ------------------------------------------------------------------ *
+ * 3b. FULLSCREEN
+ * ------------------------------------------------------------------ */
+
+/** Đang ở fullscreen hay không — đọc từ chính Fullscreen API, không tự đặt cờ. */
+function isFullscreen() {
+  return Boolean(document.fullscreenElement);
+}
+
+/**
+ * Phóng to / thu nhỏ bằng Fullscreen API.
+ *
+ * Phóng `#playerShell` chứ không phải `#videoContainer`: thanh điều khiển
+ * (#videoControls) là phần tử anh em nằm NGOÀI #videoContainer, nên phóng riêng
+ * video sẽ khiến người dùng mất sạch nút play / âm lượng / fullscreen.
+ *
+ * Rơi về requestFullscreen trên webkit cũ (Safari) vì `standard` chỉ có từ
+ * Safari 16.4; `webkit*` phải bắt đầu bằng "webkit".
+ */
+async function toggleFullscreen() {
+  const target = player.shell || document.documentElement;
+  if (!target) return;
+
+  const request =
+    target.requestFullscreen ||
+    target.webkitRequestFullscreen ||
+    target.msRequestFullscreen;
+  const exit =
+    document.exitFullscreen ||
+    document.webkitExitFullscreen ||
+    document.msExitFullscreen;
+
+  try {
+    if (isFullscreen()) {
+      if (typeof exit === "function") await exit.call(document);
+    } else if (typeof request === "function") {
+      await request.call(target);
+    } else {
+      Swal.fire({
+        icon: "info",
+        title: "Trình duyệt không hỗ trợ",
+        text: "Phiên bản trình duyệt của bạn không hỗ trợ phóng to màn hình video.",
+      });
+    }
+  } catch (error) {
+    // requestFullscreen bị từ chối khi chưa có tương tác người dùng, hoặc khi
+    // trình duyệt chặn. Không nên để thành lỗi nghiêm trọng.
+    console.warn("[watch] Không vào được fullscreen:", error);
+  }
+}
+
+/** Đồng bộ icon nút fullscreen theo trạng thái thật từ Fullscreen API. */
+function paintFullscreenIcon() {
+  if (!player.fullscreenIcon) return;
+  const active = isFullscreen();
+
+  player.fullscreenIcon.textContent = active ? "fullscreen_exit" : "fullscreen";
+
+  const button = player.fullscreenBtn;
+  if (button) {
+    button.setAttribute(
+      "aria-label",
+      active ? "Thoát phóng to màn hình" : "Phóng to màn hình",
+    );
+    button.title = active ? "Thoát phóng to" : "Phóng to màn hình";
+  }
+}
+
+/** Gắn listener, chỉ tìm một lần. */
+function bindFullscreen() {
+  if (player.fullscreenBound) return;
+  player.fullscreenBound = true;
+
+  player.fullscreenBtn?.addEventListener("click", toggleFullscreen);
+
+  // Người dùng có thể thoát fullscreen bằng Esc, F11 hoặc nút của trình duyệt —
+  // những cách đó không đi qua nút của ta, nên phải nghe event toàn trang.
+  document.addEventListener("fullscreenchange", paintFullscreenIcon);
+  document.addEventListener("webkitfullscreenchange", paintFullscreenIcon);
+
+  // Safari iOS bỏ qua requestFullscreen trên phần tử không phải <video>.
+  // Gọi trực tiếp trên <video> là cách duy nhất hoạt động ở đó.
+  player.video?.addEventListener("webkitbeginfullscreen", () => {
+    paintFullscreenIcon();
+  });
+  player.video?.addEventListener("webkitendfullscreen", paintFullscreenIcon);
+
+  // Tắt phím F: bật/tắt fullscreen (mặc định trình duyệt chỉ F11 toàn trang).
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "f" && event.key !== "F") return;
+    if (event.ctrlKey || event.metaKey || event.altKey) return;
+
+    // Không nuốt phím khi người dùng đang gõ vào ô nhập liệu.
+    const tag = (event.target?.tagName || "").toLowerCase();
+    if (tag === "input" || tag === "textarea" || tag === "select") return;
+    if (event.target?.isContentEditable) return;
+
+    event.preventDefault();
+    toggleFullscreen();
+  });
+
+  paintFullscreenIcon();
+}
+
 /** Gắn listener đúng MỘT lần cho phần tử player vốn đã nằm sẵn trong HTML. */
 function bindPlayer() {
   const video = document.getElementById("watchVideo");
@@ -531,6 +721,12 @@ function bindPlayer() {
   player.playIcon = document.getElementById("btnPlayPauseIcon");
   player.back10 = document.getElementById("btnSeekBack10");
   player.forward10 = document.getElementById("btnSeekForward10");
+  player.mute = document.getElementById("btnMute");
+  player.muteIcon = document.getElementById("btnMuteIcon");
+  player.volume = document.getElementById("videoVolume");
+  player.shell = document.getElementById("playerShell");
+  player.fullscreenBtn = document.getElementById("btnFullscreen");
+  player.fullscreenIcon = document.getElementById("btnFullscreenIcon");
 
   /**
    * Bật/tắt nút tua theo vị trí hiện tại: không tua được thì disable, tránh
@@ -638,6 +834,21 @@ function bindPlayer() {
   player.back10?.addEventListener("click", () => seekBy(-10));
   player.forward10?.addEventListener("click", () => seekBy(10));
 
+  // Control âm lượng / mute.
+  player.mute?.addEventListener("click", toggleMute);
+  player.volume?.addEventListener("input", (event) => {
+    setVolume(event.target.value);
+  });
+
+  // `volumechange` bắn cả khi ta tự đổi lẫn khi đổi từ bên ngoài (phím cứng,
+  // menu của trình duyệt) -> giữ nút và thanh trượt luôn khớp với <video>.
+  video.addEventListener("volumechange", () => {
+    if (!video.muted && video.volume > 0) {
+      player.volumeBeforeMute = video.volume;
+    }
+    paintVolumeIcon();
+  });
+
   // Nút "Xem Trailer" trong overlay trạng thái (chỉ hiện khi trailer thật).
   stateEls().trailer?.addEventListener("click", () => {
     const url = stateEls().trailer?.dataset.trailerUrl || "";
@@ -684,6 +895,8 @@ function bindPlayer() {
 
   updateSeekButtons();
   paintPlayIcon();
+  paintVolumeIcon();
+  bindFullscreen();
   return video;
 }
 

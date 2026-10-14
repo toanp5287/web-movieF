@@ -96,7 +96,7 @@
             <a
               class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors py-space-xs"
               data-path="top-phim"
-              href="/movies"
+              href="/topMovies"
             >
               Top phim
             </a>
@@ -252,7 +252,6 @@
                     <option value="6">Hoạt hình</option>
                     <option value="7">Phiêu lưu</option>
                     <option value="8">Tâm lý</option>
-                    
                   </select>
                   <span
                     class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-base"
@@ -409,9 +408,7 @@
             class="hidden w-full flex flex-col items-center justify-center text-center gap-space-md py-space-xl px-gutter-mobile"
             id="empty-state"
           >
-            <div
-              class="relative w-32 h-32 flex items-center justify-center"
-            >
+            <div class="relative w-32 h-32 flex items-center justify-center">
               <div
                 class="absolute inset-0 rounded-full bg-primary-container/10 blur-2xl"
               ></div>
@@ -426,8 +423,7 @@
               <span
                 class="absolute bottom-1 right-1 w-10 h-10 rounded-full bg-surface-container-high border border-white/10 flex items-center justify-center"
               >
-                <span
-                  class="material-symbols-outlined text-xl text-primary"
+                <span class="material-symbols-outlined text-xl text-primary"
                   >search_off</span
                 >
               </span>
@@ -441,11 +437,13 @@
               <p
                 class="font-body-md text-body-md text-on-surface-variant max-w-md"
               >
-                Rất tiếc, thư viện phim chưa có kết quả phù hợp với bộ lọc
-                hiện tại. Hãy thử từ khóa khác hoặc mở rộng tiêu chí lọc.
+                Rất tiếc, thư viện phim chưa có kết quả phù hợp với bộ lọc hiện
+                tại. Hãy thử từ khóa khác hoặc mở rộng tiêu chí lọc.
               </p>
             </div>
-            <div class="flex flex-wrap items-center justify-center gap-space-sm">
+            <div
+              class="flex flex-wrap items-center justify-center gap-space-sm"
+            >
               <a
                 class="px-4 py-2.5 rounded-lg bg-primary-container text-on-primary-container font-title-sm text-title-sm hover:opacity-90 transition-opacity flex items-center gap-2"
                 href="/movies"
@@ -457,9 +455,7 @@
                 class="px-4 py-2.5 rounded-lg bg-surface-container text-on-surface font-title-sm text-title-sm hover:bg-surface-container-high transition-colors flex items-center gap-2"
                 href="/genres"
               >
-                <span class="material-symbols-outlined text-lg"
-                  >category</span
-                >
+                <span class="material-symbols-outlined text-lg">category</span>
                 Duyệt theo thể loại
               </a>
             </div>
@@ -519,7 +515,10 @@
                 <span class="hidden sm:inline">Trước</span>
               </button>
               <!-- Page Numbers: movies.js sinh ra đúng số trang thật -->
-              <div class="flex items-center gap-1" data-metric="pagination-pages"></div>
+              <div
+                class="flex items-center gap-1"
+                data-metric="pagination-pages"
+              ></div>
               <!-- Next Page Button -->
               <button
                 class="flex items-center gap-1 px-3 py-2 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors font-title-sm text-title-sm disabled:opacity-40 disabled:pointer-events-none"

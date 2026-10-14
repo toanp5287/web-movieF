@@ -1,0 +1,388 @@
+<!doctype html>
+<html class="dark" lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MovieF Admin - Quản lý tập phim</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#e50914",
+            },
+            fontFamily: {
+              sans: ["Plus Jakarta Sans", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+
+  <body
+    class="bg-[#0f0f0f] font-sans text-sm text-zinc-200 antialiased min-h-screen"
+  >
+    <!-- SIDEBAR -->
+    <aside
+      class="fixed left-0 top-0 bottom-0 w-64 bg-[#141414] border-r border-zinc-800 flex flex-col justify-between z-30"
+    >
+      <div>
+        <!-- Logo -->
+        <a
+          href="/admin"
+          class="flex items-center gap-3 px-6 h-16 border-b border-zinc-800"
+        >
+          <div
+            class="w-9 h-9 rounded-xl bg-primary text-white flex items-center justify-center font-bold"
+          >
+            <span class="material-symbols-outlined text-xl">live_tv</span>
+          </div>
+          <span class="text-base font-bold text-white tracking-wide"
+            >MovieF</span
+          >
+        </a>
+
+        <!-- Menu Navigation -->
+        <nav class="p-3 space-y-1">
+          <a
+            href="/admin"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition"
+          >
+            <span class="material-symbols-outlined text-xl">dashboard</span>
+            <span>Dashboard</span>
+          </a>
+          <a
+            href="/admin/movies"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition"
+          >
+            <span class="material-symbols-outlined text-xl">movie</span>
+            <span>Phim lẻ</span>
+          </a>
+          <a
+            href="/admin/tv-series"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition"
+          >
+            <span class="material-symbols-outlined text-xl">tv_gen</span>
+            <span>Phim bộ</span>
+          </a>
+          <a
+            href="/admin/episodes"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-primary text-white font-medium"
+          >
+            <span class="material-symbols-outlined text-xl">video_library</span>
+            <span>Tập phim</span>
+          </a>
+          <a
+            href="/admin/genres"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition"
+          >
+            <span class="material-symbols-outlined text-xl">category</span>
+            <span>Thể loại</span>
+          </a>
+          <a
+            href="/admin/users"
+            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition"
+          >
+            <span class="material-symbols-outlined text-xl">group</span>
+            <span>Người dùng</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Admin Profile Box -->
+      <div class="p-4 border-t border-zinc-800 flex items-center gap-3">
+        <div
+          class="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center text-xs font-bold text-zinc-300"
+        >
+          AD
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="text-xs font-medium text-white truncate">Administrator</p>
+          <p class="text-[11px] text-zinc-500 truncate">admin@movief.com</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="pl-64 flex flex-col min-h-screen">
+      <!-- HEADER -->
+      <header
+        class="h-16 border-b border-zinc-800 flex items-center justify-between px-8 bg-[#0f0f0f]"
+      >
+        <div>
+          <h1 class="text-base font-semibold text-white">Quản lý tập phim</h1>
+          <p class="text-xs text-zinc-500">Stranger Things - Mùa 4</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <button
+            type="button"
+            class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-primary hover:bg-red-600 text-white text-xs font-medium transition"
+          >
+            <span class="material-symbols-outlined text-base">add</span>
+            <span>Thêm tập mới</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- MAIN BODY -->
+      <main class="p-8 space-y-4 flex-1">
+        <!-- Filter Controls: Chọn phim, mùa & tìm kiếm tập -->
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex flex-wrap items-center gap-2">
+            <!-- Chọn Phim Bộ -->
+            <select
+              class="h-9 bg-zinc-900 border border-zinc-800 rounded-lg px-3 text-xs text-zinc-200 focus:outline-none focus:border-zinc-700"
+            >
+              <option selected>Stranger Things</option>
+              <option>House of the Dragon</option>
+              <option>Breaking Bad</option>
+            </select>
+
+            <!-- Chọn Mùa -->
+            <select
+              class="h-9 bg-zinc-900 border border-zinc-800 rounded-lg px-3 text-xs text-zinc-200 focus:outline-none focus:border-zinc-700"
+            >
+              <option>Mùa 1 (8 tập)</option>
+              <option>Mùa 2 (9 tập)</option>
+              <option>Mùa 3 (8 tập)</option>
+              <option selected>Mùa 4 (9 tập)</option>
+            </select>
+
+            <!-- Tìm kiếm tên hoặc số tập -->
+            <div class="relative w-64">
+              <span
+                class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-zinc-500 text-base"
+                >search</span
+              >
+              <input
+                type="text"
+                placeholder="Tìm tập hoặc tên tập..."
+                class="w-full h-9 bg-zinc-900 border border-zinc-800 rounded-lg pl-8 pr-3 text-xs text-white placeholder:text-zinc-500 focus:outline-none focus:border-zinc-700"
+              />
+            </div>
+          </div>
+
+          <span class="text-xs text-zinc-500">Đang hiển thị 9 tập</span>
+        </div>
+
+        <!-- Table Danh sách tập -->
+        <div
+          class="border border-zinc-800 rounded-xl overflow-hidden bg-[#141414]"
+        >
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="border-b border-zinc-800 text-zinc-400 font-medium">
+                <th class="py-3 px-4 w-16 text-center">Tập</th>
+                <th class="py-3 px-4">Tên tập phim</th>
+                <th class="py-3 px-4">Thời lượng</th>
+                <th class="py-3 px-4">Nguồn video (Server / HLS)</th>
+                <th class="py-3 px-4">Trạng thái</th>
+                <th class="py-3 px-4 text-right">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-zinc-800/60 text-zinc-300">
+              <!-- Tập 1 -->
+              <tr class="hover:bg-zinc-800/30 transition">
+                <td class="py-3 px-4 text-center font-semibold text-white">
+                  01
+                </td>
+                <td class="py-3 px-4">
+                  <div class="font-medium text-white">
+                    Chương 1: Câu lạc bộ Hellfire
+                  </div>
+                  <div class="text-[11px] text-zinc-500">
+                    Chapter One: The Hellfire Club
+                  </div>
+                </td>
+                <td class="py-3 px-4 text-zinc-400">76 phút</td>
+                <td class="py-3 px-4">
+                  <span
+                    class="font-mono text-[11px] text-zinc-400 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded"
+                  >
+                    Server VIP 1 (4K)
+                  </span>
+                </td>
+                <td class="py-3 px-4">
+                  <span
+                    class="inline-flex items-center gap-1.5 text-emerald-400 text-[11px]"
+                  >
+                    <span
+                      class="w-1.5 h-1.5 rounded-full bg-emerald-400"
+                    ></span>
+                    Sẵn sàng
+                  </span>
+                </td>
+                <td class="py-3 px-4 text-right">
+                  <div class="inline-flex items-center gap-2">
+                    <button
+                      type="button"
+                      title="Chỉnh sửa tập"
+                      class="text-zinc-400 hover:text-white transition"
+                    >
+                      <span class="material-symbols-outlined text-base"
+                        >edit</span
+                      >
+                    </button>
+                    <button
+                      type="button"
+                      title="Xóa tập"
+                      class="text-zinc-400 hover:text-red-400 transition"
+                    >
+                      <span class="material-symbols-outlined text-base"
+                        >delete</span
+                      >
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Tập 2 -->
+              <tr class="hover:bg-zinc-800/30 transition">
+                <td class="py-3 px-4 text-center font-semibold text-white">
+                  02
+                </td>
+                <td class="py-3 px-4">
+                  <div class="font-medium text-white">
+                    Chương 2: Lời nguyền của Vecna
+                  </div>
+                  <div class="text-[11px] text-zinc-500">
+                    Chapter Two: Vecna's Curse
+                  </div>
+                </td>
+                <td class="py-3 px-4 text-zinc-400">77 phút</td>
+                <td class="py-3 px-4">
+                  <span
+                    class="font-mono text-[11px] text-zinc-400 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded"
+                  >
+                    Server VIP 1 (4K)
+                  </span>
+                </td>
+                <td class="py-3 px-4">
+                  <span
+                    class="inline-flex items-center gap-1.5 text-emerald-400 text-[11px]"
+                  >
+                    <span
+                      class="w-1.5 h-1.5 rounded-full bg-emerald-400"
+                    ></span>
+                    Sẵn sàng
+                  </span>
+                </td>
+                <td class="py-3 px-4 text-right">
+                  <div class="inline-flex items-center gap-2">
+                    <button
+                      type="button"
+                      title="Chỉnh sửa tập"
+                      class="text-zinc-400 hover:text-white transition"
+                    >
+                      <span class="material-symbols-outlined text-base"
+                        >edit</span
+                      >
+                    </button>
+                    <button
+                      type="button"
+                      title="Xóa tập"
+                      class="text-zinc-400 hover:text-red-400 transition"
+                    >
+                      <span class="material-symbols-outlined text-base"
+                        >delete</span
+                      >
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Tập 3 -->
+              <tr class="hover:bg-zinc-800/30 transition">
+                <td class="py-3 px-4 text-center font-semibold text-white">
+                  03
+                </td>
+                <td class="py-3 px-4">
+                  <div class="font-medium text-white">
+                    Chương 3: Quái vật và siêu anh hùng
+                  </div>
+                  <div class="text-[11px] text-zinc-500">
+                    Chapter Three: The Monster and the Superhero
+                  </div>
+                </td>
+                <td class="py-3 px-4 text-zinc-400">63 phút</td>
+                <td class="py-3 px-4">
+                  <span
+                    class="font-mono text-[11px] text-amber-400/90 bg-amber-950/40 border border-amber-900/50 px-2 py-0.5 rounded"
+                  >
+                    Đang encode video
+                  </span>
+                </td>
+                <td class="py-3 px-4">
+                  <span
+                    class="inline-flex items-center gap-1.5 text-amber-400 text-[11px]"
+                  >
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                    Chờ xử lý
+                  </span>
+                </td>
+                <td class="py-3 px-4 text-right">
+                  <div class="inline-flex items-center gap-2">
+                    <button
+                      type="button"
+                      title="Chỉnh sửa tập"
+                      class="text-zinc-400 hover:text-white transition"
+                    >
+                      <span class="material-symbols-outlined text-base"
+                        >edit</span
+                      >
+                    </button>
+                    <button
+                      type="button"
+                      title="Xóa tập"
+                      class="text-zinc-400 hover:text-red-400 transition"
+                    >
+                      <span class="material-symbols-outlined text-base"
+                        >delete</span
+                      >
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Footer thanh phân trang/chuyển trang -->
+          <div
+            class="p-3 border-t border-zinc-800 flex items-center justify-between text-xs text-zinc-500"
+          >
+            <span>Tổng cộng 9 tập</span>
+            <div class="flex items-center gap-1">
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition"
+              >
+                Trước
+              </button>
+              <button
+                type="button"
+                class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition"
+              >
+                Sau
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

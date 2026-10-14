@@ -40,9 +40,17 @@ function toast(title) {
 }
 
 function readProgressSeconds(durationSeconds) {
+  const video = document.querySelector("#watchVideo");
+  if (!video) return 0;
+
+  const byVideo = Number(video.currentTime);
+  if (Number.isFinite(byVideo) && byVideo >= 0) return Math.round(byVideo);
+
+  if (!durationSeconds) return 0;
+
   const bar = document.querySelector("#videoProgressBar");
   const track = document.querySelector("#progressTrackContainer");
-  if (!bar || !track || !durationSeconds) return 0;
+  if (!bar || !track) return 0;
 
   const width = bar.getBoundingClientRect().width;
   const total = track.getBoundingClientRect().width;
@@ -52,21 +60,16 @@ function readProgressSeconds(durationSeconds) {
   return Math.round(ratio * durationSeconds);
 }
 
-async function saveHistory(user, movieId, progress) {
-  const histories = await api.get("/histories");
-  const existing = histories.find(
-    (item) => sameId(item.userId, user.id) && sameId(item.movieId, movieId),
-  );
-
+async function saveHistory(user, movieId, progress, existingId = null) {
   const payload = {
     userId: normalizeId(user.id),
     movieId: normalizeId(movieId),
-    progress: Math.max(Number(existing?.progress) || 0, Math.round(progress)),
+    progress: Math.max(0, Math.round(progress)),
     watchedAt: new Date().toISOString().slice(0, 19),
   };
 
-  if (existing) {
-    return api.patch(`/histories/${existing.id}`, payload);
+  if (existingId) {
+    return api.patch(`/histories/${existingId}`, payload);
   }
 
   return api.post("/histories", payload);
@@ -89,6 +92,10 @@ async function initWatchHistory() {
   if (!user) return;
 
   let durationSeconds = 0;
+  let historyId = null;
+  let lastSavedProgress = -1;
+  let saveQueued = false;
+  let firstToastShown = false;
 
   try {
     const movie = await api.get(`/movies/${movieId}`);
@@ -98,19 +105,91 @@ async function initWatchHistory() {
   }
 
   try {
-    await saveHistory(user, movieId, readProgressSeconds(durationSeconds));
-    await toast("Đã lưu vào lịch sử xem");
+    const histories = await api.get("/histories");
+    const existing = histories.find(
+      (item) => sameId(item.userId, user.id) && sameId(item.movieId, movieId),
+    );
+    historyId = existing?.id ?? null;
+    lastSavedProgress = Math.max(0, Number(existing?.progress) || 0);
+
+    const video = document.querySelector("#watchVideo");
+    if (video && lastSavedProgress > 0) {
+      video.addEventListener(
+        "loadedmetadata",
+        () => {
+          const cap =
+            Number.isFinite(video.duration) && video.duration > 0
+              ? Math.max(0, video.duration - 1)
+              : lastSavedProgress;
+          video.currentTime = Math.min(lastSavedProgress, cap);
+        },
+        { once: true },
+      );
+    }
   } catch (error) {
-    console.error("Lỗi lưu lịch sử xem:", error);
+    console.error("Lỗi tải lịch sử xem:", error);
   }
 
-  const track = document.querySelector("#progressTrackContainer");
-  track?.addEventListener("click", () => {
-    requestAnimationFrame(() => {
-      saveHistory(user, movieId, readProgressSeconds(durationSeconds)).catch(
-        (error) => console.error("Lỗi cập nhật tiến độ:", error),
-      );
-    });
+  const persist = async (force = false) => {
+    if (saveQueued) return;
+    saveQueued = true;
+
+    try {
+      const next = readProgressSeconds(durationSeconds);
+      if (!force && Math.abs(next - lastSavedProgress) < 5) return;
+
+      const saved = await saveHistory(user, movieId, next, historyId);
+      historyId = saved?.id ?? historyId;
+      lastSavedProgress = next;
+
+      if (!firstToastShown && next > 0) {
+        firstToastShown = true;
+        await toast("Đã lưu vào lịch sử xem");
+      }
+    } catch (error) {
+      console.error("Lỗi cập nhật tiến độ:", error);
+    } finally {
+      saveQueued = false;
+    }
+  };
+
+  const video = document.querySelector("#watchVideo");
+  if (!video) return;
+
+  let autosaveTimer = null;
+
+  const startAutosave = () => {
+    if (autosaveTimer) return;
+    autosaveTimer = window.setInterval(() => {
+      persist(false);
+    }, 10000);
+  };
+
+  const stopAutosave = () => {
+    if (!autosaveTimer) return;
+    window.clearInterval(autosaveTimer);
+    autosaveTimer = null;
+  };
+
+  video.addEventListener("play", startAutosave);
+  video.addEventListener("pause", () => {
+    stopAutosave();
+    persist(true);
+  });
+  video.addEventListener("ended", () => {
+    stopAutosave();
+    persist(true);
+  });
+  video.addEventListener("seeked", () => persist(false));
+
+  window.addEventListener("beforeunload", () => {
+    stopAutosave();
+    persist(true);
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") {
+      persist(true);
+    }
   });
 }
 
