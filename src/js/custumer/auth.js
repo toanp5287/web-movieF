@@ -1,4 +1,5 @@
 import api from "../api";
+import { luuGhiNhoDangNhap } from "../../utils/remember-me.js";
 
 const formLogin = document.querySelector("#loginForm");
 if (formLogin) {
@@ -54,6 +55,10 @@ if (formLogin) {
       }
 
       localStorage.setItem("currentUser", JSON.stringify(result));
+
+      // Lưu lựa chọn "Ghi nhớ đăng nhập" (chỉ email, không lưu mật khẩu).
+      const rememberCheckbox = document.querySelector("#rememberMe");
+      luuGhiNhoDangNhap(rememberCheckbox, emailInput);
 
       await Swal.fire({
         icon: "success",
