@@ -1,5 +1,5 @@
 /**
- * watch.js  (/watch?id=<id>)
+ * watch.js  (/watch?id=<id>[&episode=<episodeId>])
  *
  * Trang xem phim của MovieF.
  *
@@ -17,6 +17,12 @@
  *   4. hiện trạng thái tải / buffering / lỗi + nút thử lại, không gọi load()
  *      lặp lại và không tự phát,
  *   5. đổi phim chỉ thay src của MỘT player duy nhất, không tạo player mới.
+ *
+ * Chức năng 3 bổ sung: nếu URL có thêm `&episode=<episodeId>` (từ danh sách tập
+ * ở trang chi tiết phim bộ) thì phát đúng video của TẬP đó — logic đọc/kiểm tra
+ * tập nằm ở watch-episode.js. Không có tham số episode thì luồng phát phim lẻ
+ * giữ nguyên như trước. Tập sai mã / bị ẩn / của phim khác hiện trạng thái an
+ * toàn, không phát nhầm và không crash.
  *
  * Lưu ý: KHÔNG bật `controls` gốc của trình duyệt vì nó có sẵn một thanh thời
  * gian riêng, trùng với #progressTrackContainer. Trang dùng bộ control tuỳ
@@ -41,6 +47,13 @@ import {
 } from "./movie-data.js";
 
 import { renderMovieCards } from "./movie-card.js";
+
+import {
+  describeBlockedEpisode,
+  episodeLabel,
+  parseWatchQuery,
+  resolveWatchEpisode,
+} from "./watch-episode.js";
 
 /* ------------------------------------------------------------------ *
  * 1. TÌM FILE VIDEO THẬT
@@ -142,6 +155,30 @@ async function resolveVideoSource(movie) {
     if (await probeVideo(url)) return { url, isSample: false };
   }
   return { url: SHARED_SAMPLE_VIDEO, isSample: true };
+}
+
+/**
+ * Nguồn phát của MỘT TẬP phim bộ.
+ *
+ * Chỉ dùng video ghi riêng cho tập đó. KHÔNG rơi về video mẫu chung: phát video
+ * mẫu thay cho tập là phát nhầm nội dung, trái với yêu cầu "phát đúng tập".
+ * Vì vậy khi tập chưa có video (hoặc file không tồn tại) thì trả url rỗng để
+ * trang hiện trạng thái "chưa có nguồn" thay vì màn hình đen.
+ *
+ * Link ngoài (http/https/protocol-relative) giữ nguyên; đường dẫn nội bộ đi qua
+ * normalizeVideoPath giống phim lẻ.
+ *
+ * @returns {Promise<{url: string, isSample: boolean}>}
+ */
+async function resolveEpisodeSource(episode) {
+  const raw = String(episode?.video ?? "").trim();
+  if (!raw) return { url: "", isSample: false };
+
+  const external = /^(https?:)?\/\//i.test(raw);
+  const url = external ? raw : normalizeVideoPath(raw);
+  if (!url || (!external && isPlaceholder(url))) return { url: "", isSample: false };
+
+  return (await probeVideo(url)) ? { url, isSample: false } : { url: "", isSample: false };
 }
 
 /**
@@ -954,7 +991,7 @@ async function init() {
   const body = document.getElementById("movieBody");
   if (!container || !body) return;
 
-  const id = new URLSearchParams(window.location.search).get("id");
+  const { id, episodeId } = parseWatchQuery(window.location.search);
 
   if (!id) {
     showNotFound("Chưa chọn phim để xem", "Đường dẫn không có mã phim. Hãy quay lại danh sách và nhấn nút xem phim.");
@@ -983,21 +1020,71 @@ async function init() {
   // dòng "Đang phát: ..." không bao giờ hiện.
   bindPlayer();
 
-  const source = await resolveVideoSource(movie);
-  const trailerUrl = await resolveTrailerUrl(movie);
-
-  fillMovieInfo(movie, catalog, source);
+  // Nút quay lại luôn trỏ về trang chi tiết của phim này.
   document.getElementById("backToDetail").href = detailUrl(movie.id);
   document.getElementById("backToDetailInline").href = detailUrl(movie.id);
 
+  /* ------------------------------------------------------------------ *
+   * Chức năng 3: xem một tập phim bộ (?episode=<episodeId>)
+   *
+   * Chỉ phát khi tập tồn tại, đang hoạt động và THUỘC chính phim này. Sai mã,
+   * tập bị ẩn, hay tập của phim khác đều hiện trạng thái an toàn — không phát
+   * nhầm video, không crash, không tự chuyển tập.
+   * ------------------------------------------------------------------ */
+  let episode = null;
+  let season = null;
+
+  if (episodeId) {
+    const resolved = await resolveWatchEpisode(movie, episodeId);
+
+    if (resolved.reason !== "ok") {
+      fillMovieInfo(movie, catalog, { url: "", isSample: false });
+      const blockedCell = document.querySelector("[data-bind='movie-video-source']");
+      if (blockedCell) blockedCell.textContent = "Tập phim không khả dụng";
+
+      const backLink = stateEls().back;
+      if (backLink) backLink.href = detailUrl(movie.id);
+
+      showVideoState({ ...describeBlockedEpisode(resolved, episodeId), trailerUrl: "" });
+      body.classList.remove("hidden");
+      renderRelated(catalog, movie);
+      return;
+    }
+
+    episode = resolved.episode;
+    season = resolved.season;
+    container.dataset.episodeId = String(episode.id);
+  }
+
+  const source = episode ? await resolveEpisodeSource(episode) : await resolveVideoSource(movie);
+  const trailerUrl = await resolveTrailerUrl(movie);
+
+  fillMovieInfo(movie, catalog, source);
+
   // Phân biệt "không có video chính" với "có URL nhưng tải lỗi" (trường hợp C,
   // do event `error` của <video> xử lý qua overlay #videoError).
-  const unavailable = resolveUnavailableState(movie, source, trailerUrl);
+  const unavailable = episode
+    ? source.url
+      ? null
+      : {
+          icon: "movie",
+          title: "Tập phim chưa có nguồn phát",
+          message: `${episodeLabel(
+            episode,
+            season,
+          )} chưa có video để xem. Vui lòng chọn tập khác hoặc quay lại sau.`,
+          trailerUrl,
+        }
+    : resolveUnavailableState(movie, source, trailerUrl);
 
   if (unavailable) {
     const sourceCell = document.querySelector("[data-bind='movie-video-source']");
     if (sourceCell) {
-      sourceCell.textContent = source.isSample ? "Chưa có nguồn phim" : "Nguồn riêng của phim";
+      sourceCell.textContent = episode
+        ? "Chưa có nguồn cho tập này"
+        : source.isSample
+          ? "Chưa có nguồn phim"
+          : "Nguồn riêng của phim";
     }
     const backLink = stateEls().back;
     if (backLink) backLink.href = detailUrl(movie.id);
@@ -1008,10 +1095,21 @@ async function init() {
     return;
   }
 
+  // Tiêu đề tab + thời lượng theo ĐÚNG tập đang xem (nếu có).
+  if (episode) {
+    document.title = `${movie.title} · ${episodeLabel(episode, season)} - Xem phim`;
+    const episodeDuration = formatDuration(episode.duration);
+    if (episodeDuration) put("movie-duration", episodeDuration);
+  }
+
   if (player.status) {
-    player.status.textContent = source.isSample
-      ? `Phim này chưa có nguồn phim riêng nên đang phát video mẫu của MovieF (${source.url}).`
-      : `Đang phát: ${source.url}`;
+    if (episode) {
+      player.status.textContent = `Đang phát ${episodeLabel(episode, season)}: ${source.url}`;
+    } else {
+      player.status.textContent = source.isSample
+        ? `Phim này chưa có nguồn phim riêng nên đang phát video mẫu của MovieF (${source.url}).`
+        : `Đang phát: ${source.url}`;
+    }
   }
 
   mountPlayer(source.url);
