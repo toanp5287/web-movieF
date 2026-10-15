@@ -8,7 +8,7 @@
  * mùa/tập giả. Chưa phát video, chưa nút trước/sau, chưa tự chuyển tập.
  */
 
-import { POSTER_FALLBACK, escapeHtml, formatDuration } from "./movie-data.js";
+import { POSTER_FALLBACK, escapeHtml, formatDuration, watchUrl } from "./movie-data.js";
 import {
   episodesOfSeason,
   isActive,
@@ -47,9 +47,19 @@ function activeEpisodeCount(episodes, seasonId) {
   return episodesOfSeason(episodes, seasonId).filter((e) => isActive(e.status)).length;
 }
 
-/** Thẻ một tập — chỉ hiển thị thông tin, chưa phát được video. */
-function episodeCard(episode) {
+/** URL xem một tập: /watch?id=<movieId>&episode=<episodeId>. */
+function episodeWatchUrl(movieId, episodeId) {
+  return `${watchUrl(movieId)}&episode=${encodeURIComponent(String(episodeId))}`;
+}
+
+/**
+ * Thẻ một tập — bấm vào để mở trang xem đúng tập đó.
+ * Cả thẻ là một liên kết (link phủ toàn thẻ) nên bấm ở đâu cũng mở được, và
+ * vẫn giữ được hành vi mở tab mới / sao chép liên kết của trình duyệt.
+ */
+function episodeCard(episode, movieId) {
   const number = episode.episodeNumber ?? "";
+  const title = episode.title || `Tập ${number}`;
   const media = episode.thumbnail
     ? `<img alt="Ảnh tập ${escapeHtml(String(number))}" class="w-full h-full object-cover" data-fallback="${escapeHtml(
         POSTER_FALLBACK,
@@ -60,7 +70,7 @@ function episodeCard(episode) {
   const meta = episodeMeta(episode);
 
   return `
-    <article class="flex gap-4 p-3 rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors">
+    <article class="group relative flex gap-4 p-3 rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors">
       <div class="relative w-32 sm:w-40 shrink-0 aspect-video rounded-lg overflow-hidden bg-surface-container">
         ${media}
         <span class="absolute top-1.5 left-1.5 px-2 py-0.5 rounded bg-surface-container-lowest/90 text-on-surface font-label-caps text-label-caps uppercase backdrop-blur-md">T${escapeHtml(
@@ -68,9 +78,7 @@ function episodeCard(episode) {
         )}</span>
       </div>
       <div class="flex flex-col min-w-0 flex-1">
-        <h3 class="font-title-sm text-title-sm text-on-surface truncate">${escapeHtml(
-          episode.title || `Tập ${number}`,
-        )}</h3>
+        <h3 class="font-title-sm text-title-sm text-on-surface truncate">${escapeHtml(title)}</h3>
         ${
           meta
             ? `<p class="font-label-md text-label-md text-on-surface-variant mt-0.5">${escapeHtml(meta)}</p>`
@@ -84,6 +92,16 @@ function episodeCard(episode) {
             : ""
         }
       </div>
+      <a
+        href="${escapeHtml(episodeWatchUrl(movieId, episode.id))}"
+        data-episode-link="${escapeHtml(String(episode.id))}"
+        aria-label="Xem ${escapeHtml(title)}"
+        class="absolute inset-0 rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-container"
+      >
+        <span class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100" aria-hidden="true">
+          <span class="material-symbols-outlined rounded-full bg-surface-container-lowest/85 p-2 text-3xl text-on-surface shadow-lg">play_arrow</span>
+        </span>
+      </a>
     </article>`;
 }
 
@@ -215,7 +233,7 @@ export async function initEpisodeList(movie) {
     }
 
     hideEmpty();
-    if (list) list.innerHTML = episodes.map(episodeCard).join("");
+    if (list) list.innerHTML = episodes.map((episode) => episodeCard(episode, movie.id)).join("");
   };
 
   if (selector) {
