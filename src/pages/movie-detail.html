@@ -489,6 +489,53 @@
             </div>
           </div>
         </div>
+        <!--
+          Danh sách tập + Bộ chọn mùa (CHỈ hiện cho phim bộ, do episode-list.js
+          điều khiển). Mặc định ẩn; phim lẻ giữ nguyên như hiện tại.
+        -->
+        <section class="w-full px-gutter-mobile md:px-margin mt-12" data-bind="series-block" hidden>
+          <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-3">
+              <span class="w-1.5 h-6 bg-primary-container rounded-full"></span>
+              <div>
+                <h2 class="font-headline-md text-headline-md text-on-surface">
+                  Danh sách tập
+                </h2>
+                <p class="font-body-sm text-body-sm text-on-surface-variant" data-bind="series-sub"></p>
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex items-center gap-2 overflow-x-auto pb-2 mb-6"
+            data-bind="season-selector"
+            role="tablist"
+          ></div>
+          <div
+            class="flex flex-col sm:flex-row sm:items-center gap-4 p-4 rounded-xl bg-surface-container-low mb-6"
+            data-bind="season-info"
+            hidden
+          ></div>
+          <div
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+            data-bind="episodes"
+          ></div>
+          <div
+            class="flex flex-col items-center justify-center gap-3 py-14 rounded-xl bg-surface-container-low"
+            data-bind="episodes-empty"
+            hidden
+          >
+            <span class="material-symbols-outlined text-4xl text-on-surface-variant/50"
+              >playlist_remove</span
+            >
+            <p class="font-title-sm text-title-sm text-on-surface" data-bind="episodes-empty-title">
+              Chưa có tập nào
+            </p>
+            <p
+              class="font-body-sm text-body-sm text-on-surface-variant text-center max-w-md"
+              data-bind="episodes-empty-note"
+            ></p>
+          </div>
+        </section>
         <section class="w-full px-gutter-mobile md:px-margin mt-12">
           <div class="flex items-center justify-between mb-6">
             <div class="flex items-center gap-3">

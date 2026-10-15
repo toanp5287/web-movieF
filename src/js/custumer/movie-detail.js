@@ -30,6 +30,7 @@ import {
   sameId,
 } from "./movie-data.js";
 import { renderMovieCards } from "./movie-card.js";
+import { initEpisodeList } from "./episode-list.js";
 import api from "../api.js";
 
 const bind = (name, root = document) => root.querySelector(`[data-bind="${name}"]`);
@@ -626,6 +627,13 @@ async function init() {
   bindReviewActions(movie, catalog);
   bindReviewComposer(movie, catalog);
   renderRelated(movie, catalog);
+
+  // Chức năng 2: chỉ phim bộ có mùa/tập; lỗi dữ liệu không làm trang crash.
+  try {
+    await initEpisodeList(movie);
+  } catch (error) {
+    console.error("[movie-detail] Lỗi khi render danh sách tập:", error);
+  }
 
   bindImageFallback(document);
   window.scrollTo({ top: 0, behavior: "instant" });
