@@ -1,0 +1,419 @@
+<!doctype html>
+
+<html class="dark" lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Material Symbols -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS của project -->
+    <link rel="stylesheet" href="../css/style.css" />
+
+    <style>
+      /* ===== MOVIEF ADMIN THEME (dùng chung cho mọi trang Admin) ===== */
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: #0f0f0f;
+        color: #e5e5e5;
+        font-family: "Plus Jakarta Sans", "Inter", sans-serif;
+      }
+
+      body {
+        overscroll-behavior: none;
+      }
+
+      main > :first-child {
+        margin-top: 0 !important;
+      }
+
+      main > :last-child {
+        margin-bottom: 0 !important;
+      }
+
+      ::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* ---------- SIDEBAR ---------- */
+      .sidebar {
+        width: 16rem;
+        padding: 1.25rem;
+        background: #0f0f0f;
+        border-right: 1px solid #1f1f1f;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow-y: auto;
+        z-index: 30;
+      }
+
+      .sidebar-logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0 0.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .sidebar-logo-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        flex-shrink: 0;
+        border-radius: 0.75rem;
+        background: #e50914;
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(229, 9, 20, 0.4);
+      }
+
+      .sidebar-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        line-height: 1.4;
+        color: #ffffff;
+      }
+
+      .sidebar-subtitle {
+        font-size: 0.75rem;
+        line-height: 1.4;
+        color: #71717a;
+      }
+
+      /* ---------- MENU ---------- */
+      .menu-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.375rem;
+      }
+
+      .menu-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.625rem 0.875rem;
+        border-radius: 0.75rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        line-height: 1.4;
+        color: #a1a1aa;
+        text-decoration: none;
+        transition:
+          background-color 0.2s ease,
+          color 0.2s ease;
+      }
+
+      .menu-item .material-symbols-outlined {
+        font-size: 1.25rem;
+      }
+
+      .menu-item:hover {
+        background: #1a1a1a;
+        color: #ffffff;
+      }
+
+      .menu-item.active {
+        background: #e50914;
+        color: #ffffff;
+        font-weight: 600;
+      }
+
+      /* ---------- ADMIN ACCOUNT ---------- */
+      .sidebar-account {
+        border-top: 1px solid #1f1f1f;
+        padding-top: 1rem;
+      }
+
+      .sidebar-avatar {
+        width: 2.25rem;
+        height: 2.25rem;
+        flex-shrink: 0;
+        border-radius: 9999px;
+        object-fit: cover;
+        outline: 1px solid #27272a;
+      }
+
+      .sidebar-account-name {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #e4e4e7;
+      }
+
+      .sidebar-account-mail {
+        font-size: 11px;
+        color: #71717a;
+      }
+
+      .sidebar-account-btn {
+        padding: 0.25rem;
+        border-radius: 0.5rem;
+        color: #a1a1aa;
+        transition: color 0.2s ease;
+      }
+
+      .sidebar-account-btn:hover {
+        color: #e4e4e7;
+      }
+    </style>
+  </head>
+  <body class="bg-surface font-body-md text-on-surface min-h-screen">
+    <!-- SIDEBAR (chuẩn dùng chung cho mọi trang Admin) -->
+    <aside class="sidebar fixed left-0 top-0 bottom-0">
+      <!-- LOGO -->
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon">
+          <span class="material-symbols-outlined">movie</span>
+        </div>
+        <div>
+          <h1 class="sidebar-title">MovieF</h1>
+          <p class="sidebar-subtitle">Admin Panel</p>
+        </div>
+      </div>
+
+      <!-- MENU -->
+      <nav class="menu-nav">
+        <a href="/admin" class="menu-item">
+          <span class="material-symbols-outlined">dashboard</span>
+          <span>Dashboard</span>
+        </a>
+
+        <a href="/admin/movies" class="menu-item">
+          <span class="material-symbols-outlined">movie</span>
+          <span>Quản lý phim</span>
+        </a>
+
+        <a href="/admin/genres" class="menu-item">
+          <span class="material-symbols-outlined">category</span>
+          <span>Thể loại</span>
+        </a>
+
+        <a href="/admin/users" class="menu-item">
+          <span class="material-symbols-outlined">group</span>
+          <span>Người dùng</span>
+        </a>
+        <a href="/admin/authorization" class="menu-item active">
+          <span class="material-symbols-outlined">admin_panel_settings</span>
+          <span>Phân quyền</span>
+        </a>
+        <a href="/admin/reviews" class="menu-item">
+          <span class="material-symbols-outlined">reviews</span>
+          <span>Đánh giá</span>
+        </a>
+
+        <a href="/admin/comments" class="menu-item">
+          <span class="material-symbols-outlined">comment</span>
+          <span>Bình luận</span>
+        </a>
+
+        <a href="/admin/statistics" class="menu-item">
+          <span class="material-symbols-outlined">bar_chart</span>
+          <span>Thống kê</span>
+        </a>
+
+        <a href="/admin/trash" class="menu-item">
+          <span class="material-symbols-outlined">delete</span>
+          <span>Thùng rác</span>
+        </a>
+      </nav>
+
+      <!-- ADMIN ACCOUNT -->
+      <div class="sidebar-account">
+        <div class="flex items-center gap-3">
+          <img
+            src="/images/avatar/admin.png"
+            alt="Admin"
+            class="sidebar-avatar"
+            onerror="
+              this.src =
+                'https://ui-avatars.com/api/?name=Admin+MovieF&background=e50914&color=fff'
+            "
+          />
+          <div class="flex-1 min-w-0">
+            <p class="sidebar-account-name">MovieF Admin</p>
+            <p class="sidebar-account-mail">admin@movief.com</p>
+          </div>
+          <button class="sidebar-account-btn">
+            <span class="material-symbols-outlined text-lg">more_vert</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+    <div class="pl-64 flex flex-col min-h-screen">
+      <header
+        class="fixed top-0 left-64 right-0 h-16 bg-surface/80 backdrop-blur-xl z-40 shadow-[0_1px_8px_rgba(0,0,0,0.04)] px-space-lg flex items-center justify-between gap-space-md"
+      >
+        <div class="flex items-center gap-space-sm">
+          <span class="font-label-md text-label-md text-on-surface-variant"
+            >MovieF Admin</span
+          ><span class="text-on-surface-variant/40">/</span
+          ><span class="font-title-sm text-title-sm text-on-surface capitalize"
+            >Hệ thống</span
+          >
+        </div>
+
+        <div class="flex items-center gap-space-md">
+          <button
+            aria-label="Thông báo"
+            class="relative p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            type="button"
+          >
+            <span class="material-symbols-outlined text-xl">notifications</span
+            ><span
+              class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary-container ring-2 ring-surface"
+            ></span>
+          </button>
+          <div class="flex items-center gap-space-sm pl-space-sm">
+            <img
+              alt="Profile"
+              class="w-8 h-8 rounded-full object-cover"
+              src="https://lh3.googleusercontent.com/aida/AEtjO1U0_WeREXlsW21uASPbJPP_lxP_gmAQ8JRvUnAaxrdOBoxPeo7MCeWJwKvpGT08QRMwxmEcuplw-uaF8cOaM7vJoxu3YCTk2z9BMckBNQiBalEdIorObjSYlSRAj8OxWP5tQdukk9hfx2LM7uUVj8CJBIEBszAG8vS250KGfjZYD8dHUdPyXPjWnBvdCmjTEhX8do4_F5iPk1mkHGdNDbYIByEB-dAtsNyoe4B0A4B0snAw4aDQKtosPA"
+            /><span
+              class="font-title-sm text-title-sm text-on-surface hidden sm:inline-block"
+              >Quản trị viên</span
+            >
+          </div>
+        </div>
+      </header>
+      <main class="w-full pt-16 bg-surface px-space-lg py-space-lg flex-1">
+        <div class="flex flex-col w-full max-w-6xl mx-auto">
+          <!-- Header & Action Bar -->
+          <div
+            class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-md mb-space-lg"
+          >
+            <div>
+              <h1
+                class="font-headline-md text-headline-md text-on-surface tracking-tight"
+              >
+                Cấu Hình Ma Trận Phân Quyền (RBAC)
+              </h1>
+              <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+                Chọn checkbox để cấp quyền hoặc bỏ chọn để tước quyền trực tiếp
+                cho từng nhóm vai trò.
+              </p>
+            </div>
+
+            <div class="flex items-center gap-space-sm w-full sm:w-auto">
+              <button
+                id="btn-reset"
+                type="button"
+                class="h-10 px-4 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-colors shrink-0"
+              >
+                Đặt lại
+              </button>
+              <button
+                id="btn-save"
+                type="button"
+                class="h-10 px-5 rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:opacity-90 active:scale-95 transition-all inline-flex items-center gap-2 shadow-sm shrink-0"
+              >
+                <span class="material-symbols-outlined text-xl">save</span>
+                <span>Lưu thay đổi</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Permission Matrix Container -->
+          <section
+            class="bg-surface-container-low rounded-xl shadow-md overflow-hidden flex flex-col"
+          >
+            <!-- Search Toolbar -->
+            <div
+              class="p-space-md border-b border-surface-container-highest/20 flex flex-col sm:flex-row items-center justify-between gap-space-md"
+            >
+              <div class="relative w-full sm:w-80">
+                <span
+                  class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg pointer-events-none select-none"
+                  >filter_alt</span
+                >
+                <input
+                  id="matrix-search"
+                  type="text"
+                  placeholder="Tìm theo tên hành vi hoặc mã quyền..."
+                  class="w-full h-10 pl-10 pr-3 rounded-lg bg-surface-container-lowest text-body-sm font-body-sm text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all"
+                />
+              </div>
+              <div
+                id="status-notice"
+                class="font-label-sm text-label-sm text-on-surface-variant"
+              >
+                Đang ở trạng thái đồng bộ
+              </div>
+            </div>
+
+            <!-- Matrix Table -->
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse min-w-[700px]">
+                <thead>
+                  <tr
+                    class="bg-surface-container-lowest text-on-surface-variant font-label-caps text-label-caps uppercase tracking-wider"
+                  >
+                    <th
+                      scope="col"
+                      class="py-space-md pl-space-md pr-space-xs w-6/12 font-semibold"
+                    >
+                      Chức năng / Mã endpoint
+                    </th>
+                    <th
+                      scope="col"
+                      class="py-space-md px-space-md w-2/12 text-center bg-primary-container/10 text-primary"
+                    >
+                      <span class="font-bold">Admin</span>
+                    </th>
+                    <th
+                      scope="col"
+                      class="py-space-md px-space-md w-2/12 text-center bg-secondary-container/20 text-secondary"
+                    >
+                      <span class="font-bold">Staff</span>
+                    </th>
+                    <th
+                      scope="col"
+                      class="py-space-md pr-space-md w-2/12 text-center bg-surface-container-highest/20 text-on-surface-variant"
+                    >
+                      <span class="font-bold">Viewer</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody
+                  id="matrix-tbody"
+                  class="divide-y divide-surface-container-highest/20 text-on-surface font-body-md text-body-md"
+                >
+                  <!-- Render tự động bằng JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- Toast Notification -->
+          <div
+            id="save-toast"
+            class="fixed bottom-6 right-6 px-4 py-3 rounded-xl bg-on-surface text-surface shadow-xl flex items-center gap-2 translate-y-20 opacity-0 pointer-events-none transition-all duration-300 z-50 font-label-md text-label-md"
+          >
+            <span class="material-symbols-outlined text-green-400 text-xl"
+              >check_circle</span
+            >
+            <span id="toast-message">Đã lưu thay đổi thành công!</span>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="module" src="/src/main.js"></script>
+<script type="module" src="./../../src/js/admin/authorization.js"></script>

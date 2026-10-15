@@ -1,0 +1,728 @@
+<!doctype html>
+
+<html class="dark" lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @layer base {
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          overscroll-behavior: none;
+        }
+        main > :first-child {
+          margin-top: 0 !important;
+        }
+        main > :last-child {
+          margin-bottom: 0 !important;
+        }
+      }
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body
+    class="bg-surface-container-lowest font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container"
+  >
+    <header
+      class="fixed top-0 left-0 right-0 w-full z-50 bg-surface-container-lowest/85 backdrop-blur-xl border-b border-white/5"
+      id="header"
+    >
+      <div
+        class="h-20 w-full px-gutter-mobile md:px-margin flex items-center justify-between gap-space-md"
+      >
+        <div class="flex items-center gap-space-lg lg:gap-space-xl">
+          <a
+            class="flex items-center gap-space-sm group"
+            data-path="trang-chu"
+            href="/"
+          >
+            <img
+              alt="MovieF Logo"
+              class="h-8 w-auto object-contain"
+              src="/images/logo/logo.svg"
+            />
+            <span
+              class="font-headline-md text-headline-md tracking-tight text-on-surface font-extrabold hidden sm:inline-block group-hover:text-primary transition-colors"
+            >
+              Movie<span class="text-primary-container">F</span>
+            </span>
+          </a>
+          <nav
+            class="hidden md:flex items-center gap-space-md lg:gap-space-lg"
+            data-active-classes="text-on-surface font-semibold"
+          >
+            <a
+              class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors py-space-xs"
+              data-path="trang-chu"
+              href="/"
+            >
+              Trang chủ
+            </a>
+            <a
+              class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors py-space-xs"
+              data-path="phim"
+              href="/movies"
+            >
+              Phim
+            </a>
+            <a
+              class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors py-space-xs"
+              data-path="the-loai"
+              href="/genres"
+            >
+              Thể loại
+            </a>
+            <a
+              class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors py-space-xs"
+              data-path="top-phim"
+              href="/topMovies"
+            >
+              Top phim
+            </a>
+          </nav>
+        </div>
+        <div class="flex items-center gap-space-sm sm:gap-space-md">
+          <div class="relative hidden xl:flex items-center">
+            <span
+              class="material-symbols-outlined absolute left-3 text-on-surface-variant text-lg pointer-events-none"
+            >
+              search
+            </span>
+            <input
+              class="w-64 xl:w-72 pl-9 pr-space-md py-space-xs bg-surface-container-low text-on-surface placeholder-on-surface-variant font-body-sm text-body-sm rounded-lg border border-white/10 focus:outline-none focus:border-outline focus:ring-1 focus:ring-outline transition-all"
+              placeholder="Tìm kiếm phim, diễn viên..."
+              type="text"
+            />
+          </div>
+          <button
+            class="xl:hidden flex items-center justify-center p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+            type="button"
+          >
+            <span class="material-symbols-outlined text-xl">search</span>
+          </button>
+          <button
+            class="relative hidden lg:flex items-center justify-center p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+            type="button"
+          >
+            <span class="material-symbols-outlined text-2xl"
+              >notifications</span
+            >
+            <span
+              class="absolute top-1.5 right-1.5 w-2 h-2 bg-primary-container rounded-full ring-2 ring-surface-container-lowest"
+            ></span>
+          </button>
+          <div
+            class="flex items-center gap-space-xs pl-space-xs"
+            id="user"
+          ></div>
+        </div>
+      </div>
+    </header>
+    <main class="w-full pt-20 bg-surface-container-lowest min-h-screen">
+      <div class="flex flex-col w-full">
+        <!-- Atmospheric Ambient Glow Backdrop -->
+        <div
+          class="relative w-full overflow-hidden px-gutter-mobile md:px-margin pt-6 pb-12"
+        >
+          <div
+            class="absolute top-0 right-1/4 w-96 h-96 bg-primary-container/10 rounded-full blur-3xl pointer-events-none -z-10"
+          ></div>
+          <div
+            class="absolute top-20 left-10 w-80 h-80 bg-secondary/5 rounded-full blur-3xl pointer-events-none -z-10"
+          ></div>
+          <!-- Page Header Section -->
+          <div
+            class="flex flex-col md:flex-row md:items-end justify-between gap-space-md mb-8"
+          >
+            <div class="space-y-2">
+              <div
+                class="flex items-center gap-space-xs text-primary font-label-caps uppercase tracking-wider"
+              >
+                <span
+                  class="inline-block w-2 h-2 rounded-full bg-primary-container"
+                ></span>
+                <span>Thư viện điện ảnh</span>
+              </div>
+              <h1
+                class="font-headline-xl text-headline-xl text-on-surface font-extrabold tracking-tight"
+              >
+                Tất cả phim
+              </h1>
+              <p
+                class="font-body-md text-body-md text-on-surface-variant max-w-xl"
+              >
+                Khám phá hàng trăm bộ phim bom tấn đỉnh cao trên MovieF. Trải
+                nghiệm chất lượng âm thanh Dolby Atmos và chuẩn hình ảnh 4K HDR.
+              </p>
+            </div>
+            <!-- Quick Metrics Strip -->
+            <div
+              class="flex items-center gap-space-md bg-surface-container-low/80 backdrop-blur-md px-space-md py-space-sm rounded-xl border border-white/5"
+            >
+              <div class="flex flex-col">
+                <span
+                  class="font-label-caps text-label-caps text-on-surface-variant"
+                  >Tổng số</span
+                >
+                <span
+                  class="font-headline-sm text-headline-sm text-on-surface font-bold"
+                  data-metric="total-movies"
+                  >--</span
+                >
+              </div>
+              <div class="w-px h-8 bg-white/10"></div>
+              <div class="flex flex-col">
+                <span
+                  class="font-label-caps text-label-caps text-on-surface-variant"
+                  >Lượt xem</span
+                >
+                <span
+                  class="font-title-sm text-title-sm text-on-surface font-semibold"
+                  data-metric="total-views"
+                  >--</span
+                >
+              </div>
+              <div class="w-px h-8 bg-white/10"></div>
+              <div class="flex flex-col">
+                <span
+                  class="font-label-caps text-label-caps text-on-surface-variant"
+                  >Chất lượng</span
+                >
+                <span
+                  class="font-title-sm text-title-sm text-secondary font-semibold"
+                  >4K Ultra HD</span
+                >
+              </div>
+            </div>
+          </div>
+          <!-- Filter & Toolbar Panel -->
+          <div
+            class="bg-surface-container-low rounded-xl p-space-md shadow-xl border border-white/5 mb-8"
+          >
+            <div
+              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-space-md items-center"
+            >
+              <!-- Search Input -->
+              <div class="sm:col-span-2 lg:col-span-4 relative">
+                <span
+                  class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg"
+                  >search</span
+                >
+                <input
+                  class="w-full pl-10 pr-space-md py-2.5 bg-surface-container text-on-surface placeholder-on-surface-variant font-body-sm text-body-sm rounded-lg border border-white/5 focus:outline-none focus:border-outline focus:ring-1 focus:ring-outline transition-all"
+                  placeholder="Tìm theo tên phim, đạo diễn, nhân vật..."
+                  type="text"
+                  data-metric="search"
+                />
+              </div>
+              <!-- Genre Dropdown -->
+              <div class="lg:col-span-2 relative">
+                <div class="relative">
+                  <select
+                    data-metric="filter-genre"
+                    class="w-full appearance-none pl-3 pr-8 py-2.5 bg-surface-container text-on-surface font-body-sm text-body-sm rounded-lg border border-white/5 focus:outline-none focus:border-outline transition-all cursor-pointer"
+                  >
+                    <option value="">Thể loại: Tất cả</option>
+                    <option value="1">Hành động</option>
+                    <option value="2">Tình cảm</option>
+                    <option value="3">Hài</option>
+                    <option value="4">Kinh dị</option>
+                    <option value="5">Khoa học viễn tưởng</option>
+                    <option value="6">Hoạt hình</option>
+                    <option value="7">Phiêu lưu</option>
+                    <option value="8">Tâm lý</option>
+                  </select>
+                  <span
+                    class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-base"
+                    >expand_more</span
+                  >
+                </div>
+              </div>
+              <!-- Release Year Dropdown -->
+              <div class="lg:col-span-2 relative">
+                <div class="relative">
+                  <select
+                    data-metric="filter-year"
+                    class="w-full appearance-none pl-3 pr-8 py-2.5 bg-surface-container text-on-surface font-body-sm text-body-sm rounded-lg border border-white/5 focus:outline-none focus:border-outline transition-all cursor-pointer"
+                  >
+                    <option value="">Năm: Tất cả</option>
+                    <!-- Các năm còn lại do movies.js dựng từ data/db.json -->
+                  </select>
+                  <span
+                    class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-base"
+                    >expand_more</span
+                  >
+                </div>
+              </div>
+              <!-- Rating Dropdown -->
+              <div class="lg:col-span-2 relative">
+                <div class="relative">
+                  <select
+                    data-metric="filter-rating"
+                    class="w-full appearance-none pl-3 pr-8 py-2.5 bg-surface-container text-on-surface font-body-sm text-body-sm rounded-lg border border-white/5 focus:outline-none focus:border-outline transition-all cursor-pointer"
+                  >
+                    <option value="">Đánh giá: Tất cả</option>
+                    <option value="8">8.0+ ⭐ IMDb</option>
+                    <option value="7">7.0+ ⭐ IMDb</option>
+                    <option value="top">Phim đề cử</option>
+                  </select>
+                  <span
+                    class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-base"
+                    >star</span
+                  >
+                </div>
+              </div>
+              <!-- Sort Dropdown -->
+              <div class="lg:col-span-2 relative">
+                <div class="relative">
+                  <select
+                    data-metric="filter-sort"
+                    class="w-full appearance-none pl-3 pr-8 py-2.5 bg-surface-container text-on-surface font-body-sm text-body-sm rounded-lg border border-white/5 focus:outline-none focus:border-outline transition-all cursor-pointer font-medium"
+                  >
+                    <option value="newest">Mới nhất</option>
+                    <option value="oldest">Cũ nhất</option>
+                    <option value="rating">Rating cao nhất</option>
+                    <option value="views">Lượt xem nhiều</option>
+                    <option value="az">Tên A-Z</option>
+                  </select>
+                  <span
+                    class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-base"
+                    >sort</span
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- Quick Filter Tags -->
+            <div
+              class="flex flex-wrap items-center gap-2 mt-4 pt-4 border-t border-white/5"
+            >
+              <span
+                class="font-label-caps text-label-caps text-on-surface-variant uppercase mr-2"
+                >Bộ lọc nhanh:</span
+              >
+              <button
+                type="button"
+                data-metric="filter-type"
+                data-type=""
+                class="px-3 py-1 rounded-full bg-on-surface text-surface font-label-md text-label-md font-semibold transition-all"
+              >
+                Tất cả
+              </button>
+              <button
+                type="button"
+                data-metric="filter-type"
+                data-type="movie"
+                class="px-3 py-1 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface font-label-md text-label-md border border-white/5 transition-all"
+              >
+                Phim lẻ
+              </button>
+              <button
+                type="button"
+                data-metric="filter-type"
+                data-type="series"
+                class="px-3 py-1 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface font-label-md text-label-md border border-white/5 transition-all"
+              >
+                Phim bộ
+              </button>
+            </div>
+          </div>
+          <!-- Active State & Results Counter -->
+          <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-2">
+              <span class="text-on-surface-variant font-body-sm text-body-sm"
+                >Danh mục:</span
+              >
+              <span class="font-title-sm text-title-sm text-on-surface"
+                >Toàn bộ kho phim</span
+              >
+              <!-- Số phim do movies.js điền từ data/db.json, không ghi cứng -->
+              <span
+                class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-caps text-label-caps"
+                data-metric="catalog-badge"
+                >...</span
+              >
+            </div>
+            <div
+              class="hidden sm:flex items-center gap-2 text-on-surface-variant"
+            >
+              <button
+                class="p-1.5 rounded bg-surface-container text-on-surface"
+                title="Xem dạng lưới"
+              >
+                <span class="material-symbols-outlined text-base"
+                  >grid_view</span
+                >
+              </button>
+              <button
+                class="p-1.5 rounded hover:bg-surface-container hover:text-on-surface transition-colors"
+                title="Xem dạng danh sách"
+              >
+                <span class="material-symbols-outlined text-base"
+                  >view_list</span
+                >
+              </button>
+            </div>
+          </div>
+          <!-- 5-Column Movie Grid: nội dung render từ data/db.json bởi movies.js -->
+          <div
+            class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6"
+            data-metric="movie-grid"
+          >
+            <!-- Skeleton trong lúc chờ data/db.json -->
+            <div
+              class="col-span-full flex items-center justify-center gap-3 py-20 text-on-surface-variant"
+              data-metric="grid-loading"
+            >
+              <span class="material-symbols-outlined text-2xl animate-spin"
+                >progress_activity</span
+              >
+              <span class="font-body-sm text-body-sm"
+                >Đang tải danh sách phim...</span
+              >
+            </div>
+          </div>
+          <!-- Empty State: hiển thị khi không tìm thấy phim nào khớp bộ lọc -->
+          <div
+            class="hidden w-full flex flex-col items-center justify-center text-center gap-space-md py-space-xl px-gutter-mobile"
+            id="empty-state"
+          >
+            <div class="relative w-32 h-32 flex items-center justify-center">
+              <div
+                class="absolute inset-0 rounded-full bg-primary-container/10 blur-2xl"
+              ></div>
+              <div
+                class="relative w-24 h-24 rounded-2xl bg-surface-container-low border border-white/5 flex items-center justify-center rotate-[-6deg]"
+              >
+                <span
+                  class="material-symbols-outlined text-5xl text-on-surface-variant/60"
+                  >movie</span
+                >
+              </div>
+              <span
+                class="absolute bottom-1 right-1 w-10 h-10 rounded-full bg-surface-container-high border border-white/10 flex items-center justify-center"
+              >
+                <span class="material-symbols-outlined text-xl text-primary"
+                  >search_off</span
+                >
+              </span>
+            </div>
+            <div class="flex flex-col items-center gap-space-xs">
+              <h2
+                class="font-headline-sm text-headline-sm text-on-surface font-bold"
+              >
+                Không tìm thấy phim nào
+              </h2>
+              <p
+                class="font-body-md text-body-md text-on-surface-variant max-w-md"
+              >
+                Rất tiếc, thư viện phim chưa có kết quả phù hợp với bộ lọc hiện
+                tại. Hãy thử từ khóa khác hoặc mở rộng tiêu chí lọc.
+              </p>
+            </div>
+            <div
+              class="flex flex-wrap items-center justify-center gap-space-sm"
+            >
+              <a
+                class="px-4 py-2.5 rounded-lg bg-primary-container text-on-primary-container font-title-sm text-title-sm hover:opacity-90 transition-opacity flex items-center gap-2"
+                href="/movies"
+              >
+                <span class="material-symbols-outlined text-lg">refresh</span>
+                Xem tất cả phim
+              </a>
+              <a
+                class="px-4 py-2.5 rounded-lg bg-surface-container text-on-surface font-title-sm text-title-sm hover:bg-surface-container-high transition-colors flex items-center gap-2"
+                href="/genres"
+              >
+                <span class="material-symbols-outlined text-lg">category</span>
+                Duyệt theo thể loại
+              </a>
+            </div>
+            <div
+              class="flex flex-wrap items-center justify-center gap-2 pt-space-sm"
+            >
+              <span
+                class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider"
+                >Gợi ý nhanh</span
+              >
+              <span
+                class="px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md border border-white/5"
+                >Hành động</span
+              >
+              <span
+                class="px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md border border-white/5"
+                >Viễn tưởng</span
+              >
+              <span
+                class="px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md border border-white/5"
+                >Hoạt hình</span
+              >
+              <span
+                class="px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md border border-white/5"
+                >Tâm lý - Xã hội</span
+              >
+            </div>
+          </div>
+          <!-- Cinematic Pagination Bar -->
+          <div
+            class="mt-12 pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4"
+            data-metric="pagination"
+          >
+            <!-- Status Counter -->
+            <div
+              class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-2"
+            >
+              <span
+                class="inline-block w-1.5 h-1.5 rounded-full bg-secondary"
+              ></span>
+              <span data-metric="result-counter"
+                >Đang tải danh sách phim...</span
+              >
+            </div>
+            <!-- Pagination Buttons -->
+            <div class="flex items-center gap-1.5">
+              <!-- Previous Page Button -->
+              <button
+                class="flex items-center gap-1 px-3 py-2 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors font-title-sm text-title-sm disabled:opacity-40 disabled:pointer-events-none"
+                data-dir="prev"
+                disabled=""
+                type="button"
+              >
+                <span class="material-symbols-outlined text-base"
+                  >chevron_left</span
+                >
+                <span class="hidden sm:inline">Trước</span>
+              </button>
+              <!-- Page Numbers: movies.js sinh ra đúng số trang thật -->
+              <div
+                class="flex items-center gap-1"
+                data-metric="pagination-pages"
+              ></div>
+              <!-- Next Page Button -->
+              <button
+                class="flex items-center gap-1 px-3 py-2 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors font-title-sm text-title-sm disabled:opacity-40 disabled:pointer-events-none"
+                data-dir="next"
+                type="button"
+              >
+                <span class="hidden sm:inline">Sau</span>
+                <span class="material-symbols-outlined text-base"
+                  >chevron_right</span
+                >
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer
+      id="footer"
+      class="w-full bg-surface-container-low border-t border-white/5 mt-space-xl"
+    >
+      <div class="w-full px-gutter-mobile md:px-margin py-space-xl">
+        <div
+          class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-space-xl mb-space-xl"
+        >
+          <div class="md:col-span-2 flex flex-col gap-space-md">
+            <div class="flex items-center gap-space-sm">
+              <img
+                alt="Poster phim Mật Vụ Bóng Đêm"
+                class="h-7 w-auto object-contain"
+                src="/images/logo/logo.svg"
+              />
+              <span
+                class="font-headline-sm text-headline-sm tracking-tight text-on-surface font-bold"
+              >
+                Movie<span class="text-primary-container">F</span>
+              </span>
+            </div>
+            <p
+              class="font-body-sm text-body-sm text-on-surface-variant max-w-sm"
+            >
+              Nền tảng phát trực tuyến trải nghiệm điện ảnh đỉnh cao, đem rạp
+              chiếu phim chất lượng chuẩn 4K đến mọi gia đình.
+            </p>
+            <div class="flex items-center gap-space-sm pt-space-xs">
+              <a
+                class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+                href="#"
+              >
+                <span class="material-symbols-outlined text-base"
+                  >smart_display</span
+                >
+              </a>
+              <a
+                class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+                href="#"
+              >
+                <span class="material-symbols-outlined text-base">public</span>
+              </a>
+              <a
+                class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+                href="#"
+              >
+                <span class="material-symbols-outlined text-base">forum</span>
+              </a>
+            </div>
+          </div>
+          <div class="flex flex-col gap-space-sm">
+            <span
+              class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider"
+            >
+              Khám phá
+            </span>
+            <ul class="flex flex-col gap-space-xs">
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Giới thiệu
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Phim chiếu rạp
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Phim bộ độc quyền
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Bảng xếp hạng
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="flex flex-col gap-space-sm">
+            <span
+              class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider"
+            >
+              Quy định &amp; Hỗ trợ
+            </span>
+            <ul class="flex flex-col gap-space-xs">
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Điều khoản sử dụng
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Chính sách bảo mật
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Liên hệ
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Trung tâm trợ giúp
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="flex flex-col gap-space-sm">
+            <span
+              class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider"
+            >
+              Ứng dụng
+            </span>
+            <p class="font-body-sm text-body-sm text-on-surface-variant">
+              Xem phim mọi lúc, mọi nơi trên Smart TV, di động và máy tính bảng.
+            </p>
+            <div class="flex flex-col gap-space-xs pt-space-xs">
+              <div
+                class="flex items-center gap-space-sm p-space-xs bg-surface-container rounded-lg"
+              >
+                <span class="material-symbols-outlined text-primary">tv</span>
+                <span class="font-label-md text-label-md text-on-surface">
+                  Smart TV &amp; Android TV
+                </span>
+              </div>
+              <div
+                class="flex items-center gap-space-sm p-space-xs bg-surface-container rounded-lg"
+              >
+                <span class="material-symbols-outlined text-primary"
+                  >smartphone</span
+                >
+                <span class="font-label-md text-label-md text-on-surface">
+                  iOS &amp; Android Apps
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="pt-space-md border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-space-sm text-center sm:text-left"
+        >
+          <p class="font-body-sm text-body-sm text-on-surface-variant">
+            © 2024 MovieF Streaming Platform. Bản quyền thuộc về MovieF.
+          </p>
+          <div
+            class="flex items-center gap-space-md font-body-sm text-body-sm text-on-surface-variant"
+          >
+            <a class="hover:text-on-surface transition-colors" href="#">
+              Quyền riêng tư
+            </a>
+            <a class="hover:text-on-surface transition-colors" href="#">
+              Cookie
+            </a>
+            <a class="hover:text-on-surface transition-colors" href="#">
+              Trợ giúp
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script type="module" src="/src/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" src="/src/js/custumer/auth.js"></script>
+    <script type="module" src="/src/js/custumer/header.js"></script>
+    <script type="module" src="/src/js/custumer/movies.js"></script>
+  </body>
+</html>

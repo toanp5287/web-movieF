@@ -1,0 +1,26 @@
+{
+  "name": "vite-project",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev:vite": "vite",
+    "server": "json-server --watch data/db.json --port 3000",
+    "dev": "concurrently \"npm run dev:vite\" \"npm run server\"",
+    "build": "vite build",
+    "preview": "vite preview",
+    "mail": "node ./server/mailSacThuc.js"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.5",
+    "json-server": "^0.17.4",
+    "vite": "^8.3.0"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "dotenv": "^18.0.8",
+    "multer": "^2.4.0",
+    "resend": "^6.33.0",
+    "tailwindcss": "^4.3.3"
+  }
+}

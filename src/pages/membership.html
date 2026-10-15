@@ -1,0 +1,1619 @@
+<!doctype html>
+
+<html class="dark" lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @layer base {
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          overscroll-behavior: none;
+        }
+        main > :first-child {
+          margin-top: 0 !important;
+        }
+        main > :last-child {
+          margin-bottom: 0 !important;
+        }
+      }
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+    <link rel="stylesheet" href="../css/style.css" />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-fixed": "#ffdad5",
+              "error-container": "#93000a",
+              "primary-fixed-dim": "#ffb4aa",
+              "surface-container": "#1d2024",
+              "surface-container-low": "#191c20",
+              "on-secondary-fixed-variant": "#653e00",
+              "inverse-on-surface": "#2e3035",
+              "secondary-container": "#ee9800",
+              "surface-tint": "#ffb4aa",
+              "on-error-container": "#ffdad6",
+              "surface-variant": "#333539",
+              "surface-dim": "#111318",
+              "on-primary-container": "#fff7f6",
+              "on-background": "#e2e2e8",
+              "on-secondary-container": "#5b3800",
+              "tertiary-fixed-dim": "#ffb3b2",
+              "inverse-primary": "#c0000c",
+              background: "#111318",
+              "tertiary-fixed": "#ffdad9",
+              "on-secondary": "#472a00",
+              "secondary-fixed-dim": "#ffb95f",
+              "on-primary-fixed": "#410001",
+              tertiary: "#ffb3b2",
+              "on-tertiary": "#680013",
+              "on-surface": "#e2e2e8",
+              "on-surface-variant": "#e9bcb6",
+              "inverse-surface": "#e2e2e8",
+              "on-tertiary-fixed": "#410008",
+              outline: "#af8782",
+              "surface-container-high": "#282a2f",
+              primary: "#ffb4aa",
+              "on-primary-fixed-variant": "#930007",
+              "on-tertiary-container": "#fff7f6",
+              "outline-variant": "#5e3f3b",
+              "surface-bright": "#37393e",
+              "secondary-fixed": "#ffddb8",
+              "on-secondary-fixed": "#2a1700",
+              surface: "#111318",
+              error: "#ffb4ab",
+              "on-primary": "#690003",
+              "on-error": "#690005",
+              "on-tertiary-fixed-variant": "#92001f",
+              "surface-container-highest": "#333539",
+              secondary: "#ffb95f",
+              "surface-container-lowest": "#0c0e12",
+              "primary-container": "#e50914",
+              "tertiary-container": "#da2a3e",
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+            spacing: {
+              "space-xl": "2.5rem",
+              gutter: "1.5rem",
+              "margin-mobile": "1.25rem",
+              "gutter-mobile": "1rem",
+              "space-lg": "1.5rem",
+              margin: "3rem",
+              "space-sm": "0.5rem",
+              "space-xs": "0.25rem",
+              "space-md": "1rem",
+            },
+            fontFamily: {
+              "headline-sm": ["Plus Jakarta Sans"],
+              "headline-xl": ["Plus Jakarta Sans"],
+              "body-md": ["Inter"],
+              "headline-md": ["Plus Jakarta Sans"],
+              "title-md": ["Inter"],
+              "headline-xl-mobile": ["Plus Jakarta Sans"],
+              "label-md": ["Inter"],
+              "display-hero": ["Plus Jakarta Sans"],
+              "label-caps": ["Inter"],
+              "title-sm": ["Inter"],
+              "display-hero-mobile": ["Plus Jakarta Sans"],
+              "body-lg": ["Inter"],
+              "body-sm": ["Inter"],
+              "headline-lg": ["Plus Jakarta Sans"],
+              "headline-lg-mobile": ["Plus Jakarta Sans"],
+            },
+            fontSize: {
+              "headline-sm": [
+                "20px",
+                {
+                  lineHeight: "28px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "600",
+                },
+              ],
+              "headline-xl": [
+                "40px",
+                {
+                  lineHeight: "48px",
+                  letterSpacing: "-0.025em",
+                  fontWeight: "700",
+                },
+              ],
+              "body-md": [
+                "15px",
+                { lineHeight: "24px", letterSpacing: "0em", fontWeight: "400" },
+              ],
+              "headline-md": [
+                "24px",
+                {
+                  lineHeight: "32px",
+                  letterSpacing: "-0.015em",
+                  fontWeight: "600",
+                },
+              ],
+              "title-md": [
+                "16px",
+                {
+                  lineHeight: "24px",
+                  letterSpacing: "-0.005em",
+                  fontWeight: "600",
+                },
+              ],
+              "headline-xl-mobile": [
+                "28px",
+                {
+                  lineHeight: "36px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "700",
+                },
+              ],
+              "label-md": [
+                "12px",
+                {
+                  lineHeight: "16px",
+                  letterSpacing: "0.04em",
+                  fontWeight: "500",
+                },
+              ],
+              "display-hero": [
+                "64px",
+                {
+                  lineHeight: "72px",
+                  letterSpacing: "-0.03em",
+                  fontWeight: "800",
+                },
+              ],
+              "label-caps": [
+                "11px",
+                {
+                  lineHeight: "16px",
+                  letterSpacing: "0.08em",
+                  fontWeight: "700",
+                },
+              ],
+              "title-sm": [
+                "14px",
+                { lineHeight: "20px", letterSpacing: "0em", fontWeight: "600" },
+              ],
+              "display-hero-mobile": [
+                "36px",
+                {
+                  lineHeight: "44px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "800",
+                },
+              ],
+              "body-lg": [
+                "18px",
+                {
+                  lineHeight: "28px",
+                  letterSpacing: "-0.005em",
+                  fontWeight: "400",
+                },
+              ],
+              "body-sm": [
+                "13px",
+                {
+                  lineHeight: "20px",
+                  letterSpacing: "0.01em",
+                  fontWeight: "400",
+                },
+              ],
+              "headline-lg": [
+                "32px",
+                {
+                  lineHeight: "40px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "600",
+                },
+              ],
+              "headline-lg-mobile": [
+                "24px",
+                {
+                  lineHeight: "32px",
+                  letterSpacing: "-0.015em",
+                  fontWeight: "600",
+                },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="bg-surface font-body-md text-body-md text-on-surface min-h-screen flex flex-col relative overflow-x-hidden"
+  >
+    <div
+      class="fixed inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-primary-container/10 via-surface-dim/60 to-surface-container-lowest"
+    ></div>
+    <header
+      class="fixed top-0 left-0 right-0 w-full z-50 bg-surface-container-lowest/85 backdrop-blur-xl border-b border-white/5"
+      id="header"
+    >
+      <div
+        class="h-20 w-full px-gutter-mobile md:px-margin flex items-center justify-between gap-space-md"
+      >
+        <div class="flex items-center gap-space-lg lg:gap-space-xl">
+          <a
+            class="flex items-center gap-space-sm group"
+            data-path="trang-chu"
+            href="/"
+          >
+            <img
+              alt="MovieF Logo"
+              class="h-8 w-auto object-contain"
+              src="/images/logo/logo.svg"
+            />
+            <span
+              class="font-headline-md text-headline-md tracking-tight text-on-surface font-extrabold hidden sm:inline-block group-hover:text-primary transition-colors"
+            >
+              Movie<span class="text-primary-container">F</span>
+            </span>
+          </a>
+          <nav
+            class="hidden md:flex items-center gap-space-md lg:gap-space-lg"
+            data-active-classes="text-on-surface font-semibold"
+          >
+            <a
+              class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors py-space-xs"
+              data-path="trang-chu"
+              href="/"
+            >
+              Trang chủ
+            </a>
+            <a
+              class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors py-space-xs"
+              data-path="phim"
+              href="/movies"
+            >
+              Phim
+            </a>
+            <a
+              class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors py-space-xs"
+              data-path="the-loai"
+              href="/genres"
+            >
+              Thể loại
+            </a>
+            <a
+              class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors py-space-xs"
+              data-path="top-phim"
+              href="/movies"
+            >
+              Top phim
+            </a>
+          </nav>
+        </div>
+        <div class="flex items-center gap-space-sm sm:gap-space-md">
+          <div class="relative hidden xl:flex items-center">
+            <span
+              class="material-symbols-outlined absolute left-3 text-on-surface-variant text-lg pointer-events-none"
+            >
+              search
+            </span>
+            <input
+              class="w-64 xl:w-72 pl-9 pr-space-md py-space-xs bg-surface-container-low text-on-surface placeholder-on-surface-variant font-body-sm text-body-sm rounded-lg border border-white/10 focus:outline-none focus:border-outline focus:ring-1 focus:ring-outline transition-all"
+              placeholder="Tìm kiếm phim, diễn viên..."
+              type="text"
+            />
+          </div>
+          <button
+            class="xl:hidden flex items-center justify-center p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+            type="button"
+          >
+            <span class="material-symbols-outlined text-xl">search</span>
+          </button>
+          <button
+            class="relative hidden lg:flex items-center justify-center p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+            type="button"
+          >
+            <span class="material-symbols-outlined text-2xl"
+              >notifications</span
+            >
+            <span
+              class="absolute top-1.5 right-1.5 w-2 h-2 bg-primary-container rounded-full ring-2 ring-surface-container-lowest"
+            ></span>
+          </button>
+          <div
+            class="flex items-center gap-space-xs pl-space-xs"
+            id="user"
+          ></div>
+        </div>
+      </div>
+    </header>
+    <main
+      class="relative z-10 w-full flex-1 pt-20 flex flex-col justify-center items-center px-gutter-mobile md:px-gutter lg:px-margin"
+    >
+      <div class="flex flex-col w-full text-on-surface">
+        <!-- Hero Section -->
+        <section
+          class="relative w-full py-space-xl flex flex-col items-center text-center"
+        >
+          <!-- Ambient Red Glow in Background -->
+          <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 md:w-[600px] h-96 bg-primary-container/15 rounded-full blur-[120px] pointer-events-none -z-10"
+          ></div>
+          <!-- Badge Tag -->
+          <div
+            class="inline-flex items-center gap-space-xs px-space-md py-1.5 rounded-full bg-surface-container-high/80 text-primary-fixed shadow-md mb-space-md backdrop-blur-md"
+          >
+            <span class="material-symbols-outlined text-[16px] text-secondary"
+              >hotel_class</span
+            >
+            <span
+              class="font-label-caps text-label-caps uppercase tracking-wider font-semibold"
+              >Nâng cấp trải nghiệm điện ảnh không giới hạn</span
+            >
+          </div>
+          <!-- Main Heading -->
+          <h1
+            class="font-headline-xl text-headline-xl md:text-[48px] md:leading-[56px] text-on-surface font-bold tracking-tight max-w-3xl"
+          >
+            Chọn Gói Hội Viên
+            <span
+              class="text-transparent bg-clip-text bg-gradient-to-r from-primary-fixed to-primary-container"
+              >MovieF</span
+            >
+            Phù Hợp
+          </h1>
+          <p
+            class="mt-space-md font-body-lg text-body-lg text-on-surface-variant max-w-2xl"
+          >
+            Thưởng thức hàng nghìn phim bom tấn 4K Dolby Vision, âm thanh vòm
+            Dolby Atmos sống động, không quảng cáo và tải phim xem ngoại tuyến
+            trên mọi thiết bị.
+          </p>
+          <!-- Billing Cycle Switcher -->
+          <div
+            class="mt-space-lg inline-flex items-center p-1.5 rounded-full bg-surface-container-low shadow-inner"
+          >
+            <button
+              class="px-space-lg py-2 rounded-full font-title-sm text-title-sm transition-all duration-300 bg-surface-container-highest text-on-surface shadow-md font-medium"
+              id="monthlyBtn"
+              onclick="switchBilling('monthly')"
+            >
+              Thanh toán theo tháng
+            </button>
+            <button
+              class="px-space-lg py-2 rounded-full font-title-sm text-title-sm transition-all duration-300 text-on-surface-variant hover:text-on-surface flex items-center gap-2"
+              id="annualBtn"
+              onclick="switchBilling('annual')"
+            >
+              <span>Theo năm</span>
+              <span
+                class="px-2 py-0.5 rounded-full bg-primary-container text-on-primary-container font-label-caps text-label-caps font-bold tracking-wider"
+              >
+                TIẾT KIỆM 20%
+              </span>
+            </button>
+          </div>
+        </section>
+        <!-- Pricing Cards Grid -->
+        <section class="w-full max-w-7xl mx-auto py-space-md">
+          <div
+            class="grid grid-cols-1 lg:grid-cols-3 gap-space-lg items-stretch"
+          >
+            <!-- Plan 1: MIỄN PHÍ -->
+            <div
+              class="rounded-xl p-space-lg bg-surface-container-low flex flex-col justify-between transition-all duration-300 hover:translate-y-[-4px] shadow-lg"
+            >
+              <div>
+                <div class="flex items-center justify-between">
+                  <span
+                    class="font-label-caps text-label-caps font-bold text-on-surface-variant uppercase tracking-wider"
+                    >Miễn Phí</span
+                  >
+                  <span class="p-2 rounded-lg bg-surface-container">
+                    <span
+                      class="material-symbols-outlined text-on-surface-variant text-[20px]"
+                      >movie</span
+                    >
+                  </span>
+                </div>
+                <h3
+                  class="font-headline-md text-headline-md text-on-surface mt-2 font-bold"
+                >
+                  Standard Free
+                </h3>
+                <p
+                  class="font-body-sm text-body-sm text-on-surface-variant mt-1"
+                >
+                  Trải nghiệm cơ bản cho người yêu điện ảnh khởi đầu.
+                </p>
+                <div class="mt-space-lg flex items-baseline gap-1">
+                  <span
+                    class="font-headline-xl text-headline-xl text-on-surface font-extrabold"
+                    >0đ</span
+                  >
+                  <span
+                    class="font-body-sm text-body-sm text-on-surface-variant"
+                    >/ tháng</span
+                  >
+                </div>
+                <p class="font-label-md text-label-md text-outline mt-1">
+                  Miễn phí vĩnh viễn
+                </p>
+                <!-- Divider line via color block -->
+                <div
+                  class="h-px w-full bg-surface-container-high my-space-md"
+                ></div>
+                <!-- Features -->
+                <ul class="space-y-space-sm font-body-sm text-body-sm">
+                  <li class="flex items-center gap-space-sm text-on-surface">
+                    <span
+                      class="material-symbols-outlined text-primary-fixed text-[18px]"
+                      >check_circle</span
+                    >
+                    <span>Độ phân giải Full HD (1080p)</span>
+                  </li>
+                  <li class="flex items-center gap-space-sm text-on-surface">
+                    <span
+                      class="material-symbols-outlined text-primary-fixed text-[18px]"
+                      >check_circle</span
+                    >
+                    <span>Xem trên 1 thiết bị đồng thời</span>
+                  </li>
+                  <li class="flex items-center gap-space-sm text-on-surface">
+                    <span
+                      class="material-symbols-outlined text-primary-fixed text-[18px]"
+                      >check_circle</span
+                    >
+                    <span>Âm thanh Stereo tiêu chuẩn</span>
+                  </li>
+                  <li
+                    class="flex items-center gap-space-sm text-on-surface-variant"
+                  >
+                    <span
+                      class="material-symbols-outlined text-outline text-[18px]"
+                      >cancel</span
+                    >
+                    <span>Có quảng cáo ngắn đầu phim</span>
+                  </li>
+                  <li
+                    class="flex items-center gap-space-sm text-on-surface-variant"
+                  >
+                    <span
+                      class="material-symbols-outlined text-outline text-[18px]"
+                      >cancel</span
+                    >
+                    <span>Không tải phim ngoại tuyến</span>
+                  </li>
+                </ul>
+              </div>
+              <div class="mt-space-xl">
+                <button
+                  class="w-full py-3 px-4 rounded-lg bg-surface-container font-title-sm text-title-sm text-outline cursor-not-allowed text-center font-medium"
+                  disabled=""
+                >
+                  Gói hiện tại của bạn
+                </button>
+              </div>
+            </div>
+            <!-- Plan 2: CINEMA PASS (Best Value / Highlighted) -->
+            <div
+              class="relative rounded-xl p-space-lg bg-surface-container flex flex-col justify-between shadow-2xl shadow-primary-container/20 transition-all duration-300 hover:translate-y-[-6px] ring-2 ring-primary-container"
+            >
+              <!-- Floating Best Value Badge -->
+              <div
+                class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-primary-container text-on-primary-container font-label-caps text-label-caps font-bold tracking-widest uppercase shadow-md flex items-center gap-1"
+              >
+                <span class="material-symbols-outlined text-[14px]"
+                  >local_fire_department</span
+                >
+                <span>Phổ Biến Nhất</span>
+              </div>
+              <div>
+                <div class="flex items-center justify-between mt-1">
+                  <span
+                    class="font-label-caps text-label-caps font-bold text-primary uppercase tracking-wider"
+                    >Trải Nghiệm Cao Cấp</span
+                  >
+                  <span
+                    class="p-2 rounded-lg bg-primary-container/20 text-primary-fixed"
+                  >
+                    <span class="material-symbols-outlined text-[20px]"
+                      >theaters</span
+                    >
+                  </span>
+                </div>
+                <h3
+                  class="font-headline-md text-headline-md text-on-surface mt-2 font-bold flex items-center gap-2"
+                >
+                  Cinema Pass
+                  <span
+                    class="text-xs px-2 py-0.5 rounded bg-primary-container/30 text-primary-fixed font-title-sm font-semibold"
+                    >4K UHD</span
+                  >
+                </h3>
+                <p
+                  class="font-body-sm text-body-sm text-on-surface-variant mt-1"
+                >
+                  Lựa chọn số 1 cho người ghiền phim với âm thanh sống động.
+                </p>
+                <div class="mt-space-lg flex items-baseline gap-1">
+                  <span
+                    class="font-headline-xl text-headline-xl text-on-surface font-extrabold"
+                    id="priceCinema"
+                    >89.000đ</span
+                  >
+                  <span
+                    class="font-body-sm text-body-sm text-on-surface-variant"
+                    id="periodCinema"
+                    >/ tháng</span
+                  >
+                </div>
+                <p
+                  class="font-label-md text-label-md text-primary-fixed mt-1"
+                  id="subCinema"
+                >
+                  Linh hoạt hủy gia hạn bất kỳ lúc nào
+                </p>
+                <!-- Divider line via color block -->
+                <div
+                  class="h-px w-full bg-surface-container-highest my-space-md"
+                ></div>
+                <!-- Features -->
+                <ul class="space-y-space-sm font-body-sm text-body-sm">
+                  <li
+                    class="flex items-center gap-space-sm text-on-surface font-medium"
+                  >
+                    <span
+                      class="material-symbols-outlined text-primary-container text-[18px]"
+                      >verified</span
+                    >
+                    <span>Hình ảnh 4K Ultra HD siêu nét</span>
+                  </li>
+                  <li class="flex items-center gap-space-sm text-on-surface">
+                    <span
+                      class="material-symbols-outlined text-primary-fixed text-[18px]"
+                      >check_circle</span
+                    >
+                    <span>Âm thanh rạp hát vòm Dolby Digital 5.1</span>
+                  </li>
+                  <li class="flex items-center gap-space-sm text-on-surface">
+                    <span
+                      class="material-symbols-outlined text-primary-fixed text-[18px]"
+                      >check_circle</span
+                    >
+                    <span>Xem đồng thời trên 2 thiết bị song song</span>
+                  </li>
+                  <li
+                    class="flex items-center gap-space-sm text-on-surface font-semibold text-primary-fixed"
+                  >
+                    <span
+                      class="material-symbols-outlined text-primary-container text-[18px]"
+                      >block</span
+                    >
+                    <span>HOÀN TOÀN KHÔNG QUẢNG CÁO</span>
+                  </li>
+                  <li class="flex items-center gap-space-sm text-on-surface">
+                    <span
+                      class="material-symbols-outlined text-primary-fixed text-[18px]"
+                      >check_circle</span
+                    >
+                    <span>Mở khóa 95% thư viện phim chiếu rạp</span>
+                  </li>
+                  <li class="flex items-center gap-space-sm text-on-surface">
+                    <span
+                      class="material-symbols-outlined text-primary-fixed text-[18px]"
+                      >check_circle</span
+                    >
+                    <span>Tải 25 phim xem ngoại tuyến</span>
+                  </li>
+                </ul>
+              </div>
+              <div class="mt-space-xl">
+                <button
+                  class="w-full py-3.5 px-4 rounded-lg bg-primary-container text-on-primary-container font-title-md text-title-md font-bold shadow-lg shadow-primary-container/40 hover:bg-primary-container/90 transition-all duration-200 flex items-center justify-center gap-2"
+                >
+                  <span>Nâng Cấp Ngay</span>
+                  <span class="material-symbols-outlined text-[18px]"
+                    >arrow_forward</span
+                  >
+                </button>
+              </div>
+            </div>
+            <!-- Plan 3: CINEVIP ULTRA -->
+            <div
+              class="rounded-xl p-space-lg bg-surface-container-low flex flex-col justify-between transition-all duration-300 hover:translate-y-[-4px] shadow-lg"
+            >
+              <div>
+                <div class="flex items-center justify-between">
+                  <span
+                    class="font-label-caps text-label-caps font-bold text-secondary uppercase tracking-wider"
+                    >Đỉnh Cao Giải Trí</span
+                  >
+                  <span
+                    class="p-2 rounded-lg bg-secondary-container/20 text-secondary"
+                  >
+                    <span class="material-symbols-outlined text-[20px]"
+                      >diamond</span
+                    >
+                  </span>
+                </div>
+                <h3
+                  class="font-headline-md text-headline-md text-on-surface mt-2 font-bold flex items-center gap-2"
+                >
+                  CineVIP Ultra
+                  <span
+                    class="text-xs px-2 py-0.5 rounded bg-secondary/20 text-secondary font-title-sm font-semibold"
+                    >Atmos</span
+                  >
+                </h3>
+                <p
+                  class="font-body-sm text-body-sm text-on-surface-variant mt-1"
+                >
+                  Dành cho gia đình hoặc rạp chiếu tại gia cao cấp đỉnh cao.
+                </p>
+                <div class="mt-space-lg flex items-baseline gap-1">
+                  <span
+                    class="font-headline-xl text-headline-xl text-on-surface font-extrabold"
+                    id="priceVip"
+                    >149.000đ</span
+                  >
+                  <span
+                    class="font-body-sm text-body-sm text-on-surface-variant"
+                    id="periodVip"
+                    >/ tháng</span
+                  >
+                </div>
+                <p
+                  class="font-label-md text-label-md text-secondary mt-1"
+                  id="subVip"
+                >
+                  Trọn vẹn 100% đặc quyền độc quyền
+                </p>
+                <!-- Divider line via color block -->
+                <div
+                  class="h-px w-full bg-surface-container-high my-space-md"
+                ></div>
+                <!-- Features -->
+                <ul class="space-y-space-sm font-body-sm text-body-sm">
+                  <li
+                    class="flex items-center gap-space-sm text-on-surface font-medium"
+                  >
+                    <span
+                      class="material-symbols-outlined text-secondary text-[18px]"
+                      >auto_awesome</span
+                    >
+                    <span>4K UHD + HDR10 &amp; Dolby Vision</span>
+                  </li>
+                  <li
+                    class="flex items-center gap-space-sm text-on-surface font-medium"
+                  >
+                    <span
+                      class="material-symbols-outlined text-secondary text-[18px]"
+                      >surround_sound</span
+                    >
+                    <span>Âm thanh không gian Dolby Atmos</span>
+                  </li>
+                  <li class="flex items-center gap-space-sm text-on-surface">
+                    <span
+                      class="material-symbols-outlined text-primary-fixed text-[18px]"
+                      >check_circle</span
+                    >
+                    <span>Xem đồng thời 4 màn hình gia đình</span>
+                  </li>
+                  <li class="flex items-center gap-space-sm text-on-surface">
+                    <span
+                      class="material-symbols-outlined text-primary-fixed text-[18px]"
+                      >check_circle</span
+                    >
+                    <span>Không quảng cáo &amp; Ưu tiên băng thông VIP</span>
+                  </li>
+                  <li class="flex items-center gap-space-sm text-on-surface">
+                    <span
+                      class="material-symbols-outlined text-primary-fixed text-[18px]"
+                      >check_circle</span
+                    >
+                    <span>Đặc quyền xem sớm phim chiếu rạp mới nhất</span>
+                  </li>
+                  <li class="flex items-center gap-space-sm text-on-surface">
+                    <span
+                      class="material-symbols-outlined text-primary-fixed text-[18px]"
+                      >check_circle</span
+                    >
+                    <span>Tải không giới hạn trên 10 thiết bị</span>
+                  </li>
+                  <li class="flex items-center gap-space-sm text-on-surface">
+                    <span
+                      class="material-symbols-outlined text-primary-fixed text-[18px]"
+                      >check_circle</span
+                    >
+                    <span
+                      >Hồ sơ trẻ em (Kids Safe Mode) + VIP Support 24/7</span
+                    >
+                  </li>
+                </ul>
+              </div>
+              <div class="mt-space-xl">
+                <button
+                  class="w-full py-3.5 px-4 rounded-lg bg-gradient-to-r from-primary-container via-tertiary-container to-secondary-container text-on-primary font-title-md text-title-md font-bold shadow-lg hover:opacity-90 transition-all duration-200 text-center"
+                >
+                  Đăng ký CineVIP Ultra
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Cinema Experience Visual Showcase (Bento Highlight) -->
+        <section class="w-full max-w-7xl mx-auto my-space-xl">
+          <div
+            class="rounded-xl bg-surface-container-low p-space-lg md:p-space-xl relative overflow-hidden shadow-2xl"
+          >
+            <div
+              class="absolute -right-20 -bottom-20 w-96 h-96 bg-primary-container/10 rounded-full blur-3xl pointer-events-none"
+            ></div>
+            <div
+              class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-center"
+            >
+              <div class="lg:col-span-7 flex flex-col items-start text-left">
+                <span
+                  class="px-3 py-1 rounded-full bg-surface-container-highest text-secondary font-label-caps text-label-caps font-semibold uppercase tracking-wider"
+                >
+                  Công nghệ giải trí đỉnh cao
+                </span>
+                <h2
+                  class="font-headline-lg text-headline-lg text-on-surface font-bold mt-space-sm"
+                >
+                  Biến Phòng Khách Của Bạn Thành Rạp Chiếu Phim Đích Thực
+                </h2>
+                <p
+                  class="font-body-md text-body-md text-on-surface-variant mt-space-sm max-w-xl"
+                >
+                  MovieF đồng hành cùng công nghệ hình ảnh Dolby Vision chuẩn
+                  rạp và hệ thống âm thanh vòm Dolby Atmos tái lập không gian 3
+                  chiều sống động chân thực đến từng hơi thở nhân vật.
+                </p>
+                <div
+                  class="grid grid-cols-3 gap-space-md mt-space-lg w-full max-w-lg"
+                >
+                  <div class="p-space-sm rounded-lg bg-surface-container">
+                    <div
+                      class="font-headline-md text-headline-md font-bold text-on-surface"
+                    >
+                      4K HDR
+                    </div>
+                    <div
+                      class="font-label-md text-label-md text-on-surface-variant"
+                    >
+                      Sắc nét gấp 4x Full HD
+                    </div>
+                  </div>
+                  <div class="p-space-sm rounded-lg bg-surface-container">
+                    <div
+                      class="font-headline-md text-headline-md font-bold text-on-surface"
+                    >
+                      Dolby
+                    </div>
+                    <div
+                      class="font-label-md text-label-md text-on-surface-variant"
+                    >
+                      Âm thanh chuẩn Cinema
+                    </div>
+                  </div>
+                  <div class="p-space-sm rounded-lg bg-surface-container">
+                    <div
+                      class="font-headline-md text-headline-md font-bold text-on-surface"
+                    >
+                      0 Ads
+                    </div>
+                    <div
+                      class="font-label-md text-label-md text-on-surface-variant"
+                    >
+                      Liền mạch từng khoảnh khắc
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="lg:col-span-5 relative">
+                <div
+                  class="aspect-video w-full rounded-lg overflow-hidden shadow-2xl bg-surface-container relative"
+                >
+                  <img
+                    class="w-full h-full object-cover"
+                    data-alt="Cinematic high quality movie theater living room setup with 4K HDR television showcasing an action blockbuster explosion scene with deep dark ambient lighting, subtle red LED backlights, modern soundbar and popcorn"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKAzayLKhuQpe8i2sUfF7gmh1EnV0XlTClF_9DkkoqorbhWNn9lDLXA_QC3i5c7Fob02Xq5u2Ay_AJ_FmhGQwFJUlpMzO4SQNd5JULT9CVNK4O-hBgYc64nyB5nrzy7DVOaIvDEQV_wx7KozwWWhZ6Dqy1C84AyhmTYlN1KZAdPNzQ43OYU1v3RxmutXELOs2ArqN1qXofl66pzAyf646GeyCNb454i-IBjNpFEoUpOoY_BA8LWvxE"
+                  />
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"
+                  ></div>
+                  <div class="absolute bottom-3 left-4 flex items-center gap-2">
+                    <span
+                      class="w-2.5 h-2.5 rounded-full bg-primary-container animate-pulse"
+                    ></span>
+                    <span
+                      class="font-label-caps text-label-caps font-bold tracking-widest text-on-surface uppercase"
+                      >Dolby Vision &amp; Atmos Enabled</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Detailed Feature Comparison Table -->
+        <section class="w-full max-w-7xl mx-auto my-space-lg">
+          <div class="text-center mb-space-lg">
+            <h2
+              class="font-headline-lg text-headline-lg text-on-surface font-bold"
+            >
+              So Sánh Chi Tiết Quyền Lợi Các Gói
+            </h2>
+            <p class="font-body-md text-body-md text-on-surface-variant mt-1">
+              Tất cả thông tin minh bạch giúp bạn đưa ra lựa chọn trải nghiệm
+              giải trí phù hợp nhất.
+            </p>
+          </div>
+          <!-- Table Container -->
+          <div
+            class="w-full overflow-x-auto rounded-xl bg-surface-container-low shadow-xl"
+          >
+            <table
+              class="w-full text-left font-body-sm text-body-sm border-collapse min-w-[700px]"
+            >
+              <thead>
+                <tr class="bg-surface-container-highest text-on-surface">
+                  <th
+                    class="py-space-md px-space-lg font-title-sm text-title-sm font-bold w-2/5"
+                  >
+                    Tính năng &amp; Quyền lợi
+                  </th>
+                  <th
+                    class="py-space-md px-space-md font-title-sm text-title-sm text-center font-bold w-1/5"
+                  >
+                    Standard Free
+                  </th>
+                  <th
+                    class="py-space-md px-space-md font-title-sm text-title-sm text-center font-bold text-primary-fixed bg-surface-container w-1/5"
+                  >
+                    Cinema Pass
+                  </th>
+                  <th
+                    class="py-space-md px-space-md font-title-sm text-title-sm text-center font-bold text-secondary w-1/5"
+                  >
+                    CineVIP Ultra
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y-0">
+                <tr
+                  class="bg-surface-container-low/50 hover:bg-surface-container transition-colors"
+                >
+                  <td class="py-4 px-space-lg font-medium text-on-surface">
+                    Chất lượng độ phân giải tối đa
+                  </td>
+                  <td
+                    class="py-4 px-space-md text-center text-on-surface-variant"
+                  >
+                    Full HD (1080p)
+                  </td>
+                  <td
+                    class="py-4 px-space-md text-center font-semibold text-primary-fixed bg-surface-container/60"
+                  >
+                    4K Ultra HD
+                  </td>
+                  <td
+                    class="py-4 px-space-md text-center font-bold text-secondary"
+                  >
+                    4K + Dolby Vision
+                  </td>
+                </tr>
+                <tr
+                  class="bg-surface-container-low hover:bg-surface-container transition-colors"
+                >
+                  <td class="py-4 px-space-lg font-medium text-on-surface">
+                    Định dạng công nghệ âm thanh
+                  </td>
+                  <td
+                    class="py-4 px-space-md text-center text-on-surface-variant"
+                  >
+                    Stereo 2.0
+                  </td>
+                  <td
+                    class="py-4 px-space-md text-center font-semibold text-primary-fixed bg-surface-container/60"
+                  >
+                    Dolby Digital 5.1
+                  </td>
+                  <td
+                    class="py-4 px-space-md text-center font-bold text-secondary"
+                  >
+                    Dolby Atmos Không Gian
+                  </td>
+                </tr>
+                <tr
+                  class="bg-surface-container-low/50 hover:bg-surface-container transition-colors"
+                >
+                  <td class="py-4 px-space-lg font-medium text-on-surface">
+                    Số màn hình xem đồng thời
+                  </td>
+                  <td
+                    class="py-4 px-space-md text-center text-on-surface-variant"
+                  >
+                    1 thiết bị
+                  </td>
+                  <td
+                    class="py-4 px-space-md text-center font-semibold text-primary-fixed bg-surface-container/60"
+                  >
+                    2 thiết bị
+                  </td>
+                  <td
+                    class="py-4 px-space-md text-center font-bold text-secondary"
+                  >
+                    4 thiết bị
+                  </td>
+                </tr>
+                <tr
+                  class="bg-surface-container-low hover:bg-surface-container transition-colors"
+                >
+                  <td class="py-4 px-space-lg font-medium text-on-surface">
+                    Trải nghiệm không quảng cáo
+                  </td>
+                  <td class="py-4 px-space-md text-center text-outline">
+                    <span class="material-symbols-outlined text-[18px]"
+                      >close</span
+                    >
+                  </td>
+                  <td
+                    class="py-4 px-space-md text-center text-primary-container bg-surface-container/60"
+                  >
+                    <span class="material-symbols-outlined text-[20px]"
+                      >check</span
+                    >
+                  </td>
+                  <td class="py-4 px-space-md text-center text-secondary">
+                    <span class="material-symbols-outlined text-[20px]"
+                      >check</span
+                    >
+                  </td>
+                </tr>
+                <tr
+                  class="bg-surface-container-low/50 hover:bg-surface-container transition-colors"
+                >
+                  <td class="py-4 px-space-lg font-medium text-on-surface">
+                    Tải phim xem offline
+                  </td>
+                  <td class="py-4 px-space-md text-center text-outline">
+                    <span class="material-symbols-outlined text-[18px]"
+                      >close</span
+                    >
+                  </td>
+                  <td
+                    class="py-4 px-space-md text-center text-on-surface font-medium bg-surface-container/60"
+                  >
+                    Tối đa 25 phim
+                  </td>
+                  <td
+                    class="py-4 px-space-md text-center font-bold text-secondary"
+                  >
+                    Không giới hạn
+                  </td>
+                </tr>
+                <tr
+                  class="bg-surface-container-low hover:bg-surface-container transition-colors"
+                >
+                  <td class="py-4 px-space-lg font-medium text-on-surface">
+                    Kho phim bom tấn chiếu rạp độc quyền
+                  </td>
+                  <td
+                    class="py-4 px-space-md text-center text-on-surface-variant"
+                  >
+                    Phổ thông hạn chế
+                  </td>
+                  <td
+                    class="py-4 px-space-md text-center text-on-surface font-medium bg-surface-container/60"
+                  >
+                    Mở 95% danh mục
+                  </td>
+                  <td
+                    class="py-4 px-space-md text-center font-bold text-secondary"
+                  >
+                    100% Toàn bộ danh mục
+                  </td>
+                </tr>
+                <tr
+                  class="bg-surface-container-low/50 hover:bg-surface-container transition-colors"
+                >
+                  <td class="py-4 px-space-lg font-medium text-on-surface">
+                    Hỗ trợ Smart TV, Apple TV, Di động &amp; Web
+                  </td>
+                  <td class="py-4 px-space-md text-center text-on-surface">
+                    <span
+                      class="material-symbols-outlined text-[18px] text-primary-fixed"
+                      >check</span
+                    >
+                  </td>
+                  <td
+                    class="py-4 px-space-md text-center text-primary-container bg-surface-container/60"
+                  >
+                    <span class="material-symbols-outlined text-[20px]"
+                      >check</span
+                    >
+                  </td>
+                  <td class="py-4 px-space-md text-center text-secondary">
+                    <span class="material-symbols-outlined text-[20px]"
+                      >check</span
+                    >
+                  </td>
+                </tr>
+                <tr
+                  class="bg-surface-container-low hover:bg-surface-container transition-colors"
+                >
+                  <td class="py-4 px-space-lg font-medium text-on-surface">
+                    Tài khoản trẻ em &amp; kiểm duyệt an toàn
+                  </td>
+                  <td class="py-4 px-space-md text-center text-outline">
+                    <span class="material-symbols-outlined text-[18px]"
+                      >close</span
+                    >
+                  </td>
+                  <td
+                    class="py-4 px-space-md text-center text-on-surface-variant bg-surface-container/60"
+                  >
+                    Cơ bản
+                  </td>
+                  <td
+                    class="py-4 px-space-md text-center font-bold text-secondary"
+                  >
+                    Chuyên sâu (Kids Mode)
+                  </td>
+                </tr>
+                <tr
+                  class="bg-surface-container-low/50 hover:bg-surface-container transition-colors"
+                >
+                  <td class="py-4 px-space-lg font-medium text-on-surface">
+                    Hỗ trợ khách hàng ưu tiên
+                  </td>
+                  <td
+                    class="py-4 px-space-md text-center text-on-surface-variant"
+                  >
+                    Tiêu chuẩn
+                  </td>
+                  <td
+                    class="py-4 px-space-md text-center text-on-surface bg-surface-container/60"
+                  >
+                    Ưu tiên qua Email
+                  </td>
+                  <td
+                    class="py-4 px-space-md text-center font-bold text-secondary"
+                  >
+                    Đường dây VIP 24/7
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+        <!-- Payment Methods & Security Assurance -->
+        <section class="w-full max-w-7xl mx-auto my-space-lg">
+          <div class="rounded-xl bg-surface-container-low p-space-lg shadow-lg">
+            <div
+              class="flex flex-col lg:flex-row items-center justify-between gap-space-lg"
+            >
+              <!-- Trust Badges -->
+              <div
+                class="flex flex-wrap items-center gap-space-md text-on-surface-variant font-body-sm text-body-sm"
+              >
+                <div class="flex items-center gap-2">
+                  <span
+                    class="material-symbols-outlined text-primary-container text-[20px]"
+                    >lock</span
+                  >
+                  <span class="text-on-surface font-medium"
+                    >Bảo mật SSL 256-bit</span
+                  >
+                </div>
+                <div
+                  class="h-4 w-px bg-surface-container-highest hidden sm:block"
+                ></div>
+                <div class="flex items-center gap-2">
+                  <span
+                    class="material-symbols-outlined text-secondary text-[20px]"
+                    >autorenew</span
+                  >
+                  <span class="text-on-surface font-medium"
+                    >Hủy gia hạn bất kỳ lúc nào</span
+                  >
+                </div>
+                <div
+                  class="h-4 w-px bg-surface-container-highest hidden sm:block"
+                ></div>
+                <div class="flex items-center gap-2">
+                  <span
+                    class="material-symbols-outlined text-primary-fixed text-[20px]"
+                    >verified_user</span
+                  >
+                  <span class="text-on-surface font-medium"
+                    >Hoàn tiền trong 7 ngày</span
+                  >
+                </div>
+              </div>
+              <!-- Payment Providers Logos / Badges -->
+              <div class="flex flex-wrap items-center gap-space-xs">
+                <span
+                  class="font-label-caps text-label-caps uppercase text-outline mr-2"
+                  >Chấp nhận thanh toán:</span
+                >
+                <span
+                  class="px-3 py-1.5 rounded bg-surface-container font-title-sm text-title-sm text-on-surface font-semibold"
+                  >MoMo</span
+                >
+                <span
+                  class="px-3 py-1.5 rounded bg-surface-container font-title-sm text-title-sm text-on-surface font-semibold"
+                  >ZaloPay</span
+                >
+                <span
+                  class="px-3 py-1.5 rounded bg-surface-container font-title-sm text-title-sm text-on-surface font-semibold"
+                  >VNPay QR</span
+                >
+                <span
+                  class="px-3 py-1.5 rounded bg-surface-container font-title-sm text-title-sm text-on-surface font-semibold"
+                  >Visa / Master</span
+                >
+                <span
+                  class="px-3 py-1.5 rounded bg-surface-container font-title-sm text-title-sm text-on-surface font-semibold"
+                  >Chuyển khoản 24/7</span
+                >
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- FAQ Section (Accordion) -->
+        <section class="w-full max-w-4xl mx-auto my-space-xl">
+          <div class="text-center mb-space-lg">
+            <span
+              class="px-3 py-1 rounded-full bg-surface-container-high text-primary-fixed font-label-caps text-label-caps font-semibold uppercase"
+              >Giải đáp thắc mắc</span
+            >
+            <h2
+              class="font-headline-lg text-headline-lg text-on-surface font-bold mt-space-sm"
+            >
+              Câu Hỏi Thường Gặp
+            </h2>
+            <p class="font-body-md text-body-md text-on-surface-variant mt-1">
+              Mọi điều bạn cần biết trước khi nâng cấp gói hội viên MovieF
+            </p>
+          </div>
+          <div class="space-y-space-sm">
+            <!-- FAQ 1 -->
+            <div
+              class="rounded-xl bg-surface-container-low p-space-md transition-all"
+            >
+              <button
+                class="w-full flex items-center justify-between text-left font-title-md text-title-md text-on-surface font-semibold"
+                onclick="toggleFaq('faq1')"
+              >
+                <span>Tôi có thể hủy gói hội viên bất kỳ lúc nào không?</span>
+                <span
+                  class="material-symbols-outlined text-[20px] transition-transform duration-200"
+                  id="icon-faq1"
+                  >expand_more</span
+                >
+              </button>
+              <div
+                class="hidden mt-space-sm font-body-md text-body-md text-on-surface-variant"
+                id="faq1"
+              >
+                Chắc chắn có. Bạn có thể tự do hủy gia hạn dịch vụ bất cứ lúc
+                nào chỉ với một cú nhấp chuột trong trang Cài đặt tài khoản. Sau
+                khi hủy, bạn vẫn được bảo lưu trọn vẹn đặc quyền xem phim cho
+                tới ngày cuối cùng của chu kỳ thanh toán đã trả trước.
+              </div>
+            </div>
+            <!-- FAQ 2 -->
+            <div
+              class="rounded-xl bg-surface-container-low p-space-md transition-all"
+            >
+              <button
+                class="w-full flex items-center justify-between text-left font-title-md text-title-md text-on-surface font-semibold"
+                onclick="toggleFaq('faq2')"
+              >
+                <span>Tôi có thể xem MovieF trên những thiết bị nào?</span>
+                <span
+                  class="material-symbols-outlined text-[20px] transition-transform duration-200"
+                  id="icon-faq2"
+                  >expand_more</span
+                >
+              </button>
+              <div
+                class="hidden mt-space-sm font-body-md text-body-md text-on-surface-variant"
+                id="faq2"
+              >
+                MovieF tương thích hoàn toàn trên Smart TV (Samsung Tizen, LG
+                webOS, Google TV, Android TV), Apple TV, thiết bị di động iOS /
+                iPadOS, Android phone/tablet và mọi trình duyệt web hiện đại
+                trên máy tính (Chrome, Safari, Edge, Firefox).
+              </div>
+            </div>
+            <!-- FAQ 3 -->
+            <div
+              class="rounded-xl bg-surface-container-low p-space-md transition-all"
+            >
+              <button
+                class="w-full flex items-center justify-between text-left font-title-md text-title-md text-on-surface font-semibold"
+                onclick="toggleFaq('faq3')"
+              >
+                <span>Gói CineVIP Ultra khác gì so với gói Cinema Pass?</span>
+                <span
+                  class="material-symbols-outlined text-[20px] transition-transform duration-200"
+                  id="icon-faq3"
+                  >expand_more</span
+                >
+              </button>
+              <div
+                class="hidden mt-space-sm font-body-md text-body-md text-on-surface-variant"
+                id="faq3"
+              >
+                Gói CineVIP Ultra hỗ trợ tới 4 thiết bị cùng lúc (thay vì 2), bổ
+                sung công nghệ hình ảnh Dolby Vision cao cấp, âm thanh vòm không
+                gian Dolby Atmos, tải phim không giới hạn và quyền truy cập sớm
+                vào các bộ phim bom tấn chiếu rạp độc quyền trước khi ra mắt
+                công chúng.
+              </div>
+            </div>
+            <!-- FAQ 4 -->
+            <div
+              class="rounded-xl bg-surface-container-low p-space-md transition-all"
+            >
+              <button
+                class="w-full flex items-center justify-between text-left font-title-md text-title-md text-on-surface font-semibold"
+                onclick="toggleFaq('faq4')"
+              >
+                <span>Các hình thức thanh toán được hỗ trợ là gì?</span>
+                <span
+                  class="material-symbols-outlined text-[20px] transition-transform duration-200"
+                  id="icon-faq4"
+                  >expand_more</span
+                >
+              </button>
+              <div
+                class="hidden mt-space-sm font-body-md text-body-md text-on-surface-variant"
+                id="faq4"
+              >
+                Chúng tôi hỗ trợ hầu hết ví điện tử và cổng thanh toán nội địa
+                hàng đầu Việt Nam như MoMo, ZaloPay, Viettel Money, quét mã
+                VNPay QR, thẻ tín dụng &amp; thẻ ghi nợ quốc tế (Visa,
+                Mastercard, JCB), cũng như chuyển khoản ngân hàng tự động kích
+                hoạt 24/7.
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Final CTA Callout Section -->
+        <section class="w-full max-w-7xl mx-auto my-space-xl">
+          <div
+            class="rounded-xl bg-gradient-to-r from-primary-container/90 via-tertiary-container/80 to-surface-container-high p-space-lg md:p-space-xl flex flex-col md:flex-row items-center justify-between gap-space-lg text-center md:text-left shadow-2xl relative overflow-hidden"
+          >
+            <!-- Ambient Glow Spot -->
+            <div
+              class="absolute -left-12 -top-12 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none"
+            ></div>
+            <div class="max-w-xl z-10">
+              <h3
+                class="font-headline-lg text-headline-lg text-on-primary-container font-extrabold tracking-tight"
+              >
+                Sẵn Sàng Bùng Nổ Cùng Điện Ảnh Ngay Hôm Nay?
+              </h3>
+              <p
+                class="font-body-md text-body-md text-primary-fixed mt-space-xs"
+              >
+                Đăng ký ngay bây giờ để nhận trọn vẹn ưu đãi hoàn tiền 7 ngày
+                nếu không hài lòng. Thưởng thức điện ảnh đỉnh cao không giới
+                hạn.
+              </p>
+            </div>
+            <div
+              class="z-10 flex flex-col sm:flex-row items-center gap-space-sm w-full md:w-auto"
+            >
+              <button
+                class="w-full sm:w-auto px-space-xl py-3.5 rounded-lg bg-surface-container-lowest text-on-surface font-title-md text-title-md font-bold shadow-xl hover:bg-surface-container transition-all text-center"
+              >
+                Kích Hoạt Cinema Pass
+              </button>
+              <button
+                class="w-full sm:w-auto px-space-md py-3.5 rounded-lg bg-white/10 text-on-primary-container font-title-sm text-title-sm font-semibold hover:bg-white/20 transition-all text-center"
+              >
+                Tìm hiểu thêm
+              </button>
+            </div>
+          </div>
+        </section>
+        <!-- Client-side script for billing cycle toggle & FAQ accordion -->
+        <script>
+          function switchBilling(type) {
+            const monthlyBtn = document.getElementById("monthlyBtn");
+            const annualBtn = document.getElementById("annualBtn");
+            const priceCinema = document.getElementById("priceCinema");
+            const periodCinema = document.getElementById("periodCinema");
+            const subCinema = document.getElementById("subCinema");
+            const priceVip = document.getElementById("priceVip");
+            const periodVip = document.getElementById("periodVip");
+            const subVip = document.getElementById("subVip");
+
+            if (type === "annual") {
+              monthlyBtn.classList.remove(
+                "bg-surface-container-highest",
+                "text-on-surface",
+                "shadow-md",
+                "font-medium",
+              );
+              monthlyBtn.classList.add("text-on-surface-variant");
+
+              annualBtn.classList.remove("text-on-surface-variant");
+              annualBtn.classList.add(
+                "bg-surface-container-highest",
+                "text-on-surface",
+                "shadow-md",
+                "font-medium",
+              );
+
+              // Update pricing strings to annual discounts
+              priceCinema.innerText = "850.000đ";
+              periodCinema.innerText = "/ năm";
+              subCinema.innerText =
+                "Tương đương ~70.800đ / tháng (Tiết kiệm 20%)";
+
+              priceVip.innerText = "1.400.000đ";
+              periodVip.innerText = "/ năm";
+              subVip.innerText =
+                "Tương đương ~116.000đ / tháng (Tặng thêm 2 tháng)";
+            } else {
+              annualBtn.classList.remove(
+                "bg-surface-container-highest",
+                "text-on-surface",
+                "shadow-md",
+                "font-medium",
+              );
+              annualBtn.classList.add("text-on-surface-variant");
+
+              monthlyBtn.classList.remove("text-on-surface-variant");
+              monthlyBtn.classList.add(
+                "bg-surface-container-highest",
+                "text-on-surface",
+                "shadow-md",
+                "font-medium",
+              );
+
+              // Reset to monthly
+              priceCinema.innerText = "89.000đ";
+              periodCinema.innerText = "/ tháng";
+              subCinema.innerText = "Linh hoạt hủy gia hạn bất kỳ lúc nào";
+
+              priceVip.innerText = "149.000đ";
+              periodVip.innerText = "/ tháng";
+              subVip.innerText = "Trọn vẹn 100% đặc quyền độc quyền";
+            }
+          }
+
+          function toggleFaq(id) {
+            const content = document.getElementById(id);
+            const icon = document.getElementById("icon-" + id);
+            if (content.classList.contains("hidden")) {
+              content.classList.remove("hidden");
+              icon.style.transform = "rotate(180deg)";
+            } else {
+              content.classList.add("hidden");
+              icon.style.transform = "rotate(0deg)";
+            }
+          }
+        </script>
+      </div>
+    </main>
+    <footer
+      class="w-full bg-surface-container-low border-t border-white/5 mt-space-xl"
+      id="footer"
+    >
+      <div class="w-full px-gutter-mobile md:px-margin py-space-xl">
+        <div
+          class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-space-xl mb-space-xl"
+        >
+          <div class="md:col-span-2 flex flex-col gap-space-md">
+            <div class="flex items-center gap-space-sm">
+              <img
+                alt="MovieF Logo"
+                class="h-7 w-auto object-contain"
+                src="/images/logo/logo.svg"
+              />
+              <span
+                class="font-headline-sm text-headline-sm tracking-tight text-on-surface font-bold"
+              >
+                Movie<span class="text-primary-container">F</span>
+              </span>
+            </div>
+            <p
+              class="font-body-sm text-body-sm text-on-surface-variant max-w-sm"
+            >
+              Nền tảng phát trực tuyến trải nghiệm điện ảnh đỉnh cao, đem rạp
+              chiếu phim chất lượng chuẩn 4K đến mọi gia đình.
+            </p>
+            <div class="flex items-center gap-space-sm pt-space-xs">
+              <a
+                class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+                href="#"
+              >
+                <span class="material-symbols-outlined text-base"
+                  >smart_display</span
+                >
+              </a>
+              <a
+                class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+                href="#"
+              >
+                <span class="material-symbols-outlined text-base">public</span>
+              </a>
+              <a
+                class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+                href="#"
+              >
+                <span class="material-symbols-outlined text-base">forum</span>
+              </a>
+            </div>
+          </div>
+          <div class="flex flex-col gap-space-sm">
+            <span
+              class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider"
+            >
+              Khám phá
+            </span>
+            <ul class="flex flex-col gap-space-xs">
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Giới thiệu
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Phim chiếu rạp
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Phim bộ độc quyền
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Bảng xếp hạng
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="flex flex-col gap-space-sm">
+            <span
+              class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider"
+            >
+              Quy định &amp; Hỗ trợ
+            </span>
+            <ul class="flex flex-col gap-space-xs">
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Điều khoản sử dụng
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Chính sách bảo mật
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Liên hệ
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Trung tâm trợ giúp
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="flex flex-col gap-space-sm">
+            <span
+              class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider"
+            >
+              Ứng dụng
+            </span>
+            <p class="font-body-sm text-body-sm text-on-surface-variant">
+              Xem phim mọi lúc, mọi nơi trên Smart TV, di động và máy tính bảng.
+            </p>
+            <div class="flex flex-col gap-space-xs pt-space-xs">
+              <div
+                class="flex items-center gap-space-sm p-space-xs bg-surface-container rounded-lg"
+              >
+                <span class="material-symbols-outlined text-primary">tv</span>
+                <span class="font-label-md text-label-md text-on-surface">
+                  Smart TV &amp; Android TV
+                </span>
+              </div>
+              <div
+                class="flex items-center gap-space-sm p-space-xs bg-surface-container rounded-lg"
+              >
+                <span class="material-symbols-outlined text-primary"
+                  >smartphone</span
+                >
+                <span class="font-label-md text-label-md text-on-surface">
+                  iOS &amp; Android Apps
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="pt-space-md border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-space-sm text-center sm:text-left"
+        >
+          <p class="font-body-sm text-body-sm text-on-surface-variant">
+            © 2024 MovieF Streaming Platform. Bản quyền thuộc về MovieF.
+          </p>
+          <div
+            class="flex items-center gap-space-md font-body-sm text-body-sm text-on-surface-variant"
+          >
+            <a class="hover:text-on-surface transition-colors" href="#">
+              Quyền riêng tư
+            </a>
+            <a class="hover:text-on-surface transition-colors" href="#">
+              Cookie
+            </a>
+            <a class="hover:text-on-surface transition-colors" href="#">
+              Trợ giúp
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+<script type="module" src="/src/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="module" src="/src/js/custumer/auth.js"></script>
+<script type="module" src="/src/js/custumer/header.js"></script>

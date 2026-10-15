@@ -1,0 +1,1010 @@
+<!doctype html>
+
+<html class="dark" lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @layer base {
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          overscroll-behavior: none;
+        }
+        main > :first-child {
+          margin-top: 0 !important;
+        }
+        main > :last-child {
+          margin-bottom: 0 !important;
+        }
+      }
+      /*
+        Căn giữa thông báo trạng thái video ở chính giữa khung player (cả chiều
+        ngang và chiều dọc).
+
+        Lý do cần rule này: các overlay dùng `flex-col items-center
+        justify-center` nhưng không có `flex`. Tailwind coi `flex-col` chỉ là
+        flex-direction, nên nếu thiếu display:flex thì phần tử là display:block và
+        items-center/justify-center/gap không có tác dụng — nội dung dồn vào
+        góc trên-trái thay vì giữa khung.
+
+        Không thêm class `flex` vào HTML vì `flex` và `hidden` đều là display
+        utility: thứ nào đứng sau trong stylesheet sẽ thắng, không phụ thuộc thứ
+        tự trong class attribute. Rule `:not(.hidden)` có specificity cao hơn nên
+        chỉ áp dụng đúng lúc overlay đang hiện.
+
+        Khung player giữ nguyên w-full aspect-video nên overlay luôn đúng kích
+        thước và không đẩy layout trang.
+      */
+      #videoLoading:not(.hidden),
+      #videoError:not(.hidden),
+      #videoState:not(.hidden) {
+        display: flex;
+      }
+      #relatedRail::-webkit-scrollbar {
+        height: 6px;
+      }
+      #relatedRail::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.18);
+        border-radius: 999px;
+      }
+      /* Khong an scrollbar cua ca trang: nguoi dung khong biet con noi dung ben duoi. */
+
+      /* ---------- VIDEO PLAYER: thanh am luong ---------- */
+      /*
+        Nút mặc định đã có nền riêng nên không cần vẽ. Chỉ tô nút trượt để nó
+        đọc được trên nền tối: mặc định Chromium để nút trượt cỡ ~16px, to hơn
+        cả thanh h-1 nên thành một cục trắng vỡ hàng control.
+      */
+      #videoVolume::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 0.85rem;
+        height: 0.85rem;
+        border-radius: 999px;
+        background: #e2e2e8;
+        cursor: pointer;
+        border: none;
+        transition: transform 0.15s ease;
+      }
+      #videoVolume::-webkit-slider-thumb:hover {
+        transform: scale(1.15);
+      }
+      #videoVolume::-moz-range-thumb {
+        width: 0.85rem;
+        height: 0.85rem;
+        border-radius: 999px;
+        background: #e2e2e8;
+        cursor: pointer;
+        border: none;
+      }
+      /* Firefox không hiểu accent-color cho <input type=range> cũ. */
+      #videoVolume::-moz-range-track {
+        height: 0.25rem;
+        border-radius: 999px;
+        background: #333539;
+      }
+
+      /* ---------- VIDEO PLAYER: fullscreen ---------- */
+      /*
+        Fullscreen phóng cả #playerShell (video + thanh điều khiển) chứ không
+        phóng riêng #videoContainer, vì #videoControls là anh em ruột của nó nên
+        phóng riêng video sẽ làm mất sạch nút điều khiển.
+
+        Các rule này CHỈ áp dụng khi phần tử thực sự là fullscreen element
+        (`:fullscreen`) — ngoài fullscreen mọi thứ giữ nguyên như cũ. Quan
+        trọng: #videoContainer và #progressTrackContainer giữ nguyên id và vị
+        trí, vì history.js đọc đúng hai id đó bằng getBoundingClientRect() để
+        tính tiến độ xem đã lưu.
+      */
+      #playerShell:fullscreen {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 1rem;
+        background: #000;
+      }
+      /* Bỏ ràng buộc 16:9 để video co giãn theo chiều cao thực tế. */
+      #playerShell:fullscreen #videoContainer {
+        flex: 1 1 auto;
+        min-height: 0;
+        aspect-ratio: auto;
+        width: 100%;
+        border-radius: 0;
+      }
+      #playerShell:fullscreen #videoControls {
+        flex: 0 0 auto;
+        margin-top: 0.75rem;
+      }
+      #playerShell:fullscreen #videoStatus {
+        flex: 0 0 auto;
+        margin-top: 0.5rem;
+      }
+    </style>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body
+    class="bg-surface-container-lowest font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container"
+  >
+    <header
+      class="fixed top-0 left-0 right-0 w-full z-50 bg-surface-container-lowest/85 backdrop-blur-xl border-b border-white/5"
+      id="header"
+    >
+      <div
+        class="h-20 w-full px-gutter-mobile md:px-margin flex items-center justify-between gap-space-md"
+      >
+        <div class="flex items-center gap-space-lg lg:gap-space-xl">
+          <a
+            class="flex items-center gap-space-sm group"
+            data-path="trang-chu"
+            href="/"
+          >
+            <img
+              alt="MovieF Logo"
+              class="h-8 w-auto object-contain"
+              src="/images/logo/logo.svg"
+            />
+            <span
+              class="font-headline-md text-headline-md tracking-tight text-on-surface font-extrabold hidden sm:inline-block group-hover:text-primary transition-colors"
+            >
+              Movie<span class="text-primary-container">F</span>
+            </span>
+          </a>
+          <nav
+            class="hidden md:flex items-center gap-space-md lg:gap-space-lg"
+            data-active-classes="text-on-surface font-semibold"
+          >
+            <a
+              class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors py-space-xs"
+              data-path="trang-chu"
+              href="/"
+            >
+              Trang chủ
+            </a>
+            <a
+              class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors py-space-xs"
+              data-path="phim"
+              href="/movies"
+            >
+              Phim
+            </a>
+            <a
+              class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors py-space-xs"
+              data-path="the-loai"
+              href="/genres"
+            >
+              Thể loại
+            </a>
+            <a
+              class="font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-colors py-space-xs"
+              data-path="top-phim"
+              href="/topMovies"
+            >
+              Top phim
+            </a>
+          </nav>
+        </div>
+        <div class="flex items-center gap-space-sm sm:gap-space-md">
+          <div class="relative hidden xl:flex items-center">
+            <span
+              class="material-symbols-outlined absolute left-3 text-on-surface-variant text-lg pointer-events-none"
+            >
+              search
+            </span>
+            <input
+              class="w-64 xl:w-72 pl-9 pr-space-md py-space-xs bg-surface-container-low text-on-surface placeholder-on-surface-variant font-body-sm text-body-sm rounded-lg border border-white/10 focus:outline-none focus:border-outline focus:ring-1 focus:ring-outline transition-all"
+              placeholder="Tìm kiếm phim, diễn viên..."
+              type="text"
+            />
+          </div>
+          <button
+            class="xl:hidden flex items-center justify-center p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+            type="button"
+          >
+            <span class="material-symbols-outlined text-xl">search</span>
+          </button>
+          <button
+            class="relative hidden lg:flex items-center justify-center p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+            type="button"
+          >
+            <span class="material-symbols-outlined text-2xl"
+              >notifications</span
+            >
+            <span
+              class="absolute top-1.5 right-1.5 w-2 h-2 bg-primary-container rounded-full ring-2 ring-surface-container-lowest"
+            ></span>
+          </button>
+          <div
+            class="flex items-center gap-space-xs pl-space-xs"
+            id="user"
+          ></div>
+        </div>
+      </div>
+    </header>
+    <main class="w-full pt-20 bg-surface-container-lowest min-h-screen">
+      <div class="flex flex-col w-full">
+        <!-- NOT FOUND STATE: chỉ hiện khi không tìm được phim theo ?id= -->
+        <section
+          id="movieNotFound"
+          class="hidden w-full px-gutter-mobile md:px-margin mt-space-xl"
+        >
+          <div
+            class="rounded-xl bg-surface-container-low border border-white/5 p-space-lg"
+          >
+            <div class="flex items-center gap-space-sm">
+              <span class="material-symbols-outlined text-3xl text-error"
+                >sentiment_dissatisfied</span
+              >
+              <h1
+                class="font-title-lg text-title-lg text-on-surface"
+                data-bind="notfound-title"
+              >
+                Không tìm thấy phim
+              </h1>
+            </div>
+            <p
+              class="mt-space-sm font-body-sm text-body-sm text-on-surface-variant"
+              data-bind="notfound-reason"
+            >
+              Đường dẫn phim không tồn tại hoặc đã bị gỡ khỏi danh sách.
+            </p>
+            <div class="mt-space-md flex flex-wrap items-center gap-space-sm">
+              <a
+                href="/movies"
+                class="inline-flex items-center gap-2 rounded-lg bg-primary-container px-4 py-2.5 font-label-md text-label-md text-on-primary-container hover:brightness-110 transition-colors"
+              >
+                <span class="material-symbols-outlined text-lg">movie</span>
+                <span>Về danh sách phim</span>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!--
+          Nội dung phim mặc định ẩn: watch.js chỉ bỏ ẩn sau khi nạp được phim theo
+          ?id=, nên ID sai không bao giờ nháy nội dung phim mẫu cứng.
+        -->
+        <div id="movieBody" class="hidden flex flex-col w-full">
+          <!-- BACK / BREADCRUMB -->
+          <nav class="w-full px-gutter-mobile md:px-margin pt-space-md">
+            <div
+              class="flex flex-wrap items-center gap-1 font-body-sm text-body-sm text-on-surface-variant"
+            >
+              <a
+                id="backToMovies"
+                href="/movies"
+                class="inline-flex items-center gap-1 rounded px-2 py-1 transition-colors hover:bg-surface-container hover:text-on-surface"
+              >
+                <span class="material-symbols-outlined text-lg"
+                  >arrow_back</span
+                >
+                <span>Danh sách phim</span>
+              </a>
+              <span
+                class="material-symbols-outlined text-base opacity-40"
+                aria-hidden="true"
+                >chevron_right</span
+              >
+              <span class="text-on-surface" data-bind="nav-title"
+                >Đang tải…</span
+              >
+            </div>
+          </nav>
+
+          <!--
+            PLAYER: dùng bộ control tuỳ biến bên dưới (nút phát + tua ±10s +
+            thanh tiến trình) nên KHÔNG bật `controls` gốc của trình duyệt —
+            `controls` gốc kèm sẵn một thanh thời gian thứ hai, trùng với
+            #progressTrackContainer.
+          -->
+          <section
+            id="playerShell"
+            class="w-full px-gutter-mobile md:px-margin mt-space-sm"
+            aria-label="Trình phát phim"
+          >
+            <div
+              id="videoContainer"
+              data-movie-id=""
+              class="relative w-full aspect-video overflow-hidden rounded-xl bg-black shadow-2xl"
+            >
+              <video
+                id="watchVideo"
+                class="absolute inset-0 h-full w-full bg-black object-contain"
+                playsinline
+                preload="metadata"
+              ></video>
+
+              <div
+                id="videoLoading"
+                role="status"
+                aria-live="polite"
+                class="pointer-events-none absolute inset-0 z-20 hidden flex-col items-center justify-center gap-3 bg-black/70 px-6 text-center"
+              >
+                <span
+                  class="material-symbols-outlined animate-spin text-4xl text-on-surface"
+                  aria-hidden="true"
+                  >progress_activity</span
+                >
+                <p
+                  id="videoLoadingText"
+                  class="font-body-sm text-body-sm text-on-surface"
+                >
+                  Đang tải video…
+                </p>
+              </div>
+
+              <!--
+                LỖI PHÁT VIDEO: có URL nhưng tải/phát thất bại. Overlay bên
+                trong #videoContainer, canh giữa cả hai chiều.
+                overflow-y-auto để nội dung không bị #videoContainer (overflow
+                hidden) cắt mất khi khung 16:9 thấp trên điện thoại.
+              -->
+              <div
+                id="videoError"
+                role="alert"
+                class="absolute inset-0 z-30 hidden flex-col items-center justify-center gap-2 overflow-y-auto bg-black/92 px-6 py-4 text-center"
+              >
+                <span
+                  class="material-symbols-outlined text-3xl sm:text-4xl text-error"
+                  aria-hidden="true"
+                  >error</span
+                >
+                <p
+                  class="font-title-sm sm:font-title-md text-title-sm sm:text-title-md text-on-surface"
+                >
+                  Không thể phát video
+                </p>
+                <p
+                  id="videoErrorText"
+                  class="max-w-md font-body-sm text-body-sm text-on-surface-variant"
+                >
+                  Video đang tạm thời không tải được.
+                </p>
+                <div
+                  class="mt-space-sm flex flex-wrap items-center justify-center gap-space-sm"
+                >
+                  <button
+                    id="videoRetryBtn"
+                    type="button"
+                    class="inline-flex items-center gap-2 rounded-lg bg-primary-container px-4 py-2.5 font-label-md text-label-md text-on-primary-container transition-colors hover:brightness-110"
+                  >
+                    <span class="material-symbols-outlined text-lg"
+                      >refresh</span
+                    >
+                    <span>Thử lại</span>
+                  </button>
+                  <a
+                    id="backToDetail"
+                    href="/movies"
+                    class="inline-flex items-center gap-2 rounded-lg bg-surface-container px-4 py-2.5 font-label-md text-label-md text-on-surface transition-colors hover:bg-surface-container-high"
+                  >
+                    <span class="material-symbols-outlined text-lg">info</span>
+                    <span>Chi tiết phim</span>
+                  </a>
+                </div>
+              </div>
+
+              <!--
+                TRẠNG THÁI KHÔNG CÓ VIDEO CHÍNH: phim chưa phát hành / phim đã
+                ra mắt nhưng chưa có video / không có video lẫn trailer. Tách
+                riêng khỏi #videoError vì #videoError dành cho trường hợp CÓ
+                URL video nhưng tải/phát bị lỗi.
+
+                Cùng một vùng overlay cho mọi trạng thái, chỉ đổi nội dung.
+                Overlay nằm trong #videoContainer và luôn giữ đúng kích thước
+                khung player (aspect-video) nên trang không bị đẩy layout.
+              -->
+              <div
+                id="videoState"
+                role="status"
+                aria-live="polite"
+                class="absolute inset-0 z-40 hidden flex-col items-center justify-center gap-3 overflow-y-auto bg-black/92 px-6 py-4 text-center"
+              >
+                <span
+                  id="videoStateIcon"
+                  class="material-symbols-outlined text-3xl sm:text-4xl text-on-surface"
+                  aria-hidden="true"
+                  >info</span
+                >
+                <p
+                  id="videoStateTitle"
+                  class="font-title-sm sm:font-title-md text-title-sm sm:text-title-md text-on-surface"
+                >
+                  Nội dung phim chưa sẵn sàng
+                </p>
+                <p
+                  id="videoStateMsg"
+                  class="max-w-md font-body-sm text-body-sm text-on-surface-variant"
+                ></p>
+                <div
+                  class="mt-space-sm flex flex-wrap items-center justify-center gap-space-sm"
+                >
+                  <button
+                    id="videoStateTrailerBtn"
+                    type="button"
+                    class="hidden inline-flex items-center gap-2 rounded-lg bg-primary-container px-4 py-2.5 font-label-md text-label-md text-on-primary-container transition-colors hover:brightness-110"
+                  >
+                    <span class="material-symbols-outlined text-lg"
+                      >play_arrow</span
+                    >
+                    <span>Xem Trailer</span>
+                  </button>
+                  <a
+                    id="videoStateBackDetail"
+                    href="/movies"
+                    class="inline-flex items-center gap-2 rounded-lg bg-surface-container px-4 py-2.5 font-label-md text-label-md text-on-surface transition-colors hover:bg-surface-container-high"
+                  >
+                    <span class="material-symbols-outlined text-lg">info</span>
+                    <span>Chi tiết phim</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!--
+              Control tuỳ biến: nút phát, tua ±10 giây và THANH THỜI GIAN DUY
+              NHẤT của trang. Hai id progressTrackContainer/videoProgressBar được
+              giữ nguyên vì history.js đọc chúng để tính tiến độ xem đã lưu.
+            -->
+            <div
+              id="videoControls"
+              class="mt-space-sm flex flex-wrap items-center gap-2 sm:gap-space-sm"
+            >
+              <button
+                id="btnPlayPause"
+                type="button"
+                aria-label="Phát hoặc tạm dừng video"
+                title="Phát / Tạm dừng"
+                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-surface-container text-on-surface transition-colors hover:bg-surface-container-high disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                <span
+                  id="btnPlayPauseIcon"
+                  class="material-symbols-outlined text-xl"
+                  >play_arrow</span
+                >
+              </button>
+
+              <button
+                id="btnSeekBack10"
+                type="button"
+                aria-label="Tua lùi 10 giây"
+                title="-10s"
+                class="flex h-9 shrink-0 items-center justify-center gap-1 rounded-lg bg-surface-container px-2 text-on-surface transition-colors hover:bg-surface-container-high disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                <span class="material-symbols-outlined text-xl">replay_10</span>
+                <span class="font-label-md text-label-md">10s</span>
+              </button>
+
+              <span
+                id="videoCurrentTime"
+                class="w-12 shrink-0 text-right font-label-md text-label-md tabular-nums text-on-surface-variant"
+                >0:00</span
+              >
+              <div
+                id="progressTrackContainer"
+                class="group/seek relative h-1.5 flex-1 basis-full sm:basis-auto order-10 sm:order-none cursor-pointer rounded-full bg-surface-container-highest"
+                role="slider"
+                tabindex="0"
+                aria-label="Tiến trình xem"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-valuenow="0"
+              >
+                <div
+                  id="videoProgressBar"
+                  class="absolute inset-y-0 left-0 w-0 rounded-full bg-primary-container"
+                ></div>
+                <div
+                  class="absolute top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-on-surface opacity-0 shadow-lg transition-opacity group-hover/seek:opacity-100"
+                  data-bind="progress-head"
+                ></div>
+              </div>
+              <span
+                id="videoDuration"
+                class="w-12 shrink-0 font-label-md text-label-md tabular-nums text-on-surface-variant"
+                >0:00</span
+              >
+
+              <!--
+                ÂM LƯỢNG / MUTE
+                #btnMute luôn hiện (kể cả trên mobile), #videoVolume chỉ hiện từ
+                `sm` trở lên để hàng control không bị chật trên màn hình hẹp.
+                Mức âm lượng hiện tại được lưu trong player.volume trước khi mute
+                để bấm lần sau trả về đúng mức cũ thay vì luôn về 100%.
+              -->
+              <div id="volumeGroup" class="flex shrink-0 items-center gap-1">
+                <button
+                  id="btnMute"
+                  type="button"
+                  aria-label="Tắt tiếng"
+                  title="Tắt tiếng"
+                  class="flex h-9 w-9 items-center justify-center rounded-lg bg-surface-container text-on-surface transition-colors hover:bg-surface-container-high disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  <span
+                    id="btnMuteIcon"
+                    class="material-symbols-outlined text-xl"
+                    >volume_up</span
+                  >
+                </button>
+                <input
+                  id="videoVolume"
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  value="1"
+                  aria-label="Âm lượng"
+                  class="hidden sm:block w-20 lg:w-24 h-1 cursor-pointer appearance-none rounded-full bg-surface-container-highest accent-primary-container"
+                />
+              </div>
+
+              <button
+                id="btnSeekForward10"
+                type="button"
+                aria-label="Tua tới 10 giây"
+                title="+10s"
+                class="flex h-9 shrink-0 items-center justify-center gap-1 rounded-lg bg-surface-container px-2 text-on-surface transition-colors hover:bg-surface-container-high disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                <span class="material-symbols-outlined text-xl"
+                  >forward_10</span
+                >
+                <span class="font-label-md text-label-md">10s</span>
+              </button>
+
+              <!--
+                FULLSCREEN: phóng cả #playerShell (video + thanh điều khiển) chứ
+                không chỉ #videoContainer — vì #videoControls nằm NGOÀI
+                #videoContainer nên phóng riêng video sẽ mất sạch nút điều khiển.
+                Icon đổi theo event `fullscreenchange` của Fullscreen API.
+              -->
+              <button
+                id="btnFullscreen"
+                type="button"
+                aria-label="Phóng to màn hình"
+                title="Phóng to màn hình"
+                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-surface-container text-on-surface transition-colors hover:bg-surface-container-high disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                <span
+                  id="btnFullscreenIcon"
+                  class="material-symbols-outlined text-xl"
+                  >fullscreen</span
+                >
+              </button>
+            </div>
+            <p
+              id="videoStatus"
+              class="mt-space-xs min-h-5 font-body-sm text-body-sm text-on-surface-variant"
+            ></p>
+          </section>
+
+          <!--
+            ĐIỀU HƯỚNG TẬP — Tập trước / Tập tiếp theo (CHỨC NĂNG 4).
+            Mặc định `hidden`: watch.js chỉ bỏ ẩn khi đang xem MỘT TẬP hợp lệ
+            của phim bộ, rồi điền nhãn "Mùa X · Tập Y" theo đúng tập thật.
+            Hướng nào không có tập kế tiếp/trước hợp lệ sẽ bị vô hiệu hoá
+            (gỡ href + lớp mờ) chứ KHÔNG dẫn tới tập mồ côi/tập bị ẩn.
+            Phim lẻ và trang thiếu `?episode=` không hiện thanh này.
+          -->
+          <nav
+            id="episodeNav"
+            aria-label="Điều hướng tập phim"
+            class="hidden mt-space-md w-full flex-col gap-space-sm sm:flex-row sm:items-stretch sm:justify-between sm:gap-space-md"
+          >
+            <a
+              id="prevEpisodeBtn"
+              aria-disabled="true"
+              title="Tập trước"
+              class="flex min-w-0 flex-1 items-center gap-space-sm rounded-xl border border-white/5 bg-surface-container-low p-space-sm transition-colors hover:border-white/15 pointer-events-none opacity-40 cursor-not-allowed"
+            >
+              <span
+                class="material-symbols-outlined shrink-0 text-xl text-on-surface-variant"
+                >skip_previous</span
+              >
+              <span class="flex min-w-0 flex-col gap-0.5">
+                <span class="font-label-caps text-label-caps text-on-surface-variant"
+                  >Tập trước</span
+                >
+                <span
+                  id="prevEpisodeLabel"
+                  class="truncate font-title-sm text-title-sm text-on-surface"
+                  >Không có tập</span
+                >
+              </span>
+            </a>
+
+            <a
+              id="nextEpisodeBtn"
+              aria-disabled="true"
+              title="Tập tiếp theo"
+              class="flex min-w-0 flex-1 items-center gap-space-sm rounded-xl border border-white/5 bg-surface-container-low p-space-sm transition-colors hover:border-white/15 pointer-events-none opacity-40 cursor-not-allowed sm:justify-end"
+            >
+              <span
+                class="material-symbols-outlined shrink-0 text-xl text-on-surface-variant"
+                >skip_next</span
+              >
+              <span class="flex min-w-0 flex-col gap-0.5 sm:items-end">
+                <span class="font-label-caps text-label-caps text-on-surface-variant"
+                  >Tập tiếp theo</span
+                >
+                <span
+                  id="nextEpisodeLabel"
+                  class="truncate font-title-sm text-title-sm text-on-surface"
+                  >Không có tập</span
+                >
+              </span>
+            </a>
+          </nav>
+
+          <!-- MOVIE INFO -->
+          <section
+            class="mt-space-xl w-full px-gutter-mobile md:px-margin grid grid-cols-1 lg:grid-cols-12 gap-gutter"
+          >
+            <!-- 1. Tiêu đề, meta tags & nút điều hướng (bên trái) -->
+            <div class="lg:col-span-8 flex flex-col gap-space-md">
+              <div class="flex flex-col gap-space-xs">
+                <h1
+                  class="font-display-sm md:font-display-lg text-display-sm md:text-display-lg text-on-surface"
+                  data-bind="movie-title"
+                >
+                  Đang tải…
+                </h1>
+                <div
+                  class="flex flex-wrap items-center gap-2 font-body-sm text-body-sm text-on-surface-variant"
+                >
+                  <span data-bind="movie-year"></span>
+                  <span class="opacity-40" aria-hidden="true">•</span>
+                  <span data-bind="movie-duration"></span>
+                  <span class="opacity-40" aria-hidden="true">•</span>
+                  <span data-bind="movie-country"></span>
+                  <span class="opacity-40" aria-hidden="true">•</span>
+                  <span data-bind="movie-quality"></span>
+                </div>
+                <div
+                  class="mt-1 flex flex-wrap items-center gap-2"
+                  data-bind="movie-genres"
+                ></div>
+                <div
+                  class="mt-1 flex items-center gap-2 font-body-sm text-body-sm text-on-surface-variant"
+                  data-bind="movie-rating"
+                ></div>
+              </div>
+
+              <div class="flex flex-wrap items-center gap-space-sm">
+                <a
+                  id="backToDetailInline"
+                  href="/movies"
+                  class="inline-flex items-center gap-2 rounded-lg bg-primary-container px-4 py-2.5 font-label-md text-label-md text-on-primary-container transition-colors hover:brightness-110"
+                >
+                  <span class="material-symbols-outlined text-lg"
+                    >arrow_back</span
+                  >
+                  <span>Quay lại chi tiết phim</span>
+                </a>
+                <a
+                  id="backToMoviesInline"
+                  href="/movies"
+                  class="inline-flex items-center gap-2 rounded-lg bg-surface-container px-4 py-2.5 font-label-md text-label-md text-on-surface transition-colors hover:bg-surface-container-high"
+                >
+                  <span class="material-symbols-outlined text-lg">movie</span>
+                  <span>Danh sách phim</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- 2. Thông tin chi tiết phim (bên phải) -->
+            <aside class="lg:col-span-4">
+              <div
+                class="flex flex-col gap-space-sm rounded-xl bg-surface-container-low p-space-md"
+              >
+                <h2
+                  class="font-title-md text-title-md text-on-surface"
+                  data-bind="movie-details-title"
+                >
+                  Thông tin phim
+                </h2>
+                <dl class="flex flex-col gap-space-xs">
+                  <div class="flex items-start justify-between gap-3">
+                    <dt
+                      class="font-body-sm text-body-sm text-on-surface-variant"
+                    >
+                      Đạo diễn
+                    </dt>
+                    <dd
+                      class="text-right font-body-sm text-body-sm text-on-surface"
+                      data-bind="movie-director"
+                    ></dd>
+                  </div>
+                  <div class="flex items-start justify-between gap-3">
+                    <dt
+                      class="font-body-sm text-body-sm text-on-surface-variant"
+                    >
+                      Diễn viên
+                    </dt>
+                    <dd
+                      class="text-right font-body-sm text-body-sm text-on-surface"
+                      data-bind="movie-actors"
+                    ></dd>
+                  </div>
+                  <div class="flex items-start justify-between gap-3">
+                    <dt
+                      class="font-body-sm text-body-sm text-on-surface-variant"
+                    >
+                      Quốc gia
+                    </dt>
+                    <dd
+                      class="text-right font-body-sm text-body-sm text-on-surface"
+                      data-bind="movie-country-side"
+                    ></dd>
+                  </div>
+                  <div class="flex items-start justify-between gap-3">
+                    <dt
+                      class="font-body-sm text-body-sm text-on-surface-variant"
+                    >
+                      Ngày thêm
+                    </dt>
+                    <dd
+                      class="text-right font-body-sm text-body-sm text-on-surface"
+                      data-bind="movie-created"
+                    ></dd>
+                  </div>
+                  <div class="flex items-start justify-between gap-3">
+                    <dt
+                      class="font-body-sm text-body-sm text-on-surface-variant"
+                    >
+                      Video
+                    </dt>
+                    <dd
+                      class="text-right font-body-sm text-body-sm text-on-surface"
+                      data-bind="movie-video-source"
+                    ></dd>
+                  </div>
+                </dl>
+              </div>
+            </aside>
+
+            <!-- 3. Ô Nội dung: chạy thẳng toàn bộ chiều ngang (col-span-full) -->
+            <div
+              class="col-span-1 lg:col-span-12 rounded-xl bg-surface-container-low p-space-md"
+            >
+              <h2
+                class="font-title-md text-title-md text-on-surface"
+                data-bind="movie-description-title"
+              >
+                Nội dung
+              </h2>
+              <p
+                class="mt-space-sm font-body-sm text-body-sm leading-relaxed text-on-surface-variant"
+                data-bind="movie-description"
+              ></p>
+            </div>
+          </section>
+
+          <!-- RELATED MOVIES: grid, mỗi dòng tối đa 4 phim -->
+          <section
+            class="mt-space-xl w-full px-gutter-mobile md:px-margin pb-space-xl"
+          >
+            <div class="flex items-center justify-between gap-space-sm">
+              <h2 class="font-title-lg text-title-lg text-on-surface">
+                Phim liên quan
+              </h2>
+            </div>
+            <div
+              id="relatedRail"
+              class="mt-space-md grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-space-sm"
+            ></div>
+          </section>
+        </div>
+      </div>
+    </main>
+    <footer
+      id="footer"
+      class="w-full bg-surface-container-low border-t border-white/5 mt-space-xl"
+    >
+      <div class="w-full px-gutter-mobile md:px-margin py-space-xl">
+        <div
+          class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-space-xl mb-space-xl"
+        >
+          <div class="md:col-span-2 flex flex-col gap-space-md">
+            <div class="flex items-center gap-space-sm">
+              <img
+                alt="MovieF Logo"
+                class="h-7 w-auto object-contain"
+                src="/images/logo/logo.svg"
+              />
+              <span
+                class="font-headline-sm text-headline-sm tracking-tight text-on-surface font-bold"
+              >
+                Movie<span class="text-primary-container">F</span>
+              </span>
+            </div>
+            <p
+              class="font-body-sm text-body-sm text-on-surface-variant max-w-sm"
+            >
+              Nền tảng phát trực tuyến trải nghiệm điện ảnh đỉnh cao, đem rạp
+              chiếu phim chất lượng chuẩn 4K đến mọi gia đình.
+            </p>
+            <div class="flex items-center gap-space-sm pt-space-xs">
+              <a
+                class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+                href="#"
+              >
+                <span class="material-symbols-outlined text-base"
+                  >smart_display</span
+                >
+              </a>
+              <a
+                class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+                href="#"
+              >
+                <span class="material-symbols-outlined text-base">public</span>
+              </a>
+              <a
+                class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+                href="#"
+              >
+                <span class="material-symbols-outlined text-base">forum</span>
+              </a>
+            </div>
+          </div>
+          <div class="flex flex-col gap-space-sm">
+            <span
+              class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider"
+            >
+              Khám phá
+            </span>
+            <ul class="flex flex-col gap-space-xs">
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Giới thiệu
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Phim chiếu rạp
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Phim bộ độc quyền
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Bảng xếp hạng
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="flex flex-col gap-space-sm">
+            <span
+              class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider"
+            >
+              Quy định &amp; Hỗ trợ
+            </span>
+            <ul class="flex flex-col gap-space-xs">
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Điều khoản sử dụng
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Chính sách bảo mật
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Liên hệ
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Trung tâm trợ giúp
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="flex flex-col gap-space-sm">
+            <span
+              class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider"
+            >
+              Ứng dụng
+            </span>
+            <p class="font-body-sm text-body-sm text-on-surface-variant">
+              Xem phim mọi lúc, mọi nơi trên Smart TV, di động và máy tính bảng.
+            </p>
+            <div class="flex flex-col gap-space-xs pt-space-xs">
+              <div
+                class="flex items-center gap-space-sm p-space-xs bg-surface-container rounded-lg"
+              >
+                <span class="material-symbols-outlined text-primary">tv</span>
+                <span class="font-label-md text-label-md text-on-surface">
+                  Smart TV &amp; Android TV
+                </span>
+              </div>
+              <div
+                class="flex items-center gap-space-sm p-space-xs bg-surface-container rounded-lg"
+              >
+                <span class="material-symbols-outlined text-primary"
+                  >smartphone</span
+                >
+                <span class="font-label-md text-label-md text-on-surface">
+                  iOS &amp; Android Apps
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="pt-space-md border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-space-sm text-center sm:text-left"
+        >
+          <p class="font-body-sm text-body-sm text-on-surface-variant">
+            © 2024 MovieF Streaming Platform. Bản quyền thuộc về MovieF.
+          </p>
+          <div
+            class="flex items-center gap-space-md font-body-sm text-body-sm text-on-surface-variant"
+          >
+            <a class="hover:text-on-surface transition-colors" href="#">
+              Quyền riêng tư
+            </a>
+            <a class="hover:text-on-surface transition-colors" href="#">
+              Cookie
+            </a>
+            <a class="hover:text-on-surface transition-colors" href="#">
+              Trợ giúp
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script type="module" src="/src/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" src="/src/js/custumer/auth.js"></script>
+    <script type="module" src="/src/js/custumer/header.js"></script>
+    <script type="module" src="/src/js/custumer/history.js"></script>
+    <script type="module" src="/src/js/custumer/watch.js"></script>
+  </body>
+</html>
