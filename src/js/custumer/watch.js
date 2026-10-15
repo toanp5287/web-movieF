@@ -44,9 +44,12 @@ import {
   loadCatalog,
   qualityLabel,
   ratingCount,
+  watchUrl,
 } from "./movie-data.js";
 
 import { renderMovieCards } from "./movie-card.js";
+
+import { resolveEpisodeNavigation } from "./episode-navigation.js";
 
 import {
   describeBlockedEpisode,
@@ -978,6 +981,97 @@ function renderRelated(catalog, movie) {
 }
 
 /* ------------------------------------------------------------------ *
+ * 4b. ĐIỀU HƯỚNG TẬP — Tập trước / Tập tiếp theo (CHỨC NĂNG 4)
+ * ------------------------------------------------------------------ */
+
+const episodeNavUi = {
+  bar: null,
+  prevBtn: null,
+  prevLabel: null,
+  nextBtn: null,
+  nextLabel: null,
+};
+
+/** Lấy các phần tử của thanh #episodeNav, chỉ tìm một lần. */
+function episodeNavEls() {
+  if (episodeNavUi.bar) return episodeNavUi;
+
+  episodeNavUi.bar = document.getElementById("episodeNav");
+  episodeNavUi.prevBtn = document.getElementById("prevEpisodeBtn");
+  episodeNavUi.prevLabel = document.getElementById("prevEpisodeLabel");
+  episodeNavUi.nextBtn = document.getElementById("nextEpisodeBtn");
+  episodeNavUi.nextLabel = document.getElementById("nextEpisodeLabel");
+  return episodeNavUi;
+}
+
+/**
+ * Ẩn thanh điều hướng tập.
+ *
+ * `hidden` và `flex` phải luôn đối nhau: thêm một cái thì bỏ cái kia, nếu không
+ * hai class cùng hiện thì thứ tự trong CSS sẽ quyết định và thanh có thể mất
+ * hoặc hiện sai tùy bản build Tailwind.
+ */
+function hideEpisodeNav() {
+  const el = episodeNavEls();
+  if (!el.bar) return;
+
+  el.bar.classList.remove("flex");
+  el.bar.classList.add("hidden");
+}
+
+/**
+ * Cấu hình MỘT nút (Trước / Tiếp theo).
+ *
+ * Còn tập hợp lệ thì gắn href thật (mở bằng click chuột giữa/new tab được);
+ * không còn thì gỡ href, đánh dấu aria-disabled và thêm lớp mờ để nút thành
+ * trạng thái bị vô hiệu hoá theo yêu cầu.
+ */
+function fillEpisodeNavSlot(button, label, item, movieId) {
+  if (!button) return;
+
+  if (!item) {
+    button.removeAttribute("href");
+    button.setAttribute("aria-disabled", "true");
+    button.classList.add("pointer-events-none", "opacity-40", "cursor-not-allowed");
+    if (label) label.textContent = "Không có tập";
+    return;
+  }
+
+  button.href = `${watchUrl(movieId)}&episode=${encodeURIComponent(item.episode.id)}`;
+  button.setAttribute("aria-disabled", "false");
+  button.classList.remove("pointer-events-none", "opacity-40", "cursor-not-allowed");
+  if (label) label.textContent = episodeLabel(item.episode, item.season);
+}
+
+/**
+ * Hiện thanh Tập trước / Tập tiếp theo cho đúng tập đang xem.
+ *
+ * Chỉ hiện khi tập đang mở hợp lệ (reason === "ok"); hướng nào không có tập
+ * hợp lệ thì nút hướng đó bị vô hiệu hoá, không bao giờ dẫn tới tập mồ côi,
+ * tập bị ẩn hay tập của phim khác. Không tự chuyển tập — chờ người dùng bấm.
+ */
+async function renderEpisodeNav(movie, episode) {
+  const el = episodeNavEls();
+  if (!el.bar || !movie || !episode) {
+    hideEpisodeNav();
+    return;
+  }
+
+  const { reason, prev, next } = await resolveEpisodeNavigation(movie, episode.id);
+
+  if (reason !== "ok") {
+    hideEpisodeNav();
+    return;
+  }
+
+  fillEpisodeNavSlot(el.prevBtn, el.prevLabel, prev, movie.id);
+  fillEpisodeNavSlot(el.nextBtn, el.nextLabel, next, movie.id);
+
+  el.bar.classList.remove("hidden");
+  el.bar.classList.add("flex");
+}
+
+/* ------------------------------------------------------------------ *
  * 5. KHỞI TẠO
  * ------------------------------------------------------------------ */
 
@@ -1048,12 +1142,18 @@ async function init() {
       showVideoState({ ...describeBlockedEpisode(resolved, episodeId), trailerUrl: "" });
       body.classList.remove("hidden");
       renderRelated(catalog, movie);
+      // Tập không hợp lệ thì không có thứ tự để đi tiếp/trước -> giấu nút.
+      hideEpisodeNav();
       return;
     }
 
     episode = resolved.episode;
     season = resolved.season;
     container.dataset.episodeId = String(episode.id);
+
+    // Tính trước Tập trước/Tiếp theo cho tập này. Dù sau đó tập thiếu video
+    // (hiện trạng thái) người dùng vẫn cần nút để chuyển sang tập khác.
+    await renderEpisodeNav(movie, episode);
   }
 
   const source = episode ? await resolveEpisodeSource(episode) : await resolveVideoSource(movie);

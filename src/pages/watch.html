@@ -596,6 +596,64 @@
             ></p>
           </section>
 
+          <!--
+            ĐIỀU HƯỚNG TẬP — Tập trước / Tập tiếp theo (CHỨC NĂNG 4).
+            Mặc định `hidden`: watch.js chỉ bỏ ẩn khi đang xem MỘT TẬP hợp lệ
+            của phim bộ, rồi điền nhãn "Mùa X · Tập Y" theo đúng tập thật.
+            Hướng nào không có tập kế tiếp/trước hợp lệ sẽ bị vô hiệu hoá
+            (gỡ href + lớp mờ) chứ KHÔNG dẫn tới tập mồ côi/tập bị ẩn.
+            Phim lẻ và trang thiếu `?episode=` không hiện thanh này.
+          -->
+          <nav
+            id="episodeNav"
+            aria-label="Điều hướng tập phim"
+            class="hidden mt-space-md w-full flex-col gap-space-sm sm:flex-row sm:items-stretch sm:justify-between sm:gap-space-md"
+          >
+            <a
+              id="prevEpisodeBtn"
+              aria-disabled="true"
+              title="Tập trước"
+              class="flex min-w-0 flex-1 items-center gap-space-sm rounded-xl border border-white/5 bg-surface-container-low p-space-sm transition-colors hover:border-white/15 pointer-events-none opacity-40 cursor-not-allowed"
+            >
+              <span
+                class="material-symbols-outlined shrink-0 text-xl text-on-surface-variant"
+                >skip_previous</span
+              >
+              <span class="flex min-w-0 flex-col gap-0.5">
+                <span class="font-label-caps text-label-caps text-on-surface-variant"
+                  >Tập trước</span
+                >
+                <span
+                  id="prevEpisodeLabel"
+                  class="truncate font-title-sm text-title-sm text-on-surface"
+                  >Không có tập</span
+                >
+              </span>
+            </a>
+
+            <a
+              id="nextEpisodeBtn"
+              aria-disabled="true"
+              title="Tập tiếp theo"
+              class="flex min-w-0 flex-1 items-center gap-space-sm rounded-xl border border-white/5 bg-surface-container-low p-space-sm transition-colors hover:border-white/15 pointer-events-none opacity-40 cursor-not-allowed sm:justify-end"
+            >
+              <span
+                class="material-symbols-outlined shrink-0 text-xl text-on-surface-variant"
+                >skip_next</span
+              >
+              <span class="flex min-w-0 flex-col gap-0.5 sm:items-end">
+                <span class="font-label-caps text-label-caps text-on-surface-variant"
+                  >Tập tiếp theo</span
+                >
+                <span
+                  id="nextEpisodeLabel"
+                  class="truncate font-title-sm text-title-sm text-on-surface"
+                  >Không có tập</span
+                >
+              </span>
+            </a>
+          </nav>
+
           <!-- MOVIE INFO -->
           <section
             class="mt-space-xl w-full px-gutter-mobile md:px-margin grid grid-cols-1 lg:grid-cols-12 gap-gutter"
