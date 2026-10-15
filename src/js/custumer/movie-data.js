@@ -243,6 +243,22 @@ const toList = (value) => {
   return [String(value).trim()];
 };
 
+/**
+ * Chuẩn hoá `status` của phim về một giá trị "đang xuất bản" hay không.
+ *
+ * db.json có nơi lưu boolean (true/false — dữ liệu cũ), có nơi lưu chuỗi
+ * "published"/"Inactive" (form admin addMovie/editMovie). Hai định dạng này
+ * từng trộn lẫn nhau nên bộ lọc isRenderable() (so sánh "published") bỏ sót
+ * phim boolean. Hàm này gom về chuỗi "published" | "inactive" để so sánh
+ * nhất quán; status rỗng/thiếu giữ nguyên "" (vẫn cho hiển thị như trước).
+ */
+const normalizeStatus = (value) => {
+  if (value === true || value === "true" || value === "published") return "published";
+  const s = String(value ?? "").trim().toLowerCase();
+  if (s === "false" || s === "inactive") return "inactive";
+  return String(value ?? "").trim();
+};
+
 function normalizeMovie(raw) {
   const year = toNumber(raw.year);
   const duration = toNumber(raw.duration);
@@ -264,7 +280,7 @@ function normalizeMovie(raw) {
     actors: toList(raw.actors),
     genreIds: toList(raw.genre),
     quality: String(raw.quality ?? "").trim(),
-    status: String(raw.status ?? "").trim(),
+    status: normalizeStatus(raw.status),
     views: toNumber(raw.views) ?? 0,
     trailer: mediaUrl(raw.trailer),
     video: mediaUrl(raw.video),
