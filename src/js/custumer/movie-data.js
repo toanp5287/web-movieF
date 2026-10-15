@@ -18,7 +18,7 @@
 import api from "../api.js";
 
 /** File db.json tĩnh, Vite phục vụ từ thư mục gốc dự án. */
-const DB_FALLBACK_URL = "/data/db.json";
+export const DB_FALLBACK_URL = "/data/db.json";
 
 /** Thư mục ảnh đạo diễn / diễn viên có sẵn trong public/. */
 const ACTOR_DIR = "/images/actors";
@@ -181,7 +181,7 @@ const fetchJson = async (url, timeoutMs = 6000) => {
 };
 
 /** Thử lại vài lần khi mạng chập chờn, để trang không nháy sang thông báo lỗi. */
-const fetchJsonWithRetry = async (url, retries = 2) => {
+export const fetchJsonWithRetry = async (url, retries = 2) => {
   let lastError;
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
@@ -249,6 +249,8 @@ function normalizeMovie(raw) {
   return {
     id: raw.id,
     slug: raw.slug || "",
+    // "series" = phim bộ (xem series-data.js), còn lại coi như phim lẻ.
+    type: String(raw.type ?? "movie").trim() || "movie",
     title: String(raw.title ?? "").trim(),
     originalTitle: "",
     description: String(raw.description ?? "").trim(),
