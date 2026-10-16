@@ -132,7 +132,7 @@
       "id": "8TZCZPkPe4Q",
       "fullname": "pham quang vinh",
       "email": "toanp5287@gmail.com",
-      "password": "34c32aed4c6e2f8b6ec814c79abc79ad05ad6a0c5f01a4d40be071747b67d173",
+      "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
       "roleId": 3,
       "status": "active",
       "createdAt": "2026-09-19T10:00:16.816Z"
@@ -1220,49 +1220,35 @@
       "userId": 1,
       "movieId": 7,
       "progress": 0,
-      "watchedAt": "2026-10-15T16:25:39",
+      "watchedAt": "2026-10-16T18:26:34",
       "id": "6PTvXf5"
-    },
-    {
-      "userId": 1,
-      "movieId": 11,
-      "progress": 0,
-      "watchedAt": "2026-10-01T17:02:20",
-      "id": "-lo2BWG"
-    },
-    {
-      "userId": 1,
-      "movieId": 28,
-      "progress": 0,
-      "watchedAt": "2026-09-30T12:02:26",
-      "id": "9frGGZl"
     },
     {
       "userId": 1,
       "movieId": 10,
       "progress": 0,
-      "watchedAt": "2026-10-01T17:47:17",
+      "watchedAt": "2026-10-16T18:26:19",
       "id": "2cUSQhv"
     },
     {
       "userId": 1,
       "movieId": 13,
       "progress": 0,
-      "watchedAt": "2026-10-15T16:25:43",
+      "watchedAt": "2026-10-16T18:26:05",
       "id": "6CBrQwh"
     },
     {
       "userId": 1,
       "movieId": 22,
       "progress": 0,
-      "watchedAt": "2026-10-15T16:25:37",
+      "watchedAt": "2026-10-16T18:26:09",
       "id": "OI7wFvZthqA"
     },
     {
       "userId": 1,
       "movieId": 3,
-      "progress": 59,
-      "watchedAt": "2026-10-15T16:12:46",
+      "progress": 58,
+      "watchedAt": "2026-10-16T18:23:49",
       "id": "dju5K7U_yNY"
     },
     {
@@ -1276,37 +1262,52 @@
       "userId": 1,
       "movieId": 14,
       "progress": 0,
-      "watchedAt": "2026-10-15T16:35:36",
+      "watchedAt": "2026-10-16T17:15:57",
       "id": "T1GFMb8"
     },
     {
       "userId": "8TZCZPkPe4Q",
       "movieId": 3,
-      "progress": 19,
-      "watchedAt": "2026-10-16T13:56:03",
+      "progress": 21,
+      "watchedAt": "2026-10-16T17:52:48",
       "id": "NZSsLDU"
-    },
-    {
-      "userId": "8TZCZPkPe4Q",
-      "movieId": 23,
-      "progress": 0,
-      "watchedAt": "2026-10-16T14:54:47",
-      "id": "urWL2ry"
     },
     {
       "userId": "8TZCZPkPe4Q",
       "movieId": 24,
       "progress": 0,
-      "watchedAt": "2026-10-16T14:52:58",
-      "id": "SDbNV2B"
+      "watchedAt": "2026-10-16T16:25:11",
+      "id": "Fi-1Tmq"
     },
     {
       "userId": "8TZCZPkPe4Q",
       "movieId": 23,
       "progress": 0,
-      "watchedAt": "2026-10-16T14:54:38",
+      "watchedAt": "2026-10-16T16:25:21",
+      "id": "BwNgQpV"
+    },
+    {
+      "userId": "8TZCZPkPe4Q",
+      "movieId": 23,
+      "progress": 0,
+      "watchedAt": "2026-10-16T16:25:33",
       "episodeId": 1,
-      "id": "A5j8GZ_"
+      "id": "WFIpKKO"
+    },
+    {
+      "userId": "8TZCZPkPe4Q",
+      "movieId": 23,
+      "progress": 29,
+      "watchedAt": "2026-10-16T17:12:07",
+      "episodeId": "DnQwlw8ET1Q",
+      "id": "rGdN4GI"
+    },
+    {
+      "userId": "8TZCZPkPe4Q",
+      "movieId": 2,
+      "progress": 3,
+      "watchedAt": "2026-10-16T17:51:53",
+      "id": "qA1YWsZ"
     }
   ],
   "reviews": [
@@ -1399,6 +1400,15 @@
       "status": "visible",
       "createdAt": "2026-10-15",
       "id": "hySeBA6"
+    },
+    {
+      "userId": 1,
+      "movieId": 24,
+      "rating": 5,
+      "comment": "ok",
+      "status": "visible",
+      "createdAt": "2026-10-16",
+      "id": "ix4f3Lg"
     }
   ],
   "reviewReports": [
@@ -1410,6 +1420,44 @@
       "status": "pending",
       "createdAt": "2026-10-15",
       "id": 1
+    }
+  ],
+  "searchHistories": [
+    {
+      "userId": "8TZCZPkPe4Q",
+      "keyword": "Jon Watts",
+      "searchedAt": "2026-10-16T17:51:41.699Z",
+      "id": 1
+    },
+    {
+      "userId": "8TZCZPkPe4Q",
+      "keyword": "Tom Holland",
+      "searchedAt": "2026-10-16T17:51:58.292Z",
+      "id": 2
+    },
+    {
+      "userId": "8TZCZPkPe4Q",
+      "keyword": "Jessica Chastain",
+      "searchedAt": "2026-10-16T17:52:28.644Z",
+      "id": 3
+    },
+    {
+      "userId": "8TZCZPkPe4Q",
+      "keyword": "Lana Wachowski, Lilly Wachowski",
+      "searchedAt": "2026-10-16T17:53:26.379Z",
+      "id": 4
+    },
+    {
+      "userId": "1",
+      "keyword": "jaja",
+      "searchedAt": "2026-10-16T18:21:15.688Z",
+      "id": 5
+    },
+    {
+      "userId": "1",
+      "keyword": "arr",
+      "searchedAt": "2026-10-16T18:21:26.261Z",
+      "id": 6
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

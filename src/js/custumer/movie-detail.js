@@ -301,11 +301,18 @@ function renderReviews(movie, catalog) {
   const list = bind("reviews");
   if (!list) return;
 
-  const rows = catalog.reviews.filter(
-    (r) =>
-      sameId(r.movieId, movie.id) &&
-      String(r.status ?? "visible") === "visible",
-  );
+  const sort = document.getElementById("review-sort")?.value || "newest";
+  const rows = catalog.reviews
+    .filter(
+      (r) =>
+        sameId(r.movieId, movie.id) &&
+        String(r.status ?? "visible") === "visible",
+    )
+    .sort((left, right) => {
+      if (sort === "highest") return Number(right.rating) - Number(left.rating);
+      if (sort === "lowest") return Number(left.rating) - Number(right.rating);
+      return new Date(right.createdAt || 0) - new Date(left.createdAt || 0);
+    });
   const sessionUser = getCurrentUser();
 
   if (!rows.length) {
@@ -493,6 +500,14 @@ function refreshReviewBlocks(movie, catalog) {
   renderRating(movie, catalog);
   renderRatingSummary(movie, catalog);
   renderReviews(movie, catalog);
+}
+
+function bindReviewSort(movie, catalog) {
+  const sort = document.getElementById("review-sort");
+  if (!sort || sort.dataset.bound === "true") return;
+
+  sort.dataset.bound = "true";
+  sort.addEventListener("change", () => renderReviews(movie, catalog));
 }
 
 function bindReviewActions(movie, catalog) {
@@ -694,6 +709,7 @@ async function init() {
   renderSpecs(movie);
   renderCast(movie, catalog);
   renderReviews(movie, catalog);
+  bindReviewSort(movie, catalog);
   bindReviewActions(movie, catalog);
   bindReviewComposer(movie, catalog);
   renderRelated(movie, catalog);
