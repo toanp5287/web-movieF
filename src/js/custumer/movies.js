@@ -19,6 +19,7 @@ import {
   sameId,
 } from "./movie-data.js";
 import { renderMovieCards } from "./movie-card.js";
+import { attachSearchSuggest } from "./search-suggest.js";
 
 const PAGE_SIZE = 10;
 
@@ -342,7 +343,24 @@ function bindControls() {
 }
 
 /* ------------------------------------------------------------------ *
- * 4. KHỞI TẠO
+ * 4. GỢI Ý TỪ KHÓA
+ * ------------------------------------------------------------------ */
+
+/**
+ * Gắn danh sách gợi ý từ khóa cho ô lọc.
+ * Chọn gợi ý (hoặc nhấn Enter) sẽ tìm bằng chính ô lọc hiện có; lịch sử chỉ
+ * được ghi khi thực sự tìm, không ghi theo từng ký tự gõ vào.
+ */
+function bindSearchSuggest() {
+  const el = document.querySelector("[data-metric='search']");
+  if (!el) return;
+  attachSearchSuggest(el, {
+    onSearch: (keyword) => setQuery(keyword, el),
+  });
+}
+
+/* ------------------------------------------------------------------ *
+ * 5. KHỞI TẠO
  * ------------------------------------------------------------------ */
 
 async function init() {
@@ -383,6 +401,19 @@ async function init() {
 
   fillYearOptions();
   bindControls();
+  bindSearchSuggest();
+
+  // Từ khóa đến từ thanh tìm kiếm header (?search=...): nạp sẵn vào ô lọc
+  // để chạy đúng thuật toán tìm kiếm hiện có.
+  const initialQuery = (
+    new URLSearchParams(window.location.search).get("search") || ""
+  ).trim();
+  if (initialQuery) {
+    state.q = initialQuery;
+    const searchEl = document.querySelector("[data-metric='search']");
+    if (searchEl) searchEl.value = initialQuery;
+  }
+
   await draw();
 
   console.info(
