@@ -259,7 +259,7 @@
       "episodeNumber": 1,
       "title": "Chapter One: The Vanishing of Will Byers",
       "description": "Will Byers mất tích một cách bí ẩn.",
-      "video": "/videos/stranger-things-ep1.mp4",
+      "video": "/videos/big-buck-bunny.mp4",
       "thumbnail": "/images/movies/stranger-things-ep1.jpg",
       "duration": 48,
       "releaseDate": "2016-07-15",
@@ -271,7 +271,7 @@
       "episodeNumber": 2,
       "title": "Chapter Two: The Weirdo on Maple Street",
       "description": "Nhóm bạn gặp một cô gái bí ẩn có năng lực đặc biệt.",
-      "video": "/videos/stranger-things-ep2.mp4",
+      "video": "/videos/big-buck-bunny.mp4",
       "thumbnail": "/images/movies/stranger-things-ep2.jpg",
       "duration": 55,
       "releaseDate": "2016-07-15",
@@ -283,7 +283,7 @@
       "episodeNumber": 3,
       "title": "Chapter Three: Holly, Jolly",
       "description": "Những manh mối mới xuất hiện trong quá trình tìm kiếm Will.",
-      "video": "/videos/stranger-things-ep3.mp4",
+      "video": "/videos/big-buck-bunny.mp4",
       "thumbnail": "/images/movies/stranger-things-ep3.jpg",
       "duration": 51,
       "releaseDate": "2016-07-15",
@@ -379,17 +379,8 @@
       "duration": 148,
       "country": "USA",
       "director": "Jon Watts",
-      "actors": [
-        "Tom Holland",
-        "Zendaya",
-        "Benedict Cumberbatch"
-      ],
-      "genre": [
-        "1",
-        "5",
-        "7",
-        "8"
-      ],
+      "actors": ["Tom Holland", "Zendaya", "Benedict Cumberbatch"],
+      "genre": ["1", "5", "7", "8"],
       "quality": "hd",
       "status": true,
       "views": 12450,
@@ -409,11 +400,7 @@
       "duration": 169,
       "country": "USA",
       "director": "Christopher Nolan",
-      "actors": [
-        "Matthew McConaughey",
-        "Anne Hathaway",
-        "Jessica Chastain"
-      ],
+      "actors": ["Matthew McConaughey", "Anne Hathaway", "Jessica Chastain"],
       "genre": [],
       "quality": "hd",
       "status": true,
@@ -434,10 +421,7 @@
       "duration": 106,
       "country": "Japan",
       "director": "Makoto Shinkai",
-      "actors": [
-        "Ryunosuke Kamiki",
-        "Mone Kamishiraishi"
-      ],
+      "actors": ["Ryunosuke Kamiki", "Mone Kamishiraishi"],
       "genre": [],
       "quality": "hd",
       "status": true,
@@ -458,11 +442,7 @@
       "duration": 112,
       "country": "USA",
       "director": "James Wan",
-      "actors": [
-        "Vera Farmiga",
-        "Patrick Wilson",
-        "Lili Taylor"
-      ],
+      "actors": ["Vera Farmiga", "Patrick Wilson", "Lili Taylor"],
       "genre": [],
       "quality": "hd",
       "status": true,
@@ -483,11 +463,7 @@
       "duration": 100,
       "country": "USA",
       "director": "Josh Cooley",
-      "actors": [
-        "Tom Hanks",
-        "Tim Allen",
-        "Annie Potts"
-      ],
+      "actors": ["Tom Hanks", "Tim Allen", "Annie Potts"],
       "genre": [],
       "quality": "hd",
       "status": true,
@@ -508,11 +484,7 @@
       "duration": 166,
       "country": "USA",
       "director": "Denis Villeneuve",
-      "actors": [
-        "Timothee Chalamet",
-        "Zendaya",
-        "Rebecca Ferguson"
-      ],
+      "actors": ["Timothee Chalamet", "Zendaya", "Rebecca Ferguson"],
       "genre": [],
       "quality": "hd",
       "status": true,
@@ -533,10 +505,7 @@
       "duration": 128,
       "country": "USA",
       "director": "Damien Chazelle",
-      "actors": [
-        "Ryan Gosling",
-        "Emma Stone"
-      ],
+      "actors": ["Ryan Gosling", "Emma Stone"],
       "genre": [],
       "quality": "hd",
       "status": false,
@@ -557,11 +526,7 @@
       "duration": 96,
       "country": "USA",
       "director": "Kelsey Mann",
-      "actors": [
-        "Amy Poehler",
-        "Maya Hawke",
-        "Kensington Tallman"
-      ],
+      "actors": ["Amy Poehler", "Maya Hawke", "Kensington Tallman"],
       "genre": [],
       "quality": "hd",
       "status": true,
@@ -582,11 +547,7 @@
       "duration": 176,
       "country": "USA",
       "director": "Matt Reeves",
-      "actors": [
-        "Robert Pattinson",
-        "Zoë Kravitz",
-        "Paul Dano"
-      ],
+      "actors": ["Robert Pattinson", "Zoë Kravitz", "Paul Dano"],
       "genre": [],
       "quality": "hd",
       "status": true,
@@ -607,14 +568,8 @@
       "duration": 120,
       "country": "USA",
       "director": "Jon Watts",
-      "actors": [
-        "Robert Downey Jr.",
-        "Chris Evans",
-        "Mark Ruffalo"
-      ],
-      "genre": [
-        "2"
-      ],
+      "actors": ["Robert Downey Jr.", "Chris Evans", "Mark Ruffalo"],
+      "genre": ["2"],
       "quality": "hd",
       "status": false,
       "views": 0,
@@ -634,14 +589,8 @@
       "duration": 111,
       "country": "USA",
       "director": "Anthony Russo, Joe Russo",
-      "actors": [
-        "Robert Downey Jr.",
-        "Chris Evans",
-        "Mark Ruffalo"
-      ],
-      "genre": [
-        "3"
-      ],
+      "actors": ["Robert Downey Jr.", "Chris Evans", "Mark Ruffalo"],
+      "genre": ["3"],
       "quality": "hd",
       "status": false,
       "views": 0,
@@ -661,14 +610,8 @@
       "duration": 111,
       "country": "USA",
       "director": "Anthony Russo, Joe Russo",
-      "actors": [
-        "Robert Downey Jr.",
-        "Chris Evans",
-        "Mark Ruffalo"
-      ],
-      "genre": [
-        "3"
-      ],
+      "actors": ["Robert Downey Jr.", "Chris Evans", "Mark Ruffalo"],
+      "genre": ["3"],
       "quality": "hd",
       "status": false,
       "views": 0,
@@ -688,14 +631,8 @@
       "duration": 111,
       "country": "USA",
       "director": "Jon Watts",
-      "actors": [
-        "Robert Downey Jr.",
-        "Chris Evans",
-        "Mark Ruffalo"
-      ],
-      "genre": [
-        "4"
-      ],
+      "actors": ["Robert Downey Jr.", "Chris Evans", "Mark Ruffalo"],
+      "genre": ["4"],
       "quality": "hd",
       "status": false,
       "views": 0,
@@ -715,14 +652,8 @@
       "duration": 1111,
       "country": "ddsa",
       "director": "dsadasd",
-      "actors": [
-        "Robert Downey Jr.",
-        "Chris Evans",
-        "Mark Ruffalo"
-      ],
-      "genre": [
-        "1"
-      ],
+      "actors": ["Robert Downey Jr.", "Chris Evans", "Mark Ruffalo"],
+      "genre": ["1"],
       "quality": "hd",
       "status": false,
       "views": 0,
@@ -749,11 +680,7 @@
         "Luna Lauren Velez",
         "Oscar Isaac"
       ],
-      "genre": [
-        "1",
-        "6",
-        "7"
-      ],
+      "genre": ["1", "6", "7"],
       "quality": "hd",
       "status": true,
       "views": 0,
@@ -781,10 +708,7 @@
         "Florence Pugh",
         "Josh Hartnett"
       ],
-      "genre": [
-        "7",
-        "8"
-      ],
+      "genre": ["7", "8"],
       "quality": "hd",
       "status": true,
       "views": 0,
@@ -812,10 +736,7 @@
         "Ken Watanabe",
         "Marion Cotillard"
       ],
-      "genre": [
-        "1",
-        "5"
-      ],
+      "genre": ["1", "5"],
       "quality": "hd",
       "status": true,
       "views": 0,
@@ -841,9 +762,7 @@
         "Forest Whitaker",
         "Michael Stuhlbarg"
       ],
-      "genre": [
-        "5"
-      ],
+      "genre": ["5"],
       "quality": "hd",
       "status": true,
       "views": 0,
@@ -870,10 +789,7 @@
         "Hugo Weaving",
         "Joe Pantoliano"
       ],
-      "genre": [
-        "1",
-        "5"
-      ],
+      "genre": ["1", "5"],
       "quality": "hd",
       "status": true,
       "views": 0,
@@ -901,11 +817,7 @@
         "Mark Ruffalo",
         "Jeremy Renner"
       ],
-      "genre": [
-        "1",
-        "5",
-        "7"
-      ],
+      "genre": ["1", "5", "7"],
       "quality": "hd",
       "status": true,
       "views": 0,
@@ -933,9 +845,7 @@
         "Robin Wright",
         "Jared Leto"
       ],
-      "genre": [
-        "5"
-      ],
+      "genre": ["5"],
       "quality": "hd",
       "status": true,
       "views": 0,
@@ -962,9 +872,7 @@
         "Robert Duvall",
         "Diane Keaton"
       ],
-      "genre": [
-        "8"
-      ],
+      "genre": ["8"],
       "quality": "hd",
       "status": true,
       "views": 0,
@@ -991,9 +899,7 @@
         "Catherine Keener",
         "Zazie Beetz"
       ],
-      "genre": [
-        "8"
-      ],
+      "genre": ["8"],
       "quality": "hd",
       "status": true,
       "views": 0,
@@ -1021,10 +927,7 @@
         "Maggie Gyllenhaal",
         "Gary Oldman"
       ],
-      "genre": [
-        "1",
-        "8"
-      ],
+      "genre": ["1", "8"],
       "quality": "hd",
       "status": true,
       "views": 0,
@@ -1052,9 +955,7 @@
         "Liv Tyler",
         "Cate Blanchett"
       ],
-      "genre": [
-        "7"
-      ],
+      "genre": ["7"],
       "quality": "hd",
       "status": true,
       "views": 0,
@@ -1081,9 +982,7 @@
         "William Sadler",
         "Clancy Brown"
       ],
-      "genre": [
-        "8"
-      ],
+      "genre": ["8"],
       "quality": "hd",
       "status": true,
       "views": 0,
@@ -1111,10 +1010,7 @@
         "Ewan Mitchell",
         "Tom Glynn-Carney"
       ],
-      "genre": [
-        "7",
-        "8"
-      ],
+      "genre": ["7", "8"],
       "quality": "hd",
       "status": true,
       "views": 0,
@@ -1142,11 +1038,7 @@
         "Osamu Saka",
         "Sakiko Tamagawa"
       ],
-      "genre": [
-        "1",
-        "5",
-        "6"
-      ],
+      "genre": ["1", "5", "6"],
       "quality": "hd",
       "status": true,
       "views": 0,
