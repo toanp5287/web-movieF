@@ -44,7 +44,9 @@ function posterIn(root) {
 function titleFromLabels(root) {
   if (!root) return "";
   for (const el of root.querySelectorAll("[aria-label]")) {
-    const m = /chi\s+tiet\s+phim\s+(.+)/i.exec(el.getAttribute("aria-label") || "");
+    const m = /chi\s+tiet\s+phim\s+(.+)/i.exec(
+      el.getAttribute("aria-label") || "",
+    );
     if (m) return m[1];
   }
   return "";
@@ -87,7 +89,10 @@ function clock(seconds) {
 
 function remainingLabel(progressSeconds, durationMinutes) {
   const total = (Number(durationMinutes) || 0) * 60;
-  const left = Math.max(0, Math.round((total - (Number(progressSeconds) || 0)) / 60));
+  const left = Math.max(
+    0,
+    Math.round((total - (Number(progressSeconds) || 0)) / 60),
+  );
   if (!total || left <= 0) return "Đã xem xong";
   if (left >= 60) {
     const hours = Math.floor(left / 60);
@@ -103,7 +108,9 @@ function continueCardMarkup(item, catalog) {
   const genres = genreNames(movie, catalog.genres).slice(0, 2);
   const remain = remainingLabel(progress, movie.duration);
   const episodeLabel = history.episodeId ? `Tập ${history.episodeId}` : "";
-  const subtitle = [...genres, episodeLabel, remain].filter(Boolean).join(" • ");
+  const subtitle = [...genres, episodeLabel, remain]
+    .filter(Boolean)
+    .join(" • ");
   const link = history.episodeId
     ? `${watchUrl(movie.id)}&episode=${encodeURIComponent(history.episodeId)}`
     : watchUrl(movie.id);
@@ -152,7 +159,8 @@ function continueWatchingSections() {
   if (byId) found.add(byId);
   document.querySelectorAll("section").forEach((section) => {
     const heading = section.querySelector("h2");
-    if (heading && heading.textContent.trim() === "Tiếp tục xem") found.add(section);
+    if (heading && heading.textContent.trim() === "Tiếp tục xem")
+      found.add(section);
   });
   return [...found];
 }
@@ -223,24 +231,28 @@ async function renderContinueWatching(catalog) {
     .filter((row) => sameId(row.userId, user.id))
     .sort(
       (a, b) =>
-        new Date(b.watchedAt || 0).getTime() - new Date(a.watchedAt || 0).getTime(),
+        new Date(b.watchedAt || 0).getTime() -
+        new Date(a.watchedAt || 0).getTime(),
     )
     .reduce((list, row) => {
       if (list.length >= 3) return list;
-       if (
-         list.some(
-           (item) =>
-             sameId(item.history.movieId, row.movieId) &&
-             sameId(item.history.episodeId || "", row.episodeId || ""),
-         )
-       )
-         return list;
+      if (
+        list.some(
+          (item) =>
+            sameId(item.history.movieId, row.movieId) &&
+            sameId(item.history.episodeId || "", row.episodeId || ""),
+        )
+      )
+        return list;
       const movie = catalog.movies.find((m) => sameId(m.id, row.movieId));
       if (!movie) return list;
       const totalSeconds = (Number(movie.duration) || 0) * 60;
       const progress = Math.max(0, Number(row.progress) || 0);
       const percent = totalSeconds
-        ? Math.min(100, Math.max(0, Math.round((progress / totalSeconds) * 100)))
+        ? Math.min(
+            100,
+            Math.max(0, Math.round((progress / totalSeconds) * 100)),
+          )
         : 0;
       list.push({ movie, history: row, progress, percent, totalSeconds });
       return list;
@@ -255,7 +267,9 @@ async function renderContinueWatching(catalog) {
   const rail = document.getElementById("continueWatchingRail");
   if (!section || !rail) return;
 
-  rail.innerHTML = items.map((item) => continueCardMarkup(item, catalog)).join("");
+  rail.innerHTML = items
+    .map((item) => continueCardMarkup(item, catalog))
+    .join("");
 }
 
 /** Tìm phim tương ứng với một thẻ trên home. */
@@ -303,7 +317,10 @@ async function init() {
   try {
     catalog = await loadCatalog();
   } catch (err) {
-    console.error("[home] Không tải được data/db.json, giữ nguyên liên kết cũ:", err);
+    console.error(
+      "[home] Không tải được data/db.json, giữ nguyên liên kết cũ:",
+      err,
+    );
     await renderContinueWatching({ movies: [], genres: [] });
     return;
   }
@@ -334,7 +351,10 @@ async function init() {
       anchor.setAttribute("aria-disabled", "true");
       anchor.classList.add("opacity-50", "cursor-not-allowed");
       anchor.addEventListener("click", (e) => e.preventDefault());
-      unresolved.push(anchor.getAttribute("aria-label") || anchor.textContent.trim().slice(0, 40));
+      unresolved.push(
+        anchor.getAttribute("aria-label") ||
+          anchor.textContent.trim().slice(0, 40),
+      );
       continue;
     }
 
@@ -353,7 +373,9 @@ async function init() {
       unresolved,
     );
   }
-  console.info(`[home] Đã gắn id cho ${linked}/${anchors.length} liên kết phim.`);
+  console.info(
+    `[home] Đã gắn id cho ${linked}/${anchors.length} liên kết phim.`,
+  );
 }
 
 hideContinueWatching();

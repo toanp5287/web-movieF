@@ -64,7 +64,13 @@ function readProgressSeconds(durationSeconds) {
   return Math.round(ratio * durationSeconds);
 }
 
-async function saveHistory(user, movieId, episodeId, progress, existingId = null) {
+async function saveHistory(
+  user,
+  movieId,
+  episodeId,
+  progress,
+  existingId = null,
+) {
   const payload = {
     userId: normalizeId(user.id),
     movieId: normalizeId(movieId),
@@ -148,7 +154,13 @@ async function initWatchHistory() {
       const next = readProgressSeconds(durationSeconds);
       if (!force && Math.abs(next - lastSavedProgress) < 5) return;
 
-      const saved = await saveHistory(user, movieId, episodeId, next, historyId);
+      const saved = await saveHistory(
+        user,
+        movieId,
+        episodeId,
+        next,
+        historyId,
+      );
       historyId = saved?.id ?? historyId;
       lastSavedProgress = next;
 

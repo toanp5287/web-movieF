@@ -33,7 +33,8 @@ import { renderMovieCards } from "./movie-card.js";
 import { initEpisodeList } from "./episode-list.js";
 import api from "../api.js";
 
-const bind = (name, root = document) => root.querySelector(`[data-bind="${name}"]`);
+const bind = (name, root = document) =>
+  root.querySelector(`[data-bind="${name}"]`);
 const REVIEW_TEXT = {
   1: "1/5 - Không thích",
   2: "2/5 - Tạm được",
@@ -115,7 +116,8 @@ async function renderMedia(movie) {
 
   // Tương tự với trailer: db.json có đường dẫn nhưng file thường không tồn tại,
   // nút "Trailer" chỉ hiện khi xác minh được media thật.
-  const hasTrailer = Boolean(movie.trailer) && (await probeImage(movie.trailer));
+  const hasTrailer =
+    Boolean(movie.trailer) && (await probeImage(movie.trailer));
   setVisible("trailer", hasTrailer);
 }
 
@@ -141,7 +143,10 @@ function renderHeadline(movie, catalog) {
 
   setText("country", movie.country || "");
   if (movie.country) {
-    setText("country", COUNTRY_LABEL[countryKey(movie.country)] || movie.country);
+    setText(
+      "country",
+      COUNTRY_LABEL[countryKey(movie.country)] || movie.country,
+    );
   }
 
   // Thể loại: chỉ hiện khi db.json có genre khớp bảng `genres`.
@@ -297,7 +302,9 @@ function renderReviews(movie, catalog) {
   if (!list) return;
 
   const rows = catalog.reviews.filter(
-    (r) => sameId(r.movieId, movie.id) && String(r.status ?? "visible") === "visible",
+    (r) =>
+      sameId(r.movieId, movie.id) &&
+      String(r.status ?? "visible") === "visible",
   );
   const sessionUser = getCurrentUser();
 
@@ -435,7 +442,8 @@ function setStars(rating) {
     const value = Number(btn.getAttribute("data-rating"));
     const icon = btn.querySelector(".material-symbols-outlined");
     if (!icon) return;
-    icon.style.fontVariationSettings = value <= selectedRating ? "'FILL' 1" : "'FILL' 0";
+    icon.style.fontVariationSettings =
+      value <= selectedRating ? "'FILL' 1" : "'FILL' 0";
   });
   const label = document.getElementById("rating-label");
   if (label) label.textContent = REVIEW_TEXT[selectedRating];
@@ -448,7 +456,8 @@ function fillComposerFromReview(review) {
   setStars(review?.rating || 5);
 
   const submit = document.getElementById("submit-comment");
-  if (submit) submit.textContent = review ? "Cập nhật đánh giá" : "Gửi bình luận";
+  if (submit)
+    submit.textContent = review ? "Cập nhật đánh giá" : "Gửi bình luận";
 }
 
 function notify(icon, title) {
@@ -499,8 +508,8 @@ function bindReviewActions(movie, catalog) {
         return;
       }
 
-      const review = catalog.reviews.find(
-        (r) => sameId(r.id, reportBtn.dataset.reviewReport),
+      const review = catalog.reviews.find((r) =>
+        sameId(r.id, reportBtn.dataset.reviewReport),
       );
       if (!review) return;
 
@@ -539,18 +548,24 @@ function bindReviewActions(movie, catalog) {
 
     const editBtn = event.target.closest("[data-review-edit]");
     if (editBtn) {
-      const review = catalog.reviews.find((r) => sameId(r.id, editBtn.dataset.reviewEdit));
+      const review = catalog.reviews.find((r) =>
+        sameId(r.id, editBtn.dataset.reviewEdit),
+      );
       if (!review) return;
       fillComposerFromReview(review);
       document.getElementById("comment-input")?.focus();
-      document.getElementById("comment-input")?.scrollIntoView({ behavior: "smooth", block: "center" });
+      document
+        .getElementById("comment-input")
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
       return;
     }
 
     const removeBtn = event.target.closest("[data-review-delete]");
     if (!removeBtn) return;
 
-    const review = catalog.reviews.find((r) => sameId(r.id, removeBtn.dataset.reviewDelete));
+    const review = catalog.reviews.find((r) =>
+      sameId(r.id, removeBtn.dataset.reviewDelete),
+    );
     if (!review) return;
 
     const ok = window.confirm("Bạn có chắc muốn xoá đánh giá này?");

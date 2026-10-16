@@ -8,7 +8,12 @@
  * mùa/tập giả. Chưa phát video, chưa nút trước/sau, chưa tự chuyển tập.
  */
 
-import { POSTER_FALLBACK, escapeHtml, formatDuration, watchUrl } from "./movie-data.js";
+import {
+  POSTER_FALLBACK,
+  escapeHtml,
+  formatDuration,
+  watchUrl,
+} from "./movie-data.js";
 import {
   episodesOfSeason,
   isActive,
@@ -249,7 +254,10 @@ export async function initEpisodeList(movie) {
     }
 
     hideEmpty();
-    if (list) list.innerHTML = episodes.map((episode) => episodeCard(episode, movie.id)).join("");
+    if (list)
+      list.innerHTML = episodes
+        .map((episode) => episodeCard(episode, movie.id))
+        .join("");
   };
 
   if (selector) {

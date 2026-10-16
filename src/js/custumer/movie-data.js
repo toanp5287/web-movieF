@@ -31,7 +31,8 @@ const ACTIVE_STATUS = "published";
  * ------------------------------------------------------------------ */
 
 /** db.json vừa có id số ("3") vừa có id nanoid sinh ra từ trang admin. */
-export const sameId = (a, b) => String(a ?? "").trim() === String(b ?? "").trim();
+export const sameId = (a, b) =>
+  String(a ?? "").trim() === String(b ?? "").trim();
 
 /** Escape ký tự HTML trước khi chèn text từ db.json vào innerHTML. */
 export function escapeHtml(value) {
@@ -106,7 +107,10 @@ export const avatarFallback = (name) =>
       <rect width="120" height="120" fill="url(#a)"/>
       <text x="60" y="76" text-anchor="middle" font-family="Arial,Helvetica,sans-serif"
         font-size="48" font-weight="bold" fill="rgba(255,255,255,0.8)">${escapeHtml(
-          String(name ?? "?").trim().charAt(0).toUpperCase() || "?",
+          String(name ?? "?")
+            .trim()
+            .charAt(0)
+            .toUpperCase() || "?",
         )}</text>
     </svg>`,
   );
@@ -148,7 +152,10 @@ export async function probeImage(url) {
 }
 
 /** Gắn cơ chế tự thay ảnh hỏng bằng ảnh dự phòng. */
-export function bindImageFallback(root = document, selector = "img[data-fallback]") {
+export function bindImageFallback(
+  root = document,
+  selector = "img[data-fallback]",
+) {
   root.querySelectorAll(selector).forEach((img) => {
     if (img.dataset.fallbackBound === "1") return;
     img.dataset.fallbackBound = "1";
@@ -238,7 +245,8 @@ const toNumber = (value) => {
 };
 
 const toList = (value) => {
-  if (Array.isArray(value)) return value.map((v) => String(v).trim()).filter(Boolean);
+  if (Array.isArray(value))
+    return value.map((v) => String(v).trim()).filter(Boolean);
   if (value === null || value === undefined || value === "") return [];
   return [String(value).trim()];
 };
@@ -253,8 +261,11 @@ const toList = (value) => {
  * nhất quán; status rỗng/thiếu giữ nguyên "" (vẫn cho hiển thị như trước).
  */
 const normalizeStatus = (value) => {
-  if (value === true || value === "true" || value === "published") return "published";
-  const s = String(value ?? "").trim().toLowerCase();
+  if (value === true || value === "true" || value === "published")
+    return "published";
+  const s = String(value ?? "")
+    .trim()
+    .toLowerCase();
   if (s === "false" || s === "inactive") return "inactive";
   return String(value ?? "").trim();
 };
@@ -299,7 +310,8 @@ function normalizeMovie(raw) {
  */
 async function isRenderable(movie) {
   if (!movie.title) return false;
-  if (movie.status && movie.status.toLowerCase() !== ACTIVE_STATUS) return false;
+  if (movie.status && movie.status.toLowerCase() !== ACTIVE_STATUS)
+    return false;
 
   if (movie.poster && (await probeImage(movie.poster))) return true;
 
@@ -333,13 +345,18 @@ export function loadCatalog() {
       raw = await readViaApi();
       source = raw.source;
     } catch (errApi) {
-      console.warn("[movie-data] json-server không dùng được, chuyển sang db.json tĩnh:", errApi?.message);
+      console.warn(
+        "[movie-data] json-server không dùng được, chuyển sang db.json tĩnh:",
+        errApi?.message,
+      );
       raw = await readViaStaticFile();
       source = raw.source;
     }
 
     const all = raw.movies.map(normalizeMovie);
-    const verdicts = await Promise.all(all.map((m) => isRenderable(m).catch(() => false)));
+    const verdicts = await Promise.all(
+      all.map((m) => isRenderable(m).catch(() => false)),
+    );
     const movies = all.filter((_, i) => verdicts[i]);
 
     // Ảnh diễn viên / đạo diễn: đặt sẵn null để actorImage() dùng được ngay,
@@ -351,16 +368,21 @@ export function loadCatalog() {
     }
     const avatars = new Map([...people].map((name) => [name, null]));
 
-    return { movies, genres: raw.genres, reviews: raw.reviews, users: raw.users, avatars, source };
+    return {
+      movies,
+      genres: raw.genres,
+      reviews: raw.reviews,
+      users: raw.users,
+      avatars,
+      source,
+    };
   })().catch((err) => {
     catalogPromise = null; // cho phép thử lại ở lần gọi sau
     throw err;
   });
 
   // Dò ảnh diễn viên nền, giới hạn số request đồng thời.
-  catalogPromise
-    .then((catalog) => resolveAvatars(catalog))
-    .catch(() => {});
+  catalogPromise.then((catalog) => resolveAvatars(catalog)).catch(() => {});
 
   return catalogPromise;
 }
@@ -373,7 +395,9 @@ export const AVATARS_RESOLVED = "movie-data:avatars";
  * Mỗi lần tìm thêm ảnh sẽ bắn AVATARS_RESOLVED để giao diện vẽ lại.
  */
 async function resolveAvatars(catalog) {
-  const names = [...catalog.avatars.keys()].filter((n) => !catalog.avatars.get(n));
+  const names = [...catalog.avatars.keys()].filter(
+    (n) => !catalog.avatars.get(n),
+  );
   if (!names.length) return;
 
   const CONCURRENCY = 4;
@@ -392,8 +416,13 @@ async function resolveAvatars(catalog) {
     }
   };
 
-  await Promise.all(Array.from({ length: Math.min(CONCURRENCY, names.length) }, worker));
-  if (added) window.dispatchEvent(new CustomEvent(AVATARS_RESOLVED, { detail: { count: added } }));
+  await Promise.all(
+    Array.from({ length: Math.min(CONCURRENCY, names.length) }, worker),
+  );
+  if (added)
+    window.dispatchEvent(
+      new CustomEvent(AVATARS_RESOLVED, { detail: { count: added } }),
+    );
 }
 
 /* ------------------------------------------------------------------ *
@@ -412,7 +441,7 @@ export function findRelated(catalog, movie, limit = 5) {
   const related = catalog.movies.filter(
     (m) =>
       !sameId(m.id, movie.id) &&
-    m.genreIds.some((g) => movie.genreIds.includes(g)),
+      m.genreIds.some((g) => movie.genreIds.includes(g)),
   );
   return related.slice(0, limit);
 }
@@ -460,7 +489,8 @@ export function formatDuration(minutes) {
 /** 11320 -> "11,3k" ; 1132000 -> "1,1tr" */
 export function formatViews(views) {
   const n = toNumber(views) ?? 0;
-  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1).replace(".", ",")} triệu`;
+  if (n >= 1_000_000)
+    return `${(n / 1_000_000).toFixed(1).replace(".", ",")} triệu`;
   if (n >= 1_000) return `${(n / 1_000).toFixed(1).replace(".", ",")}k`;
   return String(n);
 }
@@ -490,15 +520,17 @@ export function qualityLabel(movie) {
 
 /** "Timothee Chalamet" -> "chalamet" (khớp tên file public/images/actors/). */
 function actorSlug(name) {
-  return String(name ?? "")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "") // bỏ dấu tiếng Việt / tiếng Pháp
-    .replace(/[^a-zA-Z\s'-]/g, "")
-    .trim()
-    .split(/[\s-]+/)
-    .filter(Boolean)
-    .pop()
-    ?.toLowerCase() || "";
+  return (
+    String(name ?? "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "") // bỏ dấu tiếng Việt / tiếng Pháp
+      .replace(/[^a-zA-Z\s'-]/g, "")
+      .trim()
+      .split(/[\s-]+/)
+      .filter(Boolean)
+      .pop()
+      ?.toLowerCase() || ""
+  );
 }
 
 const actorProbeCache = new Map();
