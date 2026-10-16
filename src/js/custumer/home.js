@@ -102,11 +102,22 @@ function remainingLabel(progressSeconds, durationMinutes) {
   return `Còn ${left} phút`;
 }
 
+function watchedTimeLabel(watchedAt) {
+  const date = new Date(watchedAt);
+  if (!watchedAt || Number.isNaN(date.getTime())) return "";
+
+  return `Đã xem ${date.toLocaleDateString("vi-VN")} lúc ${date.toLocaleTimeString("vi-VN", {
+    hour: "2-digit",
+    minute: "2-digit",
+  })}`;
+}
+
 function continueCardMarkup(item, catalog) {
   const { movie, history, progress, percent, totalSeconds } = item;
   const poster = movie.poster || POSTER_FALLBACK;
   const genres = genreNames(movie, catalog.genres).slice(0, 2);
   const remain = remainingLabel(progress, movie.duration);
+  const watchedTime = watchedTimeLabel(history.watchedAt);
   const episodeLabel = history.episodeId ? `Tập ${history.episodeId}` : "";
   const subtitle = [...genres, episodeLabel, remain]
     .filter(Boolean)
@@ -146,6 +157,9 @@ function continueCardMarkup(item, catalog) {
           </h3>
           <p class="font-body-sm text-body-sm text-on-surface-variant truncate">
             ${escapeHtml(subtitle)}
+          </p>
+          <p class="font-body-sm text-body-sm text-on-surface-variant/70 truncate mt-1">
+            ${escapeHtml(watchedTime)}
           </p>
         </div>
       </div>
@@ -251,7 +265,9 @@ async function renderContinueWatching(catalog) {
       const percent = totalSeconds
         ? Math.min(
             100,
-            Math.max(0, Math.round((progress / totalSeconds) * 100)),
+            progress > 0
+              ? Math.max(1, Math.round((progress / totalSeconds) * 100))
+              : 0,
           )
         : 0;
       list.push({ movie, history: row, progress, percent, totalSeconds });
