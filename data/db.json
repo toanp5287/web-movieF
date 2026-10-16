@@ -1356,7 +1356,7 @@
       "userId": 1,
       "movieId": 13,
       "progress": 0,
-      "watchedAt": "2026-10-15T16:25:43",
+      "watchedAt": "2026-10-16T18:01:12",
       "id": "6CBrQwh"
     },
     {
@@ -1370,7 +1370,7 @@
       "userId": 1,
       "movieId": 3,
       "progress": 34,
-      "watchedAt": "2026-10-16T17:25:49",
+      "watchedAt": "2026-10-16T18:03:18",
       "id": "dju5K7U_yNY"
     },
     {
@@ -1522,6 +1522,15 @@
       "status": "visible",
       "createdAt": "2026-10-15",
       "id": "hySeBA6"
+    },
+    {
+      "userId": 1,
+      "movieId": 24,
+      "rating": 5,
+      "comment": "ok",
+      "status": "visible",
+      "createdAt": "2026-10-16",
+      "id": "ix4f3Lg"
     }
   ],
   "reviewReports": [
