@@ -826,8 +826,24 @@
                   </button>
                 </div>
               </div>
+              <div class="flex items-center justify-between gap-3 mt-2">
+                <h3 class="font-title-md text-title-md text-on-surface">
+                  Bình luận của người xem
+                </h3>
+                <label class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+                  <span>Sắp xếp:</span>
+                  <select
+                    class="px-3 py-2 rounded-lg bg-surface-container text-on-surface border border-white/10 focus:outline-none focus:border-outline"
+                    id="review-sort"
+                  >
+                    <option value="newest">Mới nhất</option>
+                    <option value="highest">Điểm cao nhất</option>
+                    <option value="lowest">Điểm thấp nhất</option>
+                  </select>
+                </label>
+              </div>
               <div
-                class="flex flex-col gap-4 mt-2"
+                class="flex flex-col gap-4"
                 data-bind="reviews"
                 id="comments-list"
               >
