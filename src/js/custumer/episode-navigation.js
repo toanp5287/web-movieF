@@ -15,9 +15,12 @@
  *  - tìm tập đứng TRƯỚC và TIẾP THEO — khi hết tập của mùa hiện tại thì tự sang
  *    tập đầu của mùa kế tiếp (và ngược lại), theo thứ tự số mùa thực tế;
  *  - báo rõ lý do khi không tra được (thiếu dữ liệu / tập không hợp lệ) để trang
- *    xem vô hiệu hoá nút thay vì điều hướng nhầm.
+ *    xem vô hiệu hoá nút thay vì điều hướng nhầm;
+ *  - chọn tập kế tiếp CÓ THỂ PHÁT được (CHỨC NĂNG 5) bằng cách quét tiếp về
+ *    phía sau khi tập ngay sau không có nguồn phát.
  *
- * File KHÔNG tự chuyển tập: chỉ trả về đích; việc chuyển do người dùng bấm nút.
+ * File KHÔNG tự chuyển tập: chỉ trả về đích; việc chuyển do người dùng bấm nút
+ * (chức năng 4) hoặc do trang xem xử lý khi video phát hết (chức năng 5).
  */
 
 import { sameId } from "./movie-data.js";
@@ -107,4 +110,49 @@ export async function resolveEpisodeNavigation(movie, episodeId) {
   if (index === -1) return { reason: "invalid", prev: null, next: null };
 
   return { reason: "ok", prev, next };
+}
+
+/**
+ * Tập kế tiếp THẬT SỰ PHÁT ĐƯỢC của một tập — dùng cho CHỨC NĂNG 5
+ * (tự chuyển tập khi tập hiện tại phát hết).
+ *
+ * Quét về phía sau từ `episodeId` trên đúng danh sách đã sắp thứ tự
+ * (episodesInOrder đã bỏ tập/mùa không hoạt động, nên tập bị ẩn không bao giờ
+ * được chọn) và trả về tập đầu tiên mà `canPlay` chấp nhận — ví dụ trang xem
+ * truyền vào kiểm tra "tập này có nguồn video dùng được".
+ *
+ *   - tập kế tiếp nằm cùng mùa hay ở mùa kế tiếp đều được, vì danh sách đã
+ *     sắp theo số mùa rồi tới số tập;
+ *   - không còn tập nào thoả -> trả null để trang đứng yên, KHÔNG bao giờ
+ *     hướng sang phim khác;
+ *   - không tự chuyển tập: hàm chỉ trả về đích, việc đi hay không do nơi gọi.
+ *
+ * @param {object} movie phim đang xem (đã chuẩn hoá)
+ * @param {string} episodeId id tập đang phát
+ * @param {(episode: object) => (boolean|Promise<boolean>)} canPlay
+ *        kiểm tra một tập có đáng để chuyển tới không (bỏ qua nếu không truyền)
+ * @returns {Promise<{episode: object, season: object}|null>}
+ */
+export async function findNextPlayableEpisode(movie, episodeId, canPlay) {
+  if (!movie || !episodeId) return null;
+
+  let data;
+  try {
+    data = await loadSeriesData();
+  } catch (error) {
+    console.error("[episode-navigation] Không tải được mùa/tập:", error?.message);
+    return null;
+  }
+
+  const ordered = episodesInOrder(data.seasons, data.episodes, movie.id);
+  const { index } = locateEpisode(ordered, episodeId);
+  if (index === -1) return null;
+
+  for (let i = index + 1; i < ordered.length; i += 1) {
+    const item = ordered[i];
+    // eslint-disable-next-line no-await-in-loop
+    if (!canPlay || (await canPlay(item.episode))) return item;
+  }
+
+  return null;
 }
