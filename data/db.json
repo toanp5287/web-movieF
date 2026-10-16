@@ -132,7 +132,7 @@
       "id": "8TZCZPkPe4Q",
       "fullname": "pham quang vinh",
       "email": "toanp5287@gmail.com",
-      "password": "b7515baabb649f84a415e290c1c108395b0f3d7234c8ad85955bec249a97010d",
+      "password": "34c32aed4c6e2f8b6ec814c79abc79ad05ad6a0c5f01a4d40be071747b67d173",
       "roleId": 3,
       "status": "active",
       "createdAt": "2026-09-19T10:00:16.816Z"
@@ -199,6 +199,15 @@
       "roleId": 3,
       "status": "active",
       "createdAt": "2026-09-30T16:00:02.937Z"
+    },
+    {
+      "id": 1792156429740,
+      "fullname": "nguyễn tuân",
+      "email": "tuan2k5bldt@gmail.com",
+      "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+      "roleId": 3,
+      "status": "active",
+      "createdAt": "2026-10-16T13:13:49.740Z"
     }
   ],
   "season": [
@@ -1368,7 +1377,7 @@
       "userId": "8TZCZPkPe4Q",
       "movieId": 13,
       "progress": 0,
-      "watchedAt": "2026-10-02T03:10:39",
+      "watchedAt": "2026-10-16T08:23:42",
       "id": "I-0rhzw-zlk"
     },
     {
@@ -1377,6 +1386,13 @@
       "progress": 0,
       "watchedAt": "2026-10-15T16:35:36",
       "id": "T1GFMb8"
+    },
+    {
+      "userId": "8TZCZPkPe4Q",
+      "movieId": 3,
+      "progress": 17,
+      "watchedAt": "2026-10-16T08:23:48",
+      "id": "NZSsLDU"
     }
   ],
   "reviews": [
