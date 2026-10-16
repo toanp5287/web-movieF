@@ -24,6 +24,11 @@
  * giữ nguyên như trước. Tập sai mã / bị ẩn / của phim khác hiện trạng thái an
  * toàn, không phát nhầm và không crash.
  *
+ * Chức năng 5 bổ sung: khi video của TẬP phim bộ phát hết tự nhiên (`ended`),
+ * trang tự chuyển sang tập kế tiếp thật sự phát được (mục 4c). Tập cuối / hết
+ * tập có nguồn thì đứng yên, phim lẻ không tự đổi nội dung, và tạm dừng hay tua
+ * video không kích hoạt việc chuyển tập.
+ *
  * Lưu ý: KHÔNG bật `controls` gốc của trình duyệt vì nó có sẵn một thanh thời
  * gian riêng, trùng với #progressTrackContainer. Trang dùng bộ control tuỳ
  * biến (#videoControls: nút phát, tua ±10s, thanh tiến trình) nên chỉ có MỘT
@@ -44,12 +49,16 @@ import {
   loadCatalog,
   qualityLabel,
   ratingCount,
+  sameId,
   watchUrl,
 } from "./movie-data.js";
 
 import { renderMovieCards } from "./movie-card.js";
 
-import { resolveEpisodeNavigation } from "./episode-navigation.js";
+import {
+  findNextPlayableEpisode,
+  resolveEpisodeNavigation,
+} from "./episode-navigation.js";
 
 import {
   describeBlockedEpisode,
@@ -467,6 +476,13 @@ const player = {
   lastRatio: -1,
   lastTime: -1,
   lastDuration: -1,
+  /**
+   * Vị trí video sau lần tua gần nhất (-1 = chưa tua lần nào).
+   *
+   * Dùng cho chức năng 5: kéo thanh tiến trình về tận cuối thì `ended` do người
+   * dùng tua chứ không phải tập phát hết, nên không được tự chuyển tập.
+   */
+  lastSeekPosition: -1,
   /* --- control tuỳ biến (thay cho `controls` gốc của trình duyệt) --- */
   controls: null,
   playToggle: null,
@@ -861,6 +877,7 @@ function bindPlayer() {
     updateSeekButtons();
   });
   video.addEventListener("seeked", () => {
+    player.lastSeekPosition = Number(video.currentTime) || 0;
     scheduleSync();
     updateSeekButtons();
   });
@@ -873,6 +890,11 @@ function bindPlayer() {
     setOverlay({ error: describeMediaError(video) });
     if (player.status) player.status.textContent = "";
   });
+
+  // CHỨC NĂNG 5: tập phim bộ phát hết tự nhiên -> sang tập kế tiếp.
+  // Tạm dừng / tua / lỗi video đều không bắn `ended`, nên không thể chuyển tập
+  // nhầm; chi tiết điều kiện nằm trong handleVideoEnded.
+  video.addEventListener("ended", handleVideoEnded);
 
   // Control tuỳ biến: nút phát + tua ±10 giây.
   player.playToggle?.addEventListener("click", () => {
@@ -973,6 +995,8 @@ function mountPlayer(url) {
   if (player.src !== url) {
     player.src = url;
     video.src = url;
+    // Nguồn mới phát từ đầu: không giữ lại vị trí tua của nguồn trước.
+    player.lastSeekPosition = -1;
   }
 
   // Không tự phát: người dùng bấm nút phát.
@@ -1100,6 +1124,113 @@ async function renderEpisodeNav(movie, episode) {
 }
 
 /* ------------------------------------------------------------------ *
+ * 4c. TỰ ĐỘNG CHUYỂN TẬP KẾ TIẾP (CHỨC NĂNG 5)
+ * ------------------------------------------------------------------ */
+
+/**
+ * Cờ do trang TẬP ĐANG CHUYỂN tới để lại trong sessionStorage.
+ *
+ * Trang chỉ tự phát khi cờ chứa đúng id tập sắp mở — nhờ vậy không bao giờ tự
+ * phát khi người dùng mở tập theo cách khác, và cờ chỉ có hiệu lực MỘT lần
+ * (đọc là xoá ngay).
+ */
+const AUTO_NEXT_FLAG_KEY = "movief:auto-next-episode";
+
+/** Chờ một nhịp trước khi tải trang mới để lịch sử xem kịp ghi tập vừa hết. */
+const AUTO_NEXT_DELAY_MS = 300;
+
+/** Tập cuối video nhỏ hơn mức này nếu do người dùng tua về cuối thì bỏ qua. */
+const SEEK_TO_END_EPSILON = 0.1;
+
+/** Trạng thái của chức năng 5 cho MỘT lần mở trang. */
+const autoNext = {
+  /** Chỉ true khi đang phát ĐÚNG một tập phim bộ có nguồn. */
+  enabled: false,
+  movie: null,
+  episode: null,
+  /** Nguồn phát của tập — dùng để phân biệt với trailer. */
+  sourceUrl: "",
+  /** Chống chạy trùng khi `ended` bắn lần nữa trong lúc đang tra tập. */
+  running: false,
+};
+
+/**
+ * Đọc (và xoá ngay) cờ "đang tự chuyển tập" do trang trước để lại.
+ *
+ * @param {string} episodeId id tập trên URL hiện tại
+ * @returns {boolean} true chỉ khi tập đang mở đúng là tập được tự chuyển tới
+ */
+function consumeAutoNextFlag(episodeId) {
+  try {
+    const target = sessionStorage.getItem(AUTO_NEXT_FLAG_KEY) || "";
+    sessionStorage.removeItem(AUTO_NEXT_FLAG_KEY);
+    return Boolean(target && episodeId && sameId(target, episodeId));
+  } catch {
+    // sessionStorage bị chặn (chế độ riêng tư): coi như không có cờ.
+    return false;
+  }
+}
+
+/**
+ * Video của tập hiện tại phát hết -> chuyển sang tập kế tiếp và phát luôn.
+ *
+ * Điều kiện để tự chuyển (tất cả phải cùng đúng):
+ *   - đang xem MỘT tập phim bộ có nguồn phát (phim lẻ không bị ảnh hưởng);
+ *   - video phát hết THẬT SỰ: không phải lúc đang tua, không phải tua về tận
+ *     cuối video, không có lỗi tải/phát;
+ *   - còn tập kế tiếp hợp lệ, đang hoạt động và có nguồn video dùng được
+ *     (tra qua findNextPlayableEpisode — tập bị ẩn đã bị loại từ đầu).
+ *
+ * Không thỏa một điều kiện nào thì giữ nguyên trang hiện tại.
+ */
+async function handleVideoEnded() {
+  const { enabled, running, movie, episode, sourceUrl } = autoNext;
+  if (!enabled || running) return;
+
+  const video = player.video;
+  if (!video || video.error || video.seeking) return;
+
+  const duration = Number(video.duration) || 0;
+  if (duration > 0 && player.lastSeekPosition >= duration - SEEK_TO_END_EPSILON) {
+    // Người dùng vừa tua về tận cuối: `ended` do thao tác tua gây ra.
+    return;
+  }
+
+  // Đang phát trailer thay cho tập thì tập này chưa hề phát hết.
+  if (!sourceUrl || player.src !== sourceUrl) return;
+
+  autoNext.running = true;
+
+  let target = null;
+  try {
+    target = await findNextPlayableEpisode(movie, episode.id, (candidate) =>
+      resolveEpisodeSource(candidate).then((source) => Boolean(source.url)),
+    );
+  } catch (error) {
+    console.warn("[watch] Không tra được tập kế tiếp:", error?.message);
+  }
+
+  if (!target) {
+    // Hết tập hợp lệ có nguồn phát -> đứng yên, không đổi sang phim khác.
+    autoNext.running = false;
+    return;
+  }
+
+  // Chờ một nhịp để lịch sử xem kịp lưu tập vừa phát hết (history.js cũng lưu
+  // ngay khi `ended` bắn) trước khi trang mới thay thế trang hiện tại.
+  window.setTimeout(() => {
+    try {
+      sessionStorage.setItem(AUTO_NEXT_FLAG_KEY, String(target.episode.id));
+    } catch {
+      // Không ghi được cờ: vẫn chuyển tập, chỉ mất quyền tự phát tập mới.
+    }
+    window.location.href = `${watchUrl(movie.id)}&episode=${encodeURIComponent(
+      target.episode.id,
+    )}`;
+  }, AUTO_NEXT_DELAY_MS);
+}
+
+/* ------------------------------------------------------------------ *
  * 5. KHỞI TẠO
  * ------------------------------------------------------------------ */
 
@@ -1114,6 +1245,10 @@ async function init() {
   if (!container || !body) return;
 
   const { id, episodeId } = parseWatchQuery(window.location.search);
+
+  // Đọc và xoá ngay cờ "vừa tự chuyển tập" — chỉ tập đúng trên URL mới được
+  // tự phát, tránh bật tiếng khi người dùng mở trang theo cách khác.
+  const autoplayNext = consumeAutoNextFlag(episodeId);
 
   if (!id) {
     showNotFound(
@@ -1258,9 +1393,25 @@ async function init() {
     }
   }
 
-  mountPlayer(source.url);
+  const video = mountPlayer(source.url);
   body.classList.remove("hidden");
   renderRelated(catalog, movie);
+
+  // CHỨC NĂNG 5: chỉ bật tự chuyển tập khi đang phát ĐÚNG một tập phim bộ có
+  // nguồn — phim lẻ và phim chưa có nguồn (đã return ở trên) không bị ảnh hưởng.
+  if (episode && source.url) {
+    autoNext.enabled = true;
+    autoNext.movie = movie;
+    autoNext.episode = episode;
+    autoNext.sourceUrl = source.url;
+  }
+
+  // Tập vừa được tự chuyển tới (cờ ở sessionStorage): phát tiếp ngay, giống
+  // người dùng vừa bấm play. Lỗi autoplay (nếu có) được nuốt lặng lẽ.
+  if (video && autoplayNext) {
+    const attempt = video.play();
+    if (attempt && typeof attempt.catch === "function") attempt.catch(() => {});
+  }
 }
 
 if (document.readyState === "loading") {
