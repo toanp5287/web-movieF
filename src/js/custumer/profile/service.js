@@ -18,7 +18,6 @@ import {
   AVATAR_FALLBACK,
   detailHref,
   formatDate,
-  formatHours,
   formatMinutes,
   formatNumber,
   formatRelative,
@@ -255,18 +254,30 @@ function normalizeReview(row, context) {
 }
 
 /** 4 thẻ thống kê tài khoản — luôn tính từ dữ liệu thật nên không bị lệch. */
+function formatWatchedTime(totalMinutes) {
+  const minutes = Math.round(Number(totalMinutes) || 0);
+  if (!minutes) return totalMinutes > 0 ? "<1 phút" : "0 phút";
+
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+  if (!hours) return `${minutes} phút`;
+  if (!remainingMinutes) return `${hours} giờ`;
+  return `${hours} giờ ${remainingMinutes} phút`;
+}
+
 function buildStats(history, favorites, watchLater) {
   const totalMinutes = history.reduce(
     (sum, row) => sum + (Number(row.positionSeconds ?? row.progress) || 0) / 60,
     0,
   );
+  const watchedMovieCount = new Set(history.map((row) => String(row.movieId))).size;
   const hours = Math.round(totalMinutes / 60);
 
   return [
-    { key: "watched", label: "Phim đã xem", value: formatNumber(history.length), hint: "Tác phẩm trong lịch sử", icon: "film" },
+    { key: "watched", label: "Phim đã xem", value: formatNumber(watchedMovieCount), hint: "Tác phẩm trong lịch sử", icon: "film" },
     { key: "favorites", label: "Phim yêu thích", value: formatNumber(favorites.length), hint: "Đã lưu để xem lại", icon: "heart", fill: true },
     { key: "watchLater", label: "Danh sách xem sau", value: formatNumber(watchLater.length), hint: "Đang chờ bạn", icon: "bookmark" },
-    { key: "hours", label: "Giờ đã xem", value: formatHours(hours), hint: `~${formatNumber(Math.round(totalMinutes))} phút`, icon: "clock" },
+    { key: "hours", label: "Thời gian đã xem", value: formatWatchedTime(totalMinutes), hint: "Tổng thời gian xem", icon: "clock" },
   ];
 }
 
