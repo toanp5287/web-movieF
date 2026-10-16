@@ -8,7 +8,8 @@
     "server": "json-server --watch data/db.json --port 3000",
     "dev": "concurrently \"npm run dev:vite\" \"npm run server\"",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "mail": "node ./server/mailSacThuc.js"
   },
   "devDependencies": {
     "concurrently": "^10.0.5",
@@ -17,7 +18,9 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
+    "dotenv": "^18.0.8",
     "multer": "^2.4.0",
+    "resend": "^6.33.0",
     "tailwindcss": "^4.3.3"
   }
 }
