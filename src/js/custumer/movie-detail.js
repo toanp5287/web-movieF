@@ -427,7 +427,10 @@ function renderSpecs(movie) {
 let currentMovie = null;
 let currentCatalog = null;
 let selectedRating = 5;
+/** Chỉ có giá trị khi người dùng bấm Sửa (chế độ "edit"); null = chế độ "add". */
 let editingReviewId = null;
+/** Chống bấm Gửi/Cập nhật nhiều lần khi request trước chưa xong. */
+let isReviewSubmitting = false;
 
 function getCurrentUser() {
   const raw = localStorage.getItem("currentUser");
@@ -456,15 +459,27 @@ function setStars(rating) {
   if (label) label.textContent = REVIEW_TEXT[selectedRating];
 }
 
-function fillComposerFromReview(review) {
-  editingReviewId = review?.id ?? null;
+/**
+ * Quản lý trạng thái form bình luận — tách bạch hai chế độ:
+ *  - "add" : form trống, nút "Gửi bình luận". Là trạng thái mặc định khi tải
+ *    trang, sau khi gửi thành công và sau khi hủy/chỉnh sửa xong.
+ *  - "edit": chỉ bật khi người dùng bấm nút Sửa trên bình luận của chính mình;
+ *    hiển thị nội dung cũ trong form, nút "Cập nhật đánh giá" và nút "Hủy".
+ * Trạng thái sửa KHÔNG TỰ BẬT khi tải trang hay sau khi gửi bình luận mới.
+ */
+function setComposerMode(mode, review = null) {
+  const isEdit = mode === "edit" && Boolean(review);
+  editingReviewId = isEdit ? review.id : null;
+
   const comment = document.getElementById("comment-input");
-  if (comment) comment.value = review?.comment || "";
-  setStars(review?.rating || 5);
+  if (comment) comment.value = isEdit ? review.comment || "" : "";
+  setStars(isEdit ? review.rating || 5 : 5);
 
   const submit = document.getElementById("submit-comment");
-  if (submit)
-    submit.textContent = review ? "Cập nhật đánh giá" : "Gửi bình luận";
+  if (submit) submit.textContent = isEdit ? "Cập nhật đánh giá" : "Gửi bình luận";
+
+  const cancel = document.getElementById("cancel-comment");
+  if (cancel) cancel.hidden = !isEdit;
 }
 
 function notify(icon, title) {
@@ -481,19 +496,6 @@ function notify(icon, title) {
     return;
   }
   window.alert(title);
-}
-
-function findMyReview(movie, catalog) {
-  const user = getCurrentUser();
-  if (!user) return null;
-  return (
-    catalog.reviews.find(
-      (r) =>
-        sameId(r.movieId, movie.id) &&
-        sameId(r.userId, user.id) &&
-        String(r.status ?? "visible") === "visible",
-    ) || null
-  );
 }
 
 function refreshReviewBlocks(movie, catalog) {
@@ -563,11 +565,16 @@ function bindReviewActions(movie, catalog) {
 
     const editBtn = event.target.closest("[data-review-edit]");
     if (editBtn) {
+      const user = getCurrentUser();
       const review = catalog.reviews.find((r) =>
         sameId(r.id, editBtn.dataset.reviewEdit),
       );
       if (!review) return;
-      fillComposerFromReview(review);
+      if (!user || !sameId(review.userId, user.id)) {
+        notify("info", "Bạn chỉ có thể sửa đánh giá của chính mình.");
+        return;
+      }
+      setComposerMode("edit", review);
       document.getElementById("comment-input")?.focus();
       document
         .getElementById("comment-input")
@@ -578,10 +585,15 @@ function bindReviewActions(movie, catalog) {
     const removeBtn = event.target.closest("[data-review-delete]");
     if (!removeBtn) return;
 
+    const user = getCurrentUser();
     const review = catalog.reviews.find((r) =>
       sameId(r.id, removeBtn.dataset.reviewDelete),
     );
     if (!review) return;
+    if (!user || !sameId(review.userId, user.id)) {
+      notify("info", "Bạn chỉ có thể xoá đánh giá của chính mình.");
+      return;
+    }
 
     const ok = window.confirm("Bạn có chắc muốn xoá đánh giá này?");
     if (!ok) return;
@@ -589,8 +601,12 @@ function bindReviewActions(movie, catalog) {
     try {
       await api.delete(`/reviews/${review.id}`);
       catalog.reviews = catalog.reviews.filter((r) => !sameId(r.id, review.id));
+      // Đang sửa đúng bình luận vừa xoá thì thoát chế độ sửa, không tự nạp
+      // bình luận khác vào form.
+      if (editingReviewId && sameId(editingReviewId, review.id)) {
+        setComposerMode("add");
+      }
       refreshReviewBlocks(movie, catalog);
-      fillComposerFromReview(findMyReview(movie, catalog));
       notify("success", "Đã xoá đánh giá.");
     } catch (error) {
       console.error("[movie-detail] Xoá review lỗi:", error);
@@ -602,6 +618,7 @@ function bindReviewActions(movie, catalog) {
 function bindReviewComposer(movie, catalog) {
   const stars = document.querySelectorAll(".star-btn");
   const submit = document.getElementById("submit-comment");
+  const cancel = document.getElementById("cancel-comment");
   const comment = document.getElementById("comment-input");
   if (!stars.length || !submit || !comment) return;
 
@@ -611,9 +628,18 @@ function bindReviewComposer(movie, catalog) {
     });
   });
 
-  fillComposerFromReview(findMyReview(movie, catalog));
+  // Tải trang luôn ở chế độ thêm mới — không tự pre-fill hay bật "Cập nhật";
+  // người dùng có thể bình luận nhiều lần, mỗi lần gửi là một bản ghi mới.
+  setComposerMode("add");
+
+  cancel?.addEventListener("click", () => {
+    setComposerMode("add");
+    comment.focus();
+  });
 
   submit.addEventListener("click", async () => {
+    if (isReviewSubmitting) return;
+
     const user = getCurrentUser();
     if (!user) {
       notify("info", "Vui lòng đăng nhập để gửi đánh giá.");
@@ -636,8 +662,18 @@ function bindReviewComposer(movie, catalog) {
       createdAt: new Date().toISOString().slice(0, 10),
     };
 
+    isReviewSubmitting = true;
+    submit.disabled = true;
     try {
       if (editingReviewId) {
+        const target = catalog.reviews.find((r) =>
+          sameId(r.id, editingReviewId),
+        );
+        if (!target || !sameId(target.userId, user.id)) {
+          notify("error", "Không tìm thấy đánh giá của bạn để cập nhật.");
+          setComposerMode("add");
+          return;
+        }
         const updated = await api.patch(`/reviews/${editingReviewId}`, payload);
         catalog.reviews = catalog.reviews.map((r) =>
           sameId(r.id, editingReviewId) ? { ...r, ...updated } : r,
@@ -645,16 +681,20 @@ function bindReviewComposer(movie, catalog) {
         notify("success", "Đã cập nhật đánh giá.");
       } else {
         const created = await api.post("/reviews", payload);
-        catalog.reviews.unshift(created);
-        editingReviewId = created?.id ?? null;
-        notify("success", "Đã gửi đánh giá.");
+        if (created?.id != null) catalog.reviews.unshift(created);
+        notify("success", "Đã gửi bình luận.");
       }
 
       refreshReviewBlocks(movie, catalog);
-      fillComposerFromReview(findMyReview(movie, catalog));
+      // Gửi xong hay cập nhật xong đều về trạng thái bình thường (chế độ
+      // thêm mới, form trống) — không kẹt lại ở chế độ sửa.
+      setComposerMode("add");
     } catch (error) {
       console.error("[movie-detail] Lưu review lỗi:", error);
       notify("error", "Không thể lưu đánh giá, vui lòng thử lại.");
+    } finally {
+      isReviewSubmitting = false;
+      submit.disabled = false;
     }
   });
 }
