@@ -310,10 +310,48 @@ export function attachSearchSuggest(input, options = {}) {
 const HEADER_SEARCH_SELECTOR =
   'header input[placeholder="Tìm kiếm phim, diễn viên..."]';
 
+/**
+ * Mở ô tìm kiếm header trên mobile bằng nút kính lúp.
+ * Ô tìm kiếm nằm trong `div.relative.hidden.xl:flex`, còn nút kính lúp là
+ * phần tử kế tiếp (`button.xl:hidden`). Trên desktop nút này bị ẩn nên
+ * thao tác mở/đóng không ảnh hưởng giao diện desktop.
+ */
+function initMobileSearchToggle(input) {
+  const wrapper = input.closest(".relative");
+  if (!wrapper) return;
+
+  const button = wrapper.nextElementSibling;
+  if (!button || button.tagName !== "BUTTON") return;
+
+  const close = () => {
+    wrapper.classList.add("hidden");
+    wrapper.classList.remove("flex");
+    const dropdown = document.getElementById(
+      input.dataset.searchSuggestId || "",
+    );
+    if (dropdown) dropdown.hidden = true;
+  };
+
+  button.addEventListener("click", () => {
+    if (wrapper.classList.contains("hidden")) {
+      wrapper.classList.remove("hidden");
+      wrapper.classList.add("flex");
+      input.focus();
+    } else {
+      close();
+    }
+  });
+
+  input.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") close();
+  });
+}
+
 function initHeaderSearch() {
-  document
-    .querySelectorAll(HEADER_SEARCH_SELECTOR)
-    .forEach((input) => attachSearchSuggest(input));
+  document.querySelectorAll(HEADER_SEARCH_SELECTOR).forEach((input) => {
+    attachSearchSuggest(input);
+    initMobileSearchToggle(input);
+  });
 }
 
 if (document.readyState === "loading") {
