@@ -236,7 +236,7 @@ function toggleEmptyState(isEmpty) {
 function setQuery(value, from) {
   state.q = value;
   state.page = 1;
-  for (const key of ["search", "search-header"]) {
+  for (const key of ["search"]) {
     const el = document.querySelector(`[data-metric='${key}']`);
     if (el && el !== from) el.value = value;
   }
@@ -261,20 +261,10 @@ function fillYearOptions() {
 }
 
 function bindControls() {
-  for (const key of ["search", "search-header"]) {
+  for (const key of ["search"]) {
     const el = document.querySelector(`[data-metric='${key}']`);
     if (!el) continue;
     el.addEventListener("input", () => setQuery(el.value, el));
-    // Nút kính lúp ở header mở ô tìm kiếm trên mobile
-    if (key === "search-header") {
-      const toggle = el.closest("div")?.nextElementSibling;
-      if (toggle && toggle.tagName === "BUTTON") {
-        toggle.addEventListener("click", () => {
-          el.focus();
-          el.scrollIntoView({ block: "center", behavior: "smooth" });
-        });
-      }
-    }
   }
 
   const map = {
