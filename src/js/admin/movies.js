@@ -5,10 +5,19 @@ await kiemTraDangNhapAdmin();
 const loadMovies = async () => {
   try {
     const res = await api.get("/movies");
-    console.log(res);
     const movies = res.filter((item) => item.status !== "Inactive");
 
     return movies;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
+export const loadReviews = async () => {
+  try {
+    const res = await api.get("/reviews");
+    return Array.isArray(res) ? res : [];
   } catch (error) {
     console.log(error);
     return [];
@@ -25,6 +34,7 @@ let allMovies = [];
 // masterMovies: toàn bộ phim đã load. allMovies: tập đang lọc (nguồn cho phân trang).
 let masterMovies = [];
 let genres = [];
+let ratingMap = new Map();
 
 const searchInput = document.querySelector("#searchInput");
 const genreFilter = document.querySelector("#genreFilter");
@@ -55,6 +65,76 @@ const getGenres = async () => {
     return [];
   }
 };
+
+// ===============================
+// ĐÁNH GIÁ TRUNG BÌNH THEO PHIM
+// ===============================
+
+/** rating hợp lệ: số trong khoảng 1–5. */
+export const isValidRating = (value) => {
+  const n = Number(value);
+  return Number.isFinite(n) && n >= 1 && n <= 5;
+};
+
+/** Gom reviews thành map movieId → { sum, count } để tái sử dụng khi render. */
+export function buildRatingMap(reviews) {
+  const map = new Map();
+
+  for (const review of reviews || []) {
+    if (!isValidRating(review?.rating)) continue;
+
+    const key = String(review.movieId);
+    const entry = map.get(key) || { sum: 0, count: 0 };
+    entry.sum += Number(review.rating);
+    entry.count += 1;
+    map.set(key, entry);
+  }
+
+  return map;
+}
+
+/** Điểm TB 1 chữ số thập phân + số lượt; chưa có đánh giá → avg 0, count 0. */
+export function getRatingInfo(map, movieId) {
+  const entry = map.get(String(movieId));
+  if (!entry || entry.count === 0) return { avg: 0, count: 0 };
+
+  const avg = Math.round((entry.sum / entry.count) * 10) / 10;
+  return { avg, count: entry.count };
+}
+
+/** HTML điểm sao dùng chung cho bảng danh sách và drawer chi tiết. */
+export function renderRatingHtml(map, movieId) {
+  const { avg, count } = getRatingInfo(map, movieId);
+
+  if (count === 0) {
+    return `
+      <span class="inline-flex items-center gap-1 text-zinc-500">
+        <span class="material-symbols-outlined text-base align-middle">star_outline</span>
+        <span class="font-medium">0</span>
+        <span class="text-xs">(Chưa có đánh giá)</span>
+      </span>
+    `;
+  }
+
+  return `
+    <span class="inline-flex items-center gap-1" title="${avg} / 5 từ ${count} đánh giá">
+      <span class="material-symbols-outlined text-base text-amber-400 align-middle">star</span>
+      <span class="font-medium text-on-surface">${avg.toFixed(1)}</span>
+      <span class="text-xs text-on-surface-variant">(${count})</span>
+    </span>
+  `;
+}
+
+/** Tên thể loại từ mảng id của phim, tra bảng genres đã load. */
+function getGenreNames(movie) {
+  const ids = toGenreIdList(movie?.genre);
+  if (!ids.length) return "";
+
+  return ids
+    .map((id) => genres.find((g) => String(g.id) === id)?.name)
+    .filter(Boolean)
+    .join(", ");
+}
 
 /** Đổ danh sách thể loại từ db vào select, không tạo thể loại mới. */
 function renderGenreOptions() {
@@ -196,7 +276,7 @@ function renderMovies(loadMovies) {
                 </span>
 
                 <div class="flex items-center gap-1.5 text-on-surface-variant">
-                  <span>${movie.year}</span>
+                  <span>${movie.releaseYear}</span>
                   <span>•</span>
                   <span>${movie.director}</span>
                 </div>
@@ -206,7 +286,7 @@ function renderMovies(loadMovies) {
 
           <td class="py-3.5 px-space-md">
             <span class="px-2.5 py-1 rounded-full bg-surface-container-high">
-              ${movie.genre}
+              ${getGenreNames(movie) || "Chưa có thể loại"}
             </span>
           </td>
 
@@ -224,14 +304,16 @@ function renderMovies(loadMovies) {
             ${movie.views?.toLocaleString("vi-VN") || 0}
           </td>
 
-        
+          <td class="py-3.5 px-space-md">
+            ${renderRatingHtml(ratingMap, movie.id)}
+          </td>
 
           <td class="py-3.5 px-space-md">
             <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-zinc-800">
               <span class="w-1.5 h-1.5 rounded-full ${
-                movie.status === "published"
+                movie.status === true || movie.status === "published"
                   ? "bg-emerald-500"
-                  : movie.status === "draft"
+                  : movie.status === false || movie.status === "draft"
                     ? "bg-amber-500"
                     : movie.status === "inactive"
                       ? "bg-rose-500"
@@ -239,9 +321,9 @@ function renderMovies(loadMovies) {
               }"></span>
 
               ${
-                movie.status === "published"
+                movie.status === true || movie.status === "published"
                   ? "Đã phát hành"
-                  : movie.status === "draft"
+                  : movie.status === false || movie.status === "draft"
                     ? "Bản nháp"
                     : movie.status === "inactive"
                       ? "Đã xóa"
@@ -368,13 +450,20 @@ function nextPage() {
 window.goToPage = goToPage;
 window.nextPage = nextPage;
 window.previousPage = previousPage;
-const movies = await loadMovies();
-masterMovies = movies;
+// Bootstrap trang quản lý phim. Guard bằng #movie-list để trang khác
+// (vd: dashboard) import được hàm đánh giá mà không execute render ở đây.
+if (document.querySelector("#movie-list")) {
+  const movies = await loadMovies();
+  masterMovies = movies;
 
-genres = await getGenres();
-renderGenreOptions();
+  genres = await getGenres();
+  renderGenreOptions();
 
-renderMovies(movies);
+  const reviews = await loadReviews();
+  ratingMap = buildRatingMap(reviews);
+
+  renderMovies(movies);
+}
 
 async function viewMovie(id) {
   try {
@@ -399,11 +488,7 @@ async function viewMovie(id) {
         '<span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20">🔴 Inactive</span>',
     };
 
-    const genreDisplay =
-      movie.genreName ||
-      (typeof movie.genre === "object"
-        ? movie.genre?.name
-        : `Thể loại #${movie.genre || movie.genreId || "N/A"}`);
+    const genreDisplay = getGenreNames(movie) || "Chưa có thể loại";
 
     document.getElementById("movieDetailContent").innerHTML = `
       <!-- ================= POSTER & BACKDROP ================= -->
@@ -471,7 +556,7 @@ async function viewMovie(id) {
 
         <div class="flex justify-between py-1 border-b border-zinc-800/40">
           <span class="text-zinc-400">Năm phát hành</span>
-          <span class="text-zinc-200 font-medium">${movie.year || "Chưa cập nhật"}</span>
+          <span class="text-zinc-200 font-medium">${movie.releaseYear || "Chưa cập nhật"}</span>
         </div>
 
         <div class="flex justify-between py-1 border-b border-zinc-800/40">
@@ -490,6 +575,11 @@ async function viewMovie(id) {
         </div>
 
         <div class="flex justify-between py-1 border-b border-zinc-800/40">
+          <span class="text-zinc-400">Điểm đánh giá</span>
+          <span class="text-zinc-200 font-medium">${renderRatingHtml(ratingMap, movie.id)}</span>
+        </div>
+
+        <div class="flex justify-between py-1 border-b border-zinc-800/40">
           <span class="text-zinc-400">Ngày tạo</span>
           <span class="text-zinc-200 font-medium">${movie.createdAt || "Chưa cập nhật"}</span>
         </div>
@@ -498,9 +588,9 @@ async function viewMovie(id) {
           <span class="text-zinc-400">Trạng thái</span>
 <div>
   ${
-    movie.status === "published"
+    movie.status === true || movie.status === "published"
       ? "🟢 Đã phát hành"
-      : movie.status === "draft"
+      : movie.status === false || movie.status === "draft"
         ? "🟡 Bản nháp"
         : movie.status === "inactive"
           ? "🔴 Đã xóa"

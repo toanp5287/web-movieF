@@ -60,7 +60,8 @@ function escapeHtml(value) {
  * null / vắng mặt / scalar. Chuẩn hoá về mảng string để so sánh.
  */
 function toGenreIdList(value) {
-  if (Array.isArray(value)) return value.map((v) => String(v).trim()).filter(Boolean);
+  if (Array.isArray(value))
+    return value.map((v) => String(v).trim()).filter(Boolean);
 
   if (value === null || value === undefined || value === "") return [];
 
@@ -1042,7 +1043,7 @@ async function editMovie(id, oldMovie) {
       confirmButtonText: "OK",
     });
 
-    window.location.replace("/admin");
+    window.location.replace("/admin/movies");
   } catch (error) {
     console.error("❌ Lỗi editMovie:", error);
 

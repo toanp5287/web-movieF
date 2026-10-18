@@ -1723,63 +1723,187 @@
       </div>
     </main>
     <footer
-      class="w-full bg-surface-container-low border-t border-surface-container-highest/20 py-space-lg"
+      class="w-full bg-surface-container-low border-t border-white/5 mt-space-xl"
+      id="footer"
     >
-      <div
-        class="max-w-7xl mx-auto px-gutter flex flex-col md:flex-row items-center justify-between gap-space-md"
-      >
-        <div class="flex items-center gap-space-sm">
-          <img
-            alt="MovieF Logo"
-            class="h-6 w-auto object-contain"
-            src="https://lh3.googleusercontent.com/aida/AEtjO1VeksytFg1dn6T9F3hPib7wbqtn3ygRp3PC8eEkZpRpmkwjknjnvQXLWLxZTQNnjUZqNQ3FCl8AZchSrDB7iioiDn3HOaFoI1H32feVlzd6_Vl0vNBFIBtETqTO4lebdMKng4UNbMkPi1QxUgTpps6UP17GbgneT_zod4YvYbWWzIoeEsrzIKSWmC0CT4WiOZtC-uLO1btCMOg3198iZj4kHr_g_Rw4D2QAOBZi5j4ptMp_ug2BY9swUg"
-          /><span
-            class="font-title-md text-title-md font-bold tracking-tight text-on-primary-container"
-            >Movie<span class="text-primary-container">F</span></span
-          ><span
-            class="hidden sm:inline-block text-secondary font-body-sm text-body-sm pl-space-xs"
-            >— Nền tảng xem phim trực tuyến phục vụ học tập và nghiên cứu.</span
-          >
-        </div>
-        <nav
-          class="flex flex-wrap items-center justify-center gap-x-space-md gap-y-space-xs"
-        >
-          <a
-            class="text-secondary hover:text-on-surface font-body-sm text-body-sm transition-colors"
-            data-path="trang-chu"
-            href="#"
-            >Trang chủ</a
-          ><a
-            class="text-secondary hover:text-on-surface font-body-sm text-body-sm transition-colors"
-            data-path="phim"
-            href="#"
-            >Phim</a
-          ><a
-            class="text-primary-container font-title-sm font-bold transition-colors"
-            data-path="the-loai"
-            href="#"
-            >Thể loại</a
-          ><a
-            class="text-secondary hover:text-on-surface font-body-sm text-body-sm transition-colors"
-            data-path="gioi-thieu"
-            href="#"
-            >Giới thiệu</a
-          ><a
-            class="text-secondary hover:text-on-surface font-body-sm text-body-sm transition-colors"
-            data-path="lien-he"
-            href="#"
-            >Liên hệ</a
-          ><a
-            class="text-secondary hover:text-on-surface font-body-sm text-body-sm transition-colors"
-            data-path="chinh-sach"
-            href="#"
-            >Chính sách</a
-          >
-        </nav>
+      <div class="w-full px-gutter-mobile md:px-margin py-space-xl">
         <div
-          class="text-secondary font-body-sm text-body-sm text-center md:text-right"
+          class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-space-xl mb-space-xl"
         >
-          © 2024 MovieF. All rights reserved.
+          <div class="md:col-span-2 flex flex-col gap-space-md">
+            <div class="flex items-center gap-space-sm">
+              <img
+                alt="MovieF Logo"
+                class="h-7 w-auto object-contain"
+                src="/images/logo/logo.svg"
+              />
+              <span
+                class="font-headline-sm text-headline-sm tracking-tight text-on-surface font-bold"
+              >
+                Movie<span class="text-primary-container">F</span>
+              </span>
+            </div>
+            <p
+              class="font-body-sm text-body-sm text-on-surface-variant max-w-sm"
+            >
+              Nền tảng phát trực tuyến trải nghiệm điện ảnh đỉnh cao, đem rạp
+              chiếu phim chất lượng chuẩn 4K đến mọi gia đình.
+            </p>
+            <div class="flex items-center gap-space-sm pt-space-xs">
+              <a
+                class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+                href="#"
+              >
+                <span class="material-symbols-outlined text-base"
+                  >smart_display</span
+                >
+              </a>
+              <a
+                class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+                href="#"
+              >
+                <span class="material-symbols-outlined text-base">public</span>
+              </a>
+              <a
+                class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+                href="#"
+              >
+                <span class="material-symbols-outlined text-base">forum</span>
+              </a>
+            </div>
+          </div>
+          <div class="flex flex-col gap-space-sm">
+            <span
+              class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider"
+            >
+              Khám phá
+            </span>
+            <ul class="flex flex-col gap-space-xs">
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Giới thiệu
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Phim chiếu rạp
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Phim bộ độc quyền
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Bảng xếp hạng
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="flex flex-col gap-space-sm">
+            <span
+              class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider"
+            >
+              Quy định &amp; Hỗ trợ
+            </span>
+            <ul class="flex flex-col gap-space-xs">
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Điều khoản sử dụng
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Chính sách bảo mật
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Liên hệ
+                </a>
+              </li>
+              <li class="font-body-sm text-body-sm">
+                <a
+                  class="text-on-surface-variant hover:text-on-surface transition-colors"
+                  href="#"
+                >
+                  Trung tâm trợ giúp
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="flex flex-col gap-space-sm">
+            <span
+              class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider"
+            >
+              Ứng dụng
+            </span>
+            <p class="font-body-sm text-body-sm text-on-surface-variant">
+              Xem phim mọi lúc, mọi nơi trên Smart TV, di động và máy tính bảng.
+            </p>
+            <div class="flex flex-col gap-space-xs pt-space-xs">
+              <div
+                class="flex items-center gap-space-sm p-space-xs bg-surface-container rounded-lg"
+              >
+                <span class="material-symbols-outlined text-primary">tv</span>
+                <span class="font-label-md text-label-md text-on-surface">
+                  Smart TV &amp; Android TV
+                </span>
+              </div>
+              <div
+                class="flex items-center gap-space-sm p-space-xs bg-surface-container rounded-lg"
+              >
+                <span class="material-symbols-outlined text-primary"
+                  >smartphone</span
+                >
+                <span class="font-label-md text-label-md text-on-surface">
+                  iOS &amp; Android Apps
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="pt-space-md border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-space-sm text-center sm:text-left"
+        >
+          <p class="font-body-sm text-body-sm text-on-surface-variant">
+            © 2024 MovieF Streaming Platform. Bản quyền thuộc về MovieF.
+          </p>
+          <div
+            class="flex items-center gap-space-md font-body-sm text-body-sm text-on-surface-variant"
+          >
+            <a class="hover:text-on-surface transition-colors" href="#">
+              Quyền riêng tư
+            </a>
+            <a class="hover:text-on-surface transition-colors" href="#">
+              Cookie
+            </a>
+            <a class="hover:text-on-surface transition-colors" href="#">
+              Trợ giúp
+            </a>
+          </div>
         </div>
       </div>
     </footer>
