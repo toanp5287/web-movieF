@@ -19,6 +19,69 @@ function normalizeId(id) {
   return /^\d+$/.test(String(id)) ? Number(id) : id;
 }
 
+/* ------------------------------------------------------------------ *
+ * Lịch sử xem của KHÁCH (localStorage) — tách biệt hoàn toàn với lịch sử
+ * tài khoản (API /histories). Chỉ giữ tối đa 3 phim gần nhất, mỗi phim một
+ * bản ghi. Được export để trang chủ (home.js) đọc lại.
+ * ------------------------------------------------------------------ */
+
+/** Khóa localStorage cho lịch sử xem của người chưa đăng nhập. */
+export const GUEST_HISTORY_KEY = "movieF_watchHistory_guest";
+
+/** Số phim tối đa giữ trong lịch sử khách. */
+const GUEST_HISTORY_LIMIT = 3;
+
+/**
+ * Đọc lịch sử xem của khách. Luôn trả mảng an toàn (dữ liệu hỏng -> []),
+ * đã lọc bản ghi thiếu mã phim và sắp xếp mới xem gần nhất lên đầu.
+ */
+export function readGuestHistory() {
+  try {
+    const list = JSON.parse(localStorage.getItem(GUEST_HISTORY_KEY) || "[]");
+    if (!Array.isArray(list)) return [];
+    return list
+      .filter((item) => item && item.movieId !== undefined && item.movieId !== null)
+      .sort(
+        (a, b) =>
+          new Date(b.watchedAt || 0).getTime() -
+          new Date(a.watchedAt || 0).getTime(),
+      );
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Ghi/cập nhật lịch sử xem của khách.
+ *
+ * Mỗi phim chỉ có MỘT bản ghi (khớp theo movieId): xem lại cùng phim sẽ cập
+ * nhật tiến độ/thời gian và đưa bản ghi lên đầu thay vì tạo bản trùng. Nếu là
+ * phim bộ thì lưu kèm episodeId gần nhất để "Tiếp tục xem" mở đúng tập. Chỉ
+ * giữ tối đa GUEST_HISTORY_LIMIT phim.
+ */
+export function saveGuestHistory({ movieId, episodeId = "", progress = 0 }) {
+  if (!movieId) return readGuestHistory();
+
+  const row = {
+    movieId: normalizeId(movieId),
+    episodeId: episodeId ? normalizeId(episodeId) : "",
+    progress: Math.max(0, Math.round(Number(progress) || 0)),
+    watchedAt: new Date().toISOString().slice(0, 19),
+  };
+
+  const rest = readGuestHistory().filter(
+    (item) => !sameId(item.movieId, movieId),
+  );
+  const next = [row, ...rest].slice(0, GUEST_HISTORY_LIMIT);
+
+  try {
+    localStorage.setItem(GUEST_HISTORY_KEY, JSON.stringify(next));
+  } catch {
+    /* localStorage bị chặn: bỏ qua, không làm hỏng trang */
+  }
+  return next;
+}
+
 function getEpisodeId() {
   return new URLSearchParams(window.location.search).get("episode") || "";
 }
@@ -89,7 +152,11 @@ async function saveHistory(
 
 async function initWatchHistory() {
   const container = document.querySelector("#videoContainer");
-  if (!container) return;
+  const video = document.querySelector("#watchVideo");
+  // Chỉ chạy ở trang xem phim. Module này còn được home.js import để đọc lịch
+  // sử khách, nên thoát sớm khi không có <video> để không gọi API/localStorage
+  // thừa ở trang khác.
+  if (!container || !video) return;
 
   const movieId =
     new URLSearchParams(window.location.search).get("id") ||
@@ -98,11 +165,6 @@ async function initWatchHistory() {
   if (!movieId) return;
 
   const user = getCurrentUser();
-  // Khách chưa đăng nhập vẫn được xem phim bình thường. Trước đây chỗ này gọi
-  // redirectToLogin() nên bấm "Xem phim ngay" sẽ bị đá sang /login và không
-  // xem được gì. Ghi lịch sử chỉ là tiện ích thêm cho người đã đăng nhập, nên
-  // với khách thì bỏ qua thay vì chặn trang.
-  if (!user) return;
 
   let durationSeconds = 0;
   let historyId = null;
@@ -110,40 +172,47 @@ async function initWatchHistory() {
   let saveQueued = false;
   let firstToastShown = false;
 
-  try {
-    const movie = await api.get(`/movies/${movieId}`);
-    durationSeconds = (Number(movie?.duration) || 0) * 60;
-  } catch (error) {
-    console.error("Lỗi tải phim:", error);
+  if (user) {
+    try {
+      const movie = await api.get(`/movies/${movieId}`);
+      durationSeconds = (Number(movie?.duration) || 0) * 60;
+    } catch (error) {
+      console.error("Lỗi tải phim:", error);
+    }
+
+    try {
+      const histories = await api.get("/histories");
+      const existing = (Array.isArray(histories) ? histories : []).find(
+        (item) =>
+          sameId(item.userId, user.id) &&
+          sameId(item.movieId, movieId) &&
+          sameId(item.episodeId || "", episodeId),
+      );
+      historyId = existing?.id ?? null;
+      lastSavedProgress = Math.max(0, Number(existing?.progress) || 0);
+    } catch (error) {
+      console.error("Lỗi tải lịch sử xem:", error);
+    }
+  } else {
+    // Khách: đọc lịch sử từ localStorage (dedup theo phim, tối đa 3).
+    const existing = readGuestHistory().find((item) =>
+      sameId(item.movieId, movieId),
+    );
+    lastSavedProgress = Math.max(0, Number(existing?.progress) || 0);
   }
 
-  try {
-    const histories = await api.get("/histories");
-    const existing = histories.find(
-      (item) =>
-        sameId(item.userId, user.id) &&
-        sameId(item.movieId, movieId) &&
-        sameId(item.episodeId || "", episodeId),
+  if (lastSavedProgress > 0) {
+    video.addEventListener(
+      "loadedmetadata",
+      () => {
+        const cap =
+          Number.isFinite(video.duration) && video.duration > 0
+            ? Math.max(0, video.duration - 1)
+            : lastSavedProgress;
+        video.currentTime = Math.min(lastSavedProgress, cap);
+      },
+      { once: true },
     );
-    historyId = existing?.id ?? null;
-    lastSavedProgress = Math.max(0, Number(existing?.progress) || 0);
-
-    const video = document.querySelector("#watchVideo");
-    if (video && lastSavedProgress > 0) {
-      video.addEventListener(
-        "loadedmetadata",
-        () => {
-          const cap =
-            Number.isFinite(video.duration) && video.duration > 0
-              ? Math.max(0, video.duration - 1)
-              : lastSavedProgress;
-          video.currentTime = Math.min(lastSavedProgress, cap);
-        },
-        { once: true },
-      );
-    }
-  } catch (error) {
-    console.error("Lỗi tải lịch sử xem:", error);
   }
 
   const persist = async (force = false) => {
@@ -154,14 +223,18 @@ async function initWatchHistory() {
       const next = readProgressSeconds(durationSeconds);
       if (!force && Math.abs(next - lastSavedProgress) < 5) return;
 
-      const saved = await saveHistory(
-        user,
-        movieId,
-        episodeId,
-        next,
-        historyId,
-      );
-      historyId = saved?.id ?? historyId;
+      if (user) {
+        const saved = await saveHistory(
+          user,
+          movieId,
+          episodeId,
+          next,
+          historyId,
+        );
+        historyId = saved?.id ?? historyId;
+      } else {
+        saveGuestHistory({ movieId, episodeId, progress: next });
+      }
       lastSavedProgress = next;
 
       if (!firstToastShown && next > 0) {
@@ -174,9 +247,6 @@ async function initWatchHistory() {
       saveQueued = false;
     }
   };
-
-  const video = document.querySelector("#watchVideo");
-  if (!video) return;
 
   let autosaveTimer = null;
 

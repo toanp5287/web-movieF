@@ -25,6 +25,7 @@ import {
   loadCatalog,
   watchUrl,
 } from "./movie-data.js";
+import { readGuestHistory } from "./history.js";
 
 /** Tên file poster trong một khối (ưu tiên background-image, sau đó mới <img>). */
 function posterIn(root) {
@@ -215,34 +216,36 @@ function ensureContinueWatchingMount() {
   return section;
 }
 
+/** Catalog phim gần nhất, để render lại "Tiếp tục xem" khi đăng nhập/đăng xuất. */
+let catalogRef = null;
+
 /**
- * "Tiếp tục xem" chỉ hiện khi đã đăng nhập.
- * Lấy đúng 3 phim xem gần nhất của user hiện tại.
+ * Khối "Tiếp tục xem" trên trang chủ.
+ * - Khách (chưa đăng nhập): đọc lịch sử từ localStorage (readGuestHistory),
+ *   tối đa 3 phim gần nhất, mỗi phim một bản ghi.
+ * - Đã đăng nhập: đọc lịch sử tài khoản qua API /histories như trước.
  */
 async function renderContinueWatching(catalog) {
-  if (!getCurrentUser()) {
-    hideContinueWatching();
-    return;
-  }
-
-  let histories = [];
-  try {
-    const rows = await api.get("/histories");
-    histories = Array.isArray(rows) ? rows : [];
-  } catch (error) {
-    console.error("[home] Không tải được lịch sử xem:", error);
-    hideContinueWatching();
-    return;
-  }
-
   const user = getCurrentUser();
-  if (!user) {
-    hideContinueWatching();
-    return;
+
+  let rows = [];
+  if (user) {
+    try {
+      const data = await api.get("/histories");
+      rows = (Array.isArray(data) ? data : []).filter((row) =>
+        sameId(row.userId, user.id),
+      );
+    } catch (error) {
+      console.error("[home] Không tải được lịch sử xem:", error);
+      hideContinueWatching();
+      return;
+    }
+  } else {
+    rows = readGuestHistory();
   }
 
-  const items = histories
-    .filter((row) => sameId(row.userId, user.id))
+  const items = rows
+    .slice()
     .sort(
       (a, b) =>
         new Date(b.watchedAt || 0).getTime() -
@@ -254,7 +257,10 @@ async function renderContinueWatching(catalog) {
         list.some(
           (item) =>
             sameId(item.history.movieId, row.movieId) &&
-            sameId(item.history.episodeId || "", row.episodeId || ""),
+            // Khách: mỗi phim một bản ghi (bỏ qua tập). Tài khoản: giữ nguyên
+            // quy tắc tách theo tập như trước.
+            (!user ||
+              sameId(item.history.episodeId || "", row.episodeId || "")),
         )
       )
         return list;
@@ -274,7 +280,13 @@ async function renderContinueWatching(catalog) {
       return list;
     }, []);
 
-  if (!getCurrentUser() || !items.length) {
+  // Đăng xuất trong lúc chờ API: bỏ qua kết quả lịch sử tài khoản cũ.
+  if (user && !getCurrentUser()) {
+    hideContinueWatching();
+    return;
+  }
+
+  if (!items.length) {
     hideContinueWatching();
     return;
   }
@@ -283,9 +295,23 @@ async function renderContinueWatching(catalog) {
   const rail = document.getElementById("continueWatchingRail");
   if (!section || !rail) return;
 
+  // "Xem tất cả" dẫn tới /profile?tab=history (trang tài khoản) nên chỉ hiện
+  // với người đã đăng nhập; khách chỉ xem danh sách rút gọn.
+  const allLink = document.getElementById("continueWatchingAll");
+  if (allLink) allLink.classList.toggle("hidden", !user);
+
   rail.innerHTML = items
     .map((item) => continueCardMarkup(item, catalog))
     .join("");
+}
+
+/** Render lại "Tiếp tục xem" theo nguồn lịch sử hiện tại (khách ↔ tài khoản). */
+function refreshContinueWatching() {
+  if (catalogRef) {
+    renderContinueWatching(catalogRef);
+  } else {
+    hideContinueWatching();
+  }
 }
 
 /** Tìm phim tương ứng với một thẻ trên home. */
@@ -337,10 +363,12 @@ async function init() {
       "[home] Không tải được data/db.json, giữ nguyên liên kết cũ:",
       err,
     );
-    await renderContinueWatching({ movies: [], genres: [] });
+    catalogRef = { movies: [], genres: [] };
+    await renderContinueWatching(catalogRef);
     return;
   }
 
+  catalogRef = catalog;
   await renderContinueWatching(catalog);
   if (!anchors.length) return;
 
@@ -396,17 +424,17 @@ async function init() {
 
 hideContinueWatching();
 
-window.addEventListener("auth-changed", (event) => {
-  if (event.detail?.signedIn === false || !getCurrentUser()) {
-    hideContinueWatching();
-  }
+window.addEventListener("auth-changed", () => {
+  refreshContinueWatching();
 });
 
 document.addEventListener(
   "click",
   (event) => {
     if (!event.target.closest("#logoutBtn")) return;
-    hideContinueWatching();
+    // header.js xóa currentUser SAU sự kiện click (pha bubble), nên đợi xong
+    // rồi render lại theo nguồn lịch sử mới (lịch sử khách nếu có).
+    window.setTimeout(refreshContinueWatching, 0);
   },
   true,
 );
