@@ -28,9 +28,12 @@ import {
   qualityLabel,
   ratingCount,
   sameId,
+  watchUrl,
 } from "./movie-data.js";
 import { renderMovieCards } from "./movie-card.js";
 import { initEpisodeList } from "./episode-list.js";
+import { episodesInOrder, pickWatchResumeTarget } from "./episode-navigation.js";
+import { isSeriesMovie, loadSeriesData } from "./series-data.js";
 import api from "../api.js";
 
 const bind = (name, root = document) =>
@@ -420,6 +423,127 @@ function renderSpecs(movie) {
 }
 
 /* ------------------------------------------------------------------ *
+ * 2b. NÚT "XEM PHIM" CHO PHIM BỘ (chọn tập theo lịch sử xem)
+ *
+ * URL mở ra: /watch?id=<movieId>&episode=<episodeId> — ĐÚNG định dạng mà
+ * liên kết trên thẻ tập dùng (xem episode-list.js), nên việc bấm nút này
+ * đi qua đúng luồng trình phát tập của trang xem: phát video của tập, khôi
+ * phục vị trí đã lưu, có nút tập trước/tiếp theo và tự chuyển tập.
+ * Phim lẻ: không can thiệp — giữ nguyên liên kết /watch?id= có sẵn.
+ * ------------------------------------------------------------------ */
+
+/** URL mở đúng một tập, cùng định dạng với liên kết trên thẻ tập. */
+function episodeWatchUrl(movieId, episodeId) {
+  return `${watchUrl(movieId)}&episode=${encodeURIComponent(String(episodeId))}`;
+}
+
+/**
+ * Chọn tập mở khi bấm "Xem phim" trên phim bộ.
+ *
+ * Chỉ ĐỌC dữ liệu mùa/tập và /histories — không tạo/cập nhật lịch sử.
+ * Cách chọn tập nằm ở pickWatchResumeTarget (episode-navigation.js):
+ * chưa có lịch sử -> Mùa 1 - Tập 1; đang xem dở -> tiếp tục tập đó;
+ * đã xem hết -> tập tiếp theo (tập cuối thì mở lại tập cuối).
+ *
+ * @returns {Promise<{reason: "ok"|"load-error"|"no-episodes",
+ *                    item?: {episode: object, season: object}}>}
+ */
+async function resolveSeriesWatchTarget(movie) {
+  let data;
+  try {
+    data = await loadSeriesData();
+  } catch (error) {
+    console.error("[movie-detail] Không tải được mùa/tập:", error?.message);
+    return { reason: "load-error" };
+  }
+
+  const ordered = episodesInOrder(data.seasons, data.episodes, movie.id);
+  if (!ordered.length) return { reason: "no-episodes" };
+
+  // Lịch sử xem của ĐÚNG người dùng hiện tại; khách chưa đăng nhập thì bỏ
+  // qua và dùng tập mặc định — không lấy lịch sử của người khác.
+  const user = getCurrentUser();
+  let historyRows = [];
+  if (user) {
+    try {
+      const rows = await api.get("/histories");
+      if (Array.isArray(rows)) historyRows = rows;
+    } catch (error) {
+      // json-server không đọc được -> coi như chưa có lịch sử, vẫn mở được
+      // tập mặc định thay vì chặn người dùng.
+      console.warn("[movie-detail] Không đọc được lịch sử xem:", error?.message);
+    }
+  }
+
+  const item = pickWatchResumeTarget(
+    ordered,
+    historyRows,
+    movie.id,
+    user?.id ?? null,
+  );
+  return item ? { reason: "ok", item } : { reason: "no-episodes" };
+}
+
+/** Thông báo khi không mở được tập phim (không tạo URL sai). */
+function notifyWatchTargetError(reason) {
+  if (reason === "load-error") {
+    notify("error", "Không tải được danh sách tập phim, vui lòng thử lại.");
+    return;
+  }
+  notify("info", "Phim này chưa có tập nào hợp lệ để xem.");
+}
+
+/**
+ * Gắn sự kiện cho nút "Xem phim" của phim bộ.
+ *
+ * Bấm nút: chọn tập theo lịch sử rồi điều hướng tới tập đó — cùng một liên
+ * kết mà bấm ảnh/nút phát của một tập trong danh sách tập tạo ra. Chưa chọn
+ * xong thì không đi đâu cả; không có tập hợp lệ thì hiện thông báo thay vì
+ * dẫn tới URL sai. Song song đó cập nhật href thật để chuột giữa / sao chép
+ * liên kết vẫn mở đúng tập. Phim lẻ giữ nguyên hành vi liên kết có sẵn.
+ */
+function bindWatchButton(movie) {
+  const watch = bind("watch");
+  if (!watch || !isSeriesMovie(movie)) return;
+
+  let resolving = false;
+
+  watch.addEventListener("click", async (event) => {
+    event.preventDefault();
+    if (resolving) return;
+
+    resolving = true;
+    try {
+      const target = await resolveSeriesWatchTarget(movie);
+      if (target.reason !== "ok") {
+        notifyWatchTargetError(target.reason);
+        return;
+      }
+      window.location.href = episodeWatchUrl(movie.id, target.item.episode.id);
+    } catch (error) {
+      console.error("[movie-detail] Lỗi khi mở tập phim:", error);
+      notify("error", "Không thể mở tập phim, vui lòng thử lại.");
+    } finally {
+      resolving = false;
+    }
+  });
+
+  // Cập nhật href sau khi tra xong (không chặn người dùng — click vẫn tự chọn
+  // tập lại từ đầu). Không có tập hợp lệ thì bỏ href để không tạo URL sai.
+  resolveSeriesWatchTarget(movie)
+    .then((target) => {
+      if (target.reason === "ok") {
+        watch.href = episodeWatchUrl(movie.id, target.item.episode.id);
+      } else {
+        watch.removeAttribute("href");
+      }
+    })
+    .catch(() => {
+      // Để nguyên href nền; bấm nút sẽ tự xử lý lại và báo lỗi nếu cần.
+    });
+}
+
+/* ------------------------------------------------------------------ *
  * 3. KHỞI TẠO
  * ------------------------------------------------------------------ */
 
@@ -744,6 +868,7 @@ async function init() {
   showMovieBody();
   await renderMedia(movie);
   renderHeadline(movie, catalog);
+  bindWatchButton(movie);
   renderRating(movie, catalog);
   renderRatingSummary(movie, catalog);
   renderSpecs(movie);
