@@ -17,7 +17,10 @@
  *  - báo rõ lý do khi không tra được (thiếu dữ liệu / tập không hợp lệ) để trang
  *    xem vô hiệu hoá nút thay vì điều hướng nhầm;
  *  - chọn tập kế tiếp CÓ THỂ PHÁT được (CHỨC NĂNG 5) bằng cách quét tiếp về
- *    phía sau khi tập ngay sau không có nguồn phát.
+ *    phía sau khi tập ngay sau không có nguồn phát;
+ *  - chọn tập mở khi bấm nút "Xem phim" trên trang chi tiết phim bộ, theo
+ *    lịch sử xem của ĐÚNG người dùng (mục 6) — logic thuần, trang chi tiết chỉ
+ *    việc điều hướng tới tập được trả về.
  *
  * File KHÔNG tự chuyển tập: chỉ trả về đích; việc chuyển do người dùng bấm nút
  * (chức năng 4) hoặc do trang xem xử lý khi video phát hết (chức năng 5).
@@ -155,4 +158,99 @@ export async function findNextPlayableEpisode(movie, episodeId, canPlay) {
   }
 
   return null;
+}
+
+/* ------------------------------------------------------------------ *
+ * 6. CHỌN TẬP KHI BẤM "XEM PHIM" TRÊN TRANG CHI TIẾT PHIM BỘ
+ * ------------------------------------------------------------------ */
+
+/** Dung sai (giây) khi so tiến độ đã lưu với duration của tập. */
+const WATCH_DONE_TOLERANCE_SECONDS = 10;
+
+/**
+ * Kết luận một tập đã xem hết CHỈ khi duration (phút) có trong dữ liệu và
+ * tiến độ đã lưu (giây) gần bằng duration tới tận giây cuối.
+ *
+ * Không có duration (hoặc tiến độ = 0) thì KHÔNG tự phán "xem xong" — tránh
+ * gắn nhãn sai cho tập người dùng chưa thực sự xem hết. Ghi chú với dữ liệu
+ * thật: duration trong db.json đôi khi không khớp file video mẫu (ví dụ tập
+ * ghi 48 phút nhưng video chỉ ~10 phút) thì tập đã phát hết vẫn bị coi là
+ * "đang xem dở" và nút Xem phim sẽ mở lại chính tập đó — an toàn hơn là tự
+ * ý nhảy sang tập tiếp theo.
+ *
+ * @param {object} episode         episode đã chuẩn hoá (duration tính bằng phút)
+ * @param {number|string} progress tiến độ đã lưu từ /histories (giây)
+ * @returns {boolean}
+ */
+export function isEpisodeFinished(episode, progress) {
+  const durationSeconds = (Number(episode?.duration) || 0) * 60;
+  const seen = Number(progress) || 0;
+  if (durationSeconds <= 0 || seen <= 0) return false;
+  return seen >= durationSeconds - WATCH_DONE_TOLERANCE_SECONDS;
+}
+
+/**
+ * Chọn tập mở khi bấm nút "Xem phim" trên trang chi tiết phim bộ.
+ *
+ * CHỈ đọc dữ liệu — không ghi/điều chỉnh bất kỳ bản ghi lịch sử nào.
+ * Thứ tự ưu tiên:
+ *  1. Chưa có lịch sử xem của người dùng cho phim này (hoặc là khách)
+ *     -> Mùa 1 - Tập 1 nếu tồn tại và đang hoạt động;
+ *     không có mới rơi về tập đầu tiên theo thứ tự mùa rồi tập — KHÔNG lấy
+ *     tập đầu của "mùa mới nhất".
+ *  2. Lịch sử còn dở (chưa xem hết tập gần nhất) -> tiếp tục đúng tập đó.
+ *     Khớp theo id tập nên không bao giờ nhầm tập cùng số ở hai mùa khác,
+ *     và chỉ dùng lịch sử được lọc theo đúng userId + movieId.
+ *  3. Tập gần nhất đã xem hết -> tập tiếp theo theo thứ tự mùa/tập; nếu là
+ *     tập cuối thì mở lại chính tập cuối (không tạo lịch sử giả).
+ *
+ * Lịch sử trỏ tới tập không còn hợp lệ (bị ẩn / đã gỡ) -> coi như không có
+ * lịch sử, dùng phương án 1.
+ *
+ * @param {Array<{episode: object, season: object}>} ordered
+ *        danh sách tập HỢP LỆ của phim đã sắp thứ tự (xem episodesInOrder)
+ * @param {Array<object>} historyRows  toàn bộ bản ghi /histories (sẽ tự lọc)
+ * @param {string|number} movieId      id phim đang xem
+ * @param {string|number|null} userId  id người dùng đang đăng nhập; null = khách
+ * @returns {{episode: object, season: object}|null}
+ *          null khi không có tập hợp lệ nào
+ */
+export function pickWatchResumeTarget(ordered, historyRows, movieId, userId) {
+  const list = Array.isArray(ordered) ? ordered : [];
+  if (!list.length) return null;
+
+  const fallback =
+    list.find(
+      (item) =>
+        Number(item.season?.seasonNumber) === 1 &&
+        Number(item.episode?.episodeNumber) === 1,
+    ) || list[0];
+
+  // Khách chưa đăng nhập: không có lịch sử cá nhân -> tập mặc định.
+  if (userId === null || userId === undefined || String(userId).trim() === "") {
+    return fallback;
+  }
+
+  const mine = (Array.isArray(historyRows) ? historyRows : []).filter(
+    (row) =>
+      sameId(row?.userId, userId) &&
+      sameId(row?.movieId, movieId) &&
+      String(row?.episodeId ?? "").trim() !== "",
+  );
+  if (!mine.length) return fallback;
+
+  // watchedAt dạng ISO ("2026-10-16T17:12:07") nên so sánh chuỗi trực tiếp.
+  const latest = mine.reduce((oldest, row) =>
+    String(row?.watchedAt ?? "") > String(oldest?.watchedAt ?? "") ? row : oldest,
+  );
+
+  const index = list.findIndex((item) =>
+    sameId(item.episode.id, latest.episodeId),
+  );
+  if (index === -1) return fallback;
+
+  const current = list[index];
+  if (!isEpisodeFinished(current.episode, latest.progress)) return current;
+
+  return list[index + 1] || current;
 }
