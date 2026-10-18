@@ -1,3 +1,5 @@
+import api from "../api.js";
+
 const ROUTE_TO_NAV = {
   "/admin": "dashboard",
   "/admin/movies": "movies",
@@ -48,3 +50,35 @@ function applyActiveNav() {
 }
 
 applyActiveNav();
+
+// Ẩn các mục Quản lý người dùng / Phân quyền với vai trò không phải Admin.
+// Đây chỉ là lớp giao diện; việc chặn URL vẫn do storage.js đảm nhiệm.
+async function anMenuTheoQuyen() {
+  try {
+    const raw = localStorage.getItem("currentUser");
+    if (!raw) return;
+
+    const user = JSON.parse(raw);
+
+    if (!user || user.roleId === undefined || user.roleId === null) return;
+
+    const role = await api.get(`/roles/${String(user.roleId)}`);
+    const ten = String(role?.name || "")
+      .trim()
+      .toLowerCase();
+
+    if (ten === "admin") return;
+
+    document
+      .querySelectorAll(
+        '.sidebar .menu-item[data-nav="users"], .sidebar .menu-item[data-nav="authorization"]',
+      )
+      .forEach((item) => {
+        item.style.display = "none";
+      });
+  } catch (error) {
+    console.error("❌ Lỗi ẩn menu theo quyền:", error);
+  }
+}
+
+anMenuTheoQuyen();

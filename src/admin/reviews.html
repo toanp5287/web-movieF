@@ -475,7 +475,12 @@
     </div>
 
     <!-- JavaScript Xử Lý -->
-    <script>
+    <script type="module">
+      import { kiemTraQuyenTrang } from "/src/utils/storage.js";
+
+      // Chỉ Admin/Staff được khởi tạo logic quản trị đánh giá.
+      await kiemTraQuyenTrang("reviews");
+
       // =========================================================
       // 1. LẤY DANH SÁCH REVIEW TỪ JSON SERVER
       // =========================================================
@@ -850,6 +855,14 @@
 
         render(reviews);
       }
+
+      // Gán ra window để các thuộc tính onclick trong HTML gọi được.
+      window.filterData = filterData;
+      window.resetFilter = resetFilter;
+      window.closeModal = closeModal;
+      window.viewReview = viewReview;
+      window.toggleStatus = toggleStatus;
+      window.deleteReview = deleteReview;
 
       loadReviews();
     </script>

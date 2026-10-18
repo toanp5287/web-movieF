@@ -1,4 +1,8 @@
 import api from "../api";
+import { kiemTraDangNhapAdmin } from "./../../utils/storage";
+
+// Chỉ Admin/Staff được khởi tạo logic quản trị mùa phim.
+await kiemTraDangNhapAdmin();
 
 // ========================================
 // 1. KHAI BÁO PHẦN TỬ

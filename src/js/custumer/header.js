@@ -51,7 +51,7 @@ async function renderUser() {
       </div>
 
       ${
-        roleNameUser?.toLowerCase() === "admin"
+        Number(idRole) === 1 || Number(idRole) === 2
           ? `
             <a
               href="/admin"

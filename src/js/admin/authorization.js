@@ -1,4 +1,8 @@
 import api from "../api";
+import { kiemTraQuyenTrang } from "./../../utils/storage";
+
+// Trang Phân quyền chỉ dành riêng cho Admin.
+await kiemTraQuyenTrang("authorization");
 
 // 1. Dữ liệu module và các quyền
 const PERMISSION_MODULES = [

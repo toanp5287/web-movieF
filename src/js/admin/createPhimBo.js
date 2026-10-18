@@ -1,4 +1,8 @@
 import api from "../api";
+import { kiemTraDangNhapAdmin } from "./../../utils/storage";
+
+// Chỉ Admin/Staff được khởi tạo logic quản trị tập phim.
+await kiemTraDangNhapAdmin();
 
 // ==================================================
 // 1. LẤY ID MÙA PHIM TỪ URL

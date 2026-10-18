@@ -1,6 +1,6 @@
-import { kiemTraDangNhapAdmin } from "./../../utils/storage";
+import { kiemTraQuyenTrang } from "./../../utils/storage";
 import api from "../api";
-await kiemTraDangNhapAdmin();
+await kiemTraQuyenTrang("users");
 const loadUsers = async () => {
   try {
     const users = await api.get("/users");
