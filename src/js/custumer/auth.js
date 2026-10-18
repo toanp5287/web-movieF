@@ -293,3 +293,90 @@ async function quenMatKhau() {
 }
 
 window.quenMatKhau = quenMatKhau;
+
+// dăng nhập với gg
+
+function dangNhapGG() {
+  if (!window.google?.accounts?.oauth2) {
+    alert("Google chưa tải xong. Hãy thử lại!");
+    return;
+  }
+
+  const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
+  if (!clientId) {
+    console.error("Thiếu VITE_GOOGLE_CLIENT_ID trong .env");
+    alert("Chưa cấu hình Google Client ID!");
+    return;
+  }
+
+  const client = window.google.accounts.oauth2.initTokenClient({
+    client_id: clientId,
+    scope: "openid email profile",
+
+    callback: async (response) => {
+      if (response.error || !response.access_token) {
+        console.error("Lỗi Google OAuth:", response);
+        alert("Không thể đăng nhập Google. Hãy thử lại!");
+        return;
+      }
+
+      try {
+        // Lấy thông tin tài khoản Google
+        const googleResponse = await fetch(
+          "https://openidconnect.googleapis.com/v1/userinfo",
+          {
+            headers: {
+              Authorization: `Bearer ${response.access_token}`,
+            },
+          },
+        );
+
+        if (!googleResponse.ok) {
+          throw new Error("Không lấy được thông tin Google.");
+        }
+
+        const profile = await googleResponse.json();
+
+        console.log("Google ID:", profile.sub);
+        console.log("Tên:", profile.name);
+        console.log("Email:", profile.email);
+        console.log("Ảnh:", profile.picture);
+
+        if (!profile.email_verified) {
+          alert("Email Google chưa được xác minh!");
+          return;
+        }
+
+        // Tìm tài khoản MovieF
+        const result = await api.get("/users");
+        const users = Array.isArray(result) ? result : result.data;
+
+        if (!Array.isArray(users)) {
+          throw new Error("API /users không trả về danh sách tài khoản.");
+        }
+
+        const user = users.find(
+          (item) =>
+            item.email?.toLowerCase() === profile.email?.toLowerCase() &&
+            item.status === "active",
+        );
+
+        if (!user) {
+          alert("Chưa có tài khoản MovieF đang hoạt động với email này!");
+          return;
+        }
+
+        localStorage.setItem("currentUser", JSON.stringify(user));
+        window.location.href = "/";
+      } catch (error) {
+        console.error("Lỗi đăng nhập Google:", error);
+        alert("Đăng nhập thất bại. Kiểm tra Console để xem lỗi!");
+      }
+    },
+  });
+
+  client.requestAccessToken();
+}
+
+window.dangNhapGG = dangNhapGG;
