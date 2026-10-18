@@ -597,62 +597,77 @@
           </section>
 
           <!--
-            ĐIỀU HƯỚNG TẬP — Tập trước / Tập tiếp theo (CHỨC NĂNG 4).
-            Mặc định `hidden`: watch.js chỉ bỏ ẩn khi đang xem MỘT TẬP hợp lệ
-            của phim bộ, rồi điền nhãn "Mùa X · Tập Y" theo đúng tập thật.
-            Hướng nào không có tập kế tiếp/trước hợp lệ sẽ bị vô hiệu hoá
-            (gỡ href + lớp mờ) chứ KHÔNG dẫn tới tập mồ côi/tập bị ẩn.
-            Phim lẻ và trang thiếu `?episode=` không hiện thanh này.
+            DANH SÁCH TẬP + BỘ CHỌN MÙA (CHỈ với phim bộ).
+            Mặc định `hidden`: nội dung do episode-list.js dựng (nút chọn mùa +
+            toàn bộ tập của mùa đang chọn). watch.js chỉ mở đúng mùa của tập
+            đang phát và làm nổi bật tập đó. Phim lẻ ẩn khối này.
           -->
-          <nav
-            id="episodeNav"
-            aria-label="Điều hướng tập phim"
-            class="hidden mt-space-md w-full flex-col gap-space-sm sm:flex-row sm:items-stretch sm:justify-between sm:gap-space-md"
+          <section
+            data-bind="series-block"
+            class="w-full px-gutter-mobile md:px-margin mt-space-xl"
+            hidden
           >
-            <a
-              id="prevEpisodeBtn"
-              aria-disabled="true"
-              title="Tập trước"
-              class="flex min-w-0 flex-1 items-center gap-space-sm rounded-xl border border-white/5 bg-surface-container-low p-space-sm transition-colors hover:border-white/15 pointer-events-none opacity-40 cursor-not-allowed"
-            >
-              <span
-                class="material-symbols-outlined shrink-0 text-xl text-on-surface-variant"
-                >skip_previous</span
-              >
-              <span class="flex min-w-0 flex-col gap-0.5">
-                <span class="font-label-caps text-label-caps text-on-surface-variant"
-                  >Tập trước</span
-                >
+            <div class="flex items-center justify-between gap-space-sm mb-6">
+              <div class="flex items-center gap-3">
                 <span
-                  id="prevEpisodeLabel"
-                  class="truncate font-title-sm text-title-sm text-on-surface"
-                  >Không có tập</span
-                >
-              </span>
-            </a>
+                  class="w-1.5 h-6 bg-primary-container rounded-full"
+                ></span>
+                <div>
+                  <h2
+                    class="font-headline-md text-headline-md text-on-surface"
+                  >
+                    Danh sách tập
+                  </h2>
+                  <p
+                    class="font-body-sm text-body-sm text-on-surface-variant"
+                    data-bind="series-sub"
+                  ></p>
+                </div>
+              </div>
+              <div
+                class="flex flex-wrap items-center justify-end gap-2"
+                data-bind="series-stats"
+              ></div>
+            </div>
 
-            <a
-              id="nextEpisodeBtn"
-              aria-disabled="true"
-              title="Tập tiếp theo"
-              class="flex min-w-0 flex-1 items-center gap-space-sm rounded-xl border border-white/5 bg-surface-container-low p-space-sm transition-colors hover:border-white/15 pointer-events-none opacity-40 cursor-not-allowed sm:justify-end"
+            <div
+              class="flex items-center gap-2 overflow-x-auto pb-2 mb-6"
+              data-bind="season-selector"
+              role="tablist"
+            ></div>
+
+            <div
+              class="flex flex-col sm:flex-row sm:items-center gap-4 p-4 rounded-xl bg-surface-container-low mb-6"
+              data-bind="season-info"
+              hidden
+            ></div>
+
+            <div
+              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+              data-bind="episodes"
+            ></div>
+
+            <div
+              class="flex flex-col items-center justify-center gap-3 py-14 rounded-xl bg-surface-container-low"
+              data-bind="episodes-empty"
+              hidden
             >
               <span
-                class="material-symbols-outlined shrink-0 text-xl text-on-surface-variant"
-                >skip_next</span
+                class="material-symbols-outlined text-4xl text-on-surface-variant/50"
+                >playlist_remove</span
               >
-              <span class="flex min-w-0 flex-col gap-0.5 sm:items-end">
-                <span class="font-label-caps text-label-caps text-on-surface-variant"
-                  >Tập tiếp theo</span
-                >
-                <span
-                  id="nextEpisodeLabel"
-                  class="truncate font-title-sm text-title-sm text-on-surface"
-                  >Không có tập</span
-                >
-              </span>
-            </a>
-          </nav>
+              <p
+                class="font-title-sm text-title-sm text-on-surface"
+                data-bind="episodes-empty-title"
+              >
+                Chưa có tập nào
+              </p>
+              <p
+                class="font-body-sm text-body-sm text-on-surface-variant text-center max-w-md"
+                data-bind="episodes-empty-note"
+              ></p>
+            </div>
+          </section>
 
           <!-- MOVIE INFO -->
           <section

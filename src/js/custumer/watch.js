@@ -56,10 +56,7 @@ import {
 
 import { renderMovieCards } from "./movie-card.js";
 
-import {
-  findNextPlayableEpisode,
-  resolveEpisodeNavigation,
-} from "./episode-navigation.js";
+import { findNextPlayableEpisode } from "./episode-navigation.js";
 
 import { initEpisodeList } from "./episode-list.js";
 
@@ -1067,106 +1064,70 @@ function renderRelated(catalog, movie) {
 }
 
 /* ------------------------------------------------------------------ *
- * 4b. ĐIỀU HƯỚNG TẬP — Tập trước / Tập tiếp theo (CHỨC NĂNG 4)
+ * 4b. CHỌN MÙA/TẬP — đồng bộ với tập đang phát
  * ------------------------------------------------------------------ */
 
-const episodeNavUi = {
-  bar: null,
-  prevBtn: null,
-  prevLabel: null,
-  nextBtn: null,
-  nextLabel: null,
-};
-
-/** Lấy các phần tử của thanh #episodeNav, chỉ tìm một lần. */
-function episodeNavEls() {
-  if (episodeNavUi.bar) return episodeNavUi;
-
-  episodeNavUi.bar = document.getElementById("episodeNav");
-  episodeNavUi.prevBtn = document.getElementById("prevEpisodeBtn");
-  episodeNavUi.prevLabel = document.getElementById("prevEpisodeLabel");
-  episodeNavUi.nextBtn = document.getElementById("nextEpisodeBtn");
-  episodeNavUi.nextLabel = document.getElementById("nextEpisodeLabel");
-  return episodeNavUi;
-}
-
 /**
- * Ẩn thanh điều hướng tập.
+ * Mở sẵn đúng mùa của tập đang phát và làm nổi bật thẻ tập đó.
  *
- * `hidden` và `flex` phải luôn đối nhau: thêm một cái thì bỏ cái kia, nếu không
- * hai class cùng hiện thì thứ tự trong CSS sẽ quyết định và thanh có thể mất
- * hoặc hiện sai tùy bản build Tailwind.
- */
-function hideEpisodeNav() {
-  const el = episodeNavEls();
-  if (!el.bar) return;
-
-  el.bar.classList.remove("flex");
-  el.bar.classList.remove("grid");
-  el.bar.classList.add("hidden");
-}
-
-/**
- * Cấu hình MỘT nút (Trước / Tiếp theo).
+ * Việc dựng nút chọn mùa + danh sách tập do episode-list.js lo. Hàm này chỉ:
+ *   - bấm nút mùa tương ứng nếu mùa của tập chưa được chọn, để danh sách tập
+ *     hiển thị đúng mùa đang xem;
+ *   - gắn viền + nhãn "Đang xem" cho thẻ tập đang phát;
+ *   - gắn lại nhãn mỗi khi người dùng đổi mùa (nếu tập đang xem thuộc mùa đó).
  *
- * Còn tập hợp lệ thì gắn href thật (mở bằng click chuột giữa/new tab được);
- * không còn thì gỡ href, đánh dấu aria-disabled và thêm lớp mờ để nút thành
- * trạng thái bị vô hiệu hoá theo yêu cầu.
+ * Phim lẻ hoặc không có tập hiện tại thì bỏ qua, không gây lỗi.
  */
-function fillEpisodeNavSlot(button, label, item, movieId) {
-  if (!button) return;
+function syncEpisodeListSelection(currentEpisode) {
+  const block = document.querySelector("[data-bind='series-block']");
+  if (!block || !currentEpisode) return;
 
-  if (!item) {
-    button.removeAttribute("href");
-    button.setAttribute("aria-disabled", "true");
-    button.classList.add(
-      "pointer-events-none",
-      "opacity-40",
-      "cursor-not-allowed",
-    );
-    if (label) label.textContent = "Không có tập";
-    return;
+  const selector = block.querySelector("[data-bind='season-selector']");
+  const list = block.querySelector("[data-bind='episodes']");
+  const episodeId = String(currentEpisode.id ?? "");
+  const seasonId =
+    currentEpisode.seasonId != null ? String(currentEpisode.seasonId) : "";
+
+  const highlight = () => {
+    if (!list) return;
+
+    list.querySelectorAll("[data-episode-link]").forEach((link) => {
+      const card = link.closest("article");
+      if (!card) return;
+
+      const isCurrent = link.getAttribute("data-episode-link") === episodeId;
+      card.classList.toggle("ring-2", isCurrent);
+      card.classList.toggle("ring-primary-container", isCurrent);
+
+      const badge = card.querySelector("[data-now-playing-badge]");
+      if (isCurrent && !badge) {
+        const tag = document.createElement("span");
+        tag.setAttribute("data-now-playing-badge", "");
+        tag.className =
+          "absolute top-1.5 right-1.5 px-2 py-0.5 rounded bg-primary-container text-on-primary-container font-label-caps text-label-caps uppercase";
+        tag.textContent = "Đang xem";
+        card.appendChild(tag);
+      } else if (!isCurrent && badge) {
+        badge.remove();
+      }
+    });
+  };
+
+  if (seasonId && selector) {
+    const tab = Array.from(
+      selector.querySelectorAll("[data-season-tab]"),
+    ).find((item) => item.getAttribute("data-season-tab") === seasonId);
+
+    if (tab && tab.getAttribute("aria-selected") !== "true") tab.click();
   }
 
-  button.href = `${watchUrl(movieId)}&episode=${encodeURIComponent(item.episode.id)}`;
-  button.setAttribute("aria-disabled", "false");
-  button.classList.remove(
-    "pointer-events-none",
-    "opacity-40",
-    "cursor-not-allowed",
-  );
-  if (label) label.textContent = episodeLabel(item.episode, item.season);
-}
+  highlight();
 
-/**
- * Hiện thanh Tập trước / Tập tiếp theo cho đúng tập đang xem.
- *
- * Chỉ hiện khi tập đang mở hợp lệ (reason === "ok"); hướng nào không có tập
- * hợp lệ thì nút hướng đó bị vô hiệu hoá, không bao giờ dẫn tới tập mồ côi,
- * tập bị ẩn hay tập của phim khác. Không tự chuyển tập — chờ người dùng bấm.
- */
-async function renderEpisodeNav(movie, episode) {
-  const el = episodeNavEls();
-  if (!el.bar || !movie || !episode) {
-    hideEpisodeNav();
-    return;
+  if (selector) {
+    // episode-list.js dựng lại danh sách tập sau mỗi lần đổi mùa; gắn lại nhãn
+    // "Đang xem" nếu tập hiện tại thuộc mùa vừa chọn.
+    selector.addEventListener("click", () => highlight());
   }
-
-  const { reason, prev, next } = await resolveEpisodeNavigation(
-    movie,
-    episode.id,
-  );
-
-  if (reason !== "ok") {
-    hideEpisodeNav();
-    return;
-  }
-
-  fillEpisodeNavSlot(el.prevBtn, el.prevLabel, prev, movie.id);
-  fillEpisodeNavSlot(el.nextBtn, el.nextLabel, next, movie.id);
-
-  el.bar.classList.remove("hidden");
-  el.bar.classList.add("grid");
 }
 
 /* ------------------------------------------------------------------ *
@@ -1233,6 +1194,8 @@ async function renderSeriesPanels(movie, currentEpisode = null) {
   }
 
   await initEpisodeList(movie, currentEpisode?.id ?? null);
+
+  syncEpisodeListSelection(currentEpisode);
 }
 
 /* ------------------------------------------------------------------ *
@@ -1434,18 +1397,12 @@ async function init() {
       if (isSeriesMovie(movie)) {
         renderSeriesPanels(movie, episode).catch(() => {});
       }
-      // Tập không hợp lệ thì không có thứ tự để đi tiếp/trước -> giấu nút.
-      hideEpisodeNav();
       return;
     }
 
     episode = resolved.episode;
     season = resolved.season;
     container.dataset.episodeId = String(episode.id);
-
-    // Tính trước Tập trước/Tiếp theo cho tập này. Dù sau đó tập thiếu video
-    // (hiện trạng thái) người dùng vẫn cần nút để chuyển sang tập khác.
-    await renderEpisodeNav(movie, episode);
   }
 
   const source = episode
