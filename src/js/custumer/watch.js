@@ -47,6 +47,7 @@ import {
   formatViews,
   genreNames,
   loadCatalog,
+  POSTER_FALLBACK,
   qualityLabel,
   ratingCount,
   sameId,
@@ -60,12 +61,22 @@ import {
   resolveEpisodeNavigation,
 } from "./episode-navigation.js";
 
+import { initEpisodeList } from "./episode-list.js";
+
 import {
   describeBlockedEpisode,
   episodeLabel,
   parseWatchQuery,
   resolveWatchEpisode,
 } from "./watch-episode.js";
+
+import {
+  isActive,
+  isSeriesMovie,
+  loadSeriesData,
+  seasonsOfMovie,
+  episodesOfSeason,
+} from "./series-data.js";
 
 /* ------------------------------------------------------------------ *
  * 1. TÌM FILE VIDEO THẬT
@@ -312,8 +323,8 @@ function formatDate(value) {
   return match ? `${match[3]}/${match[2]}/${match[1]}` : "";
 }
 
-function fillMovieInfo(movie, catalog, source) {
-  const year = Number(movie.year) || 0;
+function fillMovieInfo(movie, catalog, source, episode = null) {
+  const year = Number(movie.year) || Number(movie.releaseYear) || 0;
   const genres = genreNames(movie, catalog.genres);
   const rating = averageRating(movie, catalog.reviews);
   const votes = ratingCount(movie, catalog.reviews);
@@ -325,19 +336,53 @@ function fillMovieInfo(movie, catalog, source) {
 
   put("nav-title", movie.title);
   put("movie-title", movie.title);
-  put("movie-year", year ? String(year) : "");
-  put("movie-duration", formatDuration(movie.duration));
-  put("movie-country", movie.country);
-  put("movie-quality", quality);
-  put("movie-description", movie.description);
   put("movie-director", movie.director);
-  put("movie-actors", movie.actors.join(", "));
+  put("movie-actors", Array.isArray(movie.actors) ? movie.actors.join(", ") : String(movie.actors ?? ""));
   put("movie-country-side", movie.country);
   put("movie-created", formatDate(movie.createdAt));
   put(
     "movie-video-source",
     source.isSample ? "Video mẫu MovieF" : "Nguồn riêng của phim",
   );
+
+  // Poster (chỉ cho phim bộ theo ý chỉ định: khi có episode hợp lệ hoặc đơn giản
+  // chỗ này dùng movie.type series; nhưng dữ liệu trên watch.html mới có
+  // data-bind="movie-poster" → điền để episode-list/watch dùng chung).
+  const posterImg = document.querySelector("[data-bind='movie-poster']");
+  if (posterImg) {
+    const poster = movie.poster || POSTER_FALLBACK;
+    posterImg.src = poster;
+    posterImg.alt = `Poster phim ${movie.title}`;
+    posterImg.dataset.fallback = POSTER_FALLBACK;
+    // bindImageFallback đã tồn tại
+    bindImageFallback(document, "[data-bind='movie-poster']");
+    posterImg.classList.remove("hidden");
+  }
+
+  // Meta builder: year · duration · country · quality (only truthy, join with bullets)
+  const metaBox = document.querySelector("[data-bind='movie-meta']");
+  if (metaBox) {
+    const parts = [];
+    if (year) parts.push(String(year));
+    const durationText = formatDuration(episode ? episode.duration : movie.duration);
+    if (durationText) parts.push(durationText);
+    if (movie.country) parts.push(movie.country);
+    if (quality) parts.push(quality);
+    metaBox.innerHTML = parts
+      .map((v) => `<span>${escapeHtml(String(v))}</span>`)
+      .join(`<span class="opacity-40" aria-hidden="true">•</span>`);
+  }
+
+  // Description box toggle
+  const descBox = document.querySelector("[data-bind='movie-description-box']");
+  if (descBox) {
+    if (movie.description && String(movie.description).trim()) {
+      descBox.classList.remove("hidden");
+    } else {
+      descBox.classList.add("hidden");
+    }
+  }
+  put("movie-description", movie.description);
 
   // Điểm: reviews dùng thang 1-5, hiển thị ra thang 10 cho khớp giao diện.
   const ratingBox = document.querySelector("[data-bind='movie-rating']");
@@ -1057,6 +1102,7 @@ function hideEpisodeNav() {
   if (!el.bar) return;
 
   el.bar.classList.remove("flex");
+  el.bar.classList.remove("grid");
   el.bar.classList.add("hidden");
 }
 
@@ -1120,7 +1166,73 @@ async function renderEpisodeNav(movie, episode) {
   fillEpisodeNavSlot(el.nextBtn, el.nextLabel, next, movie.id);
 
   el.bar.classList.remove("hidden");
-  el.bar.classList.add("flex");
+  el.bar.classList.add("grid");
+}
+
+/* ------------------------------------------------------------------ *
+ * 4b-bis. BẢNG CHỌN MÙA/TẬP + THỐNG KÊ (CHỨC NĂNG 3 trên trang xem)
+ * ------------------------------------------------------------------ */
+
+/**
+ * Tổng số mùa / tổng số tập của phim bộ — chỉ hiện phần có dữ liệu thật.
+ * Ô `series-stats` ẩn mặc định (class `hidden`), gọi hàm này mới hiện.
+ */
+function fillSeriesStats(seasonCount, episodeCount) {
+  const box = document.querySelector("[data-bind='series-stats']");
+  if (!box) return;
+
+  box.innerHTML = `
+    <span class="inline-flex items-center gap-1 rounded bg-surface-container px-2 py-0.5 font-label-md text-label-md text-on-surface-variant">
+      <span class="material-symbols-outlined text-base">stacks</span>
+      ${escapeHtml(String(seasonCount))} mùa
+    </span>
+    <span class="inline-flex items-center gap-1 rounded bg-surface-container px-2 py-0.5 font-label-md text-label-md text-on-surface-variant">
+      <span class="material-symbols-outlined text-base">playlist_play</span>
+      ${escapeHtml(String(episodeCount))} tập
+    </span>`;
+  box.classList.remove("hidden");
+}
+
+/**
+ * Hiện thống kê mùa/tập + bảng chọn mùa/tập cho phim bộ ngay trên trang xem.
+ *
+ * Dùng lại nguyên `episode-list.js`: hàm này chỉ đếm dữ liệu thật (mùa/tập
+ * đang hoạt động) để điền `series-stats`, rồi giao việc render tab mùa + lưới
+ * tập (kèm viền "Đang xem") cho `initEpisodeList`. Phim lẻ hoặc lỗi dữ liệu thì
+ * ẩn cả hai khối — không làm trang crash.
+ *
+ * `currentEpisode` (tuỳ chọn): tập đang phát, để mở sẵn đúng mùa và đánh dấu.
+ */
+async function renderSeriesPanels(movie, currentEpisode = null) {
+  const statsBox = document.querySelector("[data-bind='series-stats']");
+  const block = document.querySelector("[data-bind='series-block']");
+
+  if (!movie || !isSeriesMovie(movie)) {
+    statsBox?.classList.add("hidden");
+    if (block) block.hidden = true;
+    return;
+  }
+
+  try {
+    const data = await loadSeriesData();
+    const seasons = seasonsOfMovie(data.seasons, movie.id).filter((season) =>
+      isActive(season.status),
+    );
+    const episodeCount = seasons.reduce(
+      (total, season) =>
+        total +
+        episodesOfSeason(data.episodes, season.id).filter((episode) =>
+          isActive(episode.status),
+        ).length,
+      0,
+    );
+    fillSeriesStats(seasons.length, episodeCount);
+  } catch (error) {
+    console.warn("[watch] Không tải được thống kê mùa/tập:", error?.message);
+    statsBox?.classList.add("hidden");
+  }
+
+  await initEpisodeList(movie, currentEpisode?.id ?? null);
 }
 
 /* ------------------------------------------------------------------ *
@@ -1304,7 +1416,7 @@ async function init() {
     const resolved = await resolveWatchEpisode(movie, episodeId);
 
     if (resolved.reason !== "ok") {
-      fillMovieInfo(movie, catalog, { url: "", isSample: false });
+      fillMovieInfo(movie, catalog, { url: "", isSample: false }, episode);
       const blockedCell = document.querySelector(
         "[data-bind='movie-video-source']",
       );
@@ -1319,6 +1431,9 @@ async function init() {
       });
       body.classList.remove("hidden");
       renderRelated(catalog, movie);
+      if (isSeriesMovie(movie)) {
+        renderSeriesPanels(movie, episode).catch(() => {});
+      }
       // Tập không hợp lệ thì không có thứ tự để đi tiếp/trước -> giấu nút.
       hideEpisodeNav();
       return;
@@ -1338,7 +1453,7 @@ async function init() {
     : await resolveVideoSource(movie);
   const trailerUrl = await resolveTrailerUrl(movie);
 
-  fillMovieInfo(movie, catalog, source);
+  fillMovieInfo(movie, catalog, source, episode);
 
   // Phân biệt "không có video chính" với "có URL nhưng tải lỗi" (trường hợp C,
   // do event `error` của <video> xử lý qua overlay #videoError).
@@ -1372,7 +1487,12 @@ async function init() {
 
     showVideoState(unavailable);
     body.classList.remove("hidden");
+
     renderRelated(catalog, movie);
+    // Gọi khối chọn tập cho phim bộ (kể cả khi tập không có video)
+    if (isSeriesMovie(movie)) {
+      renderSeriesPanels(movie, episode).catch(() => {});
+    }
     return;
   }
 
@@ -1395,10 +1515,9 @@ async function init() {
 
   const video = mountPlayer(source.url);
   body.classList.remove("hidden");
-  renderRelated(catalog, movie);
-
-  // CHỨC NĂNG 5: chỉ bật tự chuyển tập khi đang phát ĐÚNG một tập phim bộ có
-  // nguồn — phim lẻ và phim chưa có nguồn (đã return ở trên) không bị ảnh hưởng.
+  if (isSeriesMovie(movie)) {
+    renderSeriesPanels(movie, episode).catch(() => {});
+  }
   if (episode && source.url) {
     autoNext.enabled = true;
     autoNext.movie = movie;
