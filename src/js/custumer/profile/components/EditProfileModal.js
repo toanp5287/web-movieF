@@ -33,7 +33,7 @@ const MARKUP = `
             data-preview
             src="${AVATAR_FALLBACK}"
             alt="Xem trước ảnh đại diện"
-            style="width:64px;height:64px;border-radius:999px;object-fit:cover;flex:none;border:2px solid rgba(255,32,40,.45)"
+            style="width:64px;height:64px;border-radius:999px;object-fit:cover;flex:none;border:2px solid rgba(229,9,20,.45)"
           />
           <div style="min-width:0;flex:1">
             <p style="margin:0;font-size:14px;font-weight:600">Ảnh đại diện</p>
@@ -88,7 +88,7 @@ const MARKUP = `
               ${GENDERS.map(
                 (gender, index) => `
                 <label class="mf-tab" style="flex:1;cursor:pointer;gap:7px" data-gender-option>
-                  <input type="radio" name="gender" value="${gender.value}" ${index === 0 ? "checked" : ""} style="accent-color:#ff2028;width:15px;height:15px" />
+                  <input type="radio" name="gender" value="${gender.value}" ${index === 0 ? "checked" : ""} style="accent-color:#e50914;width:15px;height:15px" />
                   <span>${gender.label}</span>
                 </label>`,
               ).join("")}

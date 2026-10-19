@@ -117,10 +117,10 @@ function renderBanner(state) {
   node.innerHTML = `
     <div
       class="mf-card mf-enter"
-      style="display:flex;align-items:center;gap:12px;padding:13px 16px;margin-bottom:20px;border-color:rgba(255,32,40,.28);background:rgba(255,32,40,.06)"
+      style="display:flex;align-items:center;gap:12px;padding:13px 16px;margin-bottom:20px;border-color:rgba(229,9,20,.28);background:rgba(229,9,20,.06)"
     >
-      <span class="mf-stat-ico" style="color:#ff8a8e;background:rgba(255,32,40,.16)">${icon("info", "text-[19px]")}</span>
-      <p style="margin:0;font-size:13px;line-height:1.55;color:#d7d9df;flex:1;min-width:0">
+      <span class="mf-stat-ico" style="color:#ffb4aa;background:rgba(229,9,20,.16)">${icon("info", "text-[19px]")}</span>
+      <p style="margin:0;font-size:13px;line-height:1.55;color:#e2e2e8;flex:1;min-width:0">
         ${
           signedIn
             ? "Chưa kết nối được máy chủ dữ liệu — đang hiển thị dữ liệu mẫu. Mọi thay đổi vẫn được lưu trên máy bạn."
@@ -218,7 +218,7 @@ function sectionShell(title, subtitle, iconName) {
   return `
     <div class="mf-card" style="padding:20px" data-section>
       <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:18px">
-        <span class="mf-stat-ico" style="color:#ff8a8e;background:rgba(255,32,40,.14)">${icon(iconName, "text-[19px]")}</span>
+        <span class="mf-stat-ico" style="color:#ffb4aa;background:rgba(229,9,20,.14)">${icon(iconName, "text-[19px]")}</span>
         <div style="min-width:0">
           <h2 class="mf-section-title" style="margin:0">${title}</h2>
           <p class="mf-muted" style="margin:3px 0 0;font-size:12.5px">${subtitle}</p>
@@ -240,7 +240,7 @@ function renderOverview(panel) {
       <section class="mf-card" style="padding:20px">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px">
           <div style="display:flex;align-items:flex-start;gap:12px;min-width:0">
-            <span class="mf-stat-ico" style="color:#ff8a8e;background:rgba(255,32,40,.14)">${icon("play", "text-[19px]", { fill: true })}</span>
+            <span class="mf-stat-ico" style="color:#ffb4aa;background:rgba(229,9,20,.14)">${icon("play", "text-[19px]", { fill: true })}</span>
             <div style="min-width:0">
               <h2 class="mf-section-title" style="margin:0">Tiếp tục xem</h2>
               <p class="mf-muted" style="margin:3px 0 0;font-size:12.5px">
@@ -262,7 +262,7 @@ function renderOverview(panel) {
       <section class="mf-card" style="padding:20px">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px">
           <div style="display:flex;align-items:flex-start;gap:12px;min-width:0">
-            <span class="mf-stat-ico" style="color:#ff8a8e;background:rgba(255,32,40,.14)">${icon("heart", "text-[19px]", { fill: true })}</span>
+            <span class="mf-stat-ico" style="color:#ffb4aa;background:rgba(229,9,20,.14)">${icon("heart", "text-[19px]", { fill: true })}</span>
             <div style="min-width:0">
               <h2 class="mf-section-title" style="margin:0">Phim yêu thích</h2>
               <p class="mf-muted" style="margin:3px 0 0;font-size:12.5px">
@@ -472,8 +472,8 @@ async function init() {
   bindGlobalEvents();
 
   document.body.classList.add("mf-page", "antialiased");
-  document.body.style.background = "#0b0d12";
-  document.body.style.color = "#fff";
+  document.body.style.background = "#0c0e12";
+  document.body.style.color = "#e2e2e8";
 
   $("#app").innerHTML = LAYOUT;
   renderHeader($("#mfHeader"), { activePath: "/profile" });

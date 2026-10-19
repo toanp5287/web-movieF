@@ -35,7 +35,7 @@ export function toast(message, type = "success") {
   const node = document.createElement("div");
   node.className = `mf-toast is-${tone}`;
   const toneColor =
-    tone === "error" ? "#ff7a7f" : tone === "success" ? "#4ade80" : "#9ca0aa";
+    tone === "error" ? "#ffb4ab" : tone === "success" ? "#4ade80" : "#e9bcb6";
   node.innerHTML = `
     <span class="mf-stat-ico" style="width:30px;height:30px;border-radius:9px;flex:none;color:${toneColor}">${icon(TOAST_ICON[tone], "text-[18px]")}</span>
     <p style="margin:4px 0 0;line-height:1.5">${escapeHtml(message)}</p>
@@ -67,7 +67,7 @@ function ensureConfirmHost() {
   confirmHost.innerHTML = `
     <div class="mf-modal-card" role="document">
       <div style="padding:22px 22px 6px;display:flex;gap:14px;align-items:flex-start">
-        <span id="mfConfirmIcon" class="mf-stat-ico" style="width:42px;height:42px;border-radius:12px;background:rgba(255,32,40,.14);color:#ff7a7f;flex:none">${icon("alert")}</span>
+        <span id="mfConfirmIcon" class="mf-stat-ico" style="width:42px;height:42px;border-radius:12px;background:rgba(229,9,20,.14);color:#ffb4ab;flex:none">${icon("alert")}</span>
         <div style="min-width:0">
           <h3 id="mfConfirmTitle" class="mf-section-title">Xác nhận</h3>
           <p id="mfConfirmText" class="mf-muted" style="margin:6px 0 0;font-size:13.5px;line-height:1.55"></p>

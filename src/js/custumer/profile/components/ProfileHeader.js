@@ -28,7 +28,7 @@ export function renderProfileHeader(root, profile, handlers = {}) {
     >
       <div
         aria-hidden="true"
-        style="position:absolute;right:-90px;top:-110px;width:320px;height:320px;border-radius:999px;background:radial-gradient(circle,rgba(255,32,40,.16),transparent 70%);pointer-events:none"
+        style="position:absolute;right:-90px;top:-110px;width:320px;height:320px;border-radius:999px;background:radial-gradient(circle,rgba(229,9,20,.16),transparent 70%);pointer-events:none"
       ></div>
       <div
         aria-hidden="true"

@@ -29,7 +29,7 @@ function itemMarkup(item) {
         <div style="display:flex;align-items:center;gap:7px;min-width:0">
           <h3 class="mf-truncate" style="margin:0;font-size:14.5px;font-weight:600" title="${escapeHtml(item.title)}">${escapeHtml(item.title)}</h3>
         </div>
-        <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:5px;font-size:12px;color:#9ca0aa">
+        <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:5px;font-size:12px;color:#e9bcb6">
           <span class="mf-chip" style="height:20px;font-size:10.5px">${icon("clapper", "text-[12px]")} ${escapeHtml(item.episodeLabel)}</span>
           <span>${escapeHtml(item.watchedLabel)}</span>
           <span style="opacity:.5">•</span>
