@@ -287,6 +287,10 @@ function normalizeMovie(raw) {
     decade: year ? Math.floor(year / 10) * 10 : null,
     duration,
     country: String(raw.country ?? "").trim(),
+    // Năm phát hành trong db.json nằm ở `releaseYear` (hầu hết phim) và `year`
+    // (một số ít dữ liệu cũ). Giữ nguyên `year` như trước để không đổi hành vi
+    // các trang khác; `releaseYear` là trường BỔ SUNG chỉ để hiển thị.
+    releaseYear: toNumber(raw.releaseYear) ?? year,
     director: String(raw.director ?? "").trim(),
     actors: toList(raw.actors),
     genreIds: toList(raw.genre),
