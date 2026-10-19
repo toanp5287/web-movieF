@@ -47,116 +47,84 @@
     </style>
   </head>
   <body class="bg-surface font-body-md text-on-surface min-h-screen">
-    <aside
-      class="fixed left-0 top-0 h-full w-64 bg-surface-container-low z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"
-    >
-      <div class="flex flex-col flex-1 overflow-y-auto">
-        <div
-          class="h-16 px-space-md flex items-center gap-space-sm bg-surface-container-low/50"
-        >
-          <img
-            alt="Brand logo. - Primary color: #e50914
-- Font: plusJakartaSans
-- Mode: dark
-- Roundness: rounded-md
-"
-            class="h-8 w-auto object-contain"
-            src="/images/logo/logo.svg"
-          /><span
-            class="font-headline-sm text-headline-sm font-bold tracking-tight text-on-surface"
-            >Movie<span class="text-primary-container">F</span></span
-          ><span
-            class="ml-auto bg-surface-container-highest text-on-surface-variant font-label-caps text-label-caps px-space-xs py-0.5 rounded"
-            >ADMIN</span
-          >
+    <aside class="sidebar fixed left-0 top-0 bottom-0">
+      <!-- LOGO -->
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon">
+          <span class="material-symbols-outlined">movie</span>
         </div>
-        <div class="px-space-md py-space-sm">
-          <a
-            class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high hover:text-on-surface transition-colors"
-            data-path="client-website"
-            href="/"
-            ><span
-              class="material-symbols-outlined text-primary-container text-base"
-              >open_in_new</span
-            ><span class="font-title-sm text-title-sm"
-              >Trang người dùng</span
-            ></a
-          >
+        <div>
+          <h1 class="sidebar-title">MovieF</h1>
+          <p class="sidebar-subtitle">Admin Panel</p>
         </div>
-        <div class="px-space-md pt-space-xs pb-space-xs">
-          <span
-            class="font-label-caps text-label-caps text-on-surface-variant/60 uppercase"
-            >Quản trị hệ thống</span
-          >
-        </div>
-        <nav class="menu-nav">
-          <a href="/admin/dashBoard" class="menu-item">
-            <span class="material-symbols-outlined">dashboard</span>
-            <span>Dashboard</span>
-          </a>
-
-          <a href="/admin" class="menu-item active">
-            <span class="material-symbols-outlined">movie</span>
-            <span>Quản lý phim</span>
-          </a>
-
-          <a href="/admin/genres" class="menu-item">
-            <span class="material-symbols-outlined">category</span>
-            <span>Thể loại</span>
-          </a>
-
-          <a href="/admin/users" class="menu-item">
-            <span class="material-symbols-outlined">group</span>
-            <span>Người dùng</span>
-          </a>
-          <a href="/admin/authorization" class="menu-item">
-            <span class="material-symbols-outlined">admin_panel_settings</span>
-            <span>Phân quyền</span>
-          </a>
-          <a href="/admin/reviews" class="menu-item">
-            <span class="material-symbols-outlined">reviews</span>
-            <span>Đánh giá</span>
-          </a>
-
-          <a href="/admin/comments" class="menu-item">
-            <span class="material-symbols-outlined">comment</span>
-            <span>Bình luận</span>
-          </a>
-
-          <a href="/admin/statistics" class="menu-item">
-            <span class="material-symbols-outlined">bar_chart</span>
-            <span>Thống kê</span>
-          </a>
-
-          <a href="/admin/trash" class="menu-item">
-            <span class="material-symbols-outlined">delete</span>
-            <span>Thùng rác</span>
-          </a>
-        </nav>
       </div>
-      <div class="p-space-md bg-surface-container-lowest/80">
-        <div
-          class="flex items-center gap-space-sm p-space-sm rounded-lg bg-surface-container-low"
-        >
+
+      <!-- MENU -->
+      <nav class="menu-nav">
+        <a href="/admin" class="menu-item" data-nav="dashboard">
+          <span class="material-symbols-outlined">dashboard</span>
+          <span>Dashboard</span>
+        </a>
+
+        <a href="/admin/movies" class="menu-item" data-nav="movies">
+          <span class="material-symbols-outlined">movie</span>
+          <span>Quản lý phim</span>
+        </a>
+
+        <a href="/admin/session" class="menu-item" data-nav="session">
+          <span class="material-symbols-outlined">layers</span>
+          <span>Quản lý mùa phim</span>
+        </a>
+
+        <a href="/admin/genres" class="menu-item" data-nav="genres">
+          <span class="material-symbols-outlined">category</span>
+          <span>Thể loại</span>
+        </a>
+
+        <a href="/admin/users" class="menu-item" data-nav="users">
+          <span class="material-symbols-outlined">group</span>
+          <span>Người dùng</span>
+        </a>
+        <a href="/admin/authorization" class="menu-item" data-nav="authorization">
+          <span class="material-symbols-outlined">admin_panel_settings</span>
+          <span>Phân quyền</span>
+        </a>
+        <a href="/admin/reviews" class="menu-item" data-nav="reviews">
+          <span class="material-symbols-outlined">reviews</span>
+          <span>Đánh giá</span>
+        </a>
+
+        <a href="/admin/comments" class="menu-item" data-nav="comments">
+          <span class="material-symbols-outlined">comment</span>
+          <span>Bình luận</span>
+        </a>
+
+        <a href="/admin/statistics" class="menu-item" data-nav="statistics">
+          <span class="material-symbols-outlined">bar_chart</span>
+          <span>Thống kê</span>
+        </a>
+
+        <a href="/admin/trash" class="menu-item" data-nav="trash">
+          <span class="material-symbols-outlined">delete</span>
+          <span>Thùng rác</span>
+        </a>
+      </nav>
+
+      <!-- ADMIN ACCOUNT -->
+      <div class="sidebar-account">
+        <div class="flex items-center gap-3">
           <img
-            alt="Profile"
-            class="w-8 h-8 rounded-full object-cover"
-            src="https://lh3.googleusercontent.com/aida/AEtjO1U0_WeREXlsW21uASPbJPP_lxP_gmAQ8JRvUnAaxrdOBoxPeo7MCeWJwKvpGT08QRMwxmEcuplw-uaF8cOaM7vJoxu3YCTk2z9BMckBNQiBalEdIorObjSYlSRAj8OxWP5tQdukk9hfx2LM7uUVj8CJBIEBszAG8vS250KGfjZYD8dHUdPyXPjWnBvdCmjTEhX8do4_F5iPk1mkHGdNDbYIByEB-dAtsNyoe4B0A4B0snAw4aDQKtosPA"
+            src="/images/avatar/admin.png"
+            alt="Admin"
+            class="sidebar-avatar"
+            onerror="this.src='https://ui-avatars.com/api/?name=Admin+MovieF&background=e50914&color=fff'"
           />
-          <div class="flex flex-col min-w-0 flex-1">
-            <span class="font-title-sm text-title-sm text-on-surface truncate"
-              >Admin MovieF</span
-            ><span
-              class="font-label-md text-label-md text-on-surface-variant truncate"
-              >superadmin@movief.vn</span
-            >
+          <div class="flex-1 min-w-0">
+            <p class="sidebar-account-name">MovieF Admin</p>
+            <p class="sidebar-account-mail">admin@movief.com</p>
           </div>
-          <button
-            aria-label="Đăng xuất"
-            class="text-on-surface-variant hover:text-on-surface transition-colors"
-            type="button"
-          >
-            <span class="material-symbols-outlined text-lg">logout</span>
+          <button class="sidebar-account-btn">
+            <span class="material-symbols-outlined text-lg">more_vert</span>
           </button>
         </div>
       </div>
