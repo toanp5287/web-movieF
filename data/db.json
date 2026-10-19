@@ -396,6 +396,36 @@
       "createdAt": "2026-09-02"
     },
     {
+      "id": "50",
+      "title": "hiiii",
+      "slug": "spider-man-no-way-home",
+      "description": "Peter Parker đối mặt với những kẻ thù đến từ các vũ trụ khác.",
+      "poster": "/images/movies/spiderman.jpg",
+      "backdrop": "/images/movies/spiderman-bg.jpg",
+      "trailer": "/videos/phim-demo-4.mp4",
+      "video": "/videos/phim-demo-4.mp4",
+      "type": "movie",
+      "releaseYear": 2021,
+      "duration": 148,
+      "country": "USA",
+      "director": "Jon Watts",
+      "actors": [
+        "Tom Holland",
+        "Zendaya",
+        "Benedict Cumberbatch"
+      ],
+      "genre": [
+        "1",
+        "5",
+        "7",
+        "8"
+      ],
+      "quality": "hd",
+      "status": true,
+      "views": 12450,
+      "createdAt": "2026-10-02"
+    },
+    {
       "id": "3",
       "title": "Interstellar",
       "slug": "interstellar",
@@ -1408,7 +1438,7 @@
       "userId": "8TZCZPkPe4Q",
       "movieId": 23,
       "progress": 29,
-      "watchedAt": "2026-10-16T17:12:07",
+      "watchedAt": "2026-10-19T17:07:36",
       "episodeId": "DnQwlw8ET1Q",
       "id": "rGdN4GI"
     },
