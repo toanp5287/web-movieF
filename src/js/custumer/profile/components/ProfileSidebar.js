@@ -83,7 +83,7 @@ export function renderBottomNav(root, { activeTab, counts = {} }, onSelectTab) {
           const isTab = Boolean(TABS.some((tab) => tab.id === item.id));
           const count = item.countKey ? counts[item.countKey] : 0;
           const badge =
-            count > 0 ? `<span style="position:absolute;top:2px;right:22%;min-width:16px;height:16px;border-radius:999px;background:#ff2028;color:#fff;font-size:9px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;padding:0 4px">${count > 99 ? "99+" : count}</span>` : "";
+            count > 0 ? `<span style="position:absolute;top:2px;right:22%;min-width:16px;height:16px;border-radius:999px;background:#e50914;color:#fff;font-size:9px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;padding:0 4px">${count > 99 ? "99+" : count}</span>` : "";
 
           if (!isTab) {
             return `

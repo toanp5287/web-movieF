@@ -26,10 +26,10 @@ const ACCOUNT_ITEMS = [
 
 const logo = () => `
   <a href="/" class="mf-link" style="display:flex;align-items:center;gap:10px;color:#fff" aria-label="MovieF - Trang chủ">
-    <span style="width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,#ff2028,#a50f16);display:inline-flex;align-items:center;justify-content:center;box-shadow:0 10px 24px -14px rgba(255,32,40,.9)">
+    <span style="width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,#e50914,#c0000c);display:inline-flex;align-items:center;justify-content:center;box-shadow:0 10px 24px -14px rgba(229,9,20,.9)">
       ${icon("clapper", "text-[20px]")}
     </span>
-    <span style="font-weight:800;font-size:20px;letter-spacing:-.03em;line-height:1">Movie<span style="color:#ff2028">F</span></span>
+    <span style="font-weight:800;font-size:20px;letter-spacing:-.03em;line-height:1">Movie<span style="color:#e50914">F</span></span>
   </a>
 `;
 
@@ -82,7 +82,7 @@ export function renderHeader(root, options = {}) {
     root,
     `
     <header
-      style="position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(11,13,18,.82);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.07)"
+      style="position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(12,14,18,.85);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.07)"
     >
       <div class="mf-container" style="height:72px;display:flex;align-items:center;gap:18px">
         ${logo()}
@@ -95,7 +95,7 @@ export function renderHeader(root, options = {}) {
               href="${item.href}"
               style="padding:8px 12px;border-radius:9px;white-space:nowrap;font-weight:500;${
                 activePath === item.href
-                  ? "background:rgba(255,32,40,.14);color:#fff"
+                  ? "background:rgba(229,9,20,.14);color:#fff"
                   : ""
               }"
             >${item.label}</a>`,
@@ -107,7 +107,7 @@ export function renderHeader(root, options = {}) {
           style="display:none;flex:1;max-width:340px;margin-left:auto;position:relative;align-items:center"
           data-search
         >
-          <span style="position:absolute;left:12px;display:inline-flex;color:#9ca0aa;pointer-events:none">${icon("search", "text-[18px]")}</span>
+          <span style="position:absolute;left:12px;display:inline-flex;color:#e9bcb6;pointer-events:none">${icon("search", "text-[18px]")}</span>
           <input
             type="search"
             aria-label="Tìm kiếm phim"
@@ -128,7 +128,7 @@ export function renderHeader(root, options = {}) {
 
           <button type="button" class="mf-icon-btn" aria-label="Thông báo" data-notifications style="position:relative">
             ${icon("bell", "text-[22px]")}
-            <span class="mf-dot" style="position:absolute;top:7px;right:7px;box-shadow:0 0 0 2px #0b0d12"></span>
+            <span class="mf-dot" style="position:absolute;top:7px;right:7px;box-shadow:0 0 0 2px #0c0e12"></span>
           </button>
 
           ${
@@ -164,7 +164,7 @@ export function renderHeader(root, options = {}) {
 
       <div class="mf-container" style="padding-bottom:12px;display:none" data-search-row>
         <form role="search" style="position:relative;align-items:center;display:flex" data-search-form>
-          <span style="position:absolute;left:12px;display:inline-flex;color:#9ca0aa;pointer-events:none">${icon("search", "text-[18px]")}</span>
+          <span style="position:absolute;left:12px;display:inline-flex;color:#e9bcb6;pointer-events:none">${icon("search", "text-[18px]")}</span>
           <input
             type="search"
             aria-label="Tìm kiếm phim"

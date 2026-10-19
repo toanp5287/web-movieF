@@ -54,8 +54,8 @@ const svgPlaceholder = (label, from, to, w = 300, h = 450) =>
     </svg>`,
   );
 
-export const POSTER_FALLBACK = svgPlaceholder("MF", "#1b1d23", "#0b0d12");
-export const AVATAR_FALLBACK = svgPlaceholder("MF", "#2a2e37", "#0b0d12", 240, 240);
+export const POSTER_FALLBACK = svgPlaceholder("MF", "#1d2024", "#0c0e12");
+export const AVATAR_FALLBACK = svgPlaceholder("MF", "#282a2f", "#0c0e12", 240, 240);
 
 /** Chuẩn hoá đường dẫn ảnh về dạng tuyệt đối theo thư mục `public`. */
 export const mediaUrl = (path, fallback = POSTER_FALLBACK) =>

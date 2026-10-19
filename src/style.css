@@ -175,17 +175,17 @@
 
 @layer base {
   :root {
-    --mf-bg: #0b0d12;
-    --mf-surface: #15171d;
-    --mf-surface-2: #1b1d23;
-    --mf-surface-3: #22252d;
+    --mf-bg: #0c0e12;
+    --mf-surface: #191c20;
+    --mf-surface-2: #1d2024;
+    --mf-surface-3: #282a2f;
     --mf-line: rgb(255 255 255 / 8%);
     --mf-line-strong: rgb(255 255 255 / 14%);
-    --mf-brand: #ff2028;
-    --mf-brand-soft: #ff5f65;
-    --mf-brand-dark: #c8121a;
-    --mf-text: #ffffff;
-    --mf-muted: #9ca0aa;
+    --mf-brand: #e50914;
+    --mf-brand-soft: #ffb4aa;
+    --mf-brand-dark: #c0000c;
+    --mf-text: #e2e2e8;
+    --mf-muted: #e9bcb6;
     --mf-radius-sm: 10px;
     --mf-radius: 14px;
     --mf-radius-lg: 18px;

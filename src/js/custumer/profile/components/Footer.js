@@ -16,7 +16,7 @@ const FOOTER_LINKS = [
 export function renderFooter(root) {
   root.innerHTML = `
     <footer
-      style="background:#0e1015;border-top:1px solid rgba(255,255,255,.07);margin-top:40px"
+      style="background:#0c0e12;border-top:1px solid rgba(255,255,255,.07);margin-top:40px"
     >
       <div class="mf-container" style="padding-top:40px;padding-bottom:32px">
         <div
@@ -25,8 +25,8 @@ export function renderFooter(root) {
         >
           <div style="max-width:360px">
             <a href="/" style="display:inline-flex;align-items:center;gap:9px;text-decoration:none">
-              <span style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#ff2028,#a50f16);display:inline-flex;align-items:center;justify-content:center;box-shadow:0 10px 24px -14px rgba(255,32,40,.9)">${icon("clapper", "text-[18px]")}</span>
-              <span style="font-weight:800;font-size:19px;letter-spacing:-.03em;color:#fff">Movie<span style="color:#ff2028">F</span></span>
+              <span style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#e50914,#c0000c);display:inline-flex;align-items:center;justify-content:center;box-shadow:0 10px 24px -14px rgba(229,9,20,.9)">${icon("clapper", "text-[18px]")}</span>
+              <span style="font-weight:800;font-size:19px;letter-spacing:-.03em;color:#fff">Movie<span style="color:#e50914">F</span></span>
             </a>
             <p class="mf-muted" style="font-size:13.5px;line-height:1.7;margin:14px 0 0">
               Khám phá thế giới điện ảnh cùng MovieF.

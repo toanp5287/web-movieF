@@ -20,7 +20,7 @@ function rowMarkup(item) {
         <span class="mf-muted" style="font-size:11.5px;flex:none;white-space:nowrap">${escapeHtml(item.watchedAtLabel)}</span>
       </div>
 
-      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px;color:#9ca0aa">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px;color:#e9bcb6">
         <span class="mf-chip" style="height:20px;font-size:10.5px">${escapeHtml(item.episodeLabel)}</span>
         <span>${escapeHtml(String(item.year))}</span>
         <span style="opacity:.5">•</span>

@@ -58,7 +58,7 @@ export function movieCard(movie, { index = 0, collection = "favorites" } = {}) {
       <h3 class="mf-truncate" style="margin:0;font-size:14.5px;font-weight:600;letter-spacing:-.01em" title="${escapeHtml(movie.title)}">
         ${escapeHtml(movie.title)}
       </h3>
-      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px;color:#9ca0aa">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px;color:#e9bcb6">
         <span>${escapeHtml(String(movie.year))}</span>
         <span style="opacity:.5">•</span>
         <span style="display:inline-flex;align-items:center;gap:3px;color:#f5c451;font-weight:700">
