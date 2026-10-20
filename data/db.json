@@ -249,7 +249,8 @@
       "poster": "/images/movies/1791982053864-z6r047.png",
       "releaseYear": 2025,
       "status": true,
-      "id": "SMyzc5LP86I"
+      "id": "SMyzc5LP86I",
+      "isDeleted": true
     }
   ],
   "episodes": [
@@ -617,7 +618,7 @@
       ],
       "trailer": "/videos/1790685049779-09nsjs.mp4",
       "video": "/videos/1792330101994-tpywjh.mp4",
-      "status": "Inactive",
+      "status": "published",
       "views": 0,
       "createdAt": "2026-09-29",
       "quality": "hd"
