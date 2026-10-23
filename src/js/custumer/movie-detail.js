@@ -174,12 +174,19 @@ function renderHeadline(movie, catalog) {
       `<span class="text-on-surface-variant">Đạo diễn:</span> ${escapeHtml(movie.director)}`,
     );
   }
-  if (movie.actors.length) {
-    rows.push(
-      `<span class="text-on-surface-variant">Diễn viên chính:</span> ${escapeHtml(
-        movie.actors.join(", "),
-      )}`,
-    );
+  if (Array.isArray(movie.actors) && movie.actors.length) {
+    const actorLinks = movie.actors
+      .filter((name) => String(name ?? "").trim().length > 0)
+      .map((name) => {
+        const n = String(name).trim();
+        return `<a href="/movies?actor=${encodeURIComponent(n)}" class="hover:text-primary transition-colors">${escapeHtml(n)}</a>`;
+      })
+      .join(", ");
+    if (actorLinks) {
+      rows.push(
+        `<span class="text-on-surface-variant">Diễn viên chính:</span> ${actorLinks}`,
+      );
+    }
   }
   const credits = setHtml("credits", rows.join("<br />"));
   if (credits) credits.hidden = rows.length === 0;
@@ -271,7 +278,7 @@ function renderCast(movie, catalog) {
 
   const people = [];
   if (movie.director) people.push({ name: movie.director, role: "Đạo diễn" });
-  movie.actors.forEach((name) => people.push({ name, role: "Diễn viên" }));
+  (movie.actors || []).forEach((name) => people.push({ name, role: "Diễn viên" }));
 
   if (!people.length) {
     grid.innerHTML = `<p class="col-span-full text-center text-on-surface-variant font-body-sm text-body-sm py-6">Chưa có thông tin diễn viên cho phim này.</p>`;
@@ -280,21 +287,43 @@ function renderCast(movie, catalog) {
 
   grid.innerHTML = people
     .map(
-      ({ name, role }) => `
+      ({ name, role }) => {
+        const actorName = String(name ?? "").trim();
+        const isActor = role === "Diễn viên" && actorName.length > 0;
+        if (!isActor) {
+          return `
             <div class="flex flex-col items-center text-center p-4 rounded-xl bg-surface-container-low hover:bg-surface-container transition-all group">
               <div class="w-24 h-24 rounded-full overflow-hidden mb-3 shadow-lg shadow-black/40">
                 <img
-                  alt="Ảnh ${escapeHtml(name)}"
+                  alt="Ảnh ${escapeHtml(actorName)}"
                   class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  data-fallback="${actorImage(catalog, name)}"
+                  data-fallback="${actorImage(catalog, actorName)}"
                   decoding="async"
                   loading="lazy"
-                  src="${actorImage(catalog, name)}"
+                  src="${actorImage(catalog, actorName)}"
                 />
               </div>
-              <h3 class="font-title-sm text-title-sm text-on-surface font-semibold truncate w-full">${escapeHtml(name)}</h3>
+              <h3 class="font-title-sm text-title-sm text-on-surface font-semibold truncate w-full">${escapeHtml(actorName)}</h3>
               <p class="font-body-sm text-body-sm text-on-surface-variant truncate w-full mt-0.5">${escapeHtml(role)}</p>
-            </div>`,
+            </div>`;
+        }
+        const actorLink = `/movies?actor=${encodeURIComponent(actorName)}`;
+        return `
+            <div class="flex flex-col items-center text-center p-4 rounded-xl bg-surface-container-low hover:bg-surface-container transition-all group">
+              <div class="w-24 h-24 rounded-full overflow-hidden mb-3 shadow-lg shadow-black/40">
+                <a href="${actorLink}"><img
+                  alt="Ảnh ${escapeHtml(actorName)}"
+                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  data-fallback="${actorImage(catalog, actorName)}"
+                  decoding="async"
+                  loading="lazy"
+                  src="${actorImage(catalog, actorName)}"
+                /></a>
+              </div>
+              <h3 class="font-title-sm text-title-sm text-on-surface font-semibold truncate w-full"><a href="${actorLink}" class="hover:text-primary transition-colors">${escapeHtml(actorName)}</a></h3>
+              <p class="font-body-sm text-body-sm text-on-surface-variant truncate w-full mt-0.5">${escapeHtml(role)}</p>
+            </div>`;
+      },
     )
     .join("");
 }
