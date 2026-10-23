@@ -364,13 +364,17 @@ function renderReviews(movie, catalog) {
                   </div>
                   <p class="font-body-md text-body-md text-on-surface leading-relaxed">${escapeHtml(r.comment || "")}</p>
                   <div class="flex items-center gap-2 pt-1">
-                    <button
+                    ${
+                      mine
+                        ? ""
+                        : `<button
                       type="button"
                       class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high transition-colors"
                       data-review-report="${escapeHtml(String(r.id))}"
                     >
                       Báo cáo
-                    </button>
+                    </button>`
+                    }
                     ${
                       mine
                         ? `<div class="flex items-center gap-2">
@@ -653,6 +657,10 @@ function bindReviewActions(movie, catalog) {
         sameId(r.id, reportBtn.dataset.reviewReport),
       );
       if (!review) return;
+      if (sameId(review.userId, user.id)) {
+        notify("info", "Bạn không thể báo cáo bình luận của chính mình.");
+        return;
+      }
 
       const reason = window.prompt(
         "Nhập lý do báo cáo bình luận:\nVí dụ: spam, xúc phạm, nội dung không phù hợp.",
