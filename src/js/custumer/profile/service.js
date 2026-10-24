@@ -248,6 +248,7 @@ function normalizeReview(row, context) {
     ...normalizeMovie(movie, context),
     rating: Number(row.rating) || 0,
     comment: row.comment || "",
+    status: String(row.status ?? "visible"),
     createdAt: row.createdAt,
     createdLabel: formatDate(row.createdAt),
   };
