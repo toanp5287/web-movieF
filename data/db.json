@@ -1352,22 +1352,22 @@
     {
       "userId": 1,
       "movieId": 2,
-      "progress": 20,
-      "watchedAt": "2026-10-15T16:25:32",
+      "progress": 34,
+      "watchedAt": "2026-10-24T12:21:23",
       "id": "Cg6czTN"
     },
     {
       "userId": 1,
       "movieId": 7,
       "progress": 0,
-      "watchedAt": "2026-10-16T18:26:34",
+      "watchedAt": "2026-10-24T12:16:16",
       "id": "6PTvXf5"
     },
     {
       "userId": 1,
       "movieId": 10,
       "progress": 0,
-      "watchedAt": "2026-10-16T18:26:19",
+      "watchedAt": "2026-10-24T12:17:18",
       "id": "2cUSQhv"
     },
     {
@@ -1475,10 +1475,17 @@
     {
       "userId": 1,
       "movieId": 23,
-      "progress": 1,
-      "watchedAt": "2026-10-23T17:00:07",
+      "progress": 19,
+      "watchedAt": "2026-10-24T12:16:08",
       "episodeId": "DnQwlw8ET1Q",
       "id": "lEDzI7C"
+    },
+    {
+      "userId": 1,
+      "movieId": 5,
+      "progress": 0,
+      "watchedAt": "2026-10-24T12:16:24",
+      "id": "gDn0y9B"
     }
   ],
   "reviews": [
@@ -1580,6 +1587,33 @@
       "status": "visible",
       "createdAt": "2026-10-17",
       "id": "vmQnV8z"
+    },
+    {
+      "userId": 1,
+      "movieId": 23,
+      "rating": 5,
+      "comment": "xin chào",
+      "status": "visible",
+      "createdAt": "2026-10-24",
+      "id": "wUZFyPM"
+    },
+    {
+      "userId": 1,
+      "movieId": 13,
+      "rating": 5,
+      "comment": "hayu nha",
+      "status": "visible",
+      "createdAt": "2026-10-24",
+      "id": "qqZbtnW"
+    },
+    {
+      "userId": 1,
+      "movieId": 2,
+      "rating": 5,
+      "comment": "hahaha",
+      "status": "visible",
+      "createdAt": "2026-10-24",
+      "id": "JiR_PHB"
     }
   ],
   "reviewReports": [],

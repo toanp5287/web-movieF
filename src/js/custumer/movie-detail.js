@@ -209,8 +209,11 @@ const countryKey = (value) => String(value).trim().toUpperCase();
 
 /** Điểm đánh giá lấy từ bảng `reviews`. */
 function renderRating(movie, catalog) {
-  const avg = averageRating(movie, catalog.reviews);
-  const count = ratingCount(movie, catalog.reviews);
+  const approvedReviews = catalog.reviews.filter(
+    (review) => String(review.status ?? "visible") === "visible",
+  );
+  const avg = averageRating(movie, approvedReviews);
+  const count = ratingCount(movie, approvedReviews);
   setVisible("rating", avg !== null);
   if (avg === null) return;
 
@@ -223,8 +226,11 @@ function renderRating(movie, catalog) {
 function renderRatingSummary(movie, catalog) {
   const box = bind("rating-summary");
   if (!box) return;
-  const avg = averageRating(movie, catalog.reviews);
-  const count = ratingCount(movie, catalog.reviews);
+  const approvedReviews = catalog.reviews.filter(
+    (review) => String(review.status ?? "visible") === "visible",
+  );
+  const avg = averageRating(movie, approvedReviews);
+  const count = ratingCount(movie, approvedReviews);
 
   const scoreEl = box.querySelector('[data-bind="summary-score"]');
   if (scoreEl) scoreEl.textContent = avg === null ? "--" : avg.toFixed(1);
@@ -251,7 +257,7 @@ function renderRatingSummary(movie, catalog) {
   if (barsEl) {
     const counts = [5, 4, 3, 2, 1].map(
       (star) =>
-        catalog.reviews.filter(
+        approvedReviews.filter(
           (r) => sameId(r.movieId, movie.id) && Number(r.rating) === star,
         ).length,
     );
@@ -334,19 +340,18 @@ function renderReviews(movie, catalog) {
   if (!list) return;
 
   const sort = document.getElementById("review-sort")?.value || "newest";
+  const sessionUser = getCurrentUser();
   const rows = catalog.reviews
-    .filter(
-      (r) =>
-        sameId(r.movieId, movie.id) &&
-        String(r.status ?? "visible") === "visible",
-    )
+    .filter((r) => {
+      const mine = Boolean(sessionUser) && sameId(sessionUser.id, r.userId);
+      const approved = String(r.status ?? "visible") === "visible";
+      return sameId(r.movieId, movie.id) && (approved || mine);
+    })
     .sort((left, right) => {
       if (sort === "highest") return Number(right.rating) - Number(left.rating);
       if (sort === "lowest") return Number(left.rating) - Number(right.rating);
       return new Date(right.createdAt || 0) - new Date(left.createdAt || 0);
     });
-  const sessionUser = getCurrentUser();
-
   if (!rows.length) {
     list.innerHTML = `<div class="p-5 rounded-xl bg-surface-container-low flex flex-col items-center text-center gap-2">
               <span class="material-symbols-outlined text-3xl text-on-surface-variant/50">rate_review</span>
@@ -362,6 +367,7 @@ function renderReviews(movie, catalog) {
       const name = user?.fullname || user?.username || "Người dùng";
       const rating = Number(r.rating) || 0;
       const mine = Boolean(sessionUser) && sameId(sessionUser.id, r.userId);
+      const pending = String(r.status ?? "visible") === "pending";
       return `
                 <div class="p-5 rounded-xl bg-surface-container-low flex flex-col gap-3">
                   <div class="flex items-start justify-between">
@@ -387,9 +393,12 @@ function renderReviews(movie, catalog) {
                         </div>
                       </div>
                     </div>
-                    <span class="font-label-md text-label-md text-on-surface-variant">${escapeHtml(
-                      formatDate(r.createdAt),
-                    )}</span>
+                    <div class="flex flex-col items-end gap-1">
+                      <span class="font-label-md text-label-md text-on-surface-variant">${escapeHtml(
+                        formatDate(r.createdAt),
+                      )}</span>
+                      ${mine && pending ? '<span class="font-label-md text-label-md text-amber-400">Đang chờ duyệt</span>' : ""}
+                    </div>
                   </div>
                   <p class="font-body-md text-body-md text-on-surface leading-relaxed">${escapeHtml(r.comment || "")}</p>
                   <div class="flex items-center gap-2 pt-1">
@@ -819,7 +828,7 @@ function bindReviewComposer(movie, catalog) {
       movieId: normalizeId(movie.id),
       rating: selectedRating,
       comment: content,
-      status: "visible",
+      status: "pending",
       createdAt: new Date().toISOString().slice(0, 10),
     };
 
@@ -843,7 +852,7 @@ function bindReviewComposer(movie, catalog) {
       } else {
         const created = await api.post("/reviews", payload);
         if (created?.id != null) catalog.reviews.unshift(created);
-        notify("success", "Đã gửi bình luận.");
+        notify("success", "Bình luận đã gửi và đang chờ admin duyệt.");
       }
 
       refreshReviewBlocks(movie, catalog);

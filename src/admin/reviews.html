@@ -326,7 +326,7 @@
 
             <div class="h-5 w-px bg-zinc-800 hidden md:block"></div>
 
-            <!-- Lọc Trạng Thái (visible / hidden) -->
+            <!-- Lọc Trạng Thái -->
             <div class="relative hidden md:block shrink-0">
               <select
                 id="statusFilter"
@@ -337,6 +337,9 @@
                 </option>
                 <option value="visible" class="bg-zinc-900 text-zinc-200">
                   Hiển thị (visible)
+                </option>
+                <option value="pending" class="bg-zinc-900 text-zinc-200">
+                  Chờ duyệt (pending)
                 </option>
                 <option value="hidden" class="bg-zinc-900 text-zinc-200">
                   Tạm ẩn (hidden)
@@ -633,6 +636,15 @@
                       Hiển thị
                     </span>
                   `
+                  : item.status === "pending"
+                  ? `
+                    <span
+                      class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium text-amber-400 bg-amber-500/10 border border-amber-500/20"
+                    >
+                      <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                      Chờ duyệt
+                    </span>
+                  `
                   : `
                     <span
                       class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium text-zinc-400 bg-zinc-800 border border-zinc-700"
@@ -663,11 +675,11 @@
                 onclick="toggleStatus('${item.id}')"
                 class="p-1.5 text-zinc-400 hover:text-amber-400 hover:bg-zinc-800 rounded-lg transition-colors"
                 title="${
-                  item.status === "visible" ? "Ẩn đánh giá" : "Hiện đánh giá"
+                  item.status === "visible" ? "Ẩn đánh giá" : item.status === "pending" ? "Duyệt đánh giá" : "Hiện đánh giá"
                 }"
               >
                 <span class="material-symbols-outlined text-base">
-                  ${item.status === "visible" ? "visibility_off" : "visibility"}
+                  ${item.status === "visible" ? "visibility_off" : item.status === "pending" ? "check_circle" : "visibility"}
                 </span>
               </button>
 
@@ -787,6 +799,26 @@
         if (!item) return;
 
         const newStatus = item.status === "visible" ? "hidden" : "visible";
+
+        if (newStatus === "visible") {
+          try {
+            const currentUser = JSON.parse(
+              localStorage.getItem("currentUser") || "null",
+            );
+            const roleRes = await fetch(
+              `http://localhost:3000/roles/${currentUser?.roleId}`,
+            );
+            const role = roleRes.ok ? await roleRes.json() : null;
+            if (String(role?.name || "").toLowerCase() !== "admin") {
+              alert("Chỉ Admin mới có quyền duyệt bình luận.");
+              return;
+            }
+          } catch (error) {
+            console.error("Không thể xác minh quyền Admin:", error);
+            alert("Không thể xác minh quyền Admin. Vui lòng thử lại.");
+            return;
+          }
+        }
 
         try {
           const res = await fetch(`http://localhost:3000/reviews/${id}`, {

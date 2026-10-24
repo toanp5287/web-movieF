@@ -29,6 +29,7 @@ const cardMarkup = (item) => `
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
         <div style="min-width:0">
           <h3 class="mf-truncate" style="margin:0;font-size:14.5px;font-weight:600" title="${escapeHtml(item.title)}">${escapeHtml(item.title)}</h3>
+          ${item.status === "pending" ? '<span style="display:inline-block;margin-top:5px;padding:3px 8px;border-radius:999px;background:rgba(245,158,11,.12);color:#fbbf24;font-size:11px;font-weight:600">Đang chờ duyệt</span>' : item.status === "hidden" ? '<span style="display:inline-block;margin-top:5px;padding:3px 8px;border-radius:999px;background:rgba(156,163,175,.12);color:#9ca3af;font-size:11px;font-weight:600">Đang ẩn</span>' : ""}
           <div style="display:flex;align-items:center;gap:6px;margin-top:4px" aria-label="Bạn đánh giá ${item.rating} trên 5 sao">
             ${stars(item.rating)}
             <span class="mf-muted" style="font-size:11.5px">${item.rating}/5</span>
