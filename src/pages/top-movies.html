@@ -402,30 +402,28 @@
             <!-- Time Range Selector Tabs -->
             <div
               class="flex items-center p-1 bg-surface-container-lowest rounded-lg w-full xl:w-auto overflow-x-auto"
+              id="timeRangeTabs"
             >
               <button
                 class="filter-tab px-space-md py-2 rounded-lg font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-all whitespace-nowrap"
+                data-range="day"
                 type="button"
               >
                 Hôm nay
               </button>
               <button
                 class="filter-tab px-space-lg py-2 rounded-lg font-title-sm text-title-sm text-on-primary-container bg-primary-container shadow-[0_0_20px_rgba(229,9,20,0.45)] whitespace-nowrap font-bold"
+                data-range="week"
                 type="button"
               >
                 Tuần này
               </button>
               <button
                 class="filter-tab px-space-md py-2 rounded-lg font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-all whitespace-nowrap"
+                data-range="month"
                 type="button"
               >
                 Tháng này
-              </button>
-              <button
-                class="filter-tab px-space-md py-2 rounded-lg font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-all whitespace-nowrap"
-                type="button"
-              >
-                Mọi thời đại
               </button>
             </div>
             <!-- Quick Filter Dropdowns & Stats -->
