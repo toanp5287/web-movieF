@@ -26,6 +26,7 @@ import {
   qualityLabel,
   watchUrl,
 } from "./movie-data.js";
+import api from "../api.js";
 
 /** Số phim trên Podium (#1-#3). */
 const PODIUM_SIZE = 3;
@@ -58,15 +59,67 @@ function ratingOf(movie, catalog) {
 const genreLabel = (movie, catalog) =>
   genreNames(movie, catalog.genres).join(" • ");
 
-/** Danh sách phim đã sắp xếp theo lượt xem giảm dần (điểm reviews làm phụ). */
-function rankedMovies(catalog) {
+let currentRange = "week";
+let historiesCache = null;
+
+/** Lấy toàn bộ lịch sử xem */
+async function loadHistories() {
+  if (historiesCache) return historiesCache;
+  try {
+    const data = await api.get("/histories");
+    historiesCache = Array.isArray(data) ? data : [];
+    return historiesCache;
+  } catch (err) {
+    console.error("[top-movies] Không tải được histories:", err);
+    historiesCache = [];
+    return historiesCache;
+  }
+}
+
+/** Tính cutoff thời gian theo range */
+function getCutoff(range) {
+  const now = Date.now();
+  if (range === "day") {
+    const start = new Date();
+    start.setHours(0, 0, 0, 0);
+    return start.getTime();
+  }
+  if (range === "week") {
+    return now - 7 * 24 * 60 * 60 * 1000;
+  }
+  if (range === "month") {
+    return now - 30 * 24 * 60 * 60 * 1000;
+  }
+  return now - 7 * 24 * 60 * 60 * 1000;
+}
+
+/** Danh sách phim đã sắp xếp theo range */
+async function rankedMovies(catalog, range = currentRange) {
+  const histories = await loadHistories();
+  const cutoff = getCutoff(range);
+  const counts = new Map();
+
+  for (const h of histories) {
+    if (!h || h.movieId === undefined || h.movieId === null) continue;
+    const watchedAt = h.watchedAt || h.createdAt || h.viewedAt;
+    if (!watchedAt) continue;
+    const t = new Date(watchedAt).getTime();
+    if (Number.isNaN(t)) continue;
+    if (t < cutoff) continue;
+    const key = String(h.movieId).trim();
+    counts.set(key, (counts.get(key) || 0) + 1);
+  }
+
   return catalog.movies
     .slice()
+    .filter((m) => counts.has(String(m.id).trim()))
+    .map((m) => ({ movie: m, count: counts.get(String(m.id).trim()) || 0 }))
     .sort(
       (a, b) =>
-        (b.views || 0) - (a.views || 0) ||
-        (ratingOf(b, catalog) ?? -1) - (ratingOf(a, catalog) ?? -1),
-    );
+        b.count - a.count ||
+        (ratingOf(b.movie, catalog) ?? -1) - (ratingOf(a.movie, catalog) ?? -1),
+    )
+    .map((x) => ({ movie: x.movie, count: x.count }));
 }
 
 /* ------------------------------------------------------------------ *
@@ -92,7 +145,7 @@ const SIDE_MEDALS = {
 };
 
 /** Thẻ hạng 2/3 bên cạnh Podium. */
-function podiumSide(movie, rank, catalog) {
+function podiumSide(movie, rank, catalog, count) {
   const medal = SIDE_MEDALS[rank];
   const title = escapeHtml(movie.title);
   const year = yearOf(movie);
@@ -175,7 +228,7 @@ function podiumSide(movie, rank, catalog) {
                     <span class="material-symbols-outlined text-[16px]"
                       >visibility</span
                     >
-                    <span>${escapeHtml(formatViews(movie.views))} lượt xem</span>
+                    <span>${typeof count === "number" ? count : 0} lượt xem ${currentRange === "day" ? "trong ngày" : currentRange === "week" ? "trong tuần" : "trong tháng"}</span>
                   </div>
                 </div>
                 <div class="flex items-center gap-space-xs mt-auto">
@@ -203,7 +256,7 @@ function podiumSide(movie, rank, catalog) {
 }
 
 /** Thẻ Quán quân #1 (khối lớn ở giữa). */
-function podiumCenter(movie, catalog) {
+function podiumCenter(movie, catalog, count) {
   const title = escapeHtml(movie.title);
   const year = yearOf(movie);
   const runtime = fmtRuntime(movie.duration);
@@ -323,7 +376,7 @@ function podiumCenter(movie, catalog) {
                         >
                         <span
                           class="font-title-sm text-title-sm font-bold text-primary-container"
-                          >${escapeHtml(formatViews(movie.views))}</span
+                          >${typeof count === "number" ? count : 0}</span
                         >
                       </div>
                     </div>
@@ -368,20 +421,21 @@ function podiumCenter(movie, catalog) {
 }
 
 /** Podium đầy đủ, đúng thứ tự DOM của bản gốc: #2 - #1 - #3. */
-function renderPodium(catalog) {
+async function renderPodium(catalog) {
   const host = document.querySelector("[data-metric='top-podium']");
   if (!host) return;
 
-  const top = rankedMovies(catalog).slice(0, PODIUM_SIZE);
+  const ranked = await rankedMovies(catalog, currentRange);
+  const top = ranked.slice(0, PODIUM_SIZE);
   if (top.length < PODIUM_SIZE) {
     host.innerHTML = "";
     return;
   }
 
   host.innerHTML = [
-    podiumSide(top[1], 2, catalog),
-    podiumCenter(top[0], catalog),
-    podiumSide(top[2], 3, catalog),
+    podiumSide(top[1].movie, 2, catalog, top[1].count),
+    podiumCenter(top[0].movie, catalog, top[0].count),
+    podiumSide(top[2].movie, 3, catalog, top[2].count),
   ].join("\n");
   bindImageFallback(host);
   bindTop1Favorite();
@@ -392,7 +446,7 @@ function renderPodium(catalog) {
  * ------------------------------------------------------------------ */
 
 /** Một dòng trong bảng xếp hạng — giữ nguyên class của bản thiết kế gốc. */
-function rankingRow(movie, rank, catalog) {
+function rankingRow(movie, rank, catalog, count) {
   const title = escapeHtml(movie.title);
   const year = yearOf(movie);
   const duration = formatDuration(movie.duration);
@@ -464,7 +518,7 @@ function rankingRow(movie, rank, catalog) {
                 <div class="flex flex-col items-end">
                   ${ratingBlock}
                   <span class="font-body-sm text-body-sm text-on-surface-variant"
-                    >${escapeHtml(formatViews(movie.views))} xem</span
+                    >${typeof count === "number" ? count : 0} lượt xem ${currentRange === "day" ? "trong ngày" : currentRange === "week" ? "trong tuần" : "trong tháng"}</span
                   >
                 </div>
                 <div class="flex items-center gap-space-xs">
@@ -491,14 +545,12 @@ function rankingRow(movie, rank, catalog) {
             </div>`;
 }
 
-function renderRankingList(catalog) {
+async function renderRankingList(catalog) {
   const host = document.querySelector("[data-metric='top-ranking-list']");
   if (!host) return;
 
-  const slice = rankedMovies(catalog).slice(
-    RANK_START - 1,
-    RANK_START - 1 + LIST_SIZE,
-  );
+  const ranked = await rankedMovies(catalog, currentRange);
+  const slice = ranked.slice(RANK_START - 1, RANK_START - 1 + LIST_SIZE);
 
   if (!slice.length) {
     host.innerHTML = `
@@ -510,7 +562,7 @@ function renderRankingList(catalog) {
   }
 
   host.innerHTML = slice
-    .map((movie, i) => rankingRow(movie, RANK_START + i, catalog))
+    .map((item, i) => rankingRow(item.movie, RANK_START + i, catalog, item.count))
     .join("\n");
   bindImageFallback(host);
 }
@@ -558,6 +610,26 @@ function renderError() {
   if (list) list.innerHTML = html;
 }
 
+function bindTimeRangeTabs(catalog) {
+  const tabs = document.querySelectorAll("#timeRangeTabs .filter-tab");
+  if (!tabs.length) return;
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      tabs.forEach((t) => {
+        t.className =
+          "filter-tab px-space-md py-2 rounded-lg font-title-sm text-title-sm text-on-surface-variant hover:text-on-surface transition-all whitespace-nowrap";
+      });
+      tab.className =
+        "filter-tab px-space-lg py-2 rounded-lg font-title-sm text-title-sm text-on-primary-container bg-primary-container shadow-[0_0_20px_rgba(229,9,20,0.45)] whitespace-nowrap font-bold";
+
+      currentRange = tab.dataset.range || "week";
+      renderPodium(catalog);
+      renderRankingList(catalog);
+    });
+  });
+}
+
 async function init() {
   if (!document.querySelector("[data-metric='top-ranking-list']")) return;
 
@@ -570,11 +642,12 @@ async function init() {
     return;
   }
 
+  bindTimeRangeTabs(catalog);
   renderPodium(catalog);
   renderRankingList(catalog);
 
   console.info(
-    `[top-movies] Đã xếp hạng theo lượt xem giảm dần (nguồn: ${catalog.source}).`,
+    `[top-movies] Đã xếp hạng theo thời gian (nguồn: ${catalog.source}).`,
   );
 }
 
