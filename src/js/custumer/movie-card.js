@@ -15,6 +15,7 @@ import {
   qualityLabel,
   watchUrl,
 } from "./movie-data.js";
+import { isVipMovie } from "./access.js";
 
 /**
  * Nhãn chất lượng.
@@ -45,6 +46,15 @@ function ratingBadge(movie, reviews) {
                 <div class="absolute top-2.5 right-2.5 z-10 flex items-center gap-1 bg-surface-container-lowest/80 backdrop-blur-md px-2 py-0.5 rounded text-secondary border border-secondary/20">
                   <span class="material-symbols-outlined text-xs" style="font-variation-settings: &quot;FILL&quot; 1">star</span>
                   <span class="font-label-caps text-label-caps font-bold">${escapeHtml(score)}</span>
+                </div>`;
+}
+
+function vipBadge(movie) {
+  if (!isVipMovie(movie)) return "";
+  return `
+                <div class="absolute bottom-2 right-2 z-10 flex items-center gap-1 rounded bg-amber-500/95 px-2 py-1 text-[10px] font-bold text-black shadow-lg">
+                  <span class="material-symbols-outlined text-xs" style="font-variation-settings: &quot;FILL&quot; 1">workspace_premium</span>
+                  <span>VIP</span>
                 </div>`;
 }
 

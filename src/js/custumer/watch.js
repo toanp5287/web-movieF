@@ -58,6 +58,13 @@ import {
 
 import { renderMovieCards } from "./movie-card.js";
 
+import {
+  ACCESS_MESSAGES,
+  getMembershipSnapshot,
+  isVipMovie,
+  resolveMovieAccess,
+} from "./access.js";
+
 import { findNextPlayableEpisode } from "./episode-navigation.js";
 
 import { initEpisodeList } from "./episode-list.js";
@@ -278,7 +285,7 @@ function resolveUnavailableState(movie, source, trailerUrl) {
     return {
       icon: "schedule",
       title: "PHIM SẮP CHIẾU",
-      message: `Phim bắt đầu được xem trên MovieF từ ngày ${formatDate(availability.date)}.`,
+      message: ACCESS_MESSAGES.notReleased,
       trailerUrl: "",
     };
   }
@@ -297,7 +304,7 @@ function resolveUnavailableState(movie, source, trailerUrl) {
     return {
       icon: "schedule",
       title: "PHIM SẮP CHIẾU",
-      message: `Phim sẽ được công chiếu vào ${release.label}.`,
+      message: ACCESS_MESSAGES.notReleased,
       trailerUrl: "",
     };
   }
@@ -443,6 +450,7 @@ const stateUi = {
   title: null,
   message: null,
   trailer: null,
+  membership: null,
   back: null,
 };
 
@@ -454,6 +462,7 @@ function stateEls() {
   stateUi.title = document.getElementById("videoStateTitle");
   stateUi.message = document.getElementById("videoStateMsg");
   stateUi.trailer = document.getElementById("videoStateTrailerBtn");
+  stateUi.membership = document.getElementById("videoStateMembershipBtn");
   stateUi.back = document.getElementById("videoStateBackDetail");
   return stateUi;
 }
@@ -464,7 +473,13 @@ function stateEls() {
  * Luôn tắt #videoLoading/#videoError trước: hai overlay đó dành cho trường hợp
  * khác (đang tải / có URL nhưng lỗi) và không được chồng lên trạng thái này.
  */
-function showVideoState({ icon, title, message, trailerUrl }) {
+function showVideoState({
+  icon,
+  title,
+  message,
+  trailerUrl,
+  membershipUrl = "",
+}) {
   const el = stateEls();
   if (!el.box) return;
 
@@ -477,6 +492,12 @@ function showVideoState({ icon, title, message, trailerUrl }) {
     const show = Boolean(trailerUrl);
     el.trailer.classList.toggle("hidden", !show);
     if (show) el.trailer.dataset.trailerUrl = trailerUrl;
+  }
+
+  if (el.membership) {
+    const show = Boolean(membershipUrl);
+    el.membership.classList.toggle("hidden", !show);
+    if (show) el.membership.href = membershipUrl;
   }
 
   el.box.classList.remove("hidden");
@@ -496,6 +517,8 @@ function hideVideoState() {
  */
 function showReleaseLocked(movie, catalog, availability, retry) {
   playbackLocked = true;
+  stopMembershipExpiryTimer();
+  activePlayback = null;
 
   const body = document.getElementById("movieBody");
   fillMovieInfo(movie, catalog, { url: "", isSample: false }, null);
@@ -503,7 +526,12 @@ function showReleaseLocked(movie, catalog, availability, retry) {
   const sourceCell = document.querySelector(
     "[data-bind='movie-video-source']",
   );
-  if (sourceCell) sourceCell.textContent = "Chưa đến ngày phát hành";
+  if (sourceCell) {
+    const releaseDate = formatDate(availability.date);
+    sourceCell.textContent = releaseDate
+      ? `Chưa đến ngày phát hành (${releaseDate})`
+      : "Chưa đến ngày phát hành";
+  }
 
   const backLink = stateEls().back;
   if (backLink) backLink.href = detailUrl(movie.id);
@@ -511,15 +539,64 @@ function showReleaseLocked(movie, catalog, availability, retry) {
   showVideoState({
     icon: "schedule",
     title: "PHIM SẮP CHIẾU",
-    message: `Phim bắt đầu được xem trên MovieF từ ngày ${formatDate(
-      availability.date,
-    )}.`,
+    message: ACCESS_MESSAGES.notReleased,
     trailerUrl: "",
   });
 
   body?.classList.remove("hidden");
   renderRelated(catalog, movie);
   scheduleReleaseUnlock(movie, retry);
+}
+
+/**
+ * Trạng thái đã phát hành nhưng người xem không có quyền hội viên.
+ *
+ * Chặn tại đây — trước khi resolve/mount nguồn video — nên không có request
+ * video chính nào được tạo cho người không đủ quyền.
+ */
+function showMembershipLocked(movie, catalog, decision) {
+  playbackLocked = true;
+  stopMembershipExpiryTimer();
+  activePlayback = null;
+
+  const body = document.getElementById("movieBody");
+  fillMovieInfo(movie, catalog, { url: "", isSample: false }, null);
+
+  const sourceCell = document.querySelector(
+    "[data-bind='movie-video-source']",
+  );
+  if (sourceCell) {
+    sourceCell.textContent =
+      decision.reason === "membership-expired" ||
+      decision.reason === "membership-disabled"
+        ? "Gói hội viên đã hết hạn"
+        : "Cần quyền hội viên VIP";
+  }
+
+  const backLink = stateEls().back;
+  if (backLink) backLink.href = detailUrl(movie.id);
+
+  showVideoState({
+    icon:
+      decision.reason === "membership-expired" ||
+      decision.reason === "membership-disabled"
+        ? "history"
+        : "workspace_premium",
+    title:
+      decision.reason === "membership-expired" ||
+      decision.reason === "membership-disabled"
+        ? "GÓI HỘI VIÊN ĐÃ HẾT HẠN"
+        : "PHIM DÀNH CHO HỘI VIÊN",
+    message: decision.message,
+    trailerUrl: "",
+    membershipUrl: "/membership",
+  });
+
+  body?.classList.remove("hidden");
+  renderRelated(catalog, movie);
+  if (isSeriesMovie(movie)) {
+    renderSeriesPanels(movie, null).catch(() => {});
+  }
 }
 
 /**
@@ -1378,6 +1455,84 @@ let started = false;
 let releaseUnlock = null;
 let releaseUnlockTimer = null;
 
+/** Phim đang được phép phát, dùng để kiểm tra lại khi quay lại tab. */
+let activePlayback = null;
+let membershipExpiryTimer = null;
+
+function stopMembershipExpiryTimer() {
+  if (membershipExpiryTimer !== null) {
+    window.clearTimeout(membershipExpiryTimer);
+    membershipExpiryTimer = null;
+  }
+}
+
+/**
+ * Hẹn khóa lại đúng lúc gói hội viên hết hạn.
+ *
+ * Timeout của trình duyệt bị giới hạn ~24,8 ngày nên gói dài hơn sẽ được hẹn
+ * nhiều chặng; mỗi chặng kiểm tra lại thời gian thực trước khi khóa.
+ */
+function scheduleMembershipExpiry(movie, catalog, expiresAt) {
+  stopMembershipExpiryTimer();
+  const end = new Date(expiresAt).getTime();
+  if (!Number.isFinite(end)) return;
+
+  const tick = () => {
+    const remaining = end - Date.now();
+    if (remaining > 0) {
+      membershipExpiryTimer = window.setTimeout(
+        tick,
+        Math.min(remaining + 250, 2147483647),
+      );
+      return;
+    }
+
+    membershipExpiryTimer = null;
+    expireMembershipPlayback(movie, catalog);
+  };
+
+  tick();
+}
+
+/** Dừng video đang phát và chuyển sang trạng thái gia hạn. */
+function expireMembershipPlayback(movie, catalog) {
+  const video = player.video;
+  if (video) {
+    video.pause();
+    video.removeAttribute("src");
+    video.load();
+  }
+  player.src = "";
+  if (player.status) player.status.textContent = "";
+
+  showMembershipLocked(movie, catalog, {
+    allowed: false,
+    reason: "membership-expired",
+    message: ACCESS_MESSAGES.membershipExpired,
+  });
+}
+
+/** Quay lại tab: kiểm tra lại quyền, tránh xem tiếp sau khi gói đã hết hạn. */
+async function revalidateMembership() {
+  if (!activePlayback) return;
+
+  const { movie, catalog } = activePlayback;
+  if (!isVipMovie(movie)) return;
+
+  const snapshot = await getMembershipSnapshot({ force: true });
+  // Lỗi mạng tạm thời không được cắt ngang phim đang xem; lần quay lại tab sau
+  // sẽ kiểm tra tiếp. Trạng thái hết hạn/không còn quyền thì khóa ngay.
+  if (snapshot.status === "unknown") return;
+
+  const decision = resolveMovieAccess(movie, snapshot);
+  if (!decision.allowed) {
+    expireMembershipPlayback(movie, catalog);
+    return;
+  }
+
+  scheduleMembershipExpiry(movie, catalog, snapshot.expiresAt);
+}
+
 function stopReleaseUnlockTimer() {
   if (releaseUnlockTimer !== null) {
     window.clearTimeout(releaseUnlockTimer);
@@ -1504,6 +1659,35 @@ async function startPlayback(movie, catalog, episodeId, autoplayNext) {
   stopReleaseUnlockTimer();
   releaseUnlock = null;
   playbackLocked = false;
+
+  // Kiểm tra hội viên TRƯỚC khi resolve tập/nguồn: phim VIP chưa đủ quyền thì
+  // không tạo bất kỳ request video chính nào.
+  if (isVipMovie(movie)) {
+    let snapshot;
+    try {
+      snapshot = await getMembershipSnapshot({ force: true });
+    } catch (error) {
+      console.error("[watch] Không kiểm tra được quyền hội viên:", error);
+      showMembershipLocked(movie, catalog, {
+        allowed: false,
+        reason: "membership-unknown",
+        message: ACCESS_MESSAGES.membershipUnknown,
+      });
+      return;
+    }
+
+    const decision = resolveMovieAccess(movie, snapshot);
+    if (!decision.allowed) {
+      showMembershipLocked(movie, catalog, decision);
+      return;
+    }
+
+    activePlayback = { movie, catalog };
+    scheduleMembershipExpiry(movie, catalog, snapshot.expiresAt);
+  } else {
+    stopMembershipExpiryTimer();
+    activePlayback = null;
+  }
 
   /* ------------------------------------------------------------------ *
    * Chức năng 3: xem một tập phim bộ (?episode=<episodeId>)
@@ -1633,12 +1817,23 @@ async function startPlayback(movie, catalog, episodeId, autoplayNext) {
   }
 }
 
-window.addEventListener("pagehide", stopReleaseUnlockTimer);
+window.addEventListener("pagehide", () => {
+  stopReleaseUnlockTimer();
+  stopMembershipExpiryTimer();
+});
 window.addEventListener("pageshow", (event) => {
-  if (event.persisted) resumeReleaseUnlock();
+  if (!event.persisted) return;
+  resumeReleaseUnlock();
+  revalidateMembership().catch((error) => {
+    console.error("[watch] Không kiểm tra lại quyền hội viên:", error);
+  });
 });
 document.addEventListener("visibilitychange", () => {
-  if (!document.hidden) resumeReleaseUnlock();
+  if (document.hidden) return;
+  resumeReleaseUnlock();
+  revalidateMembership().catch((error) => {
+    console.error("[watch] Không kiểm tra lại quyền hội viên:", error);
+  });
 });
 
 if (document.readyState === "loading") {

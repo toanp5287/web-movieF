@@ -35,6 +35,12 @@ import { renderMovieCards } from "./movie-card.js";
 import { initEpisodeList } from "./episode-list.js";
 import { episodesInOrder, pickWatchResumeTarget } from "./episode-navigation.js";
 import { isSeriesMovie, loadSeriesData } from "./series-data.js";
+import {
+  ACCESS_MESSAGES,
+  getMembershipSnapshot,
+  isVipMovie,
+  resolveMovieAccess,
+} from "./access.js";
 import api from "../api.js";
 
 const bind = (name, root = document) =>
@@ -137,6 +143,7 @@ function renderHeadline(movie, catalog) {
   const quality = qualityLabel(movie);
   setText("quality", quality);
   setVisible("quality-badge", Boolean(quality));
+  setVisible("vip-badge", isVipMovie(movie));
 
   setText("year", movie.year ? String(movie.year) : "");
   setVisible("sep-1", Boolean(movie.year));
@@ -558,7 +565,7 @@ function bindWatchButton(movie) {
 
   watch.addEventListener("click", async (event) => {
     event.preventDefault();
-    if (resolving) return;
+    if (watch.dataset.accessBlocked === "1" || resolving) return;
 
     resolving = true;
     try {
@@ -613,6 +620,152 @@ function clearReleaseGateTimer() {
   }
 }
 
+/** Tăng mỗi lần kiểm tra quyền để bỏ kết quả async cũ. */
+let accessGateSeq = 0;
+
+function setWatchAccessNotice(options = {}) {
+  const {
+    message = "",
+    icon = "lock",
+    linkLabel = "",
+    linkHref = "/membership",
+  } = options || {};
+
+  const box = document.getElementById("watchAccessNotice");
+  const iconEl = document.getElementById("watchAccessNoticeIcon");
+  const messageEl = document.getElementById("watchAccessNoticeMessage");
+  const linkEl = document.getElementById("watchAccessNoticeLink");
+
+  if (!box) return;
+
+  const show = Boolean(message);
+  box.hidden = !show;
+  box.classList.toggle("hidden", !show);
+
+  if (!show) return;
+
+  if (iconEl) iconEl.textContent = icon;
+  if (messageEl) messageEl.textContent = message;
+
+  if (linkEl) {
+    const showLink = Boolean(linkLabel);
+    linkEl.hidden = !showLink;
+    linkEl.classList.toggle("hidden", !showLink);
+    if (showLink) {
+      linkEl.href = linkHref;
+      const label = linkEl.querySelector("span:first-child");
+      if (label) label.textContent = linkLabel;
+    }
+  }
+}
+
+function lockWatchButtonForAccess(movie, decision) {
+  const watch = bind("watch");
+  if (!watch) return;
+
+  const label = watch.querySelector("span:last-child");
+  watch.dataset.accessBlocked = "1";
+  watch.removeAttribute("href");
+  watch.setAttribute("aria-disabled", "true");
+  watch.setAttribute("aria-label", decision.message);
+  watch.setAttribute("title", decision.message);
+  watch.tabIndex = -1;
+  watch.style.pointerEvents = "none";
+  watch.style.opacity = "0.65";
+  watch.style.cursor = "not-allowed";
+  if (label) {
+    label.textContent =
+      decision.reason === "membership-expired" ||
+      decision.reason === "membership-disabled"
+        ? "Gia hạn hội viên"
+        : "Cần hội viên VIP";
+  }
+
+  setWatchAccessNotice({
+    message: decision.message,
+    icon:
+      decision.reason === "membership-expired" ||
+      decision.reason === "membership-disabled"
+        ? "history"
+        : "workspace_premium",
+    linkLabel: "Xem gói hội viên",
+    linkHref: "/membership",
+  });
+}
+
+function unlockWatchButtonForAccess(movie) {
+  const watch = bind("watch");
+  if (!watch) return;
+
+  const label = watch.querySelector("span:last-child");
+  delete watch.dataset.accessBlocked;
+  watch.removeAttribute("aria-disabled");
+  watch.removeAttribute("aria-label");
+  watch.removeAttribute("title");
+  watch.removeAttribute("tabindex");
+  watch.style.pointerEvents = "";
+  watch.style.opacity = "";
+  watch.style.cursor = "";
+  if (label) label.textContent = "Xem phim";
+
+  setWatchAccessNotice(null);
+
+  if (isSeriesMovie(movie)) {
+    if (!watch.getAttribute("href")) watch.href = watchUrl(movie.id);
+    bindWatchButton(movie);
+  } else {
+    watch.href = watchUrl(movie.id);
+  }
+}
+
+/**
+ * Áp dụng lần lượt hai lớp quyền:
+ *  1. ngày phát hành (mọi người, kể cả hội viên);
+ *  2. hội viên VIP (chỉ với phim accessType = "vip").
+ */
+async function applyWatchAccessGate(movie) {
+  const seq = ++accessGateSeq;
+
+  applyWatchReleaseGate(movie);
+
+  if (releaseState(movie).kind === "upcoming") {
+    setWatchAccessNotice({
+      message: ACCESS_MESSAGES.notReleased,
+      icon: "schedule",
+    });
+    return;
+  }
+
+  if (!isVipMovie(movie)) {
+    unlockWatchButtonForAccess(movie);
+    return;
+  }
+
+  let snapshot;
+  try {
+    snapshot = await getMembershipSnapshot({ force: true });
+  } catch (error) {
+    console.error("[movie-detail] Không kiểm tra được hội viên:", error);
+    if (seq !== accessGateSeq) return;
+    lockWatchButtonForAccess(movie, {
+      allowed: false,
+      reason: "membership-unknown",
+      message: ACCESS_MESSAGES.membershipUnknown,
+    });
+    return;
+  }
+
+  if (seq !== accessGateSeq) return;
+
+  const decision = resolveMovieAccess(movie, snapshot);
+  if (decision.allowed) {
+    unlockWatchButtonForAccess(movie);
+    return;
+  }
+
+  lockWatchButtonForAccess(movie, decision);
+}
+
 /**
  * Khóa/mở nút "Xem phim" theo ngày phát hành.
  *
@@ -656,7 +809,9 @@ function applyWatchReleaseGate(movie) {
     const delay = Math.max(0, state.target - Date.now()) + 250;
     releaseGateTimer = window.setTimeout(() => {
       releaseGateTimer = null;
-      applyWatchReleaseGate(movie);
+      applyWatchAccessGate(movie).catch((error) => {
+        console.error("[movie-detail] Không thể kiểm tra lại quyền xem:", error);
+      });
     }, Math.min(delay, 2147483647));
     return;
   }
@@ -1001,7 +1156,7 @@ async function init() {
   showMovieBody();
   await renderMedia(movie);
   renderHeadline(movie, catalog);
-  applyWatchReleaseGate(movie);
+  await applyWatchAccessGate(movie);
   bindWatchButton(movie);
   renderRating(movie, catalog);
   renderRatingSummary(movie, catalog);
@@ -1028,10 +1183,18 @@ async function init() {
 
 window.addEventListener("pagehide", clearReleaseGateTimer);
 window.addEventListener("pageshow", (event) => {
-  if (event.persisted && currentMovie) applyWatchReleaseGate(currentMovie);
+  if (event.persisted && currentMovie) {
+    applyWatchAccessGate(currentMovie).catch((error) => {
+      console.error("[movie-detail] Không thể kiểm tra lại quyền xem:", error);
+    });
+  }
 });
 document.addEventListener("visibilitychange", () => {
-  if (!document.hidden && currentMovie) applyWatchReleaseGate(currentMovie);
+  if (!document.hidden && currentMovie) {
+    applyWatchAccessGate(currentMovie).catch((error) => {
+      console.error("[movie-detail] Không thể kiểm tra lại quyền xem:", error);
+    });
+  }
 });
 
 if (document.readyState === "loading") {

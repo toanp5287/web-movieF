@@ -28,6 +28,7 @@ import {
   watchUrl,
 } from "./movie-data.js";
 import { readGuestHistory } from "./history.js";
+import { loadDashboard } from "./profile/service.js";
 
 /** Tên file poster trong một khối (ưu tiên background-image, sau đó mới <img>). */
 function posterIn(root) {
@@ -120,6 +121,15 @@ function sameId(left, right) {
   return String(left ?? "").trim() === String(right ?? "").trim();
 }
 
+function isMovieExpired(movie) {
+  const endDate = String(movie?.endDate ?? "").trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(endDate)) return false;
+
+  const now = new Date();
+  const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+  return today > endDate;
+}
+
 /** 3996 -> "1:06:36" */
 function clock(seconds) {
   const total = Math.max(0, Math.floor(Number(seconds) || 0));
@@ -154,30 +164,21 @@ function watchedTimeLabel(watchedAt) {
   })}`;
 }
 
-function continueCardMarkup(item, catalog) {
-  const { movie, history, progress, percent, totalSeconds } = item;
-  const poster = movie.poster || POSTER_FALLBACK;
-  const genres = genreNames(movie, catalog.genres).slice(0, 2);
-  const remain = remainingLabel(progress, movie.duration);
-  const watchedTime = watchedTimeLabel(history.watchedAt);
-  const episodeLabel = history.episodeId ? `Tập ${history.episodeId}` : "";
-  const subtitle = [...genres, episodeLabel, remain]
+function continueCardMarkup(item) {
+  const subtitle = [item.episodeLabel, item.remainingLabel]
     .filter(Boolean)
     .join(" • ");
-  const link = history.episodeId
-    ? `${watchUrl(movie.id)}&episode=${encodeURIComponent(history.episodeId)}`
-    : watchUrl(movie.id);
 
   return `
     <a
       class="mf-mcard group relative block bg-surface-container rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 min-w-0 h-full"
-      href="${link}"
-      data-movie-id="${escapeHtml(String(movie.id))}"
+      href="${escapeHtml(item.href)}"
+      data-movie-id="${escapeHtml(String(item.movieId))}"
     >
       <div class="relative aspect-video w-full overflow-hidden bg-surface-container-high">
         <div
           class="w-full h-full bg-cover bg-center transform group-hover:scale-105 transition-transform duration-500"
-          style="background-image: url(&quot;${escapeHtml(poster)}&quot;)"
+          style="background-image: url(&quot;${escapeHtml(item.poster || POSTER_FALLBACK)}&quot;)"
         ></div>
         <div class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-black/30"></div>
         <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-surface-container-lowest/40 backdrop-blur-xs">
@@ -186,22 +187,22 @@ function continueCardMarkup(item, catalog) {
           </span>
         </div>
         <span class="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-surface-container-lowest/90 font-label-caps text-label-caps text-on-surface font-mono">
-          ${clock(progress)} / ${clock(totalSeconds)}
+          ${escapeHtml(item.watchedLabel)}
         </span>
       </div>
       <div class="w-full h-1 bg-surface-container-highest">
-        <div class="h-full bg-primary-container rounded-r-full shadow-[0_0_8px_rgba(229,9,20,0.8)]" style="width: ${percent}%"></div>
+        <div class="h-full bg-primary-container rounded-r-full shadow-[0_0_8px_rgba(229,9,20,0.8)]" style="width: ${item.progressPercent}%"></div>
       </div>
       <div class="p-space-md flex items-center justify-between gap-space-sm bg-surface-container">
         <div class="min-w-0 flex-1">
           <h3 class="mf-mcard-title font-title-sm text-title-sm text-on-surface font-semibold group-hover:text-primary transition-colors">
-            ${escapeHtml(movie.title)}
+            ${escapeHtml(item.title)}
           </h3>
           <p class="font-body-sm text-body-sm text-on-surface-variant truncate">
             ${escapeHtml(subtitle)}
           </p>
           <p class="font-body-sm text-body-sm text-on-surface-variant/70 truncate mt-1">
-            ${escapeHtml(watchedTime)}
+            ${escapeHtml(item.updatedLabel || "")}
           </p>
         </div>
       </div>
@@ -268,68 +269,91 @@ let catalogRef = null;
  */
 async function renderContinueWatching(catalog) {
   const user = getCurrentUser();
+  let items = [];
 
-  let rows = [];
-  if (user) {
-    try {
-      const data = await api.get("/histories");
-      rows = (Array.isArray(data) ? data : []).filter((row) =>
-        sameId(row.userId, user.id),
-      );
-    } catch (error) {
-      console.error("[home] Không tải được lịch sử xem:", error);
-      hideContinueWatching();
-      return;
-    }
-  } else {
-    rows = readGuestHistory();
-  }
+  try {
+    if (user) {
+      const dashboard = await loadDashboard();
+      items = dashboard.continueWatching.slice(0, 3);
 
-  const items = rows
-    .slice()
-    .sort(
-      (a, b) =>
-        new Date(b.watchedAt || 0).getTime() -
-        new Date(a.watchedAt || 0).getTime(),
-    )
-    .reduce((list, row) => {
-      if (list.length >= 3) return list;
-      if (
-        list.some(
-          (item) =>
-            sameId(item.history.movieId, row.movieId) &&
-            // Khách: mỗi phim một bản ghi (bỏ qua tập). Tài khoản: giữ nguyên
-            // quy tắc tách theo tập như trước.
-            (!user ||
-              sameId(item.history.episodeId || "", row.episodeId || "")),
-        )
-      )
-        return list;
-      const movie = catalog.movies.find((m) => sameId(m.id, row.movieId));
-      if (!movie) return list;
-      const totalSeconds = (Number(movie.duration) || 0) * 60;
-      const progress = Math.max(0, Number(row.progress) || 0);
-      const percent = totalSeconds
-        ? Math.min(
-            100,
-            progress > 0
-              ? Math.max(1, Math.round((progress / totalSeconds) * 100))
-              : 0,
+      // Profile làm tròn tiến độ về phần trăm nguyên và bỏ các mục dưới 1%.
+      // Vẫn đưa phim có tiến độ thật > 0 giây lên home để không báo trống.
+      if (!items.length) {
+        const histories = await api.get("/histories");
+        items = (Array.isArray(histories) ? histories : [])
+          .filter(
+            (row) =>
+              sameId(row.userId, user.id) && Number(row.progress) > 0,
           )
-        : 0;
-      list.push({ movie, history: row, progress, percent, totalSeconds });
-      return list;
-    }, []);
+          .sort(
+            (a, b) =>
+              new Date(b.watchedAt || 0).getTime() -
+              new Date(a.watchedAt || 0).getTime(),
+          )
+          .reduce((list, row) => {
+            if (list.length >= 3) return list;
+            if (list.some((item) => sameId(item.movieId, row.movieId)))
+              return list;
 
-  // Đăng xuất trong lúc chờ API: bỏ qua kết quả lịch sử tài khoản cũ.
-  if (user && !getCurrentUser()) {
-    hideContinueWatching();
-    return;
-  }
+            const movie = catalog.movies.find((item) =>
+              sameId(item.id, row.movieId),
+            );
+            if (!movie) return list;
 
-  if (!items.length) {
-    hideContinueWatching();
-    return;
+            const totalSeconds = (Number(movie.duration) || 0) * 60;
+            const progress = Math.max(0, Number(row.progress) || 0);
+            const percent = totalSeconds
+              ? Math.min(
+                  100,
+                  Math.max(1, Math.round((progress / totalSeconds) * 100)),
+                )
+              : 0;
+
+            list.push({
+              movieId: String(movie.id),
+              title: movie.title,
+              poster: movie.poster || POSTER_FALLBACK,
+              href: watchUrl(movie.id),
+              episodeLabel: row.episodeId
+                ? `Tập ${row.episodeId}`
+                : "Phim lẻ",
+              remainingLabel: remainingLabel(progress, movie.duration),
+              watchedLabel: `${clock(progress)} / ${clock(totalSeconds)}`,
+              progressPercent: percent,
+              updatedLabel: watchedTimeLabel(row.watchedAt),
+            });
+            return list;
+          }, []);
+      }
+    } else {
+      items = readGuestHistory()
+        .slice(0, 3)
+        .map((row) => {
+          const movie = catalog.movies.find((item) => sameId(item.id, row.movieId));
+          if (!movie) return null;
+
+          const totalSeconds = (Number(movie.duration) || 0) * 60;
+          const progress = Math.max(0, Number(row.progress) || 0);
+          const percent = totalSeconds
+            ? Math.min(100, Math.round((progress / totalSeconds) * 100))
+            : 0;
+
+          return {
+            movieId: String(movie.id),
+            title: movie.title,
+            poster: movie.poster || POSTER_FALLBACK,
+            href: watchUrl(movie.id),
+            episodeLabel: row.episodeId ? `Tập ${row.episodeId}` : "Phim lẻ",
+            remainingLabel: remainingLabel(progress, movie.duration),
+            watchedLabel: `${clock(progress)} / ${clock(totalSeconds)}`,
+            progressPercent: percent,
+            updatedLabel: watchedTimeLabel(row.watchedAt),
+          };
+        })
+        .filter(Boolean);
+    }
+  } catch (error) {
+    console.error("[home] Không tải được danh sách tiếp tục xem:", error);
   }
 
   const section = ensureContinueWatchingMount();
@@ -341,9 +365,9 @@ async function renderContinueWatching(catalog) {
   const allLink = document.getElementById("continueWatchingAll");
   if (allLink) allLink.classList.toggle("hidden", !user);
 
-  rail.innerHTML = items
-    .map((item) => continueCardMarkup(item, catalog))
-    .join("");
+  rail.innerHTML = items.length
+    ? items.map(continueCardMarkup).join("")
+    : `<p class="col-span-full rounded-xl bg-surface-container p-space-md text-body-sm text-on-surface-variant">Chưa có phim nào trong lịch sử xem.</p>`;
 }
 
 /** Render lại "Tiếp tục xem" theo nguồn lịch sử hiện tại (khách ↔ tài khoản). */
@@ -921,6 +945,35 @@ async function init() {
     initHeroCarousel(catalogRef);
     await renderContinueWatching(catalogRef);
     return;
+  }
+
+  // loadCatalog() đã bỏ phim hết hạn, nên đọc danh sách gốc để ẩn cả các card
+  // HTML viết sẵn trên trang chủ nếu chúng trỏ tới phim quá ngày kết thúc.
+  let expiredMovies = [];
+  try {
+    const allMovies = await api.get("/movies");
+    if (Array.isArray(allMovies)) expiredMovies = allMovies.filter(isMovieExpired);
+  } catch (error) {
+    console.warn("[home] Không kiểm tra được phim đã hết hạn:", error);
+  }
+
+  if (expiredMovies.length) {
+    const expiredIds = new Set(expiredMovies.map((movie) => String(movie.id)));
+    const expiredPosters = new Set(
+      expiredMovies.map((movie) => String(movie.poster || "").split("/").pop().toLowerCase()).filter(Boolean),
+    );
+    const expiredTitles = new Set(expiredMovies.map((movie) => normalizeTitle(movie.title)).filter(Boolean));
+
+    document.querySelectorAll('a[href="/movie-detail"], a[href="/watch"]').forEach((anchor) => {
+      const poster = posterIn(anchor).split("/").pop().toLowerCase();
+      const title = normalizeTitle(anchor.querySelector("h3, h4")?.textContent || titleFromLabels(anchor));
+      const isExpired =
+        expiredIds.has(String(anchor.dataset.movieId || "")) ||
+        (poster && expiredPosters.has(poster)) ||
+        (title && expiredTitles.has(title));
+
+      if (isExpired) anchor.remove();
+    });
   }
 
   catalogRef = catalog;

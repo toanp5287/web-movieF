@@ -456,6 +456,7 @@
         "8"
       ],
       "quality": "hd",
+      "accessType": "vip",
       "status": "published",
       "views": 12450,
       "createdAt": "2026-09-02",
@@ -489,12 +490,13 @@
         "8"
       ],
       "quality": "hd",
+      "accessType": "vip",
       "status": "published",
       "views": 14198,
       "createdAt": "2026-10-02",
       "year": 2026,
-      "releaseDate": "2026-10-28",
-      "endDate": "2026-10-31"
+      "releaseDate": "2026-10-25",
+      "endDate": "2026-10-29"
     },
     {
       "id": "3",
@@ -1475,7 +1477,7 @@
       "userId": 1,
       "movieId": 13,
       "progress": 0,
-      "watchedAt": "2026-10-16T18:26:05",
+      "watchedAt": "2026-10-25T18:51:07",
       "id": "6CBrQwh"
     },
     {
@@ -1546,8 +1548,8 @@
     {
       "userId": "8TZCZPkPe4Q",
       "movieId": 2,
-      "progress": 31,
-      "watchedAt": "2026-10-25T17:26:20",
+      "progress": 33,
+      "watchedAt": "2026-10-25T19:06:31",
       "id": "qA1YWsZ"
     },
     {

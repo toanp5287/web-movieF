@@ -356,6 +356,47 @@
         </div>
       </section>
 
+      <!-- ================= MEMBERSHIP STATUS ================= -->
+      <section class="mx-auto max-w-5xl px-4 pt-8 sm:px-6">
+        <div
+          id="membershipStatusCard"
+          class="flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/[0.04] p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6"
+          role="status"
+          aria-live="polite"
+        >
+          <div class="flex items-start gap-4">
+            <span
+              id="membershipStatusIcon"
+              class="material-symbols-rounded flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-red-500/10 text-2xl text-red-400"
+              aria-hidden="true"
+              >workspace_premium</span
+            >
+            <div>
+              <p
+                id="membershipStatusLabel"
+                class="font-bold text-gray-100"
+              >
+                Đang kiểm tra quyền hội viên...
+              </p>
+              <p
+                id="membershipStatusDetail"
+                class="mt-1 text-sm leading-6 text-gray-400"
+              >
+                Vui lòng chờ trong giây lát.
+              </p>
+            </div>
+          </div>
+
+          <a
+            id="membershipStatusAction"
+            href="#membership-plans"
+            class="hidden min-h-11 shrink-0 items-center justify-center rounded-xl bg-brand px-5 py-2.5 text-sm font-bold text-white transition hover:bg-red-600"
+          >
+            Chọn gói
+          </a>
+        </div>
+      </section>
+
       <!-- ================= MEMBERSHIP PLANS ================= -->
       <section
         id="membership-plans"
