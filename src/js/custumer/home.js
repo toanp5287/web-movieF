@@ -21,9 +21,7 @@ import {
   bindImageFallback,
   detailUrl,
   escapeHtml,
-  genreNames,
   loadCatalog,
-  watchUrl,
 } from "./movie-data.js";
 import { readGuestHistory } from "./history.js";
 
@@ -346,6 +344,270 @@ function resolveMovie(anchor, byPoster, byTitle, byId) {
   return null;
 }
 
+/* ------------------------------------------------------------------ *
+ * BANNER CAROUSEL TRANG CHỦ
+ * Chỉ thay đổi banner đầu tiên. Dữ liệu lấy từ loadCatalog(), không tạo
+ * phim mới và không ảnh hưởng các khối phim khác trên trang.
+ * ------------------------------------------------------------------ */
+
+const HERO_INTERVAL = 3000;
+
+/**
+ * Chọn tối đa 6 phim gần đây nhất cho banner.
+ * Ưu tiên phim có createdAt gần nhất, fallback theo id nếu không có.
+ */
+function heroMovies(catalog) {
+  const movies = Array.isArray(catalog?.movies) ? catalog.movies : [];
+  const candidates = movies.filter(
+    (movie) => movie && movie.title && Number(movie.releaseYear) > 0,
+  );
+
+  const getTime = (movie) => {
+    const time = Date.parse(movie?.createdAt || "");
+    return Number.isNaN(time) ? 0 : time;
+  };
+
+  const sorted = [...candidates].sort((a, b) => {
+    const diff = getTime(b) - getTime(a);
+    if (diff !== 0) return diff;
+    return Number(b?.id ?? 0) - Number(a?.id ?? 0);
+  });
+
+  const seenPosters = new Set();
+  const picked = [];
+
+  for (const movie of sorted) {
+    const posterKey = String(movie.poster || "")
+      .trim()
+      .toLowerCase();
+    if (posterKey && seenPosters.has(posterKey)) continue;
+    if (posterKey) seenPosters.add(posterKey);
+    picked.push(movie);
+    if (picked.length >= 6) break;
+  }
+
+  return picked;
+}
+
+/** Markup một slide. Chỉ hiện tên phim và mô tả ngắn, click toàn banner mở chi tiết. */
+function heroSlideMarkup(movie, catalog, index) {
+  const id = escapeHtml(String(movie.id ?? ""));
+  const title = escapeHtml(movie.title || "Phim");
+  const poster = escapeHtml(movie.poster || POSTER_FALLBACK);
+  const fallback = escapeHtml(POSTER_FALLBACK);
+  const description = String(movie.description || "").trim();
+  const detail = escapeHtml(detailUrl(movie.id));
+  const isActive = index === 0;
+
+  return `
+    <article
+      aria-hidden="${isActive ? "false" : "true"}"
+      class="mf-hero-slide"
+      data-hero-slide
+      data-movie-id="${id}"
+      data-pos="${isActive ? "active" : "hidden"}"
+    >
+      <img
+        alt="Poster phim ${title}"
+        class="mf-hero-image"
+        data-fallback="${fallback}"
+        decoding="async"
+        ${isActive ? 'fetchpriority="high"' : 'loading="lazy"'}
+        src="${poster}"
+      />
+      <div aria-hidden="true" class="mf-hero-shade"></div>
+
+      <div class="mf-hero-content">
+        <h2 class="mf-hero-title">${title}</h2>
+        ${
+          description
+            ? `<p class="mf-hero-description">${escapeHtml(
+                description,
+              )}</p>`
+            : ""
+        }
+      </div>
+
+      <a
+        aria-label="Xem chi tiết phim ${title}"
+        class="mf-hero-link"
+        data-movie-id="${id}"
+        data-movie-title="${title}"
+        href="${detail}"
+      ></a>
+    </article>`;
+}
+
+/**
+ * Khởi tạo banner sau khi catalogue đã tải xong.
+ * Một timer duy nhất, luôn clear trước khi đặt lại; không tạo timer trùng.
+ */
+function initHeroCarousel(catalog) {
+  const section = document.querySelector("[data-hero-carousel]");
+  if (!section || section.dataset.heroReady === "1") return;
+
+  const stage = section.querySelector("[data-hero-stage]");
+  const dots = section.querySelector("[data-hero-dots]");
+  const prevBtn = section.querySelector("[data-hero-prev]");
+  const nextBtn = section.querySelector("[data-hero-next]");
+  if (!stage) return;
+
+  const movies = heroMovies(catalog);
+  if (!movies.length) {
+    console.warn("[home] Banner: không có phim để hiển thị, giữ slide dự phòng.");
+    section.dataset.heroReady = "1";
+    if (dots) dots.hidden = true;
+    if (prevBtn) prevBtn.hidden = true;
+    if (nextBtn) nextBtn.hidden = true;
+    return;
+  }
+
+  stage.innerHTML = movies
+    .map((movie, index) => heroSlideMarkup(movie, catalog, index))
+    .join("");
+
+  if (dots) {
+    dots.innerHTML = movies
+      .map(
+        (movie, index) => `
+      <button
+        aria-current="${index === 0 ? "true" : "false"}"
+        aria-label="Xem phim ${escapeHtml(movie.title)}"
+        class="mf-hero-dot"
+        data-hero-dot="${index}"
+        type="button"
+      ></button>`,
+      )
+      .join("");
+  }
+
+  bindImageFallback(stage);
+
+  const slides = [...stage.querySelectorAll("[data-hero-slide]")];
+  const dotButtons = dots ? [...dots.querySelectorAll("[data-hero-dot]")] : [];
+  const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const count = slides.length;
+
+  let active = 0;
+  let timer = null;
+
+  function paint() {
+    slides.forEach((slide, index) => {
+      const offset = (index - active + count) % count;
+      let pos = "hidden";
+
+      if (count === 1 || offset === 0) pos = "active";
+      else if (offset === 1) pos = "next";
+      else if (offset === count - 1) pos = "prev";
+
+      slide.dataset.pos = pos;
+      const isActive = pos === "active";
+      slide.setAttribute("aria-hidden", isActive ? "false" : "true");
+      // Slide phụ không nhận focus/click, tránh mở nhầm phim khi đang chuyển.
+      slide.toggleAttribute("inert", !isActive);
+    });
+
+    dotButtons.forEach((dot, index) => {
+      dot.setAttribute("aria-current", String(index === active));
+    });
+  }
+
+  function stopTimer() {
+    if (timer !== null) {
+      window.clearTimeout(timer);
+      timer = null;
+    }
+  }
+
+  function schedule() {
+    stopTimer();
+    if (count < 2 || motionQuery.matches || document.hidden) return;
+
+    timer = window.setTimeout(() => {
+      timer = null;
+      goTo(active + 1);
+    }, HERO_INTERVAL);
+  }
+
+  function goTo(index) {
+    if (count < 2) return;
+    active = ((index % count) + count) % count;
+    paint();
+    schedule();
+  }
+
+  const showNav = count > 1;
+  if (dots) dots.hidden = !showNav;
+  if (prevBtn) prevBtn.hidden = !showNav;
+  if (nextBtn) nextBtn.hidden = !showNav;
+
+  if (prevBtn) {
+    prevBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      goTo(active - 1);
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      goTo(active + 1);
+    });
+  }
+
+  if (dots) {
+    dots.addEventListener("click", (event) => {
+      const dot = event.target.closest("[data-hero-dot]");
+      if (!dot) return;
+      event.preventDefault();
+      event.stopPropagation();
+      const index = Number(dot.dataset.heroDot);
+      if (Number.isInteger(index)) goTo(index);
+    });
+  }
+
+  section.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      goTo(active - 1);
+    }
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      goTo(active + 1);
+    }
+  });
+
+  const onVisibilityChange = () => {
+    if (document.hidden) stopTimer();
+    else schedule();
+  };
+  document.addEventListener("visibilitychange", onVisibilityChange);
+
+  const onMotionChange = () => schedule();
+  if (typeof motionQuery.addEventListener === "function") {
+    motionQuery.addEventListener("change", onMotionChange);
+  } else if (typeof motionQuery.addListener === "function") {
+    motionQuery.addListener(onMotionChange);
+  }
+
+  const cleanup = () => {
+    stopTimer();
+    document.removeEventListener("visibilitychange", onVisibilityChange);
+    if (typeof motionQuery.removeEventListener === "function") {
+      motionQuery.removeEventListener("change", onMotionChange);
+    } else if (typeof motionQuery.removeListener === "function") {
+      motionQuery.removeListener(onMotionChange);
+    }
+  };
+  window.addEventListener("pagehide", cleanup, { once: true });
+
+  paint();
+  section.dataset.heroReady = "1";
+  schedule();
+}
+
 async function init() {
   // Gồm cả nút "Xem ngay" trỏ /watch: chúng cũng phải mang id để không mở
   // nhầm phim. Thẻ cứng trong #continueWatching bị bỏ qua — khối đó render
@@ -365,12 +627,16 @@ async function init() {
     );
     catalogRef = { movies: [], genres: [] };
     await renderContinueWatching(catalogRef);
+    initHeroCarousel(catalogRef);
     return;
   }
 
   catalogRef = catalog;
   await renderContinueWatching(catalog);
-  if (!anchors.length) return;
+  if (!anchors.length) {
+    initHeroCarousel(catalog);
+    return;
+  }
 
   // Chỉ dùng phim thực sự hiển thị được (đã lọc trong loadCatalog).
   const byPoster = new Map();
@@ -410,6 +676,7 @@ async function init() {
   }
 
   bindImageFallback(document);
+  initHeroCarousel(catalog);
 
   if (unresolved.length) {
     console.warn(
