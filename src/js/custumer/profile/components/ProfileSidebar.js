@@ -13,7 +13,11 @@ const EXTRA_ITEMS = [
 ];
 
 /** Menu dọc dùng cho desktop. */
-export function renderSidebar(root, { activeTab, counts = {} }, { onSelectTab, onLogout } = {}) {
+export function renderSidebar(
+  root,
+  { activeTab, counts = {} },
+  { onSelectTab, onLogout } = {},
+) {
   render(
     root,
     `
@@ -52,6 +56,25 @@ export function renderSidebar(root, { activeTab, counts = {} }, { onSelectTab, o
       ).join("")}
     </nav>
 
+
+    <div class="mf-card" style="margin-top:14px;padding:16px;display:flex;flex-direction:column;gap:12px">
+  <span class="mf-chip" style="align-self:flex-start;background:rgba(34,158,217,.12);color:#229ED9">
+    ${icon("send", "text-[13px]")} Telegram
+  </span>
+
+  <p class="mf-muted" style="margin:0;font-size:12.5px;line-height:1.6">
+    Liên kết Telegram để nhận mã OTP khi quên mật khẩu và khôi phục tài khoản MovieF.
+  </p>
+
+  <button
+    type="button"
+    id="linkTelegram"
+    class="mf-btn mf-btn-outline mf-btn-sm"
+    style="width:100%;border-color:#229ED9;color:#229ED9"
+  >
+    ${icon("send", "text-[14px]")} Liên kết Telegram
+  </button>
+</div>
     <div class="mf-card" style="margin-top:14px;padding:16px;display:flex;flex-direction:column;gap:12px">
       <span class="mf-chip mf-chip-gold" style="align-self:flex-start">${icon("award", "text-[13px]")} Thành viên bạc</span>
       <p class="mf-muted" style="margin:0;font-size:12.5px;line-height:1.6">
@@ -68,6 +91,11 @@ export function renderSidebar(root, { activeTab, counts = {} }, { onSelectTab, o
     if (button.dataset.sideTab === "logout") onLogout?.();
     else onSelectTab?.(button.dataset.sideTab);
   });
+  // Xử lý nút liên kết Telegram trong sidebar.
+  root.querySelector("#linkTelegram")?.addEventListener("click", (event) => {
+    event.preventDefault();
+    handleLinkTelegram();
+  });
 }
 
 /** Bottom navigation cho mobile. */
@@ -83,7 +111,9 @@ export function renderBottomNav(root, { activeTab, counts = {} }, onSelectTab) {
           const isTab = Boolean(TABS.some((tab) => tab.id === item.id));
           const count = item.countKey ? counts[item.countKey] : 0;
           const badge =
-            count > 0 ? `<span style="position:absolute;top:2px;right:22%;min-width:16px;height:16px;border-radius:999px;background:#e50914;color:#fff;font-size:9px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;padding:0 4px">${count > 99 ? "99+" : count}</span>` : "";
+            count > 0
+              ? `<span style="position:absolute;top:2px;right:22%;min-width:16px;height:16px;border-radius:999px;background:#e50914;color:#fff;font-size:9px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;padding:0 4px">${count > 99 ? "99+" : count}</span>`
+              : "";
 
           if (!isTab) {
             return `
@@ -112,4 +142,99 @@ export function renderBottomNav(root, { activeTab, counts = {} }, onSelectTab) {
     const button = event.target.closest("[data-bottom-tab]");
     if (button) onSelectTab(button.dataset.bottomTab);
   });
+}
+
+// sử lý tele liên kết
+
+async function handleLinkTelegram() {
+  const currentUser = JSON.parse(localStorage.getItem("currentUser") || "null");
+
+  if (!currentUser?.email) {
+    await Swal.fire({
+      icon: "warning",
+      title: "Chưa đăng nhập",
+      text: "Vui lòng đăng nhập MovieF trước khi liên kết Telegram.",
+      background: "#141414",
+      color: "#ffffff",
+    });
+    return;
+  }
+
+  const result = await Swal.fire({
+    title: "Xác nhận tài khoản MovieF",
+    text: `Nhập mật khẩu của ${currentUser.email} để tạo liên kết Telegram.`,
+    input: "password",
+    inputLabel: "Mật khẩu MovieF",
+    inputPlaceholder: "Nhập mật khẩu",
+    inputAttributes: {
+      autocomplete: "current-password",
+      autocapitalize: "off",
+    },
+    showCancelButton: true,
+    confirmButtonText: "Tiếp tục",
+    cancelButtonText: "Hủy",
+    confirmButtonColor: "#229ED9",
+    background: "#141414",
+    color: "#ffffff",
+    inputValidator: (value) => {
+      if (!value) return "Vui lòng nhập mật khẩu.";
+    },
+  });
+
+  if (!result.isConfirmed) return;
+
+  try {
+    const response = await fetch(
+      "http://localhost:3002/api/auth/telegram/link",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: currentUser.email,
+          password: result.value,
+        }),
+      },
+    );
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      await Swal.fire({
+        icon: "error",
+        title: "Không thể liên kết",
+        text: data.message || "Không tạo được mã liên kết Telegram.",
+        background: "#141414",
+        color: "#ffffff",
+      });
+      return;
+    }
+
+    const choice = await Swal.fire({
+      icon: "success",
+      title: "Đã tạo mã liên kết",
+      text: "Mã có hiệu lực trong 5 phút. Nhấn tiếp tục để mở Telegram.",
+      showCancelButton: true,
+      confirmButtonText: "Mở Telegram",
+      cancelButtonText: "Để sau",
+      confirmButtonColor: "#229ED9",
+      background: "#141414",
+      color: "#ffffff",
+    });
+
+    if (choice.isConfirmed && data.telegramUrl) {
+      window.location.href = data.telegramUrl;
+    }
+  } catch (error) {
+    console.error("Lỗi liên kết Telegram:", error);
+
+    await Swal.fire({
+      icon: "error",
+      title: "Không kết nối được backend",
+      text: "Kiểm tra JSON Server cổng 3000, backend Telegram cổng 3002 và kết nối mạng.",
+      background: "#141414",
+      color: "#ffffff",
+    });
+  }
 }

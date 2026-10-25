@@ -501,6 +501,285 @@
               </form>
             </div>
           </div>
+
+          <!-- MODAL CHỈNH SỬA TẬP PHIM -->
+          <div
+            id="modal-edit-episode"
+            class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+          >
+            <div
+              class="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl border border-white/10 bg-[#111318] text-white shadow-2xl"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="edit-episode-title"
+            >
+              <!-- HEADER -->
+              <div
+                class="sticky top-0 z-10 flex items-center justify-between border-b border-white/10 bg-[#111318] px-6 py-4"
+              >
+                <div>
+                  <h2 id="edit-episode-title" class="text-lg font-semibold">
+                    Chỉnh sửa tập phim
+                  </h2>
+                  <p class="mt-1 text-sm text-gray-400">
+                    Cập nhật thông tin tập phim đang chọn.
+                  </p>
+                </div>
+
+                <button
+                  id="btn-close-edit-episode"
+                  type="button"
+                  class="rounded-lg p-2 text-gray-400 transition hover:bg-white/10 hover:text-white"
+                  aria-label="Đóng form"
+                >
+                  <span class="material-symbols-outlined">close</span>
+                </button>
+              </div>
+
+              <!-- FORM CHỈNH SỬA TẬP PHIM -->
+              <form
+                id="form-edit-episode"
+                class="space-y-5 p-6"
+                enctype="multipart/form-data"
+              >
+                <!-- ID + MÙA PHIM (chỉ đọc) -->
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div>
+                    <label
+                      for="edit-episode-id"
+                      class="mb-2 block text-sm font-medium text-white"
+                    >
+                      ID tập phim
+                    </label>
+                    <input
+                      id="edit-episode-id"
+                      name="id"
+                      type="text"
+                      readonly
+                      class="w-full cursor-not-allowed rounded-lg border border-white/10 bg-[#15171d] px-4 py-3 font-mono text-xs text-gray-400 outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      for="edit-episode-season-id"
+                      class="mb-2 block text-sm font-medium text-white"
+                    >
+                      ID mùa phim
+                    </label>
+                    <input
+                      id="edit-episode-season-id"
+                      name="seasonId"
+                      type="text"
+                      readonly
+                      class="w-full cursor-not-allowed rounded-lg border border-white/10 bg-[#15171d] px-4 py-3 font-mono text-xs text-gray-400 outline-none"
+                    />
+                  </div>
+                </div>
+
+                <!-- SỐ TẬP + THỜI LƯỢNG -->
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div>
+                    <label
+                      for="edit-episode-number"
+                      class="mb-2 block text-sm font-medium text-white"
+                    >
+                      Số tập <span class="text-red-500">*</span>
+                    </label>
+                    <input
+                      id="edit-episode-number"
+                      name="episodeNumber"
+                      type="number"
+                      min="1"
+                      step="1"
+                      required
+                      class="w-full rounded-lg border border-white/10 bg-[#1b1e25] px-4 py-3 text-sm text-white outline-none placeholder:text-gray-500 transition focus:border-red-500 focus:ring-1 focus:ring-red-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      for="edit-episode-duration"
+                      class="mb-2 block text-sm font-medium text-white"
+                    >
+                      Thời lượng (phút)
+                    </label>
+                    <input
+                      id="edit-episode-duration"
+                      name="duration"
+                      type="number"
+                      min="0"
+                      step="1"
+                      class="w-full rounded-lg border border-white/10 bg-[#1b1e25] px-4 py-3 text-sm text-white outline-none placeholder:text-gray-500 transition focus:border-red-500 focus:ring-1 focus:ring-red-500"
+                    />
+                  </div>
+                </div>
+
+                <!-- TÊN TẬP PHIM -->
+                <div>
+                  <label
+                    for="edit-episode-title"
+                    class="mb-2 block text-sm font-medium text-white"
+                  >
+                    Tên tập phim <span class="text-red-500">*</span>
+                  </label>
+                  <input
+                    id="edit-episode-title"
+                    name="title"
+                    type="text"
+                    required
+                    maxlength="200"
+                    class="w-full rounded-lg border border-white/10 bg-[#1b1e25] px-4 py-3 text-sm text-white outline-none placeholder:text-gray-500 transition focus:border-red-500 focus:ring-1 focus:ring-red-500"
+                  />
+                </div>
+
+                <!-- MÔ TẢ -->
+                <div>
+                  <label
+                    for="edit-episode-description"
+                    class="mb-2 block text-sm font-medium text-white"
+                  >
+                    Mô tả tập phim
+                  </label>
+                  <textarea
+                    id="edit-episode-description"
+                    name="description"
+                    rows="4"
+                    maxlength="2000"
+                    class="w-full resize-y rounded-lg border border-white/10 bg-[#1b1e25] px-4 py-3 text-sm text-white outline-none placeholder:text-gray-500 transition focus:border-red-500 focus:ring-1 focus:ring-red-500"
+                  ></textarea>
+                </div>
+
+                <!-- VIDEO -->
+                <div>
+                  <label
+                    for="edit-episode-video"
+                    class="mb-2 block text-sm font-medium text-white"
+                  >
+                    Đường dẫn video
+                  </label>
+                  <input
+                    id="edit-episode-video"
+                    name="video"
+                    type="text"
+                    class="w-full rounded-lg border border-white/10 bg-[#1b1e25] px-4 py-3 font-mono text-xs text-white outline-none placeholder:text-gray-500 transition focus:border-red-500 focus:ring-1 focus:ring-red-500"
+                    placeholder="/videos/ten-file.mp4"
+                  />
+
+                  <div
+                    class="mt-2 rounded-lg border border-dashed border-white/20 bg-[#1b1e25] p-3"
+                  >
+                    <label
+                      for="edit-episode-video-file"
+                      class="mb-2 block text-xs text-gray-400"
+                    >
+                      Hoặc chọn video mới để thay thế
+                    </label>
+                    <input
+                      id="edit-episode-video-file"
+                      name="videoFile"
+                      type="file"
+                      accept="video/*"
+                      class="block w-full cursor-pointer text-sm text-gray-300 file:mr-3 file:cursor-pointer file:rounded-md file:border-0 file:bg-red-600 file:px-4 file:py-2 file:font-medium file:text-white file:transition hover:file:bg-red-700"
+                    />
+                  </div>
+                </div>
+
+                <!-- THUMBNAIL -->
+                <div>
+                  <label
+                    for="edit-episode-thumbnail"
+                    class="mb-2 block text-sm font-medium text-white"
+                  >
+                    Đường dẫn thumbnail
+                  </label>
+                  <input
+                    id="edit-episode-thumbnail"
+                    name="thumbnail"
+                    type="text"
+                    class="w-full rounded-lg border border-white/10 bg-[#1b1e25] px-4 py-3 font-mono text-xs text-white outline-none placeholder:text-gray-500 transition focus:border-red-500 focus:ring-1 focus:ring-red-500"
+                    placeholder="/images/movies/ten-anh.jpg"
+                  />
+
+                  <div
+                    class="mt-2 rounded-lg border border-dashed border-white/20 bg-[#1b1e25] p-3"
+                  >
+                    <label
+                      for="edit-episode-thumbnail-file"
+                      class="mb-2 block text-xs text-gray-400"
+                    >
+                      Hoặc chọn ảnh mới để thay thế
+                    </label>
+                    <input
+                      id="edit-episode-thumbnail-file"
+                      name="thumbnailFile"
+                      type="file"
+                      accept="image/*"
+                      class="block w-full cursor-pointer text-sm text-gray-300 file:mr-3 file:cursor-pointer file:rounded-md file:border-0 file:bg-red-600 file:px-4 file:py-2 file:font-medium file:text-white file:transition hover:file:bg-red-700"
+                    />
+                  </div>
+                </div>
+
+                <!-- NGÀY PHÁT HÀNH + TRẠNG THÁI -->
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div>
+                    <label
+                      for="edit-episode-release-date"
+                      class="mb-2 block text-sm font-medium text-white"
+                    >
+                      Ngày phát hành
+                    </label>
+                    <input
+                      id="edit-episode-release-date"
+                      name="releaseDate"
+                      type="date"
+                      class="w-full rounded-lg border border-white/10 bg-[#1b1e25] px-4 py-3 text-sm text-white outline-none transition focus:border-red-500 focus:ring-1 focus:ring-red-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      for="edit-episode-status"
+                      class="mb-2 block text-sm font-medium text-white"
+                    >
+                      Trạng thái
+                    </label>
+                    <select
+                      id="edit-episode-status"
+                      name="status"
+                      class="w-full rounded-lg border border-white/10 bg-[#1b1e25] px-4 py-3 text-sm text-white outline-none transition focus:border-red-500 focus:ring-1 focus:ring-red-500"
+                    >
+                      <option value="true">Đang phát hành</option>
+                      <option value="false">Ẩn tập phim</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- FOOTER -->
+                <div
+                  class="flex flex-col-reverse gap-3 border-t border-white/10 pt-5 sm:flex-row sm:justify-end"
+                >
+                  <button
+                    id="btn-cancel-edit-episode"
+                    type="button"
+                    class="rounded-lg border border-white/10 px-5 py-2.5 text-sm font-medium text-gray-300 transition hover:bg-white/10"
+                  >
+                    Hủy
+                  </button>
+
+                  <button
+                    type="submit"
+                    class="inline-flex items-center justify-center gap-2 rounded-lg bg-red-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-[#111318]"
+                  >
+                    <span class="material-symbols-outlined text-base"
+                      >save</span
+                    >
+                    Lưu thay đổi
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
       </header>
 
@@ -595,4 +874,5 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="module" src="./../../src/js/admin/phimBo.js"></script>
 <script type="module" src="./../../src/js/admin/createPhimBo.js"></script>
+<script type="module" src="./../../src/js/admin/updateEnpoin.js"></script>
 <script type="module" src="/src/js/admin/sidebar.js"></script>

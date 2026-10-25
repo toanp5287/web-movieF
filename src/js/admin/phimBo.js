@@ -25,6 +25,9 @@ const nextPageBtn = document.querySelector("#nextPage");
 let tatCaTapPhim = [];
 let trangHienTai = 1;
 
+// Cho phép module khác (updateEnpoin.js) đọc danh sách tập hiện tại.
+window.__tatCaTapPhim = tatCaTapPhim;
+
 // ========================================
 // TIỆN ÍCH
 // ========================================
@@ -105,7 +108,8 @@ async function layDanhSachSeason() {
 }
 
 async function layDanhSachTapPhim() {
-  const res = await api.get("/episodes");
+  const resResult = await api.get("/episodes");
+  const res = resResult.filter((item) => item.status !== false);
 
   return layMang(res);
 }
@@ -257,6 +261,8 @@ function taoDong(tap, index) {
 
   <button
     type="button"
+    data-action="edit-episode"
+    data-id="${escapeHtml(tap.id)}"
     title="Chỉnh sửa tập"
     class="text-zinc-400 hover:text-white transition"
   >
@@ -343,11 +349,14 @@ async function khoiTao() {
       tatCaTapPhim = sapXep(tapPhim);
     }
 
+    window.__tatCaTapPhim = tatCaTapPhim;
+
     render();
   } catch (error) {
     console.error("Lỗi tải dữ liệu tập phim:", error);
 
     tatCaTapPhim = [];
+    window.__tatCaTapPhim = tatCaTapPhim;
     trangHienTai = 1;
 
     renderThongBao(
@@ -814,4 +823,12 @@ tableBody.addEventListener("click", (event) => {
   }
 
   // Giữ nguyên các xử lý click hiện có ở bên dưới.
+});
+
+// ========================================
+// TẢI LẠI DANH SÁCH SAU KHI CẬP NHẬT TẬP PHIM
+// updateEnpoin.js phát CustomEvent "episode-updated".
+// ========================================
+document.addEventListener("episode-updated", () => {
+  khoiTao();
 });
