@@ -436,8 +436,8 @@
       "views": 12450,
       "createdAt": "2026-09-02",
       "year": 2025,
-      "releaseDate": "2026-09-20",
-      "endDate": "2026-10-26"
+      "releaseDate": "2026-10-26",
+      "endDate": "2026-10-27"
     },
     {
       "id": "50",
@@ -465,9 +465,12 @@
         "8"
       ],
       "quality": "hd",
-      "status": true,
+      "status": "published",
       "views": 14198,
-      "createdAt": "2026-10-02"
+      "createdAt": "2026-10-02",
+      "year": 2026,
+      "releaseDate": "2026-10-28",
+      "endDate": "2026-10-31"
     },
     {
       "id": "3",

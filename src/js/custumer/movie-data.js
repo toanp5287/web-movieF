@@ -50,6 +50,73 @@ export const mediaUrl = (path) => {
   return clean ? `/${clean.replace(/^\/+/, "")}` : "";
 };
 
+/**
+ * Chuẩn hoá ngày phát hành dạng YYYY-MM-DD.
+ *
+ * Dữ liệu phim hiện chỉ lưu ngày, không lưu giờ hay múi giờ. Giá trị không
+ * đúng định dạng hoặc không phải ngày có thật (ví dụ 2026-02-31) trả về ""
+ * để nơi gọi không tự đoán ra một ngày phát hành khác.
+ */
+export function releaseDateKey(value) {
+  const raw = String(value ?? "").trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(raw)) return "";
+
+  const [year, month, day] = raw.split("-").map(Number);
+  const date = new Date(year, month - 1, day, 0, 0, 0, 0);
+  if (
+    date.getFullYear() !== year ||
+    date.getMonth() !== month - 1 ||
+    date.getDate() !== day
+  ) {
+    return "";
+  }
+
+  return raw;
+}
+
+/**
+ * Thời điểm phát hành theo quy ước hiện có của dự án: 00:00 giờ địa phương
+ * của ngày `releaseDate` (ngày-only, không có giờ trong dữ liệu).
+ *
+ * Không dùng `new Date("YYYY-MM-DD")` vì JavaScript hiểu chuỗi đó là UTC,
+ * sẽ lệch múi giờ so với cách các trang đang so sánh ngày theo lịch máy.
+ *
+ * @returns {{at: number, dateKey: string, label: string}|null}
+ */
+export function releaseMoment(movie) {
+  const dateKey = releaseDateKey(movie?.releaseDate);
+  if (!dateKey) return null;
+
+  const [year, month, day] = dateKey.split("-").map(Number);
+  return {
+    at: new Date(year, month - 1, day, 0, 0, 0, 0).getTime(),
+    dateKey,
+    label: `${String(day).padStart(2, "0")}/${String(month).padStart(2, "0")}/${year}`,
+  };
+}
+
+/**
+ * Trạng thái phát hành theo ngày của phim.
+ *
+ * - upcoming: hiện tại còn trước 00:00 ngày phát hành.
+ * - released: đã đến hoặc đã qua ngày phát hành.
+ * - unknown : thiếu/không hợp lệ `releaseDate`; không tự mặc định là đã phát hành.
+ */
+export function releaseState(movie, now = Date.now()) {
+  const moment = releaseMoment(movie);
+  if (!moment) {
+    return { kind: "unknown", moment: null, target: null };
+  }
+
+  const time = now instanceof Date ? now.getTime() : Number(now);
+  const current = Number.isFinite(time) ? time : Date.now();
+  return {
+    kind: current < moment.at ? "upcoming" : "released",
+    moment,
+    target: moment.at,
+  };
+}
+
 /** Phần mở rộng ảnh được phép đưa vào thuộc tính src / background-image. */
 const IMAGE_EXT = /\.(jpe?g|png|webp|avif|gif)$/i;
 
