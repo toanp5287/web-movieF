@@ -400,53 +400,192 @@ function resolveMovie(anchor, byPoster, byTitle, byId) {
  * ------------------------------------------------------------------ */
 
 const HERO_INTERVAL = 3000;
+const HERO_MAX = 6;
+
+/** Ngày hôm nay theo múi giờ trình duyệt, dạng YYYY-MM-DD. */
+function heroTodayKey() {
+  const now = new Date();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${now.getFullYear()}-${month}-${day}`;
+}
+
+/** Chuẩn hoá releaseDate; dùng chung helper để không lệch quy ước ngày. */
+function heroDateKey(value) {
+  return releaseDateKey(value);
+}
 
 /**
- * Chọn tối đa 6 phim gần đây nhất cho banner.
- * Ưu tiên phim có createdAt gần nhất, fallback theo id nếu không có.
+ * Định dạng thời gian còn lại cho banner.
+ * Vẫn hiện đủ ngày/giờ/phút/giây khi còn dưới 24 giờ (ngày = 00).
  */
-function heroMovies(catalog) {
-  const movies = Array.isArray(catalog?.movies) ? catalog.movies : [];
-  const candidates = movies.filter(
-    (movie) => movie && movie.title && Number(movie.releaseYear) > 0,
+function heroCountdownText(remainingMs) {
+  const total = Math.max(0, Math.floor(remainingMs / 1000));
+  const days = Math.floor(total / 86400);
+  const hours = Math.floor((total % 86400) / 3600);
+  const minutes = Math.floor((total % 3600) / 60);
+  const seconds = total % 60;
+  const pad = (value) => String(value).padStart(2, "0");
+  return `Còn ${pad(days)} ngày ${pad(hours)} giờ ${pad(minutes)} phút ${pad(seconds)} giây`;
+}
+
+/** Phim sắp chiếu: releaseDate hợp lệ và còn ở tương lai. */
+function isUpcomingMovie(movie, today = heroTodayKey()) {
+  const releaseDate = heroDateKey(movie?.releaseDate);
+  return Boolean(releaseDate) && releaseDate > today;
+}
+
+function heroReleaseYear(movie) {
+  const year = Number(movie?.releaseYear);
+  return Number.isFinite(year) && year > 0 ? year : 0;
+}
+
+function heroCreatedTime(movie) {
+  const time = Date.parse(movie?.createdAt || "");
+  return Number.isNaN(time) ? 0 : time;
+}
+
+function compareHeroId(a, b) {
+  const aId = Number(a?.id);
+  const bId = Number(b?.id);
+  if (Number.isFinite(aId) && Number.isFinite(bId) && aId !== bId) {
+    return bId - aId;
+  }
+  return String(b?.id ?? "").localeCompare(String(a?.id ?? ""), "vi");
+}
+
+/**
+ * Phim đã phát hành: ưu tiên releaseDate đầy đủ, sau đó releaseYear,
+ * cuối cùng mới dùng createdAt. Không dùng updatedAt.
+ */
+function compareReleasedMovies(a, b) {
+  const aDate = heroDateKey(a?.releaseDate);
+  const bDate = heroDateKey(b?.releaseDate);
+  if (aDate || bDate) {
+    if (!aDate) return 1;
+    if (!bDate) return -1;
+    const byDate = bDate.localeCompare(aDate);
+    if (byDate !== 0) return byDate;
+  }
+
+  const byYear = heroReleaseYear(b) - heroReleaseYear(a);
+  if (byYear !== 0) return byYear;
+
+  const byCreated = heroCreatedTime(b) - heroCreatedTime(a);
+  if (byCreated !== 0) return byCreated;
+
+  return compareHeroId(a, b);
+}
+
+/** Phim sắp chiếu: ngày gần nhất lên trước. */
+function compareUpcomingMovies(a, b) {
+  const byDate = heroDateKey(a.releaseDate).localeCompare(
+    heroDateKey(b.releaseDate),
   );
+  if (byDate !== 0) return byDate;
+  return compareReleasedMovies(a, b);
+}
 
-  const getTime = (movie) => {
-    const time = Date.parse(movie?.createdAt || "");
-    return Number.isNaN(time) ? 0 : time;
-  };
-
-  const sorted = [...candidates].sort((a, b) => {
-    const diff = getTime(b) - getTime(a);
-    if (diff !== 0) return diff;
-    return Number(b?.id ?? 0) - Number(a?.id ?? 0);
-  });
-
-  const seenPosters = new Set();
+/** Bỏ trùng theo id, slug và ảnh đại diện; giữ bản xuất hiện trước. */
+function dedupeHeroMovies(movies) {
+  const seen = new Set();
   const picked = [];
 
-  for (const movie of sorted) {
-    const posterKey = String(movie.poster || "")
+  for (const movie of movies) {
+    const id = String(movie?.id ?? "").trim();
+    const slug = String(movie?.slug ?? "").trim().toLowerCase();
+    const visual = String(movie?.poster || movie?.backdrop || "")
       .trim()
       .toLowerCase();
-    if (posterKey && seenPosters.has(posterKey)) continue;
-    if (posterKey) seenPosters.add(posterKey);
+    const keys = [
+      id ? `id:${id}` : "",
+      slug ? `slug:${slug}` : "",
+      visual ? `visual:${visual}` : "",
+    ].filter(Boolean);
+
+    if (keys.some((key) => seen.has(key))) continue;
+    keys.forEach((key) => seen.add(key));
     picked.push(movie);
-    if (picked.length >= 6) break;
+    if (picked.length >= HERO_MAX) break;
   }
 
   return picked;
 }
 
-/** Markup một slide. Chỉ hiện tên phim và mô tả ngắn, click toàn banner mở chi tiết. */
+/**
+ * Chọn tối đa 6 phim cho banner:
+ * - Tối đa 6 phim sắp chiếu, sắp theo releaseDate tăng dần.
+ * - Nếu chưa đủ 6, bù bằng phim đã phát hành mới nhất.
+ * - Không trùng id/slug/ảnh; không bịa dữ liệu.
+ */
+function heroMovies(catalog) {
+  const movies = Array.isArray(catalog?.movies) ? catalog.movies : [];
+  const today = heroTodayKey();
+  const valid = movies.filter(
+    (movie) =>
+      movie &&
+      movie.title &&
+      String(movie.id ?? "").trim() &&
+      (movie.poster || movie.backdrop),
+  );
+
+  const upcoming = valid
+    .filter((movie) => isUpcomingMovie(movie, today))
+    .sort(compareUpcomingMovies);
+
+  const upcomingIds = new Set(
+    upcoming.map((movie) => String(movie.id ?? "").trim()).filter(Boolean),
+  );
+  const upcomingSlugs = new Set(
+    upcoming
+      .map((movie) => String(movie.slug ?? "").trim().toLowerCase())
+      .filter(Boolean),
+  );
+
+  const released = valid
+    .filter((movie) => {
+      const id = String(movie.id ?? "").trim();
+      const slug = String(movie.slug ?? "").trim().toLowerCase();
+      if (id && upcomingIds.has(id)) return false;
+      if (slug && upcomingSlugs.has(slug)) return false;
+      return true;
+    })
+    .sort(compareReleasedMovies);
+
+  if (upcoming.length >= HERO_MAX) {
+    return dedupeHeroMovies(upcoming);
+  }
+
+  return dedupeHeroMovies([...upcoming, ...released]);
+}
+
+/**
+ * Markup một slide.
+ * - Sắp chiếu: badge đỏ + đồng hồ đếm ngược.
+ * - Đã phát hành: badge "ĐANG CHIẾU", không có đồng hồ.
+ * - Thiếu/không hợp lệ releaseDate: không hiện badge hay đồng hồ giả.
+ */
 function heroSlideMarkup(movie, catalog, index) {
   const id = escapeHtml(String(movie.id ?? ""));
   const title = escapeHtml(movie.title || "Phim");
-  const poster = escapeHtml(movie.poster || POSTER_FALLBACK);
+  const image = escapeHtml(movie.poster || movie.backdrop || POSTER_FALLBACK);
   const fallback = escapeHtml(POSTER_FALLBACK);
   const description = String(movie.description || "").trim();
   const detail = escapeHtml(detailUrl(movie.id));
   const isActive = index === 0;
+  const upcoming = isUpcomingMovie(movie);
+  const release = releaseMoment(movie);
+  const releaseBadge = release
+    ? upcoming
+      ? '<span class="mf-hero-badge" data-hero-badge>SẮP CHIẾU</span>'
+      : '<span class="mf-hero-badge mf-hero-badge-released" data-hero-badge>ĐANG CHIẾU</span>'
+    : "";
+  const countdown =
+    upcoming && release
+      ? `<p class="mf-hero-countdown" data-hero-countdown data-release-at="${release.at}" aria-label="Thời gian còn lại đến khi công chiếu"><span class="material-symbols-outlined" aria-hidden="true">schedule</span><span data-hero-countdown-text>${escapeHtml(
+          heroCountdownText(release.at - Date.now()),
+        )}</span></p>`
+      : "";
 
   return `
     <article
@@ -457,16 +596,18 @@ function heroSlideMarkup(movie, catalog, index) {
       data-pos="${isActive ? "active" : "hidden"}"
     >
       <img
-        alt="Poster phim ${title}"
+        alt="Ảnh phim ${title}"
         class="mf-hero-image"
         data-fallback="${fallback}"
         decoding="async"
         ${isActive ? 'fetchpriority="high"' : 'loading="lazy"'}
-        src="${poster}"
+        src="${image}"
       />
       <div aria-hidden="true" class="mf-hero-shade"></div>
+      ${releaseBadge}
 
       <div class="mf-hero-content">
+        ${countdown}
         <h2 class="mf-hero-title">${title}</h2>
         ${
           description
@@ -475,6 +616,17 @@ function heroSlideMarkup(movie, catalog, index) {
               )}</p>`
             : ""
         }
+        <div class="mf-hero-actions">
+          <a
+            aria-label="Xem chi tiết phim ${title}"
+            class="mf-hero-cta"
+            data-movie-id="${id}"
+            href="${detail}"
+          >
+            <span aria-hidden="true" class="material-symbols-outlined">info</span>
+            <span>Xem chi tiết</span>
+          </a>
+        </div>
       </div>
 
       <a
@@ -503,13 +655,20 @@ function initHeroCarousel(catalog) {
 
   const movies = heroMovies(catalog);
   if (!movies.length) {
-    console.warn("[home] Banner: không có phim để hiển thị, giữ slide dự phòng.");
+    console.warn("[home] Banner: không có phim hợp lệ để hiển thị.");
+    stage.innerHTML =
+      '<p class="mf-hero-empty" role="status">Chưa có phim nổi bật.</p>';
     section.dataset.heroReady = "1";
-    if (dots) dots.hidden = true;
+    section.dataset.heroEmpty = "1";
+    if (dots) {
+      dots.innerHTML = "";
+      dots.hidden = true;
+    }
     if (prevBtn) prevBtn.hidden = true;
     if (nextBtn) nextBtn.hidden = true;
     return;
   }
+  delete section.dataset.heroEmpty;
 
   stage.innerHTML = movies
     .map((movie, index) => heroSlideMarkup(movie, catalog, index))
@@ -539,6 +698,10 @@ function initHeroCarousel(catalog) {
 
   let active = 0;
   let timer = null;
+  let countdownTimer = null;
+  const countdownNodes = [
+    ...stage.querySelectorAll("[data-hero-countdown]"),
+  ];
 
   function paint() {
     slides.forEach((slide, index) => {
@@ -576,6 +739,60 @@ function initHeroCarousel(catalog) {
       timer = null;
       goTo(active + 1);
     }, HERO_INTERVAL);
+  }
+
+  function stopCountdown() {
+    if (countdownTimer !== null) {
+      window.clearInterval(countdownTimer);
+      countdownTimer = null;
+    }
+  }
+
+  /**
+   * Cập nhật mọi đồng hồ đang còn hiệu lực trong một lần.
+   * Trả về true nếu vẫn còn ít nhất một phim chưa tới giờ phát hành.
+   */
+  function updateCountdowns() {
+    let hasUpcoming = false;
+
+    for (const node of countdownNodes) {
+      if (node.hidden) continue;
+
+      const target = Number(node.dataset.releaseAt);
+      if (!Number.isFinite(target)) {
+        node.hidden = true;
+        continue;
+      }
+
+      const remaining = target - Date.now();
+      if (remaining <= 0) {
+        node.hidden = true;
+        const slide = node.closest("[data-hero-slide]");
+        const badge = slide?.querySelector("[data-hero-badge]");
+        if (badge) {
+          badge.textContent = "ĐANG CHIẾU";
+          badge.classList.add("mf-hero-badge-released");
+        }
+        continue;
+      }
+
+      hasUpcoming = true;
+      const text = node.querySelector("[data-hero-countdown-text]");
+      if (text) text.textContent = heroCountdownText(remaining);
+    }
+
+    return hasUpcoming;
+  }
+
+  function tickCountdown() {
+    if (!updateCountdowns()) stopCountdown();
+  }
+
+  function startCountdown() {
+    stopCountdown();
+    if (!countdownNodes.length || document.hidden) return;
+    if (!updateCountdowns()) return;
+    countdownTimer = window.setInterval(tickCountdown, 1000);
   }
 
   function goTo(index) {
@@ -629,32 +846,64 @@ function initHeroCarousel(catalog) {
   });
 
   const onVisibilityChange = () => {
-    if (document.hidden) stopTimer();
-    else schedule();
+    if (document.hidden) {
+      stopTimer();
+      stopCountdown();
+    } else {
+      schedule();
+      startCountdown();
+    }
   };
-  document.addEventListener("visibilitychange", onVisibilityChange);
 
   const onMotionChange = () => schedule();
-  if (typeof motionQuery.addEventListener === "function") {
-    motionQuery.addEventListener("change", onMotionChange);
-  } else if (typeof motionQuery.addListener === "function") {
-    motionQuery.addListener(onMotionChange);
+  let lifecycleAttached = false;
+
+  function attachLifecycle() {
+    if (lifecycleAttached) return;
+    lifecycleAttached = true;
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    if (typeof motionQuery.addEventListener === "function") {
+      motionQuery.addEventListener("change", onMotionChange);
+    } else if (typeof motionQuery.addListener === "function") {
+      motionQuery.addListener(onMotionChange);
+    }
   }
 
-  const cleanup = () => {
-    stopTimer();
+  function detachLifecycle() {
+    if (!lifecycleAttached) return;
+    lifecycleAttached = false;
     document.removeEventListener("visibilitychange", onVisibilityChange);
     if (typeof motionQuery.removeEventListener === "function") {
       motionQuery.removeEventListener("change", onMotionChange);
     } else if (typeof motionQuery.removeListener === "function") {
       motionQuery.removeListener(onMotionChange);
     }
+  }
+
+  const onPageHide = (event) => {
+    stopTimer();
+    stopCountdown();
+    // Trang bị đóng hẳn thì gỡ listener; nếu vào bfcache thì giữ lại.
+    if (!event.persisted) detachLifecycle();
   };
-  window.addEventListener("pagehide", cleanup, { once: true });
+
+  const onPageShow = (event) => {
+    // Quay lại từ bfcache: bật lại timer đúng một lần.
+    if (event.persisted) {
+      attachLifecycle();
+      schedule();
+      startCountdown();
+    }
+  };
+
+  attachLifecycle();
+  window.addEventListener("pagehide", onPageHide);
+  window.addEventListener("pageshow", onPageShow);
 
   paint();
   section.dataset.heroReady = "1";
   schedule();
+  startCountdown();
 }
 
 async function init() {
@@ -671,12 +920,12 @@ async function init() {
     catalog = await loadCatalog();
   } catch (err) {
     console.error(
-      "[home] Không tải được data/db.json, giữ nguyên liên kết cũ:",
+      "[home] Không tải được data/db.json, banner sẽ để trống:",
       err,
     );
     catalogRef = { movies: [], genres: [] };
-    await renderContinueWatching(catalogRef);
     initHeroCarousel(catalogRef);
+    await renderContinueWatching(catalogRef);
     return;
   }
 
@@ -710,11 +959,10 @@ async function init() {
   }
 
   catalogRef = catalog;
+  // Ưu tiên dựng banner trước để không phải chờ "Tiếp tục xem".
+  initHeroCarousel(catalog);
   await renderContinueWatching(catalog);
-  if (!anchors.length) {
-    initHeroCarousel(catalog);
-    return;
-  }
+  if (!anchors.length) return;
 
   // Chỉ dùng phim thực sự hiển thị được (đã lọc trong loadCatalog).
   const byPoster = new Map();
@@ -797,7 +1045,6 @@ async function init() {
   }
 
   bindImageFallback(document);
-  initHeroCarousel(catalog);
 
   if (unresolved.length) {
     console.warn(

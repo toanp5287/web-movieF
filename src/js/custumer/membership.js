@@ -179,10 +179,15 @@ async function createMembershipPayment(button, userId, plan) {
 
     const paymentUrl = result.data?.paymentUrl;
     const order = result.data?.order;
+    const accessToken = result.data?.accessToken;
 
-    if (!order) {
+    if (!order || !accessToken) {
       throw new Error("Backend không trả về thông tin đơn hàng.");
     }
+
+    const accessByUser = JSON.parse(localStorage.getItem("moviefOrderAccess") || "{}");
+    accessByUser[String(userId)] = accessToken;
+    localStorage.setItem("moviefOrderAccess", JSON.stringify(accessByUser));
 
     if (
       typeof paymentUrl !== "string" ||

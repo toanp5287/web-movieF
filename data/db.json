@@ -138,7 +138,10 @@
       "createdAt": "2026-09-19T10:00:16.816Z",
       "telegramChatId": "7888034739",
       "telegramUsername": null,
-      "telegramLinkedAt": "2026-10-21T02:29:58.752Z"
+      "telegramLinkedAt": "2026-10-21T02:29:58.752Z",
+      "membershipStatus": "active",
+      "membershipStartsAt": "2026-10-25T18:25:06.954Z",
+      "membershipExpiresAt": "2026-11-24T18:25:06.954Z"
     },
     {
       "id": "a5R4eWSFIyI",
@@ -215,39 +218,8 @@
   ],
   "payments": [
     {
-      "txnRef": "MF179294753184099c58d7157",
-      "userId": "8TZCZPkPe4Q",
-      "planId": "vip-30",
-      "planName": "VIP 30 ngày",
-      "amount": 39000,
-      "durationDays": 30,
-      "provider": "VNPAY",
-      "status": "PENDING",
-      "createdAt": "2026-10-25T16:58:51.840Z",
-      "paidAt": null,
-      "failedAt": null,
-      "failureCode": null,
-      "vnpTransactionNo": null,
-      "id": 1
-    },
-    {
-      "txnRef": "MF1792947667057cdcd9733db",
-      "userId": "8TZCZPkPe4Q",
-      "planId": "vip-30",
-      "planName": "VIP 30 ngày",
-      "amount": 39000,
-      "durationDays": 30,
-      "provider": "VNPAY",
-      "status": "PENDING",
-      "createdAt": "2026-10-25T17:01:07.057Z",
-      "paidAt": null,
-      "failedAt": null,
-      "failureCode": null,
-      "vnpTransactionNo": null,
-      "id": 2
-    },
-    {
-      "txnRef": "MF179294784343303892cdc10",
+      "txnRef": "MF17929526758710b877fe82f",
+      "accessToken": "df2a882bfa126a58f2605477fea469fe41441500c973ed292b053f329dc2b5f4",
       "userId": "8TZCZPkPe4Q",
       "planId": "vip-30",
       "planName": "VIP 30 ngày",
@@ -255,12 +227,16 @@
       "durationDays": 30,
       "provider": "VNPAY",
       "status": "PAID",
-      "createdAt": "2026-10-25T17:04:03.433Z",
-      "paidAt": "2026-10-25T17:04:56.947Z",
+      "createdAt": "2026-10-25T18:24:35.871Z",
+      "paidAt": "2026-10-25T18:25:06.954Z",
       "failedAt": null,
       "failureCode": null,
-      "vnpTransactionNo": "15714586",
-      "id": 3
+      "vnpTransactionNo": "15714632",
+      "id": 1,
+      "resultCode": "00",
+      "transactionStatus": "00",
+      "membershipStartsAt": "2026-10-25T18:25:06.954Z",
+      "membershipExpiresAt": "2026-11-24T18:25:06.954Z"
     }
   ],
   "season": [
@@ -1546,8 +1522,8 @@
     {
       "userId": "8TZCZPkPe4Q",
       "movieId": 2,
-      "progress": 3,
-      "watchedAt": "2026-10-20T17:26:39",
+      "progress": 31,
+      "watchedAt": "2026-10-25T17:26:20",
       "id": "qA1YWsZ"
     },
     {

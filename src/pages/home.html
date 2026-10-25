@@ -201,7 +201,134 @@
         line-clamp: 2;
       }
 
+      .mf-hero-badge {
+        position: absolute;
+        top: clamp(14px, 2.2vw, 22px);
+        left: clamp(14px, 2.2vw, 22px);
+        z-index: 4;
+        display: inline-flex;
+        align-items: center;
+        padding: 5px 9px;
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        border-radius: 4px;
+        background: var(--mf-hero-brand);
+        box-shadow: 0 8px 22px -10px rgba(229, 9, 20, 0.95);
+        color: #ffffff;
+        font-family: "Inter", sans-serif;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        line-height: 1;
+        pointer-events: none;
+        text-transform: uppercase;
+        transition: opacity 200ms ease;
+      }
+
+      .mf-hero-slide:not([data-pos="active"]) .mf-hero-badge {
+        opacity: 0;
+      }
+
+      .mf-hero-badge-released {
+        border-color: rgba(255, 255, 255, 0.18);
+        background: rgba(12, 14, 18, 0.78);
+        box-shadow: none;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .mf-hero-countdown {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        width: fit-content;
+        max-width: min(100%, 38rem);
+        margin: 0;
+        padding: 6px 10px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 6px;
+        background: rgba(6, 7, 8, 0.64);
+        backdrop-filter: blur(8px);
+        color: rgba(255, 255, 255, 0.92);
+        font-family: "Inter", sans-serif;
+        font-size: clamp(11px, 0.95vw, 13px);
+        font-variant-numeric: tabular-nums;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        line-height: 1.4;
+        text-shadow: 0 4px 18px rgba(0, 0, 0, 0.7);
+        transition: opacity 200ms ease;
+      }
+
+      .mf-hero-countdown .material-symbols-outlined {
+        flex: 0 0 auto;
+        color: #ffb4aa;
+        font-size: 16px;
+      }
+
+      .mf-hero-slide:not([data-pos="active"]) .mf-hero-countdown {
+        opacity: 0;
+      }
+
+      .mf-hero-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 10px;
+        pointer-events: none;
+      }
+
+      .mf-hero-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        width: fit-content;
+        padding: 9px 16px;
+        border-radius: 8px;
+        background: var(--mf-hero-brand);
+        box-shadow: 0 12px 26px -14px rgba(229, 9, 20, 0.95);
+        color: #ffffff;
+        font-family: "Inter", sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 1;
+        pointer-events: auto;
+        text-decoration: none;
+        transition:
+          filter 160ms ease,
+          transform 160ms ease,
+          box-shadow 160ms ease;
+      }
+
+      .mf-hero-cta:hover {
+        filter: brightness(1.1);
+        transform: translateY(-1px);
+        box-shadow: 0 16px 32px -14px rgba(229, 9, 20, 1);
+      }
+
+      .mf-hero-cta .material-symbols-outlined {
+        font-size: 18px;
+      }
+
+      .mf-hero-slide:not([data-pos="active"]) .mf-hero-cta {
+        pointer-events: none;
+      }
+
+      .mf-hero-empty {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        padding: 24px;
+        color: rgba(255, 255, 255, 0.58);
+        font-family: "Inter", sans-serif;
+        font-size: 14px;
+        letter-spacing: 0.01em;
+        text-align: center;
+      }
+
       .mf-hero-btn:focus-visible,
+      .mf-hero-cta:focus-visible,
       .mf-hero-arrow:focus-visible,
       .mf-hero-dot:focus-visible,
       .mf-hero-link:focus-visible {
@@ -364,6 +491,37 @@
           line-clamp: 2;
         }
 
+        .mf-hero-badge {
+          top: 12px;
+          left: 12px;
+          padding: 4px 8px;
+          font-size: 10px;
+        }
+
+        .mf-hero-countdown {
+          max-width: 100%;
+          padding: 5px 8px;
+          font-size: 11px;
+          line-height: 1.45;
+        }
+
+        .mf-hero-countdown .material-symbols-outlined {
+          font-size: 14px;
+        }
+
+        .mf-hero-actions {
+          margin-top: 8px;
+        }
+
+        .mf-hero-cta {
+          padding: 8px 14px;
+          font-size: 12px;
+        }
+
+        .mf-hero-cta .material-symbols-outlined {
+          font-size: 16px;
+        }
+
         .mf-hero-arrow {
           width: 40px;
           height: 40px;
@@ -385,6 +543,9 @@
       @media (prefers-reduced-motion: reduce) {
         .mf-hero-slide,
         .mf-hero-content,
+        .mf-hero-badge,
+        .mf-hero-countdown,
+        .mf-hero-cta,
         .mf-hero-arrow,
         .mf-hero-dot {
           transition-duration: 0.001ms !important;
@@ -536,7 +697,7 @@
                     class="mf-hero-link"
                     data-movie-id="3"
                     data-movie-title="Interstellar"
-                    href="/movie-detail"
+                    href="/movie-detail?id=3"
                   ></a>
                 </article>
               </div>

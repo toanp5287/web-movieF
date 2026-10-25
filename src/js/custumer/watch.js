@@ -50,6 +50,8 @@ import {
   POSTER_FALLBACK,
   qualityLabel,
   ratingCount,
+  releaseDateKey,
+  releaseMoment,
   sameId,
   watchUrl,
 } from "./movie-data.js";
@@ -231,48 +233,25 @@ async function resolveTrailerUrl(movie) {
  * chỉ đọc đúng hai field phát hành và trả null khi chúng không tồn tại; khi đó
  * trang sẽ không dùng nhánh "chưa phát hành" thay vì bịa ngày ra.
  *
- * @returns {{at: number, label: string, hasTime: boolean}|null}
+ * @returns {{at: number, label: string}|null}
  */
 function readReleaseMoment(movie) {
-  const date = String(movie?.releaseDate ?? "").trim();
-  const dateMatch = date.match(/^(\d{4})-(\d{2})-(\d{2})/);
-  if (!dateMatch) return null;
-
-  const [, y, m, d] = dateMatch;
-  const timeMatch = String(movie?.releaseTime ?? "").match(/(\d{1,2}):(\d{2})/);
-  const hh = timeMatch ? String(Number(timeMatch[1])).padStart(2, "0") : "00";
-  const mm = timeMatch ? timeMatch[2] : "00";
-
-  return {
-    at: new Date(
-      Number(y),
-      Number(m) - 1,
-      Number(d),
-      Number(hh),
-      Number(mm),
-      0,
-      0,
-    ).getTime(),
-    label: timeMatch ? `${d}/${m}/${y} ${hh}:${mm}` : `${d}/${m}/${y}`,
-    hasTime: Boolean(timeMatch),
-  };
+  const release = releaseMoment(movie);
+  if (!release) return null;
+  // Dữ liệu hiện tại chỉ có ngày; quy ước là 00:00 giờ địa phương.
+  return { at: release.at, label: release.label };
 }
 
 /** Date-only availability uses the visitor's local calendar day. The end date is inclusive. */
 function movieAvailabilityState(movie, now = new Date()) {
   const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
-  const releaseDate = String(movie?.releaseDate ?? "").trim();
-  const endDate = String(movie?.endDate ?? "").trim();
-  const validDate = (value) => {
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
-    const date = new Date(`${value}T00:00:00`);
-    return Number.isFinite(date.getTime()) && date.toISOString().slice(0, 10) === value;
-  };
+  const release = releaseMoment(movie);
+  const endDate = releaseDateKey(movie?.endDate);
 
-  if (validDate(releaseDate) && today < releaseDate) {
-    return { kind: "upcoming", date: releaseDate };
+  if (release && today < release.dateKey) {
+    return { kind: "upcoming", date: release.dateKey };
   }
-  if (validDate(endDate) && today > endDate) {
+  if (endDate && today > endDate) {
     return { kind: "expired", date: endDate };
   }
   return null;
@@ -298,9 +277,9 @@ function resolveUnavailableState(movie, source, trailerUrl) {
   if (availability?.kind === "upcoming") {
     return {
       icon: "schedule",
-      title: "Phim chưa được phát hành",
+      title: "PHIM SẮP CHIẾU",
       message: `Phim bắt đầu được xem trên MovieF từ ngày ${formatDate(availability.date)}.`,
-      trailerUrl,
+      trailerUrl: "",
     };
   }
   if (availability?.kind === "expired") {
@@ -317,9 +296,9 @@ function resolveUnavailableState(movie, source, trailerUrl) {
   if (release && Date.now() < release.at) {
     return {
       icon: "schedule",
-      title: "Phim chưa được phát hành",
+      title: "PHIM SẮP CHIẾU",
       message: `Phim sẽ được công chiếu vào ${release.label}.`,
-      trailerUrl,
+      trailerUrl: "",
     };
   }
 
@@ -510,13 +489,47 @@ function hideVideoState() {
 }
 
 /**
+ * Trạng thái khóa phim sắp chiếu.
+ *
+ * Không gắn src, không hiện trailer và không render danh sách tập ở bước này;
+ * khi tới ngày phát hành, `startPlayback` chạy lại và render mọi thứ một lần.
+ */
+function showReleaseLocked(movie, catalog, availability, retry) {
+  playbackLocked = true;
+
+  const body = document.getElementById("movieBody");
+  fillMovieInfo(movie, catalog, { url: "", isSample: false }, null);
+
+  const sourceCell = document.querySelector(
+    "[data-bind='movie-video-source']",
+  );
+  if (sourceCell) sourceCell.textContent = "Chưa đến ngày phát hành";
+
+  const backLink = stateEls().back;
+  if (backLink) backLink.href = detailUrl(movie.id);
+
+  showVideoState({
+    icon: "schedule",
+    title: "PHIM SẮP CHIẾU",
+    message: `Phim bắt đầu được xem trên MovieF từ ngày ${formatDate(
+      availability.date,
+    )}.`,
+    trailerUrl: "",
+  });
+
+  body?.classList.remove("hidden");
+  renderRelated(catalog, movie);
+  scheduleReleaseUnlock(movie, retry);
+}
+
+/**
  * Phát trailer thay cho video chính.
  *
  * Trailer chỉ là bản xem trước: gán vào CÙNG một #watchVideo, không tạo player
  * mới, và không thay đổi nguồn video chính đã lưu trong player.src trước đó.
  */
 function playTrailer(url) {
-  if (!url) return;
+  if (!url || playbackLocked) return;
   const video = bindPlayer();
   if (!video) return;
 
@@ -587,6 +600,13 @@ const player = {
   fullscreenBtn: null,
   fullscreenIcon: null,
 };
+
+/**
+ * Chặn phát khi phim chưa tới ngày phát hành.
+ * Đây là lớp bảo vệ phía giao diện, không thay thế được việc bảo vệ file video
+ * ở máy chủ (xem ghi chú trong phần báo cáo).
+ */
+let playbackLocked = false;
 
 /** Định dạng 0:07 / 1:02:03 cho hiển thị. */
 const clock = (seconds) => {
@@ -944,6 +964,11 @@ function bindPlayer() {
   });
 
   video.addEventListener("play", () => {
+    // Phòng thủ: dù ai đó gán src trực tiếp, phim sắp chiếu vẫn không phát.
+    if (playbackLocked) {
+      video.pause();
+      return;
+    }
     updateSeekButtons();
     paintPlayIcon();
   });
@@ -1064,6 +1089,7 @@ function bindPlayer() {
  * phim không tạo ra player mới và không tải lại cùng một file.
  */
 function mountPlayer(url) {
+  if (playbackLocked) return null;
   const video = bindPlayer();
   if (!video) return null;
 
@@ -1348,6 +1374,54 @@ async function handleVideoEnded() {
  * ------------------------------------------------------------------ */
 
 let started = false;
+/** Thông tin của lần hẹn mở khóa đang chờ (nếu có). */
+let releaseUnlock = null;
+let releaseUnlockTimer = null;
+
+function stopReleaseUnlockTimer() {
+  if (releaseUnlockTimer !== null) {
+    window.clearTimeout(releaseUnlockTimer);
+    releaseUnlockTimer = null;
+  }
+}
+
+/**
+ * Hẹn chạy lại luồng phát đúng lúc phim tới ngày phát hành.
+ * Không dùng setInterval: phim có thể còn nhiều ngày, chỉ cần một timeout.
+ */
+function scheduleReleaseUnlock(movie, callback) {
+  stopReleaseUnlockTimer();
+  const release = readReleaseMoment(movie);
+  if (!release) return;
+
+  releaseUnlock = { movie, callback };
+
+  const finish = () => {
+    releaseUnlock = null;
+    callback();
+  };
+  const remaining = release.at - Date.now();
+
+  if (remaining <= 0) {
+    releaseUnlockTimer = window.setTimeout(finish, 0);
+    return;
+  }
+
+  releaseUnlockTimer = window.setTimeout(() => {
+    releaseUnlockTimer = null;
+    if (Date.now() < release.at) {
+      scheduleReleaseUnlock(movie, callback);
+      return;
+    }
+    finish();
+  }, Math.min(remaining + 250, 2147483647));
+}
+
+/** Quay lại từ tab/bfcache: kiểm tra lại mốc phát hành. */
+function resumeReleaseUnlock() {
+  if (!releaseUnlock) return;
+  scheduleReleaseUnlock(releaseUnlock.movie, releaseUnlock.callback);
+}
 
 async function init() {
   if (started) return;
@@ -1402,6 +1476,34 @@ async function init() {
   // Nút quay lại luôn trỏ về trang chi tiết của phim này.
   document.getElementById("backToDetail").href = detailUrl(movie.id);
   document.getElementById("backToDetailInline").href = detailUrl(movie.id);
+
+  await startPlayback(movie, catalog, episodeId, autoplayNext);
+}
+
+/**
+ * Luồng phát chính. Tách khỏi init để có thể chạy lại khi phim vừa tới ngày
+ * phát hành mà không cần tải lại trang.
+ */
+async function startPlayback(movie, catalog, episodeId, autoplayNext) {
+  const container = document.getElementById("videoContainer");
+  const body = document.getElementById("movieBody");
+  if (!container || !body) return;
+
+  // Kiểm tra phát hành TRƯỚC khi đọc tập/nguồn: không để lỗi tập phim che mất
+  // trạng thái "sắp chiếu", và không tải bất kỳ nguồn video nào.
+  const releaseAvailability = movieAvailabilityState(movie);
+  if (releaseAvailability?.kind === "upcoming") {
+    showReleaseLocked(movie, catalog, releaseAvailability, () => {
+      startPlayback(movie, catalog, episodeId, autoplayNext).catch((error) => {
+        console.error("[watch] Không thể mở khóa phim:", error);
+      });
+    });
+    return;
+  }
+
+  stopReleaseUnlockTimer();
+  releaseUnlock = null;
+  playbackLocked = false;
 
   /* ------------------------------------------------------------------ *
    * Chức năng 3: xem một tập phim bộ (?episode=<episodeId>)
@@ -1530,6 +1632,14 @@ async function init() {
     if (attempt && typeof attempt.catch === "function") attempt.catch(() => {});
   }
 }
+
+window.addEventListener("pagehide", stopReleaseUnlockTimer);
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted) resumeReleaseUnlock();
+});
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) resumeReleaseUnlock();
+});
 
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", init, { once: true });

@@ -11,6 +11,32 @@ import { isActive, loadSeriesData } from "./series-data.js";
 
 const header = document.querySelector("#user");
 
+const PAYMENT_API = "http://localhost:3002";
+
+async function getMembershipBadge(user) {
+  let accessByUser = {};
+  try {
+    accessByUser = JSON.parse(localStorage.getItem("moviefOrderAccess") || "{}");
+  } catch {
+    localStorage.removeItem("moviefOrderAccess");
+  }
+  const accessToken = accessByUser[String(user.id)];
+  if (!accessToken) return '<span class="text-xs text-on-surface-variant">Free</span>';
+  try {
+    const response = await fetch(
+      `${PAYMENT_API}/api/membership/status?userId=${encodeURIComponent(String(user.id))}`,
+      { headers: { "x-order-access-token": accessToken } },
+    );
+    const result = await response.json();
+    if (response.ok && result.success && result.data.active) {
+      return '<span class="inline-flex items-center gap-1 text-xs font-semibold text-amber-300"><span class="material-symbols-outlined text-base">diamond</span>Premium</span>';
+    }
+  } catch (error) {
+    console.warn("Không tải được trạng thái hội viên:", error);
+  }
+  return '<span class="text-xs text-on-surface-variant">Free</span>';
+}
+
 const userData = localStorage.getItem("currentUser");
 const user = userData ? JSON.parse(userData) : null;
 
@@ -22,9 +48,12 @@ async function renderUser() {
     const idRole = String(user.roleId);
     const role = await api.get(`/roles/${idRole}`);
     const roleNameUser = role.name;
+    const membershipBadge = await getMembershipBadge(user);
 
     header.innerHTML = `
   <div class="relative">
+
+    <div class="absolute right-full top-1/2 -translate-y-1/2 mr-2 whitespace-nowrap">${membershipBadge}</div>
 
     <button
       id="userButton"
@@ -147,6 +176,7 @@ async function renderUser() {
   if (logoutBtn) {
     logoutBtn.addEventListener("click", () => {
       localStorage.removeItem("currentUser");
+      window.dispatchEvent(new CustomEvent("movief:account-changed"));
 
       renderUser();
 
@@ -171,6 +201,16 @@ async function renderUser() {
 }
 
 renderUser();
+
+window.addEventListener("storage", (event) => {
+  if (event.key === "currentUser" || event.key === "moviefOrderAccess") {
+    renderUser();
+  }
+});
+
+window.addEventListener("movief:membership-updated", renderUser);
+window.addEventListener("movief:account-changed", renderUser);
+window.addEventListener("focus", renderUser);
 
 const loginUrl = document.querySelector("#loginBtn");
 if (loginUrl) {
