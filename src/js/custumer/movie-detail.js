@@ -27,6 +27,7 @@ import {
   probeImage,
   qualityLabel,
   ratingCount,
+  releaseState,
   sameId,
   watchUrl,
 } from "./movie-data.js";
@@ -547,6 +548,11 @@ function notifyWatchTargetError(reason) {
 function bindWatchButton(movie) {
   const watch = bind("watch");
   if (!watch || !isSeriesMovie(movie)) return;
+  // Chưa tới ngày phát hành thì không gắn điều hướng xem tập.
+  if (releaseState(movie).kind === "upcoming") return;
+  // Hàm có thể được gọi lại khi đồng hồ vừa chạm mốc phát hành.
+  if (watch.dataset.watchBound === "1") return;
+  watch.dataset.watchBound = "1";
 
   let resolving = false;
 
@@ -597,6 +603,87 @@ let selectedRating = 5;
 let editingReviewId = null;
 /** Chống bấm Gửi/Cập nhật nhiều lần khi request trước chưa xong. */
 let isReviewSubmitting = false;
+/** Hẹn giờ mở khóa nút xem khi phim vừa tới ngày phát hành. */
+let releaseGateTimer = null;
+
+function clearReleaseGateTimer() {
+  if (releaseGateTimer !== null) {
+    window.clearTimeout(releaseGateTimer);
+    releaseGateTimer = null;
+  }
+}
+
+/**
+ * Khóa/mở nút "Xem phim" theo ngày phát hành.
+ *
+ * Phim sắp chiếu vẫn xem được thông tin, nhưng nút bị vô hiệu hóa và trailer
+ * bị ẩn để không có đường vào trình phát. Khi đồng hồ chạm mốc, hàm tự chạy
+ * lại, khôi phục nút (kể cả href tập phim bộ) mà không cần tải lại trang.
+ *
+ * Phim thiếu/không hợp lệ releaseDate giữ nguyên hành vi cũ — không tự đoán
+ * là đã phát hành, cũng không tạo đồng hồ giả.
+ */
+function applyWatchReleaseGate(movie) {
+  clearReleaseGateTimer();
+
+  const watch = bind("watch");
+  if (!watch) return;
+
+  const state = releaseState(movie);
+  const label = watch.querySelector("span:last-child");
+  const trailer = bind("trailer");
+
+  if (state.kind === "upcoming") {
+    watch.removeAttribute("href");
+    watch.setAttribute("aria-disabled", "true");
+    watch.setAttribute("aria-label", "Chưa đến ngày phát hành");
+    watch.setAttribute("title", `Phim bắt đầu từ ${state.moment.label}`);
+    watch.tabIndex = -1;
+    watch.style.pointerEvents = "none";
+    watch.style.opacity = "0.65";
+    watch.style.cursor = "not-allowed";
+    if (label) label.textContent = "Chưa đến ngày phát hành";
+
+    if (trailer) {
+      // Chỉ ghi nhớ trạng thái ban đầu một lần; các lần gia hạn timer sau
+      // không được ghi đè thành "đang ẩn" rồi làm mất nút trailer khi mở khóa.
+      if (trailer.dataset.releaseWasVisible === undefined) {
+        trailer.dataset.releaseWasVisible = trailer.hidden ? "" : "1";
+      }
+      trailer.hidden = true;
+    }
+
+    const delay = Math.max(0, state.target - Date.now()) + 250;
+    releaseGateTimer = window.setTimeout(() => {
+      releaseGateTimer = null;
+      applyWatchReleaseGate(movie);
+    }, Math.min(delay, 2147483647));
+    return;
+  }
+
+  watch.removeAttribute("aria-disabled");
+  watch.removeAttribute("aria-label");
+  watch.removeAttribute("title");
+  watch.removeAttribute("tabindex");
+  watch.style.pointerEvents = "";
+  watch.style.opacity = "";
+  watch.style.cursor = "";
+  if (label) label.textContent = "Xem phim";
+
+  if (trailer) {
+    if (trailer.dataset.releaseWasVisible === "1") trailer.hidden = false;
+    delete trailer.dataset.releaseWasVisible;
+  }
+
+  if (isSeriesMovie(movie)) {
+    // Giữ href tập đã resolve; nếu đang bị khóa thì đặt href nền trước để
+    // chuột giữa vẫn mở được, sau đó bindWatchButton sẽ thay bằng tập cụ thể.
+    if (!watch.getAttribute("href")) watch.href = watchUrl(movie.id);
+    bindWatchButton(movie);
+  } else {
+    watch.href = watchUrl(movie.id);
+  }
+}
 
 function getCurrentUser() {
   const raw = localStorage.getItem("currentUser");
@@ -914,6 +1001,7 @@ async function init() {
   showMovieBody();
   await renderMedia(movie);
   renderHeadline(movie, catalog);
+  applyWatchReleaseGate(movie);
   bindWatchButton(movie);
   renderRating(movie, catalog);
   renderRatingSummary(movie, catalog);
@@ -937,6 +1025,14 @@ async function init() {
 
   console.info(`[movie-detail] Đã hiển thị phim #${movie.id} — ${movie.title}`);
 }
+
+window.addEventListener("pagehide", clearReleaseGateTimer);
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted && currentMovie) applyWatchReleaseGate(currentMovie);
+});
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden && currentMovie) applyWatchReleaseGate(currentMovie);
+});
 
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", init, { once: true });
