@@ -48,6 +48,23 @@ function ratingBadge(movie, reviews) {
                 </div>`;
 }
 
+function availabilityBadge(movie) {
+  const now = new Date();
+  const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+  const releaseDate = String(movie?.releaseDate ?? "");
+  const endDate = String(movie?.endDate ?? "");
+  if (/^\d{4}-\d{2}-\d{2}$/.test(releaseDate) && today < releaseDate) {
+    return `<span class="absolute bottom-2 left-2 z-10 rounded bg-sky-700/90 px-2 py-1 text-[10px] font-bold text-white">Sắp công chiếu</span>`;
+  }
+  if (/^\d{4}-\d{2}-\d{2}$/.test(endDate) && today <= endDate) {
+    const remaining = Math.floor((new Date(`${endDate}T00:00:00`) - new Date(`${today}T00:00:00`)) / 86400000);
+    if (remaining <= 7) {
+      return `<span class="absolute bottom-2 left-2 z-10 rounded bg-amber-600/90 px-2 py-1 text-[10px] font-bold text-white">Còn ${remaining} ngày</span>`;
+    }
+  }
+  return "";
+}
+
 /**
  * Dựng HTML một thẻ phim.
  * @param {object} movie    phim đã chuẩn hoá
@@ -94,7 +111,7 @@ export function renderMovieCard(movie, catalog, options = {}) {
                   decoding="async"
                   loading="lazy"
                   src="${escapeHtml(movie.poster || POSTER_FALLBACK)}"
-                />${qualityBadge(movie)}${ratingBadge(movie, catalog.reviews)}
+                />${qualityBadge(movie)}${ratingBadge(movie, catalog.reviews)}${availabilityBadge(movie)}
                 <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                   <div class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-lg shadow-primary-container/40 transform scale-75 group-hover:scale-100 transition-transform duration-300">
                     <span class="material-symbols-outlined text-2xl" style="font-variation-settings: &quot;FILL&quot; 1">play_arrow</span>

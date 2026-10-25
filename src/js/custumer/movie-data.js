@@ -296,6 +296,8 @@ function normalizeMovie(raw) {
     genreIds: toList(raw.genre),
     quality: String(raw.quality ?? "").trim(),
     status: normalizeStatus(raw.status),
+    releaseDate: String(raw.releaseDate ?? "").trim(),
+    endDate: String(raw.endDate ?? "").trim() || null,
     views: toNumber(raw.views) ?? 0,
     trailer: mediaUrl(raw.trailer),
     video: mediaUrl(raw.video),
@@ -316,6 +318,13 @@ async function isRenderable(movie) {
   if (!movie.title) return false;
   if (movie.status && movie.status.toLowerCase() !== ACTIVE_STATUS)
     return false;
+
+  // Date-only end dates are inclusive; legacy records without dates remain available.
+  if (/^\d{4}-\d{2}-\d{2}$/.test(movie.endDate || "")) {
+    const now = new Date();
+    const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+    if (today > movie.endDate) return false;
+  }
 
   if (movie.poster && (await probeImage(movie.poster))) return true;
 

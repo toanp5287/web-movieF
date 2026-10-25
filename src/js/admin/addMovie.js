@@ -79,6 +79,22 @@ function toDateString(date) {
   return `${date.getFullYear()}-${month}-${day}`;
 }
 
+function getDateInputValue(id) {
+  const el = document.getElementById(id);
+  if (!el) return "";
+  const val = (el.value || "").trim();
+  return val === "" ? "" : val;
+}
+
+function validateDateRange(start, end) {
+  if (!start || !end) return { ok: true };
+  // YYYY-MM-DD string compare works lexicographically
+  if (end < start) {
+    return { ok: false, message: "Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu phát hành." };
+  }
+  return { ok: true };
+}
+
 // ======================================================
 // UPLOAD FILE
 // ======================================================
@@ -496,6 +512,33 @@ async function initAddMovieForm() {
 
           </div>
 
+
+          <!-- THỜI GIAN PHÁT HÀNH -->
+
+          <div class="bg-zinc-900/70 border border-zinc-800/80 rounded-2xl p-6 space-y-4">
+            <h2 class="text-base font-bold text-zinc-100 flex items-center gap-2 pb-3 border-b border-zinc-800">
+              <span class="material-symbols-outlined text-brand">calendar_month</span>
+              Thời gian phát hành
+            </h2>
+
+            <div class="space-y-2">
+              <label for="releaseDate" class="block text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                Ngày bắt đầu phát hành
+              </label>
+              <input id="releaseDate" name="releaseDate" type="date"
+                class="w-full px-3 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-white text-sm" />
+              <p class="text-[11px] text-zinc-500">Phim chưa đến ngày sẽ hiển thị là sắp công chiếu.</p>
+            </div>
+
+            <div class="space-y-2">
+              <label for="endDate" class="block text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                Ngày ngừng phát hành
+              </label>
+              <input id="endDate" name="endDate" type="date"
+                class="w-full px-3 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-white text-sm" />
+              <p class="text-[11px] text-zinc-500">Để trống nếu không giới hạn. Ngày này vẫn xem được; hết hạn từ ngày kế tiếp.</p>
+            </div>
+          </div>
 
           <!-- MEDIA -->
 
@@ -950,6 +993,14 @@ async function handleSubmitForm(e) {
     return;
   }
 
+  const releaseDate = getDateInputValue("releaseDate");
+  const endDate = getDateInputValue("endDate");
+  const dateRange = validateDateRange(releaseDate, endDate);
+  if (!dateRange.ok) {
+    Swal.fire({ icon: "warning", title: "Ngày không hợp lệ", text: dateRange.message });
+    return;
+  }
+
   // ====================================================
   // LẤY FILE
   // ====================================================
@@ -1071,6 +1122,9 @@ async function handleSubmitForm(e) {
       views: 0,
 
       createdAt: toDateString(new Date()),
+
+      ...(releaseDate ? { releaseDate } : {}),
+      endDate: endDate || null,
 
       // quality là field tuỳ chọn trong db.json: chỉ ghi khi thật sự chọn.
       ...(quality ? { quality: quality } : {}),

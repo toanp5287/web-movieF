@@ -5,9 +5,7 @@ await kiemTraDangNhapAdmin();
 const loadMovies = async () => {
   try {
     const res = await api.get("/movies");
-    const movies = res.filter((item) => item.status !== "Inactive");
-
-    return movies;
+    return Array.isArray(res) ? res : [];
   } catch (error) {
     console.log(error);
     return [];
@@ -38,6 +36,8 @@ let ratingMap = new Map();
 
 const searchInput = document.querySelector("#searchInput");
 const genreFilter = document.querySelector("#genreFilter");
+const statusFilter = document.querySelector("#statusFilter");
+const typeFilter = document.querySelector("#typeFilter");
 
 /** Bỏ dấu + hạ chữ thường để tìm không phân biệt tiếng Việt/Anh. */
 const fold = (value) =>
@@ -136,6 +136,19 @@ function getGenreNames(movie) {
     .join(", ");
 }
 
+function getAvailabilityLabel(movie) {
+  const today = new Date();
+  const date = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+  if (/^\d{4}-\d{2}-\d{2}$/.test(movie.releaseDate || "") && date < movie.releaseDate) {
+    return `<span class="text-sky-300">Sắp công chiếu: ${movie.releaseDate}</span>`;
+  }
+  if (/^\d{4}-\d{2}-\d{2}$/.test(movie.endDate || "") && date <= movie.endDate) {
+    const remaining = Math.round((new Date(`${movie.endDate}T00:00:00`) - new Date(`${date}T00:00:00`)) / 86400000);
+    if (remaining <= 7) return `<span class="text-amber-300">Sắp ngừng: ${movie.endDate} (${remaining} ngày)</span>`;
+  }
+  return "";
+}
+
 /** Đổ danh sách thể loại từ db vào select, không tạo thể loại mới. */
 function renderGenreOptions() {
   if (!genreFilter) return;
@@ -155,6 +168,8 @@ function renderGenreOptions() {
 function getFilteredMovies() {
   const keyword = fold(searchInput?.value ?? "").trim();
   const genreId = String(genreFilter?.value ?? "").trim();
+  const status = String(statusFilter?.value ?? "").trim();
+  const type = String(typeFilter?.value ?? "").trim();
 
   return masterMovies.filter((movie) => {
     const matchName = !keyword || fold(movie.title).includes(keyword);
@@ -162,7 +177,19 @@ function getFilteredMovies() {
     const matchGenre =
       !genreId || toGenreIdList(movie.genre).some((id) => id === genreId);
 
-    return matchName && matchGenre;
+    const rawStatus = String(movie.status ?? "").toLowerCase();
+    const normalizedStatus = movie.status === true || rawStatus === "published"
+      ? "published"
+      : movie.status === false || rawStatus === "draft"
+        ? "draft"
+        : rawStatus === "inactive"
+          ? "inactive"
+          : "unknown";
+    const matchStatus = !status || status === normalizedStatus;
+    const normalizedType = String(movie.type ?? "movie").toLowerCase();
+    const matchType = !type || (type === "series" ? ["series", "tv", "show"].includes(normalizedType) : !["series", "tv", "show"].includes(normalizedType));
+
+    return matchName && matchGenre && matchStatus && matchType;
   });
 }
 
@@ -191,6 +218,8 @@ function applyFilter() {
 function resetFilter() {
   if (searchInput) searchInput.value = "";
   if (genreFilter) genreFilter.value = "";
+  if (statusFilter) statusFilter.value = "";
+  if (typeFilter) typeFilter.value = "";
 
   currentPage = 1;
   renderMovies(masterMovies);
@@ -198,6 +227,8 @@ function resetFilter() {
 
 searchInput?.addEventListener("input", applyFilter);
 genreFilter?.addEventListener("change", applyFilter);
+statusFilter?.addEventListener("change", applyFilter);
+typeFilter?.addEventListener("change", applyFilter);
 
 window.applyFilter = applyFilter;
 window.resetFilter = resetFilter;
@@ -330,6 +361,7 @@ function renderMovies(loadMovies) {
                       : "Chưa xác định"
               }
             </span>
+            ${getAvailabilityLabel(movie) ? `<div class="mt-1 text-xs">${getAvailabilityLabel(movie)}</div>` : ""}
           </td>
 
           <td class="py-3.5 px-space-md text-right pr-space-lg">
@@ -813,6 +845,18 @@ window.editMovie = editMovie;
 // xoá mềm phim
 async function deleteMovie(id) {
   try {
+    const movie = masterMovies.find((item) => String(item.id) === String(id));
+    const confirmation = await Swal.fire({
+      icon: "warning",
+      title: "Ẩn phim này?",
+      text: `Phim “${movie?.title || id}” sẽ được chuyển vào mục đã ẩn.`,
+      showCancelButton: true,
+      confirmButtonText: "Ẩn phim",
+      cancelButtonText: "Hủy",
+      confirmButtonColor: "#dc2626",
+    });
+    if (!confirmation.isConfirmed) return;
+
     await api.patch(`/movies/${id}`, {
       status: "Inactive",
     });

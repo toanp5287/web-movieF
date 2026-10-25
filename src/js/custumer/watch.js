@@ -258,6 +258,26 @@ function readReleaseMoment(movie) {
   };
 }
 
+/** Date-only availability uses the visitor's local calendar day. The end date is inclusive. */
+function movieAvailabilityState(movie, now = new Date()) {
+  const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+  const releaseDate = String(movie?.releaseDate ?? "").trim();
+  const endDate = String(movie?.endDate ?? "").trim();
+  const validDate = (value) => {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+    const date = new Date(`${value}T00:00:00`);
+    return Number.isFinite(date.getTime()) && date.toISOString().slice(0, 10) === value;
+  };
+
+  if (validDate(releaseDate) && today < releaseDate) {
+    return { kind: "upcoming", date: releaseDate };
+  }
+  if (validDate(endDate) && today > endDate) {
+    return { kind: "expired", date: endDate };
+  }
+  return null;
+}
+
 /**
  * Quyết định trạng thái hiển thị khi phim KHÔNG có video chính.
  *
@@ -274,6 +294,24 @@ function readReleaseMoment(movie) {
  *          null nghĩa là có video chính hợp lệ -> phát bình thường.
  */
 function resolveUnavailableState(movie, source, trailerUrl) {
+  const availability = movieAvailabilityState(movie);
+  if (availability?.kind === "upcoming") {
+    return {
+      icon: "schedule",
+      title: "Phim chưa được phát hành",
+      message: `Phim bắt đầu được xem trên MovieF từ ngày ${formatDate(availability.date)}.`,
+      trailerUrl,
+    };
+  }
+  if (availability?.kind === "expired") {
+    return {
+      icon: "event_busy",
+      title: "Phim đã ngừng phát hành",
+      message: `Ngày cuối cùng được xem là ${formatDate(availability.date)}.`,
+      trailerUrl,
+    };
+  }
+
   const release = readReleaseMoment(movie);
 
   if (release && Date.now() < release.at) {
@@ -1405,6 +1443,7 @@ async function init() {
     container.dataset.episodeId = String(episode.id);
   }
 
+  const availability = movieAvailabilityState(movie);
   const source = episode
     ? await resolveEpisodeSource(episode)
     : await resolveVideoSource(movie);
@@ -1414,7 +1453,9 @@ async function init() {
 
   // Phân biệt "không có video chính" với "có URL nhưng tải lỗi" (trường hợp C,
   // do event `error` của <video> xử lý qua overlay #videoError).
-  const unavailable = episode
+  const unavailable = availability
+    ? resolveUnavailableState(movie, source, trailerUrl)
+    : episode
     ? source.url
       ? null
       : {

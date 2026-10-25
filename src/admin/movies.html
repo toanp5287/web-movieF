@@ -540,18 +540,26 @@
               <!-- Trang Thai -->
               <div class="relative hidden md:block shrink-0">
                 <select
+                  id="statusFilter"
                   class="h-10 appearance-none bg-transparent text-zinc-300 text-xs font-medium pl-3 pr-8 cursor-pointer focus:outline-none hover:text-white transition-colors"
                 >
-                  <option class="bg-zinc-900 text-zinc-200">
-                    Mọi trạng thái
-                  </option>
-                  <option class="bg-zinc-900 text-zinc-200">Đang chiếu</option>
-                  <option class="bg-zinc-900 text-zinc-200">Bản nháp</option>
+                  <option value="" class="bg-zinc-900 text-zinc-200">Mọi trạng thái</option>
+                  <option value="published" class="bg-zinc-900 text-zinc-200">Đã xuất bản</option>
+                  <option value="draft" class="bg-zinc-900 text-zinc-200">Bản nháp</option>
+                  <option value="inactive" class="bg-zinc-900 text-zinc-200">Đã ẩn</option>
                 </select>
                 <span
                   class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none text-base"
                   >expand_more</span
                 >
+              </div>
+
+              <div class="relative hidden md:block shrink-0">
+                <select id="typeFilter" class="h-10 appearance-none bg-transparent text-zinc-300 text-xs font-medium pl-3 pr-8 cursor-pointer focus:outline-none hover:text-white transition-colors">
+                  <option value="" class="bg-zinc-900 text-zinc-200">Mọi loại phim</option>
+                  <option value="movie" class="bg-zinc-900 text-zinc-200">Phim lẻ</option>
+                  <option value="series" class="bg-zinc-900 text-zinc-200">Phim bộ</option>
+                </select>
               </div>
 
               <!-- Submit Button -->

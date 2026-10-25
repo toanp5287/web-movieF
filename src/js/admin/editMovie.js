@@ -385,6 +385,19 @@ async function getMovie(id) {
     </div>
   </div>
 
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <label for="releaseDate" class="block mb-2 text-sm font-semibold text-gray-200">Ngày bắt đầu phát hành</label>
+      <input id="releaseDate" type="date" value="${escapeHtml(movie.releaseDate || "")}" class="w-full px-4 py-3 rounded-xl bg-cinema-950 border border-cinema-700/70 text-white" />
+      <p class="text-xs text-gray-400 mt-2">Ngày này là thời điểm bắt đầu xem trên MovieF, không phải năm sản xuất.</p>
+    </div>
+    <div>
+      <label for="endDate" class="block mb-2 text-sm font-semibold text-gray-200">Ngày cuối cùng được xem</label>
+      <input id="endDate" type="date" value="${escapeHtml(movie.endDate || "")}" class="w-full px-4 py-3 rounded-xl bg-cinema-950 border border-cinema-700/70 text-white" />
+      <p class="text-xs text-gray-400 mt-2">Để trống nếu không giới hạn; phim hết hạn từ ngày kế tiếp.</p>
+    </div>
+  </div>
+
   <!-- Thể loại -->
   <div>
     <label
@@ -888,6 +901,8 @@ async function editMovie(id, oldMovie) {
     ).map((box) => box.value);
 
     const status = document.getElementById("status").value;
+    const releaseDate = document.getElementById("releaseDate").value.trim();
+    const endDate = document.getElementById("endDate").value.trim();
 
     const actors = document
       .getElementById("actors")
@@ -913,6 +928,10 @@ async function editMovie(id, oldMovie) {
 
     if (Number.isNaN(duration)) {
       throw new Error("Thời lượng phải là số phút lớn hơn hoặc bằng 0!");
+    }
+
+    if (releaseDate && endDate && endDate < releaseDate) {
+      throw new Error("Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu phát hành!");
     }
 
     if (!MOVIE_STATUSES.some((item) => item.value === status)) {
@@ -989,6 +1008,7 @@ async function editMovie(id, oldMovie) {
     // Giữ nguyên id / views / createdAt; các field khác lấy từ form.
     // `quality` là field tuỳ chọn: xoá hẳn key nếu không chọn.
     const movieData = {
+      ...oldMovie,
       id: id,
 
       title: title,
@@ -1023,7 +1043,10 @@ async function editMovie(id, oldMovie) {
 
       createdAt: oldMovie.createdAt,
 
-      ...(quality ? { quality: quality } : {}),
+      releaseDate: releaseDate || null,
+      endDate: endDate || null,
+
+      ...(quality ? { quality: quality } : { quality: oldMovie.quality }),
     };
 
     console.log("📦 DATA UPDATE:", movieData);
