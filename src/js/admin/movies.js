@@ -138,15 +138,16 @@ function getGenreNames(movie) {
 
 function getAdminMovieStatus(movie) {
   const rawStatus = String(movie?.status ?? "").trim().toLowerCase();
-  const isPublished = movie?.status === true || rawStatus === "published";
-  const endDate = String(movie?.endDate ?? "").trim();
+  const published = movie?.status === true || rawStatus === "published";
 
-  if (isPublished) {
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(endDate)) return "published";
-
-    const now = new Date();
-    const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
-    return today > endDate ? "expired" : "published";
+  if (published) {
+    const endDate = String(movie?.endDate ?? "").trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(endDate)) {
+      const now = new Date();
+      const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+      if (today > endDate) return "expired";
+    }
+    return "published";
   }
 
   if (movie?.status === false || rawStatus === "draft") return "draft";
@@ -182,6 +183,7 @@ function getAvailabilityLabel(movie) {
   }
   if (/^\d{4}-\d{2}-\d{2}$/.test(movie.endDate || "") && date <= movie.endDate) {
     const remaining = Math.round((new Date(`${movie.endDate}T00:00:00`) - new Date(`${date}T00:00:00`)) / 86400000);
+    if (remaining === 0) return "";
     if (remaining <= 7) return `<span class="text-amber-300">Sắp ngừng: ${movie.endDate} (${remaining} ngày)</span>`;
   }
   return "";

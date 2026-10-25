@@ -68,9 +68,8 @@ function availabilityBadge(movie) {
   }
   if (/^\d{4}-\d{2}-\d{2}$/.test(endDate) && today <= endDate) {
     const remaining = Math.floor((new Date(`${endDate}T00:00:00`) - new Date(`${today}T00:00:00`)) / 86400000);
-    if (remaining <= 3) {
-      return `<span class="rounded bg-amber-600/90 px-2 py-1 text-[10px] font-bold text-white">Sắp hết công chiếu</span>`;
-    }
+    if (remaining === 0) return "";
+    if (remaining <= 3) return `<span class="rounded bg-amber-600/90 px-2 py-1 text-[10px] font-bold text-white">Sắp hết công chiếu</span>`;
     return `<span class="rounded bg-amber-600/90 px-2 py-1 text-[10px] font-bold text-white">Còn ${remaining} ngày</span>`;
   }
   return "";
@@ -122,7 +121,11 @@ export function renderMovieCard(movie, catalog, options = {}) {
                   decoding="async"
                   loading="lazy"
                   src="${escapeHtml(movie.poster || POSTER_FALLBACK)}"
-                />${qualityBadge(movie)}${ratingBadge(movie, catalog.reviews)}${availabilityBadge(movie)}${vipBadge(movie)}
+                />
+                <div class="absolute top-2.5 left-2.5 z-10 flex flex-col gap-1 items-start">
+                  ${qualityBadge(movie)}${availabilityBadge(movie)}
+                </div>
+                ${ratingBadge(movie, catalog.reviews)}
                 <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                   <div class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-lg shadow-primary-container/40 transform scale-75 group-hover:scale-100 transition-transform duration-300">
                     <span class="material-symbols-outlined text-2xl" style="font-variation-settings: &quot;FILL&quot; 1">play_arrow</span>

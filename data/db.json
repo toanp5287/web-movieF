@@ -71,7 +71,10 @@
       "dob": "1995-08-15",
       "gender": "nam",
       "birthday": "1995-08-15",
-      "bio": "Khám phá thế giới điện ảnh cùng MovieF."
+      "bio": "Khám phá thế giới điện ảnh cùng MovieF.",
+      "membershipStatus": "active",
+      "membershipStartsAt": "2026-10-25T20:34:02.740Z",
+      "membershipExpiresAt": "2027-01-23T20:34:02.740Z"
     },
     {
       "id": "2",
@@ -231,72 +234,33 @@
       "paidAt": "2026-10-25T18:25:06.954Z",
       "failedAt": null,
       "failureCode": null,
-      "vnpTransactionNo": "15714586",
-      "id": 3
+      "vnpTransactionNo": "15714632",
+      "id": 1,
+      "resultCode": "00",
+      "transactionStatus": "00",
+      "membershipStartsAt": "2026-10-25T18:25:06.954Z",
+      "membershipExpiresAt": "2026-11-24T18:25:06.954Z"
     },
     {
-      "txnRef": "MF1792948863845eb297128c5",
-      "userId": "8TZCZPkPe4Q",
-      "planId": "vip-30",
-      "planName": "VIP 30 ngày",
-      "amount": 39000,
-      "durationDays": 30,
-      "provider": "VNPAY",
-      "status": "FAILED",
-      "createdAt": "2026-10-25T17:21:03.844Z",
-      "paidAt": null,
-      "failedAt": "2026-10-25T17:21:36.175Z",
-      "failureCode": "24",
-      "vnpTransactionNo": "0",
-      "id": 4
-    },
-    {
-      "txnRef": "MF1792948903096154deb6dd2",
-      "userId": "8TZCZPkPe4Q",
-      "planId": "vip-30",
-      "planName": "VIP 30 ngày",
-      "amount": 39000,
-      "durationDays": 30,
-      "provider": "VNPAY",
-      "status": "FAILED",
-      "createdAt": "2026-10-25T17:21:43.096Z",
-      "paidAt": null,
-      "failedAt": "2026-10-25T17:22:17.537Z",
-      "failureCode": "24",
-      "vnpTransactionNo": "0",
-      "id": 5
-    },
-    {
-      "txnRef": "MF17929489472682ee9df95b3",
-      "userId": "8TZCZPkPe4Q",
-      "planId": "vip-30",
-      "planName": "VIP 30 ngày",
-      "amount": 39000,
-      "durationDays": 30,
-      "provider": "VNPAY",
-      "status": "FAILED",
-      "createdAt": "2026-10-25T17:22:27.268Z",
-      "paidAt": null,
-      "failedAt": "2026-10-25T17:22:44.219Z",
-      "failureCode": "24",
-      "vnpTransactionNo": "0",
-      "id": 6
-    },
-    {
-      "txnRef": "MF17929560572535fae27281a",
-      "userId": "8TZCZPkPe4Q",
-      "planId": "vip-30",
-      "planName": "VIP 30 ngày",
-      "amount": 39000,
-      "durationDays": 30,
+      "txnRef": "MF17929603402023c9ec9d2a8",
+      "accessToken": "7d90ee8bf7a92623c8e68ab4639adae2597007b51ddf5a80147cf25ace4e5773",
+      "userId": "1",
+      "planId": "vip-90",
+      "planName": "VIP 90 ngày",
+      "amount": 99000,
+      "durationDays": 90,
       "provider": "VNPAY",
       "status": "PAID",
-      "createdAt": "2026-10-25T19:20:57.253Z",
-      "paidAt": "2026-10-25T19:22:39.156Z",
+      "createdAt": "2026-10-25T20:32:20.202Z",
+      "paidAt": "2026-10-25T20:34:02.740Z",
       "failedAt": null,
       "failureCode": null,
-      "vnpTransactionNo": "15714651",
-      "id": 7
+      "vnpTransactionNo": "15714655",
+      "id": 2,
+      "resultCode": "00",
+      "transactionStatus": "00",
+      "membershipStartsAt": "2026-10-25T20:34:02.740Z",
+      "membershipExpiresAt": "2027-01-23T20:34:02.740Z"
     }
   ],
   "season": [
@@ -497,8 +461,8 @@
       "views": 12450,
       "createdAt": "2026-09-02",
       "year": 2025,
-      "releaseDate": "2026-09-20",
-      "endDate": "2026-10-29"
+      "releaseDate": "2026-10-25",
+      "endDate": "2026-10-28"
     },
     {
       "id": "50",
@@ -962,8 +926,8 @@
       "views": 36451,
       "createdAt": "2026-09-30",
       "year": 2026,
-      "releaseDate": "2026-10-24",
-      "endDate": "2026-10-25"
+      "releaseDate": "2026-10-11",
+      "endDate": "2026-10-27"
     },
     {
       "id": "14",
@@ -1491,8 +1455,8 @@
     {
       "userId": 1,
       "movieId": 2,
-      "progress": 7,
-      "watchedAt": "2026-10-25T18:12:49",
+      "progress": 32,
+      "watchedAt": "2026-10-25T20:09:54",
       "id": "Cg6czTN"
     },
     {
@@ -1506,7 +1470,7 @@
       "userId": 1,
       "movieId": 10,
       "progress": 0,
-      "watchedAt": "2026-10-24T12:17:18",
+      "watchedAt": "2026-10-25T20:20:41",
       "id": "2cUSQhv"
     },
     {
@@ -1644,17 +1608,10 @@
     },
     {
       "userId": 1,
-      "movieId": 16,
+      "movieId": 9,
       "progress": 0,
-      "watchedAt": "2026-10-25T18:31:10",
-      "id": "1UmN0pB"
-    },
-    {
-      "userId": 1,
-      "movieId": "cUfw-tH",
-      "progress": 0,
-      "watchedAt": "2026-10-25T18:48:15",
-      "id": "4tR1Fms"
+      "watchedAt": "2026-10-25T19:11:15",
+      "id": "iJ7RCx0"
     }
   ],
   "reviews": [
@@ -1810,6 +1767,12 @@
       "keyword": "Spider-Man: No Way Home",
       "searchedAt": "2026-10-25T09:59:41.609Z",
       "id": 7
+    },
+    {
+      "userId": "1",
+      "keyword": "Inception",
+      "searchedAt": "2026-10-25T19:26:00.619Z",
+      "id": 8
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
