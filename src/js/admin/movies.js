@@ -136,6 +136,44 @@ function getGenreNames(movie) {
     .join(", ");
 }
 
+function getAdminMovieStatus(movie) {
+  const rawStatus = String(movie?.status ?? "").trim().toLowerCase();
+  const isPublished = movie?.status === true || rawStatus === "published";
+  const endDate = String(movie?.endDate ?? "").trim();
+
+  if (isPublished) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(endDate)) return "published";
+
+    const now = new Date();
+    const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+    return today > endDate ? "expired" : "published";
+  }
+
+  if (movie?.status === false || rawStatus === "draft") return "draft";
+  if (rawStatus === "inactive") return "inactive";
+  return "unknown";
+}
+
+function getStatusBadge(movie) {
+  const status = getAdminMovieStatus(movie);
+  const labels = {
+    published: "Đã phát hành",
+    expired: "Đã hết phát hành",
+    draft: "Bản nháp",
+    inactive: "Đã xóa",
+    unknown: "Chưa xác định",
+  };
+  const colors = {
+    published: "bg-emerald-500",
+    expired: "bg-zinc-400",
+    draft: "bg-amber-500",
+    inactive: "bg-rose-500",
+    unknown: "bg-zinc-500",
+  };
+
+  return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-zinc-800"><span class="w-1.5 h-1.5 rounded-full ${colors[status]}"></span>${labels[status]}</span>`;
+}
+
 function getAvailabilityLabel(movie) {
   const today = new Date();
   const date = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
@@ -177,14 +215,7 @@ function getFilteredMovies() {
     const matchGenre =
       !genreId || toGenreIdList(movie.genre).some((id) => id === genreId);
 
-    const rawStatus = String(movie.status ?? "").toLowerCase();
-    const normalizedStatus = movie.status === true || rawStatus === "published"
-      ? "published"
-      : movie.status === false || rawStatus === "draft"
-        ? "draft"
-        : rawStatus === "inactive"
-          ? "inactive"
-          : "unknown";
+    const normalizedStatus = getAdminMovieStatus(movie);
     const matchStatus = !status || status === normalizedStatus;
     const normalizedType = String(movie.type ?? "movie").toLowerCase();
     const matchType = !type || (type === "series" ? ["series", "tv", "show"].includes(normalizedType) : !["series", "tv", "show"].includes(normalizedType));
@@ -340,27 +371,7 @@ function renderMovies(loadMovies) {
           </td>
 
           <td class="py-3.5 px-space-md">
-            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-zinc-800">
-              <span class="w-1.5 h-1.5 rounded-full ${
-                movie.status === true || movie.status === "published"
-                  ? "bg-emerald-500"
-                  : movie.status === false || movie.status === "draft"
-                    ? "bg-amber-500"
-                    : movie.status === "inactive"
-                      ? "bg-rose-500"
-                      : "bg-zinc-500"
-              }"></span>
-
-              ${
-                movie.status === true || movie.status === "published"
-                  ? "Đã phát hành"
-                  : movie.status === false || movie.status === "draft"
-                    ? "Bản nháp"
-                    : movie.status === "inactive"
-                      ? "Đã xóa"
-                      : "Chưa xác định"
-              }
-            </span>
+            ${getStatusBadge(movie)}
             ${getAvailabilityLabel(movie) ? `<div class="mt-1 text-xs">${getAvailabilityLabel(movie)}</div>` : ""}
           </td>
 
