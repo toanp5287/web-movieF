@@ -1,5 +1,10 @@
 import "dotenv/config";
-import { createHmac, randomUUID, timingSafeEqual } from "node:crypto";
+import {
+  createHmac,
+  randomBytes,
+  randomUUID,
+  timingSafeEqual,
+} from "node:crypto";
 
 const JSON_SERVER_URL = process.env.JSON_SERVER_URL || "http://localhost:3000";
 
@@ -17,9 +22,11 @@ const PLANS = Object.freeze({
 
 const STATUS = Object.freeze({
   PENDING: "PENDING",
+  PROCESSING: "PROCESSING",
   PAID: "PAID",
   FAILED: "FAILED",
 });
+const processingTransactions = new Set();
 
 function fail(message, statusCode = 400) {
   const error = new Error(message);
@@ -141,9 +148,8 @@ export async function createPaymentOrder({ userId, planId, ipAddr }) {
   const normalizedUserId = String(userId);
   const plan = getPlan(planId);
 
-  const user = await requestJson(
-    `/users/${encodeURIComponent(normalizedUserId)}`,
-  );
+  const users = await requestJson("/users");
+  const user = users.find((candidate) => String(candidate.id) === normalizedUserId);
 
   if (!user) throw fail("Không tìm thấy người dùng.", 404);
 
@@ -157,12 +163,14 @@ export async function createPaymentOrder({ userId, planId, ipAddr }) {
 
   const now = new Date();
   const txnRef = makeTxnRef();
+  const accessToken = randomBytes(32).toString("hex");
 
   const order = await requestJson("/payments", {
     method: "POST",
     body: JSON.stringify({
       txnRef,
-      userId: normalizedUserId,
+      accessToken,
+      userId: String(user.id),
       planId: plan.id,
       planName: plan.name,
       amount: plan.price,
@@ -199,7 +207,8 @@ export async function createPaymentOrder({ userId, planId, ipAddr }) {
     .join("&");
 
   return {
-    order,
+    order: { txnRef: order.txnRef, status: order.status, amount: order.amount },
+    accessToken,
     plan,
     paymentUrl: `${VNP_URL}?${query}&vnp_SecureHash=${secureHash}`,
   };
@@ -243,7 +252,125 @@ async function updatePayment(order, updates) {
   });
 }
 
+function safeTokenMatch(stored, provided) {
+  if (typeof stored !== "string" || typeof provided !== "string") return false;
+  const left = Buffer.from(stored);
+  const right = Buffer.from(provided);
+  return left.length === right.length && timingSafeEqual(left, right);
+}
+
+function membershipIsActive(user, now = Date.now()) {
+  return (
+    user?.membershipStatus === "active" &&
+    typeof user.membershipExpiresAt === "string" &&
+    new Date(user.membershipExpiresAt).getTime() > now
+  );
+}
+
+export async function getMembershipStatus(userId, accessToken) {
+  if (userId === undefined || userId === null || String(userId).trim() === "") {
+    throw fail("Thiếu thông tin người dùng.", 400);
+  }
+  const user = await getUserById(userId);
+  if (!user) throw fail("Không tìm thấy người dùng.", 404);
+  const allOrders = await requestJson("/payments");
+  const paidOrders = allOrders.filter(
+    (order) => String(order.userId) === String(user.id) && order.status === STATUS.PAID,
+  );
+  const authorized = Array.isArray(paidOrders) && paidOrders.some(
+    (order) => safeTokenMatch(order.accessToken, accessToken),
+  );
+  if (!authorized) throw fail("Không có quyền xem trạng thái hội viên.", 403);
+  const membership = await getUserMembership(user, paidOrders);
+  return { active: membership.active, startsAt: membership.startsAt, expiresAt: membership.expiresAt };
+}
+
+async function getUserMembership(user, paidOrders) {
+  const orders = Array.isArray(paidOrders)
+    ? paidOrders
+    : (await requestJson("/payments")).filter(
+        (order) => String(order.userId) === String(user.id) && order.status === STATUS.PAID,
+      );
+  const datedOrders = (orders || [])
+    .filter((order) => order.status === STATUS.PAID && order.membershipStartsAt && order.membershipExpiresAt)
+    .sort((a, b) => new Date(a.membershipStartsAt) - new Date(b.membershipStartsAt));
+  if (!datedOrders.length) {
+    return {
+      active: membershipIsActive(user),
+      startsAt: user.membershipStartsAt || null,
+      expiresAt: user.membershipExpiresAt || null,
+    };
+  }
+  const latest = datedOrders.reduce((current, order) =>
+    !current || new Date(order.membershipExpiresAt) > new Date(current.membershipExpiresAt) ? order : current,
+  null);
+  return {
+    active: new Date(latest.membershipExpiresAt).getTime() > Date.now(),
+    startsAt: latest.membershipStartsAt,
+    expiresAt: latest.membershipExpiresAt,
+  };
+}
+
+export async function getPaymentResult(txnRef, accessToken) {
+  if (typeof txnRef !== "string" || !txnRef.trim()) {
+    throw fail("Thiếu mã đơn thanh toán.", 400);
+  }
+  const order = await getPaymentByTxnRef(txnRef);
+  if (!order) throw fail("Không tìm thấy đơn thanh toán.", 404);
+  if (!safeTokenMatch(order.accessToken, accessToken)) {
+    throw fail("Không có quyền xem đơn thanh toán này.", 403);
+  }
+  const user = await getUserById(order.userId);
+  const membership = order.status === STATUS.PAID
+    ? await getUserMembership(user || {}, null)
+    : null;
+  return {
+    txnRef: order.txnRef,
+    planName: order.planName,
+    amount: order.amount,
+    status: order.status,
+    provider: order.provider,
+    createdAt: order.createdAt,
+    paidAt: order.paidAt,
+    failedAt: order.failedAt,
+    failureCode: order.failureCode,
+    vnpTransactionNo: order.vnpTransactionNo,
+    membershipStartsAt: order.status === STATUS.PAID ? order.membershipStartsAt || membership?.startsAt || null : null,
+    membershipExpiresAt: order.status === STATUS.PAID ? order.membershipExpiresAt || membership?.expiresAt || null : null,
+  };
+}
+
+async function getUserById(userId) {
+  const users = await requestJson("/users");
+  return Array.isArray(users)
+    ? users.find((candidate) => String(candidate.id) === String(userId)) || null
+    : null;
+}
+
 export async function processVnpResult(query) {
+  const txnRef = query.vnp_TxnRef;
+  if (typeof txnRef !== "string" || !txnRef) {
+    throw fail("Thiếu mã tham chiếu giao dịch.");
+  }
+  if (processingTransactions.has(txnRef)) {
+    const existing = await getPaymentByTxnRef(txnRef);
+    return {
+      success: existing?.status === STATUS.PAID,
+      alreadyProcessed: true,
+      order: existing
+        ? { txnRef: existing.txnRef, status: existing.status, accessToken: existing.accessToken }
+        : null,
+    };
+  }
+  processingTransactions.add(txnRef);
+  try {
+    return await processVnpResultOnce(query);
+  } finally {
+    processingTransactions.delete(txnRef);
+  }
+}
+
+async function processVnpResultOnce(query) {
   requireVnpConfig();
 
   if (!verifyVnpSignature(query)) {
@@ -260,33 +387,91 @@ export async function processVnpResult(query) {
   }
 
   if (order.status === STATUS.PAID) {
-    return { success: true, alreadyProcessed: true, order };
+    return {
+      success: true,
+      alreadyProcessed: true,
+      order: { txnRef: order.txnRef, status: order.status, accessToken: order.accessToken },
+    };
   }
 
-  if (order.status !== STATUS.PENDING) {
-    return { success: false, alreadyProcessed: true, order };
+  if (order.status !== STATUS.PENDING && order.status !== STATUS.PROCESSING) {
+    return {
+      success: false,
+      alreadyProcessed: true,
+      order: { txnRef: order.txnRef, status: order.status, accessToken: order.accessToken },
+    };
   }
 
   const paid =
     query.vnp_ResponseCode === "00" && query.vnp_TransactionStatus === "00";
 
-  const updatedOrder = await updatePayment(order, {
-    status: paid ? STATUS.PAID : STATUS.FAILED,
-    paidAt: paid ? new Date().toISOString() : null,
-    failedAt: paid ? null : new Date().toISOString(),
-    failureCode: paid ? null : query.vnp_ResponseCode || "UNKNOWN",
-    vnpTransactionNo: query.vnp_TransactionNo || null,
-  });
+  if (paid && order.status === STATUS.PENDING) {
+    await updatePayment(order, { status: STATUS.PROCESSING });
+  }
 
-  /*
-   * Chưa kích hoạt VIP ở đây vì chưa xác định cấu trúc
-   * trường hội viên thật trong data/db.json.
-   * Chỉ cập nhật user sau khi xác minh schema và cách gia hạn.
-   */
+  let membership = null;
+  if (paid) {
+    const userId = String(order.userId);
+    const user = await getUserById(userId);
+    if (!user) throw fail("Không tìm thấy tài khoản của đơn thanh toán.", 404);
+    const now = new Date();
+    const allOrders = await requestJson("/payments");
+    const activePaid = allOrders.filter(
+      (item) => String(item.userId) === String(user.id) && item.status === STATUS.PAID,
+    );
+    const existing = (activePaid || [])
+      .filter((item) => item.membershipExpiresAt && new Date(item.membershipExpiresAt) > now)
+      .sort((a, b) => new Date(b.membershipExpiresAt) - new Date(a.membershipExpiresAt))[0];
+    const startsAt = order.membershipStartsAt || existing?.membershipStartsAt || now.toISOString();
+    const expiresAt = order.membershipExpiresAt || new Date(
+      (existing ? new Date(existing.membershipExpiresAt) : now).getTime() +
+        Number(order.durationDays) * 24 * 60 * 60 * 1000,
+    ).toISOString();
+    await requestJson(`/payments/${encodeURIComponent(String(order.id))}`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        status: STATUS.PAID,
+        paidAt: now.toISOString(),
+        failedAt: null,
+        failureCode: null,
+        vnpTransactionNo: query.vnp_TransactionNo || null,
+        resultCode: query.vnp_ResponseCode || null,
+        transactionStatus: query.vnp_TransactionStatus || null,
+        membershipStartsAt: startsAt,
+        membershipExpiresAt: expiresAt,
+      }),
+    });
+    await requestJson(`/users/${encodeURIComponent(String(user.id))}`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        membershipStatus: "active",
+        membershipStartsAt: startsAt,
+        membershipExpiresAt: expiresAt,
+      }),
+    });
+    membership = { startsAt, expiresAt };
+  }
+
+  const updatedOrder = paid
+    ? await getPaymentByTxnRef(order.txnRef)
+    : await updatePayment(order, {
+        status: STATUS.FAILED,
+        paidAt: null,
+        failedAt: new Date().toISOString(),
+        failureCode: query.vnp_ResponseCode || "UNKNOWN",
+        vnpTransactionNo: query.vnp_TransactionNo || null,
+        resultCode: query.vnp_ResponseCode || null,
+        transactionStatus: query.vnp_TransactionStatus || null,
+      });
 
   return {
     success: paid,
     alreadyProcessed: false,
-    order: updatedOrder,
+    order: {
+      txnRef: updatedOrder.txnRef,
+      status: updatedOrder.status,
+      accessToken: updatedOrder.accessToken,
+    },
+    membership,
   };
 }

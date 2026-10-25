@@ -31,7 +31,7 @@ function qualityBadge(movie) {
   const label = qualityLabel(movie);
   if (!label) return "";
   return `
-                <div class="absolute top-2.5 left-2.5 z-10 flex items-center px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md text-on-surface-variant border border-white/10">
+                <div class="flex items-center px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md text-on-surface-variant border border-white/10">
                   <span class="font-label-caps text-label-caps font-bold">${escapeHtml(label)}</span>
                 </div>`;
 }
@@ -64,13 +64,14 @@ function availabilityBadge(movie) {
   const releaseDate = String(movie?.releaseDate ?? "");
   const endDate = String(movie?.endDate ?? "");
   if (/^\d{4}-\d{2}-\d{2}$/.test(releaseDate) && today < releaseDate) {
-    return `<span class="absolute bottom-2 left-2 z-10 rounded bg-sky-700/90 px-2 py-1 text-[10px] font-bold text-white">Sắp công chiếu</span>`;
+    return `<span class="rounded bg-sky-700/90 px-2 py-1 text-[10px] font-bold text-white">Chờ công chiếu</span>`;
   }
   if (/^\d{4}-\d{2}-\d{2}$/.test(endDate) && today <= endDate) {
     const remaining = Math.floor((new Date(`${endDate}T00:00:00`) - new Date(`${today}T00:00:00`)) / 86400000);
-    if (remaining <= 7) {
-      return `<span class="absolute bottom-2 left-2 z-10 rounded bg-amber-600/90 px-2 py-1 text-[10px] font-bold text-white">Còn ${remaining} ngày</span>`;
+    if (remaining <= 3) {
+      return `<span class="rounded bg-amber-600/90 px-2 py-1 text-[10px] font-bold text-white">Sắp hết công chiếu</span>`;
     }
+    return `<span class="rounded bg-amber-600/90 px-2 py-1 text-[10px] font-bold text-white">Còn ${remaining} ngày</span>`;
   }
   return "";
 }

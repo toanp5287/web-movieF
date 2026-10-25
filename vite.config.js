@@ -370,6 +370,7 @@ export default defineConfig({
 
             "/profile": "/src/pages/profile.html",
             "/membership": "/src/pages/membership.html",
+            "/payment-result": "/src/pages/payment-result.html",
 
             "/topMovies": "/src/pages/top-movies.html",
             "/sacThuc": "/src/pages/xacThucMaEmail.html",
@@ -452,6 +453,7 @@ export default defineConfig({
         login: resolve(import.meta.dirname, "src/pages/login.html"),
 
         register: resolve(import.meta.dirname, "src/pages/register.html"),
+        "payment-result": resolve(import.meta.dirname, "src/pages/payment-result.html"),
 
         editMovie: resolve(import.meta.dirname, "src/admin/editMovie.html"),
 
