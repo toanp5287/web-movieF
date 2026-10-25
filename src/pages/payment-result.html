@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="no-referrer" />
+    <title>Kết quả thanh toán | MovieF</title>
+    <link rel="stylesheet" href="/src/style.css" />
+    <style>
+      body { min-height: 100vh; background: #101010; color: #f5f5f5; font-family: Arial, sans-serif; }
+      .result-card { width: min(92vw, 620px); margin: 12vh auto 3rem; padding: 2.5rem; border: 1px solid #ffffff18; border-radius: 1.5rem; background: #191919; box-shadow: 0 24px 80px #0008; }
+      .result-icon { width: 68px; height: 68px; display: grid; place-items: center; margin: 0 auto 1rem; border-radius: 50%; background: #22c55e20; color: #4ade80; font-size: 2.4rem; }
+      .result-icon.failed { background: #ef444420; color: #f87171; }
+      h1, .intro { text-align: center; }
+      h1 { font-size: clamp(1.6rem, 5vw, 2.2rem); margin: 0 0 .6rem; }
+      .intro { color: #b5b5b5; line-height: 1.6; margin: 0 0 1.8rem; }
+      dl { margin: 0; border-top: 1px solid #ffffff16; }
+      .row { display: flex; justify-content: space-between; gap: 1rem; padding: .85rem 0; border-bottom: 1px solid #ffffff12; }
+      dt { color: #aaa; } dd { margin: 0; text-align: right; overflow-wrap: anywhere; }
+      .actions { display: flex; justify-content: center; flex-wrap: wrap; gap: .75rem; margin-top: 1.8rem; }
+      .actions a { padding: .8rem 1.1rem; border-radius: .65rem; text-decoration: none; font-weight: 700; color: white; background: #e50914; }
+      .actions a.secondary { background: #303030; }
+      .actions button { border: 0; cursor: pointer; font: inherit; }
+      #resultNotice { text-align: center; color: #fca5a5; }
+    </style>
+  </head>
+  <body>
+    <main class="result-card" aria-live="polite">
+      <div id="resultIcon" class="result-icon" aria-hidden="true">✓</div>
+      <h1 id="resultTitle">Đang xác minh thanh toán…</h1>
+      <p id="resultIntro" class="intro">Đang tải thông tin đơn hàng đã được máy chủ xác minh.</p>
+      <p id="resultNotice" hidden></p>
+      <dl id="paymentDetails" hidden></dl>
+      <nav class="actions">
+        <a id="watchMovies" href="/movies" hidden>Xem phim ngay</a>
+        <a class="secondary" href="/">Quay về trang chủ</a>
+        <a id="retryPayment" class="secondary" href="/membership" hidden>Quay lại hội viên</a>
+        <button id="retryResult" class="secondary" type="button" hidden>Thử tải lại kết quả</button>
+      </nav>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" src="/src/js/custumer/header.js"></script>
+    <script type="module" src="/src/js/custumer/payment-result.js"></script>
+  </body>
+</html>
