@@ -71,7 +71,10 @@
       "dob": "1995-08-15",
       "gender": "nam",
       "birthday": "1995-08-15",
-      "bio": "Khám phá thế giới điện ảnh cùng MovieF."
+      "bio": "Khám phá thế giới điện ảnh cùng MovieF.",
+      "membershipStatus": "active",
+      "membershipStartsAt": "2026-10-25T20:34:02.740Z",
+      "membershipExpiresAt": "2027-01-23T20:34:02.740Z"
     },
     {
       "id": "2",
@@ -237,6 +240,27 @@
       "transactionStatus": "00",
       "membershipStartsAt": "2026-10-25T18:25:06.954Z",
       "membershipExpiresAt": "2026-11-24T18:25:06.954Z"
+    },
+    {
+      "txnRef": "MF17929603402023c9ec9d2a8",
+      "accessToken": "7d90ee8bf7a92623c8e68ab4639adae2597007b51ddf5a80147cf25ace4e5773",
+      "userId": "1",
+      "planId": "vip-90",
+      "planName": "VIP 90 ngày",
+      "amount": 99000,
+      "durationDays": 90,
+      "provider": "VNPAY",
+      "status": "PAID",
+      "createdAt": "2026-10-25T20:32:20.202Z",
+      "paidAt": "2026-10-25T20:34:02.740Z",
+      "failedAt": null,
+      "failureCode": null,
+      "vnpTransactionNo": "15714655",
+      "id": 2,
+      "resultCode": "00",
+      "transactionStatus": "00",
+      "membershipStartsAt": "2026-10-25T20:34:02.740Z",
+      "membershipExpiresAt": "2027-01-23T20:34:02.740Z"
     }
   ],
   "season": [
@@ -436,8 +460,8 @@
       "views": 12450,
       "createdAt": "2026-09-02",
       "year": 2025,
-      "releaseDate": "2026-10-26",
-      "endDate": "2026-10-27"
+      "releaseDate": "2026-10-25",
+      "endDate": "2026-10-28"
     },
     {
       "id": "50",
@@ -896,9 +920,12 @@
         "5"
       ],
       "quality": "hd",
-      "status": true,
+      "status": "published",
       "views": 36451,
-      "createdAt": "2026-09-30"
+      "createdAt": "2026-09-30",
+      "year": 2026,
+      "releaseDate": "2026-10-11",
+      "endDate": "2026-10-27"
     },
     {
       "id": "14",
@@ -1426,8 +1453,8 @@
     {
       "userId": 1,
       "movieId": 2,
-      "progress": 34,
-      "watchedAt": "2026-10-24T12:21:23",
+      "progress": 32,
+      "watchedAt": "2026-10-25T20:09:54",
       "id": "Cg6czTN"
     },
     {
@@ -1441,7 +1468,7 @@
       "userId": 1,
       "movieId": 10,
       "progress": 0,
-      "watchedAt": "2026-10-24T12:17:18",
+      "watchedAt": "2026-10-25T20:20:41",
       "id": "2cUSQhv"
     },
     {
@@ -1576,6 +1603,13 @@
       "watchedAt": "2026-10-21T02:46:51",
       "episodeId": 3,
       "id": "AEp__yD"
+    },
+    {
+      "userId": 1,
+      "movieId": 9,
+      "progress": 0,
+      "watchedAt": "2026-10-25T19:11:15",
+      "id": "iJ7RCx0"
     }
   ],
   "reviews": [
@@ -1731,6 +1765,12 @@
       "keyword": "Spider-Man: No Way Home",
       "searchedAt": "2026-10-25T09:59:41.609Z",
       "id": 7
+    },
+    {
+      "userId": "1",
+      "keyword": "Inception",
+      "searchedAt": "2026-10-25T19:26:00.619Z",
+      "id": 8
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

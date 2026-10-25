@@ -21,9 +21,11 @@ import {
   bindImageFallback,
   detailUrl,
   escapeHtml,
+  genreNames,
   loadCatalog,
   releaseDateKey,
   releaseMoment,
+  watchUrl,
 } from "./movie-data.js";
 import { readGuestHistory } from "./history.js";
 
@@ -62,6 +64,45 @@ function normalizeTitle(value) {
     .replace(/[^a-zA-Z0-9]+/g, " ")
     .trim()
     .toLowerCase();
+}
+
+function isPastEndDate(movie) {
+  const endDate = releaseDateKey(movie?.endDate);
+  if (!endDate) return false;
+
+  const now = new Date();
+  const today = releaseDateKey(
+    `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`,
+  );
+  return today > endDate;
+}
+
+function availabilityBadge(movie) {
+  const now = new Date();
+  const today = releaseDateKey(
+    `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`,
+  );
+  const releaseDate = releaseDateKey(movie?.releaseDate);
+  const endDate = releaseDateKey(movie?.endDate);
+
+  if (releaseDate && today < releaseDate) {
+    return '<span class="mf-availability-badge rounded bg-sky-700/90 px-2 py-1 text-[10px] font-bold text-white">Chờ công chiếu</span>';
+  }
+
+  if (endDate && today <= endDate) {
+    const remaining = Math.floor(
+      (releaseMoment({ releaseDate: endDate }).at -
+        releaseMoment({ releaseDate: today }).at) /
+        86400000,
+    );
+    if (remaining === 0) return "";
+    if (remaining <= 3) {
+      return '<span class="mf-availability-badge rounded bg-amber-600/90 px-2 py-1 text-[10px] font-bold text-white">Sắp hết công chiếu</span>';
+    }
+    return `<span class="mf-availability-badge rounded bg-amber-600/90 px-2 py-1 text-[10px] font-bold text-white">Còn ${remaining} ngày</span>`;
+  }
+
+  return "";
 }
 
 function getCurrentUser() {
@@ -886,6 +927,43 @@ async function init() {
   // Ưu tiên dựng banner trước để không phải chờ "Tiếp tục xem".
   initHeroCarousel(catalog);
   await renderContinueWatching(catalog);
+
+  // loadCatalog() đã loại phim quá hạn, nên đọc nguồn gốc để gỡ các card
+  // HTML viết sẵn đang trỏ tới phim đã qua endDate.
+  let expiredMovies = [];
+  try {
+    const allMovies = await api.get("/movies");
+    if (Array.isArray(allMovies)) expiredMovies = allMovies.filter(isPastEndDate);
+  } catch (error) {
+    console.warn("[home] Không tải được danh sách phim để lọc phim hết hạn:", error);
+  }
+
+  if (expiredMovies.length) {
+    const expiredPosters = new Set(
+      expiredMovies
+        .map((movie) => String(movie.poster || "").split("/").pop().toLowerCase())
+        .filter(Boolean),
+    );
+    const expiredTitles = new Set(
+      expiredMovies.map((movie) => normalizeTitle(movie.title)).filter(Boolean),
+    );
+
+    anchors.forEach((anchor) => {
+      const poster = posterIn(anchor).split("/").pop().toLowerCase();
+      const title = normalizeTitle(
+        anchor.querySelector("h1, h2, h3, h4")?.textContent ||
+          titleFromLabels(anchor),
+      );
+
+      if (
+        (poster && expiredPosters.has(poster)) ||
+        (title && expiredTitles.has(title))
+      ) {
+        anchor.remove();
+      }
+    });
+  }
+
   if (!anchors.length) return;
 
   // Chỉ dùng phim thực sự hiển thị được (đã lọc trong loadCatalog).
@@ -922,6 +1000,45 @@ async function init() {
       ? `/watch?id=${encodeURIComponent(movie.id)}`
       : detailUrl(movie.id);
     anchor.dataset.movieId = String(movie.id);
+
+    const posterFrame = [...anchor.querySelectorAll(".relative")].find(
+      (element) =>
+        element.querySelector("[style*='background-image'], img[src]") !== null,
+    );
+    if (posterFrame) {
+      const isTopLeftBadge = (element) =>
+        element.classList.contains("absolute") &&
+        element.classList.contains("top-2.5") &&
+        element.classList.contains("left-2.5");
+
+      let badgeGroup = [...posterFrame.querySelectorAll("div")].find(
+        (element) =>
+          isTopLeftBadge(element) &&
+          element.classList.contains("flex-col") &&
+          element.classList.contains("gap-1") &&
+          element.classList.contains("items-start"),
+      );
+
+      if (!badgeGroup) {
+        badgeGroup = document.createElement("div");
+        badgeGroup.className =
+          "absolute top-2.5 left-2.5 z-10 flex flex-col gap-1 items-start";
+        posterFrame.appendChild(badgeGroup);
+      }
+
+      [...posterFrame.querySelectorAll("span, div")].forEach((badge) => {
+        if (badge === badgeGroup || badgeGroup.contains(badge)) return;
+        if (!isTopLeftBadge(badge)) return;
+
+        badge.classList.remove("absolute", "top-2.5", "left-2.5");
+        badgeGroup.appendChild(badge);
+      });
+
+      badgeGroup
+        .querySelectorAll(".mf-availability-badge")
+        .forEach((badge) => badge.remove());
+      badgeGroup.insertAdjacentHTML("beforeend", availabilityBadge(movie));
+    }
     linked++;
   }
 
