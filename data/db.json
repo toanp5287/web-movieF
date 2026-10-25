@@ -436,8 +436,8 @@
       "views": 12450,
       "createdAt": "2026-09-02",
       "year": 2025,
-      "releaseDate": "2026-10-26",
-      "endDate": "2026-10-27"
+      "releaseDate": "2026-09-20",
+      "endDate": "2026-10-29"
     },
     {
       "id": "50",
@@ -469,8 +469,8 @@
       "views": 14198,
       "createdAt": "2026-10-02",
       "year": 2026,
-      "releaseDate": "2026-10-28",
-      "endDate": "2026-10-31"
+      "releaseDate": "2026-10-25",
+      "endDate": "2026-10-29"
     },
     {
       "id": "3",
@@ -896,9 +896,12 @@
         "5"
       ],
       "quality": "hd",
-      "status": true,
+      "status": "published",
       "views": 36451,
-      "createdAt": "2026-09-30"
+      "createdAt": "2026-09-30",
+      "year": 2026,
+      "releaseDate": "2026-10-24",
+      "endDate": "2026-10-25"
     },
     {
       "id": "14",
@@ -1426,8 +1429,8 @@
     {
       "userId": 1,
       "movieId": 2,
-      "progress": 34,
-      "watchedAt": "2026-10-24T12:21:23",
+      "progress": 7,
+      "watchedAt": "2026-10-25T18:12:49",
       "id": "Cg6czTN"
     },
     {
@@ -1448,7 +1451,7 @@
       "userId": 1,
       "movieId": 13,
       "progress": 0,
-      "watchedAt": "2026-10-16T18:26:05",
+      "watchedAt": "2026-10-25T18:51:07",
       "id": "6CBrQwh"
     },
     {
@@ -1576,6 +1579,20 @@
       "watchedAt": "2026-10-21T02:46:51",
       "episodeId": 3,
       "id": "AEp__yD"
+    },
+    {
+      "userId": 1,
+      "movieId": 16,
+      "progress": 0,
+      "watchedAt": "2026-10-25T18:31:10",
+      "id": "1UmN0pB"
+    },
+    {
+      "userId": 1,
+      "movieId": "cUfw-tH",
+      "progress": 0,
+      "watchedAt": "2026-10-25T18:48:15",
+      "id": "4tR1Fms"
     }
   ],
   "reviews": [
