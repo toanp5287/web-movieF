@@ -13,6 +13,7 @@
 import {
   averageRating,
   bindImageFallback,
+  escapeHtml,
   formatViews,
   genreNames,
   loadCatalog,
@@ -31,12 +32,21 @@ const state = {
   rating: "",
   sort: "newest",
   type: "",
+  actor: "",
   page: 1,
 };
 
-let catalog = null;
-let grid = null;
-let loading = null;
+  let catalog = null;
+  let grid = null;
+  let loading = null;
+
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const actor = params.get("actor");
+    if (actor && actor.trim()) {
+      state.actor = actor.trim();
+    }
+  } catch (e) {}
 
 /* ------------------------------------------------------------------ *
  * 1. LỌC + SẮP XẾP
@@ -49,18 +59,21 @@ const fold = (value) =>
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/đ/g, "d")
     .replace(/Đ/g, "D")
-    .toLowerCase();
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim();
 
 /** Chuỗi tìm kiếm gồm tên, mô tả, đạo diễn, diễn viên và thể loại. */
 function haystack(movie) {
   if (movie._hay) return movie._hay;
   const names = genreNames(movie, catalog.genres).join(" ");
+  const actors = Array.isArray(movie.actors) ? movie.actors.join(" ") : "";
   movie._hay = fold(
     [
       movie.title,
       movie.description,
       movie.director,
-      movie.actors.join(" "),
+      actors,
       names,
     ].join(" "),
   );
@@ -74,6 +87,27 @@ const ratingOf = (movie) => {
 };
 
 function matches(movie) {
+  if (state.actor) {
+    const target = fold(state.actor);
+    if (!target) return false;
+    const actors = Array.isArray(movie.actors) ? movie.actors : [];
+    const matchActor = actors.some((a) => {
+      const f = fold(a);
+      if (!f) return false;
+      if (f === target) return true;
+      if (f.length >= target.length && f.includes(target)) {
+        const idx = f.indexOf(target);
+        const before = idx === 0 ? "" : f[idx - 1];
+        const after = idx + target.length >= f.length ? "" : f[idx + target.length];
+        if (/\s/.test(before) || /\s/.test(after) || (before === "" && after === "")) {
+          if (before === "" || after === "" || /\s/.test(before) || /\s/.test(after)) return true;
+        }
+      }
+      return f === target;
+    });
+    if (!matchActor) return false;
+  }
+
   const q = fold(state.q).trim();
   if (q && !haystack(movie).includes(q)) return false;
 
@@ -156,9 +190,24 @@ function updateCounters(shown, matched) {
   const badge = document.querySelector("[data-metric='catalog-badge']");
   if (badge) badge.textContent = `${total} Phim`;
 
+  const all = Array.isArray(catalog.movies) ? catalog.movies.filter(matches) : [];
+  const viewsTotal = all.reduce((sum, m) => {
+    const v = Number(m && m.views);
+    if (Number.isFinite(v) && v >= 0) return sum + v;
+    return sum;
+  }, 0);
+  const viewsEl = document.querySelector("[data-metric='total-views']");
+  if (viewsEl) viewsEl.textContent = formatViews(viewsTotal);
+
   const counter = document.querySelector("[data-metric='result-counter']");
   if (counter) {
-    if (!matched) {
+    if (state.actor) {
+      if (!matched) {
+        counter.innerHTML = `Không có phim nào với diễn viên <span class="font-semibold text-on-surface">${escapeHtml(state.actor)}</span>`;
+      } else {
+        counter.innerHTML = `Phim có diễn viên <span class="font-semibold text-on-surface">${escapeHtml(state.actor)}</span> (${matched} phim)`;
+      }
+    } else if (!matched) {
       counter.innerHTML = `Không có phim nào phù hợp với bộ lọc hiện tại`;
     } else {
       const from = (state.page - 1) * PAGE_SIZE + 1;
@@ -170,9 +219,6 @@ function updateCounters(shown, matched) {
     }
   }
 
-  const viewsTotal = catalog.movies.reduce((sum, m) => sum + (m.views || 0), 0);
-  const viewsEl = document.querySelector("[data-metric='total-views']");
-  if (viewsEl) viewsEl.textContent = formatViews(viewsTotal);
 }
 
 function renderPageButtons(pages) {
@@ -380,6 +426,8 @@ async function init() {
     if (loading) loading.remove();
     if (grid) grid.innerHTML = "";
     toggleEmptyState(true);
+    const viewsEl = document.querySelector("[data-metric='total-views']");
+    if (viewsEl) viewsEl.textContent = formatViews(0);
     updateCounters(0, 0);
     console.warn("[movies] Không có phim nào đạt yêu cầu hiển thị.");
     return;
@@ -405,6 +453,13 @@ async function init() {
   }
 
   await draw();
+  // Ensure total views reflect filtered results even if draw timing differs
+  try {
+    updateCounters(
+      document.querySelectorAll('[data-metric="movie-grid"] .movie-card').length,
+      (Array.isArray(catalog.movies) ? catalog.movies.filter(matches).length : 0),
+    );
+  } catch (e) {}
 
   console.info(
     `[movies] Đã nạp ${catalog.movies.length} phim từ ${catalog.source}; lọc theo tên/thể loại/năm/đánh giá.`,

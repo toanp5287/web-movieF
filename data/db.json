@@ -394,17 +394,8 @@
       "duration": 148,
       "country": "USA",
       "director": "Jon Watts",
-      "actors": [
-        "Tom Holland",
-        "Zendaya",
-        "Benedict Cumberbatch"
-      ],
-      "genre": [
-        "1",
-        "5",
-        "7",
-        "8"
-      ],
+      "actors": ["Tom Holland", "Zendaya", "Benedict Cumberbatch"],
+      "genre": ["1", "5", "7", "8"],
       "quality": "hd",
       "status": "published",
       "views": 12450,
@@ -424,20 +415,11 @@
       "duration": 148,
       "country": "USA",
       "director": "Jon Watts",
-      "actors": [
-        "Tom Holland",
-        "Zendaya",
-        "Benedict Cumberbatch"
-      ],
-      "genre": [
-        "1",
-        "5",
-        "7",
-        "8"
-      ],
+      "actors": ["Tom Holland", "Zendaya", "Benedict Cumberbatch"],
+      "genre": ["1", "5", "7", "8"],
       "quality": "hd",
       "status": true,
-      "views": 12450,
+      "views": 14198,
       "createdAt": "2026-10-02"
     },
     {
@@ -454,15 +436,11 @@
       "duration": 169,
       "country": "USA",
       "director": "Christopher Nolan",
-      "actors": [
-        "Matthew McConaughey",
-        "Anne Hathaway",
-        "Jessica Chastain"
-      ],
+      "actors": ["Matthew McConaughey", "Anne Hathaway", "Jessica Chastain"],
       "genre": [],
       "quality": "hd",
       "status": true,
-      "views": 18420,
+      "views": 20798,
       "createdAt": "2026-09-03"
     },
     {
@@ -479,14 +457,11 @@
       "duration": 106,
       "country": "Japan",
       "director": "Makoto Shinkai",
-      "actors": [
-        "Ryunosuke Kamiki",
-        "Mone Kamishiraishi"
-      ],
+      "actors": ["Ryunosuke Kamiki", "Mone Kamishiraishi"],
       "genre": [],
       "quality": "hd",
       "status": true,
-      "views": 9860,
+      "views": 27396,
       "createdAt": "2026-09-04"
     },
     {
@@ -503,15 +478,11 @@
       "duration": 112,
       "country": "USA",
       "director": "James Wan",
-      "actors": [
-        "Vera Farmiga",
-        "Patrick Wilson",
-        "Lili Taylor"
-      ],
+      "actors": ["Vera Farmiga", "Patrick Wilson", "Lili Taylor"],
       "genre": [],
       "quality": "hd",
       "status": true,
-      "views": 7340,
+      "views": 33995,
       "createdAt": "2026-09-05"
     },
     {
@@ -528,15 +499,11 @@
       "duration": 100,
       "country": "USA",
       "director": "Josh Cooley",
-      "actors": [
-        "Tom Hanks",
-        "Tim Allen",
-        "Annie Potts"
-      ],
+      "actors": ["Tom Hanks", "Tim Allen", "Annie Potts"],
       "genre": [],
       "quality": "hd",
       "status": true,
-      "views": 6420,
+      "views": 40595,
       "createdAt": "2026-09-06"
     },
     {
@@ -553,15 +520,11 @@
       "duration": 166,
       "country": "USA",
       "director": "Denis Villeneuve",
-      "actors": [
-        "Timothee Chalamet",
-        "Zendaya",
-        "Rebecca Ferguson"
-      ],
+      "actors": ["Timothee Chalamet", "Zendaya", "Rebecca Ferguson"],
       "genre": [],
       "quality": "hd",
       "status": true,
-      "views": 11320,
+      "views": 5527,
       "createdAt": "2026-09-07"
     },
     {
@@ -578,14 +541,11 @@
       "duration": 128,
       "country": "USA",
       "director": "Damien Chazelle",
-      "actors": [
-        "Ryan Gosling",
-        "Emma Stone"
-      ],
+      "actors": ["Ryan Gosling", "Emma Stone"],
       "genre": [],
       "quality": "hd",
       "status": false,
-      "views": 8120,
+      "views": 12126,
       "createdAt": "2026-09-08"
     },
     {
@@ -602,15 +562,11 @@
       "duration": 96,
       "country": "USA",
       "director": "Kelsey Mann",
-      "actors": [
-        "Amy Poehler",
-        "Maya Hawke",
-        "Kensington Tallman"
-      ],
+      "actors": ["Amy Poehler", "Maya Hawke", "Kensington Tallman"],
       "genre": [],
       "quality": "hd",
       "status": true,
-      "views": 15600,
+      "views": 18725,
       "createdAt": "2026-09-09"
     },
     {
@@ -627,15 +583,11 @@
       "duration": 176,
       "country": "USA",
       "director": "Matt Reeves",
-      "actors": [
-        "Robert Pattinson",
-        "Zoë Kravitz",
-        "Paul Dano"
-      ],
+      "actors": ["Robert Pattinson", "Zoë Kravitz", "Paul Dano"],
       "genre": [],
       "quality": "hd",
       "status": true,
-      "views": 10450,
+      "views": 25325,
       "createdAt": "2026-09-10"
     },
     {
@@ -649,21 +601,12 @@
       "duration": 107,
       "country": "USA",
       "director": "Jon Watts",
-      "actors": [
-        "Robert Downey Jr.",
-        "Chris Evans",
-        "Mark Ruffalo"
-      ],
-      "genre": [
-        "2",
-        "4",
-        "6",
-        "8"
-      ],
+      "actors": ["Robert Downey Jr.", "Chris Evans", "Mark Ruffalo"],
+      "genre": ["2", "4", "6", "8"],
       "trailer": "/videos/1790685049779-09nsjs.mp4",
       "video": "/videos/1792330101994-tpywjh.mp4",
       "status": "Inactive",
-      "views": 0,
+      "views": 31924,
       "createdAt": "2026-09-29",
       "quality": "hd"
     },
@@ -681,17 +624,11 @@
       "duration": 111,
       "country": "USA",
       "director": "Anthony Russo, Joe Russo",
-      "actors": [
-        "Robert Downey Jr.",
-        "Chris Evans",
-        "Mark Ruffalo"
-      ],
-      "genre": [
-        "3"
-      ],
+      "actors": ["Robert Downey Jr.", "Chris Evans", "Mark Ruffalo"],
+      "genre": ["3"],
       "quality": "hd",
       "status": false,
-      "views": 0,
+      "views": 38523,
       "createdAt": "2026-09-29"
     },
     {
@@ -708,17 +645,11 @@
       "duration": 111,
       "country": "USA",
       "director": "Anthony Russo, Joe Russo",
-      "actors": [
-        "Robert Downey Jr.",
-        "Chris Evans",
-        "Mark Ruffalo"
-      ],
-      "genre": [
-        "3"
-      ],
+      "actors": ["Robert Downey Jr.", "Chris Evans", "Mark Ruffalo"],
+      "genre": ["3"],
       "quality": "hd",
       "status": false,
-      "views": 0,
+      "views": 3455,
       "createdAt": "2026-09-29"
     },
     {
@@ -735,17 +666,11 @@
       "duration": 111,
       "country": "USA",
       "director": "Jon Watts",
-      "actors": [
-        "Robert Downey Jr.",
-        "Chris Evans",
-        "Mark Ruffalo"
-      ],
-      "genre": [
-        "4"
-      ],
+      "actors": ["Robert Downey Jr.", "Chris Evans", "Mark Ruffalo"],
+      "genre": ["4"],
       "quality": "hd",
       "status": false,
-      "views": 0,
+      "views": 10055,
       "createdAt": "2026-09-29"
     },
     {
@@ -762,17 +687,11 @@
       "duration": 1111,
       "country": "ddsa",
       "director": "dsadasd",
-      "actors": [
-        "Robert Downey Jr.",
-        "Chris Evans",
-        "Mark Ruffalo"
-      ],
-      "genre": [
-        "1"
-      ],
+      "actors": ["Robert Downey Jr.", "Chris Evans", "Mark Ruffalo"],
+      "genre": ["1"],
       "quality": "hd",
       "status": false,
-      "views": 0,
+      "views": 16654,
       "createdAt": "2026-09-29"
     },
     {
@@ -796,14 +715,10 @@
         "Luna Lauren Velez",
         "Oscar Isaac"
       ],
-      "genre": [
-        "1",
-        "6",
-        "7"
-      ],
+      "genre": ["1", "6", "7"],
       "quality": "hd",
       "status": true,
-      "views": 0,
+      "views": 23253,
       "createdAt": "2026-09-30"
     },
     {
@@ -828,13 +743,10 @@
         "Florence Pugh",
         "Josh Hartnett"
       ],
-      "genre": [
-        "7",
-        "8"
-      ],
+      "genre": ["7", "8"],
       "quality": "hd",
       "status": true,
-      "views": 0,
+      "views": 29852,
       "createdAt": "2026-09-30"
     },
     {
@@ -859,13 +771,10 @@
         "Ken Watanabe",
         "Marion Cotillard"
       ],
-      "genre": [
-        "1",
-        "5"
-      ],
+      "genre": ["1", "5"],
       "quality": "hd",
       "status": true,
-      "views": 0,
+      "views": 36451,
       "createdAt": "2026-09-30"
     },
     {
@@ -888,12 +797,10 @@
         "Forest Whitaker",
         "Michael Stuhlbarg"
       ],
-      "genre": [
-        "5"
-      ],
+      "genre": ["5"],
       "quality": "hd",
       "status": true,
-      "views": 0,
+      "views": 1384,
       "createdAt": "2026-09-30"
     },
     {
@@ -917,13 +824,10 @@
         "Hugo Weaving",
         "Joe Pantoliano"
       ],
-      "genre": [
-        "1",
-        "5"
-      ],
+      "genre": ["1", "5"],
       "quality": "hd",
       "status": true,
-      "views": 0,
+      "views": 7983,
       "createdAt": "2026-09-30"
     },
     {
@@ -948,14 +852,10 @@
         "Mark Ruffalo",
         "Jeremy Renner"
       ],
-      "genre": [
-        "1",
-        "5",
-        "7"
-      ],
+      "genre": ["1", "5", "7"],
       "quality": "hd",
       "status": true,
-      "views": 0,
+      "views": 14582,
       "createdAt": "2026-09-30"
     },
     {
@@ -980,12 +880,10 @@
         "Robin Wright",
         "Jared Leto"
       ],
-      "genre": [
-        "5"
-      ],
+      "genre": ["5"],
       "quality": "hd",
       "status": true,
-      "views": 0,
+      "views": 21181,
       "createdAt": "2026-09-30"
     },
     {
@@ -1009,12 +907,10 @@
         "Robert Duvall",
         "Diane Keaton"
       ],
-      "genre": [
-        "8"
-      ],
+      "genre": ["8"],
       "quality": "hd",
       "status": true,
-      "views": 0,
+      "views": 27780,
       "createdAt": "2026-09-30"
     },
     {
@@ -1038,12 +934,10 @@
         "Catherine Keener",
         "Zazie Beetz"
       ],
-      "genre": [
-        "8"
-      ],
+      "genre": ["8"],
       "quality": "hd",
       "status": true,
-      "views": 0,
+      "views": 34380,
       "createdAt": "2026-09-30"
     },
     {
@@ -1068,13 +962,10 @@
         "Maggie Gyllenhaal",
         "Gary Oldman"
       ],
-      "genre": [
-        "1",
-        "8"
-      ],
+      "genre": ["1", "8"],
       "quality": "hd",
       "status": true,
-      "views": 0,
+      "views": 40979,
       "createdAt": "2026-09-30"
     },
     {
@@ -1099,12 +990,10 @@
         "Liv Tyler",
         "Cate Blanchett"
       ],
-      "genre": [
-        "7"
-      ],
+      "genre": ["7"],
       "quality": "hd",
       "status": true,
-      "views": 0,
+      "views": 5911,
       "createdAt": "2026-09-30"
     },
     {
@@ -1128,12 +1017,10 @@
         "William Sadler",
         "Clancy Brown"
       ],
-      "genre": [
-        "8"
-      ],
+      "genre": ["8"],
       "quality": "hd",
       "status": true,
-      "views": 0,
+      "views": 12510,
       "createdAt": "2026-09-30"
     },
     {
@@ -1158,13 +1045,10 @@
         "Ewan Mitchell",
         "Tom Glynn-Carney"
       ],
-      "genre": [
-        "7",
-        "8"
-      ],
+      "genre": ["7", "8"],
       "quality": "hd",
       "status": true,
-      "views": 0,
+      "views": 19111,
       "createdAt": "2026-09-30"
     },
     {
@@ -1189,14 +1073,10 @@
         "Osamu Saka",
         "Sakiko Tamagawa"
       ],
-      "genre": [
-        "1",
-        "5",
-        "6"
-      ],
+      "genre": ["1", "5", "6"],
       "quality": "hd",
       "status": true,
-      "views": 0,
+      "views": 25709,
       "createdAt": "2026-09-30"
     },
     {
@@ -1217,7 +1097,7 @@
       "genre": [],
       "quality": "hd",
       "status": true,
-      "views": 0,
+      "views": 32308,
       "createdAt": "2026-09-30"
     },
     {
@@ -1238,7 +1118,7 @@
       "genre": [],
       "quality": "hd",
       "status": true,
-      "views": 0,
+      "views": 38907,
       "createdAt": "2026-09-30"
     },
     {
@@ -1259,7 +1139,7 @@
       "genre": [],
       "quality": "hd",
       "status": true,
-      "views": 0,
+      "views": 3840,
       "createdAt": "2026-09-30"
     },
     {
@@ -1280,28 +1160,21 @@
       "genre": [],
       "quality": "hd",
       "status": true,
-      "views": 0,
+      "views": 10439,
       "createdAt": "2026-09-30"
     },
     {
       "title": "csacca",
       "slug": "csacca",
       "description": "dvavdvvd",
-      "genre": [
-        "1",
-        "2"
-      ],
+      "genre": ["1", "2"],
       "poster": "",
       "backdrop": "",
       "year": 2025,
       "duration": 1111,
       "country": "USA",
       "director": "acsaccs",
-      "actors": [
-        "Robert Downey Jr.",
-        "Chris Evans",
-        "Mark Ruffalo"
-      ],
+      "actors": ["Robert Downey Jr.", "Chris Evans", "Mark Ruffalo"],
       "trailer": "",
       "video": "/videos/no-video.mp4",
       "status": "published",
@@ -1394,22 +1267,22 @@
     {
       "userId": 1,
       "movieId": 2,
-      "progress": 20,
-      "watchedAt": "2026-10-15T16:25:32",
+      "progress": 34,
+      "watchedAt": "2026-10-24T12:21:23",
       "id": "Cg6czTN"
     },
     {
       "userId": 1,
       "movieId": 7,
       "progress": 0,
-      "watchedAt": "2026-10-16T18:26:34",
+      "watchedAt": "2026-10-24T12:16:16",
       "id": "6PTvXf5"
     },
     {
       "userId": 1,
       "movieId": 10,
       "progress": 0,
-      "watchedAt": "2026-10-16T18:26:19",
+      "watchedAt": "2026-10-24T12:17:18",
       "id": "2cUSQhv"
     },
     {
@@ -1429,8 +1302,8 @@
     {
       "userId": 1,
       "movieId": 3,
-      "progress": 58,
-      "watchedAt": "2026-10-16T18:23:49",
+      "progress": 1,
+      "watchedAt": "2026-10-23T16:42:40",
       "id": "dju5K7U_yNY"
     },
     {
@@ -1495,7 +1368,7 @@
       "userId": 1,
       "movieId": 23,
       "progress": 0,
-      "watchedAt": "2026-10-18T17:42:55",
+      "watchedAt": "2026-10-23T16:59:56",
       "episodeId": 2,
       "id": "DvC7UGZ"
     },
@@ -1503,7 +1376,7 @@
       "userId": 1,
       "movieId": 23,
       "progress": 0,
-      "watchedAt": "2026-10-18T18:45:17",
+      "watchedAt": "2026-10-23T16:59:52",
       "episodeId": 1,
       "id": "MNCIXPs"
     },
