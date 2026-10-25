@@ -10,12 +10,185 @@
 
 "use strict";
 
+import {
+  ACCESS_MESSAGES,
+  formatMembershipDate,
+  getMembershipSnapshot,
+} from "./access.js";
+
 const PAYMENT_API = "http://localhost:3002";
 
 document.addEventListener("DOMContentLoaded", () => {
   initFaqAccordion();
   initMembershipPlans();
+  initMembershipStatus();
 });
+
+/* =====================================================
+   0. TRẠNG THÁI HỘI VIÊN + KẾT QUẢ THANH TOÁN
+===================================================== */
+
+function setMembershipStatusCard({
+  icon,
+  label,
+  detail,
+  action,
+  actionHref,
+  tone = "default",
+}) {
+  const card = document.querySelector("#membershipStatusCard");
+  const iconEl = document.querySelector("#membershipStatusIcon");
+  const labelEl = document.querySelector("#membershipStatusLabel");
+  const detailEl = document.querySelector("#membershipStatusDetail");
+  const actionEl = document.querySelector("#membershipStatusAction");
+
+  if (!card) return;
+
+  if (iconEl) iconEl.textContent = icon || "workspace_premium";
+  if (labelEl) labelEl.textContent = label || "";
+  if (detailEl) detailEl.textContent = detail || "";
+
+  if (actionEl) {
+    const showAction = Boolean(action);
+    actionEl.classList.toggle("hidden", !showAction);
+    actionEl.classList.toggle("inline-flex", showAction);
+    if (showAction) {
+      actionEl.textContent = action;
+      actionEl.href = actionHref || "#membership-plans";
+    }
+  }
+
+  if (actionEl && actionHref === "/login" && !actionEl.dataset.redirectBound) {
+    actionEl.dataset.redirectBound = "1";
+    actionEl.addEventListener("click", () => {
+      sessionStorage.setItem("redirectAfterLogin", window.location.href);
+    });
+  }
+
+  card.dataset.tone = tone;
+  card.classList.toggle("border-green-500/30", tone === "active");
+  card.classList.toggle("bg-green-500/[0.06]", tone === "active");
+  card.classList.toggle("border-amber-500/30", tone === "warning");
+  card.classList.toggle("bg-amber-500/[0.06]", tone === "warning");
+  card.classList.toggle("border-red-500/30", tone === "danger");
+  card.classList.toggle("bg-red-500/[0.06]", tone === "danger");
+}
+
+function paymentResultMessage() {
+  const params = new URLSearchParams(window.location.search);
+  const status = params.get("status");
+  if (!status) return null;
+
+  const txnRef = params.get("txnRef");
+  if (status === "success") {
+    return {
+      icon: "verified",
+      label: "Thanh toán thành công",
+      detail: txnRef
+        ? `Giao dịch ${txnRef} đã được ghi nhận. Quyền hội viên được cập nhật bên dưới.`
+        : "Giao dịch đã được ghi nhận. Quyền hội viên được cập nhật bên dưới.",
+      tone: "active",
+    };
+  }
+
+  return {
+    icon: "error",
+    label: "Thanh toán chưa hoàn tất",
+    detail:
+      "Giao dịch chưa được xác nhận thành công. Bạn có thể chọn lại gói và thử thanh toán lại.",
+    tone: "danger",
+  };
+}
+
+async function initMembershipStatus() {
+  let snapshot;
+  try {
+    snapshot = await getMembershipSnapshot({ force: true });
+  } catch (error) {
+    console.error("[membership] Không đọc được trạng thái hội viên:", error);
+    setMembershipStatusCard({
+      icon: "cloud_off",
+      label: "Không kiểm tra được trạng thái hội viên",
+      detail: ACCESS_MESSAGES.membershipUnknown,
+      tone: "warning",
+    });
+    return;
+  }
+
+  const result = paymentResultMessage();
+
+  if (snapshot.status === "guest") {
+    setMembershipStatusCard({
+      icon: "login",
+      label: "Bạn chưa đăng nhập",
+      detail:
+        "Đăng nhập để kiểm tra quyền hội viên và mua hoặc gia hạn gói VIP.",
+      action: "Đăng nhập",
+      actionHref: "/login",
+      tone: "warning",
+    });
+    return;
+  }
+
+  if (snapshot.status === "unknown") {
+    setMembershipStatusCard({
+      icon: "cloud_off",
+      label: "Không kiểm tra được quyền hội viên",
+      detail: ACCESS_MESSAGES.membershipUnknown,
+      tone: "warning",
+    });
+    return;
+  }
+
+  if (snapshot.status === "disabled") {
+    setMembershipStatusCard({
+      icon: "block",
+      label: "Tài khoản đã bị vô hiệu hóa",
+      detail: "Vui lòng liên hệ quản trị viên để được hỗ trợ mở lại tài khoản.",
+      tone: "danger",
+    });
+    return;
+  }
+
+  if (snapshot.status === "active") {
+    setMembershipStatusCard({
+      icon: result?.icon || "verified",
+      label: result?.label || "Hội viên VIP đang hoạt động",
+      detail:
+        result?.detail ||
+        `${snapshot.planName} có hiệu lực đến ${formatMembershipDate(
+          snapshot.expiresAt,
+        )}. Bạn có thể xem toàn bộ phim VIP đã phát hành.`,
+      action: "Gia hạn",
+      actionHref: "#membership-plans",
+      tone: "active",
+    });
+    return;
+  }
+
+  if (snapshot.status === "expired") {
+    setMembershipStatusCard({
+      icon: result?.icon || "history",
+      label: result?.label || "Gói hội viên đã hết hạn",
+      detail: result?.detail || ACCESS_MESSAGES.membershipExpired,
+      action: "Gia hạn ngay",
+      actionHref: "#membership-plans",
+      tone: "warning",
+    });
+    return;
+  }
+
+  setMembershipStatusCard({
+    icon: result?.icon || "workspace_premium",
+    label: result?.label || "Bạn chưa có gói hội viên",
+    detail:
+      result?.detail ||
+      "Chọn một gói bên dưới để xem các phim được đánh dấu VIP.",
+    action: "Chọn gói",
+    actionHref: "#membership-plans",
+    tone: "default",
+  });
+}
 
 /* =====================================================
    1. FAQ ACCORDION

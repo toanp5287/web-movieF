@@ -409,6 +409,35 @@ async function initAddMovieForm() {
 
               </div>
 
+
+              <div>
+
+                <label
+                  for="accessType"
+                  class="block mb-2 text-xs font-semibold
+                  uppercase tracking-wider text-zinc-400"
+                >
+                  Quyền xem
+                </label>
+
+                <select
+                  id="accessType"
+                  name="accessType"
+                  class="w-full px-3 py-2.5 rounded-xl
+                  bg-zinc-950 border border-zinc-800
+                  text-white text-sm
+                  focus:outline-none focus:border-brand"
+                >
+                  <option value="free">Miễn phí</option>
+                  <option value="vip">VIP / Trả phí</option>
+                </select>
+
+                <p class="mt-1.5 text-[11px] text-zinc-500">
+                  Phim VIP chỉ phát cho tài khoản hội viên còn hiệu lực.
+                </p>
+
+              </div>
+
             </div>
 
 
@@ -1086,6 +1115,8 @@ async function handleSubmitForm(e) {
 
     const quality = document.getElementById("quality").value;
 
+    const accessType = document.getElementById("accessType").value;
+
     const payload = {
       title: title,
 
@@ -1128,6 +1159,9 @@ async function handleSubmitForm(e) {
 
       // quality là field tuỳ chọn trong db.json: chỉ ghi khi thật sự chọn.
       ...(quality ? { quality: quality } : {}),
+
+      // Thiếu trường này trong dữ liệu cũ được coi là miễn phí.
+      accessType: accessType === "vip" ? "vip" : "free",
     };
 
     // ==================================================

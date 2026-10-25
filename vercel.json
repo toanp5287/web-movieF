@@ -25,6 +25,10 @@
       "destination": "/src/pages/movies.html"
     },
     {
+      "source": "/membership",
+      "destination": "/src/pages/membership.html"
+    },
+    {
       "source": "/movie-detail",
       "destination": "/src/pages/movie-detail.html"
     },

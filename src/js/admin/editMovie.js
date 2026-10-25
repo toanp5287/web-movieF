@@ -364,6 +364,50 @@ async function getMovie(id) {
       </select>
     </div>
 
+    <!-- Quyền xem -->
+    <div>
+      <label
+        for="accessType"
+        class="block mb-2 text-sm font-semibold text-gray-200"
+      >
+        Quyền xem
+      </label>
+
+      <select
+        id="accessType"
+        class="w-full px-4 py-3 rounded-xl
+               bg-cinema-950
+               border border-cinema-700/70
+               text-white"
+      >
+        <option
+          value="free"
+          ${
+            String(movie.accessType || "free").toLowerCase() === "vip"
+              ? ""
+              : "selected"
+          }
+        >
+          Miễn phí
+        </option>
+
+        <option
+          value="vip"
+          ${
+            String(movie.accessType || "free").toLowerCase() === "vip"
+              ? "selected"
+              : ""
+          }
+        >
+          VIP / Trả phí
+        </option>
+      </select>
+
+      <p class="text-xs text-gray-400 mt-2">
+        Phim VIP chỉ phát cho tài khoản hội viên còn hiệu lực.
+      </p>
+    </div>
+
     <!-- Trạng thái -->
     <div>
       <label
@@ -895,6 +939,8 @@ async function editMovie(id, oldMovie) {
 
     const quality = document.getElementById("quality").value;
 
+    const accessType = document.getElementById("accessType").value;
+
     // movies.genre là MẢNG id -> đọc từ các checkbox đã tick.
     const genre = Array.from(
       document.querySelectorAll('#editMovieForm input[name="genre"]:checked'),
@@ -936,6 +982,10 @@ async function editMovie(id, oldMovie) {
 
     if (!MOVIE_STATUSES.some((item) => item.value === status)) {
       throw new Error("Trạng thái không hợp lệ!");
+    }
+
+    if (!["free", "vip"].includes(accessType)) {
+      throw new Error("Quyền xem không hợp lệ!");
     }
 
     // ===============================================================
@@ -1045,6 +1095,8 @@ async function editMovie(id, oldMovie) {
 
       releaseDate: releaseDate || null,
       endDate: endDate || null,
+
+      accessType,
 
       ...(quality ? { quality: quality } : { quality: oldMovie.quality }),
     };

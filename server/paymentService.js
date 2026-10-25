@@ -147,6 +147,14 @@ export async function createPaymentOrder({ userId, planId, ipAddr }) {
 
   if (!user) throw fail("Không tìm thấy người dùng.", 404);
 
+  if (
+    String(user.status ?? "")
+      .trim()
+      .toLowerCase() !== "active"
+  ) {
+    throw fail("Tài khoản đã bị vô hiệu hóa, không thể mua gói.", 403);
+  }
+
   const now = new Date();
   const txnRef = makeTxnRef();
 
