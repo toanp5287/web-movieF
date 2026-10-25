@@ -117,7 +117,7 @@ app.get("/payment-return", async (req, res, next) => {
 
     const frontendUrl = new URL(
       process.env.PAYMENT_RESULT_URL ||
-        "http://localhost:5173/payment-result",
+        "http://localhost:5173/membership",
     );
 
     frontendUrl.searchParams.set(

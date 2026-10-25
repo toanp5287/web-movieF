@@ -15,6 +15,7 @@ import {
   qualityLabel,
   watchUrl,
 } from "./movie-data.js";
+import { isVipMovie } from "./access.js";
 
 /**
  * Nhãn chất lượng.
@@ -45,6 +46,15 @@ function ratingBadge(movie, reviews) {
                 <div class="absolute top-2.5 right-2.5 z-10 flex items-center gap-1 bg-surface-container-lowest/80 backdrop-blur-md px-2 py-0.5 rounded text-secondary border border-secondary/20">
                   <span class="material-symbols-outlined text-xs" style="font-variation-settings: &quot;FILL&quot; 1">star</span>
                   <span class="font-label-caps text-label-caps font-bold">${escapeHtml(score)}</span>
+                </div>`;
+}
+
+function vipBadge(movie) {
+  if (!isVipMovie(movie)) return "";
+  return `
+                <div class="absolute bottom-2 right-2 z-10 flex items-center gap-1 rounded bg-amber-500/95 px-2 py-1 text-[10px] font-bold text-black shadow-lg">
+                  <span class="material-symbols-outlined text-xs" style="font-variation-settings: &quot;FILL&quot; 1">workspace_premium</span>
+                  <span>VIP</span>
                 </div>`;
 }
 
@@ -112,11 +122,7 @@ export function renderMovieCard(movie, catalog, options = {}) {
                   decoding="async"
                   loading="lazy"
                   src="${escapeHtml(movie.poster || POSTER_FALLBACK)}"
-                />
-                <div class="absolute top-2.5 left-2.5 z-10 flex flex-col gap-1 items-start">
-                  ${qualityBadge(movie)}${availabilityBadge(movie)}
-                </div>
-                ${ratingBadge(movie, catalog.reviews)}
+                />${qualityBadge(movie)}${ratingBadge(movie, catalog.reviews)}${availabilityBadge(movie)}${vipBadge(movie)}
                 <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                   <div class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-lg shadow-primary-container/40 transform scale-75 group-hover:scale-100 transition-transform duration-300">
                     <span class="material-symbols-outlined text-2xl" style="font-variation-settings: &quot;FILL&quot; 1">play_arrow</span>

@@ -337,6 +337,23 @@ const normalizeStatus = (value) => {
   return String(value ?? "").trim();
 };
 
+/**
+ * Quyền xem của phim.
+ *
+ * Phim cũ chưa có trường này phải tiếp tục là miễn phí để không tự khóa nội
+ * dung đang hoạt động. Chỉ các giá trị VIP/paid/premium mới được coi là trả phí.
+ */
+const normalizeAccessType = (value) => {
+  const normalized = String(value ?? "")
+    .trim()
+    .toLowerCase();
+  return normalized === "vip" ||
+    normalized === "paid" ||
+    normalized === "premium"
+    ? "vip"
+    : "free";
+};
+
 function normalizeMovie(raw) {
   const year = toNumber(raw.year);
   const duration = toNumber(raw.duration);
@@ -362,6 +379,7 @@ function normalizeMovie(raw) {
     actors: toList(raw.actors),
     genreIds: toList(raw.genre),
     quality: String(raw.quality ?? "").trim(),
+    accessType: normalizeAccessType(raw.accessType),
     status: normalizeStatus(raw.status),
     releaseDate: String(raw.releaseDate ?? "").trim(),
     endDate: String(raw.endDate ?? "").trim() || null,
