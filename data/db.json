@@ -135,7 +135,10 @@
       "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
       "roleId": 2,
       "status": "active",
-      "createdAt": "2026-09-19T10:00:16.816Z"
+      "createdAt": "2026-09-19T10:00:16.816Z",
+      "telegramChatId": "7888034739",
+      "telegramUsername": null,
+      "telegramLinkedAt": "2026-10-21T02:29:58.752Z"
     },
     {
       "id": "a5R4eWSFIyI",
@@ -312,6 +315,18 @@
       "duration": 0,
       "releaseDate": "2026-10-14",
       "status": false
+    },
+    {
+      "id": "e97374d0-a13d-46ac-810d-d4b5690229ef",
+      "seasonId": "SMyzc5LP86I",
+      "episodeNumber": 1,
+      "title": "tập 1 : hacsacsacac",
+      "description": "cấccsacsacsacsacasc",
+      "video": "/videos/1792516039495-25ud6v.mp4",
+      "thumbnail": "",
+      "duration": 1003,
+      "releaseDate": "2026-10-21",
+      "status": true
     }
   ],
   "genres": [
@@ -391,7 +406,7 @@
         "8"
       ],
       "quality": "hd",
-      "status": true,
+      "status": "published",
       "views": 12450,
       "createdAt": "2026-09-02"
     },
@@ -1267,6 +1282,33 @@
       "status": true,
       "views": 0,
       "createdAt": "2026-09-30"
+    },
+    {
+      "title": "csacca",
+      "slug": "csacca",
+      "description": "dvavdvvd",
+      "genre": [
+        "1",
+        "2"
+      ],
+      "poster": "",
+      "backdrop": "",
+      "year": 2025,
+      "duration": 1111,
+      "country": "USA",
+      "director": "acsaccs",
+      "actors": [
+        "Robert Downey Jr.",
+        "Chris Evans",
+        "Mark Ruffalo"
+      ],
+      "trailer": "",
+      "video": "/videos/no-video.mp4",
+      "status": "published",
+      "views": 0,
+      "createdAt": "2026-10-21",
+      "quality": "full hd",
+      "id": "cUfw-tH"
     }
   ],
   "favorites": [
@@ -1408,8 +1450,8 @@
     {
       "userId": "8TZCZPkPe4Q",
       "movieId": 3,
-      "progress": 59,
-      "watchedAt": "2026-10-18T19:25:58",
+      "progress": 16,
+      "watchedAt": "2026-10-20T17:26:29",
       "id": "NZSsLDU"
     },
     {
@@ -1446,7 +1488,7 @@
       "userId": "8TZCZPkPe4Q",
       "movieId": 2,
       "progress": 3,
-      "watchedAt": "2026-10-18T19:26:01",
+      "watchedAt": "2026-10-20T17:26:39",
       "id": "qA1YWsZ"
     },
     {
@@ -1471,6 +1513,37 @@
       "progress": 0,
       "watchedAt": "2026-10-19T17:16:07",
       "id": "QDGOZ_l"
+    },
+    {
+      "userId": "8TZCZPkPe4Q",
+      "movieId": 22,
+      "progress": 0,
+      "watchedAt": "2026-10-20T17:25:49",
+      "id": "Jy_4rtz"
+    },
+    {
+      "userId": "8TZCZPkPe4Q",
+      "movieId": 23,
+      "progress": 22,
+      "watchedAt": "2026-10-20T17:27:27",
+      "episodeId": 2,
+      "id": "1YrZOMa"
+    },
+    {
+      "userId": "8TZCZPkPe4Q",
+      "movieId": 23,
+      "progress": 3,
+      "watchedAt": "2026-10-21T02:47:26",
+      "episodeId": "e97374d0-a13d-46ac-810d-d4b5690229ef",
+      "id": "L4nhFNC"
+    },
+    {
+      "userId": "8TZCZPkPe4Q",
+      "movieId": 23,
+      "progress": 30,
+      "watchedAt": "2026-10-21T02:46:51",
+      "episodeId": 3,
+      "id": "AEp__yD"
     }
   ],
   "reviews": [
@@ -1572,6 +1645,15 @@
       "status": "visible",
       "createdAt": "2026-10-17",
       "id": "vmQnV8z"
+    },
+    {
+      "userId": "8TZCZPkPe4Q",
+      "movieId": 13,
+      "rating": 2,
+      "comment": "cdscsacasccac",
+      "status": "visible",
+      "createdAt": "2026-10-21",
+      "id": "gszOi7g"
     }
   ],
   "reviewReports": [],

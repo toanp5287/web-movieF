@@ -11,6 +11,9 @@ const JSON_SERVER_URL = (
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const RESEND_FROM = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
 
+// tele
+
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 if (!RESEND_API_KEY) {
   console.error("Lỗi: Không tìm thấy RESEND_API_KEY trong file .env");
   process.exit(1);
@@ -398,6 +401,92 @@ async function handleVerifyOtp(req, res) {
     verified: true,
     message: "Xác minh OTP thành công.",
   });
+}
+
+// Tìm tài khoản MovieF theo email trong JSON Server.
+async function getUserByEmail(email) {
+  let response;
+
+  try {
+    response = await fetch(`${JSON_SERVER_URL}/users`, {
+      signal: AbortSignal.timeout(10000),
+    });
+  } catch {
+    throw createHttpError(
+      "Không kết nối được JSON Server. Hãy kiểm tra cổng 3000.",
+      503,
+    );
+  }
+
+  if (!response.ok) {
+    throw createHttpError("Không thể đọc dữ liệu người dùng.", 503);
+  }
+
+  const users = await response.json();
+
+  if (!Array.isArray(users)) {
+    throw createHttpError("Dữ liệu /users không hợp lệ.", 503);
+  }
+
+  return users.find((user) => normalizeEmail(user.email) === email) || null;
+}
+
+// Gửi OTP riêng đến tài khoản Telegram đã liên kết.
+async function sendTelegramOtp(chatId, otp) {
+  if (!TELEGRAM_BOT_TOKEN) {
+    throw createHttpError(
+      "Chưa cấu hình TELEGRAM_BOT_TOKEN trong file .env.",
+      503,
+    );
+  }
+
+  let response;
+
+  try {
+    response = await fetch(
+      `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: [
+            "MOVIEF - MÃ XÁC THỰC OTP",
+            "",
+            `Mã OTP của bạn là: ${otp}`,
+            "",
+            "Mã có hiệu lực trong 5 phút.",
+            "Không chia sẻ mã này với bất kỳ ai.",
+            "Nếu bạn không yêu cầu mã, hãy bỏ qua tin nhắn này.",
+          ].join("\n"),
+        }),
+        signal: AbortSignal.timeout(10000),
+      },
+    );
+  } catch {
+    throw createHttpError("Không kết nối được Telegram. Hãy thử lại sau.", 502);
+  }
+
+  let result;
+
+  try {
+    result = await response.json();
+  } catch {
+    throw createHttpError("Telegram trả về phản hồi không hợp lệ.", 502);
+  }
+
+  if (!response.ok || !result.ok) {
+    console.error("Telegram gửi OTP thất bại:", result.description);
+
+    throw createHttpError(
+      "Không gửi được OTP qua Telegram. Hãy kiểm tra bot và thử lại.",
+      502,
+    );
+  }
+
+  return true;
 }
 
 const server = createServer(async (req, res) => {

@@ -9,7 +9,8 @@
     "dev": "concurrently \"npm run dev:vite\" \"npm run server\"",
     "build": "vite build",
     "preview": "vite preview",
-    "mail": "node ./server/mailSacThuc.js"
+    "mail": "node ./server/mailSacThuc.js",
+    "tele": "node server/telegram.js"
   },
   "devDependencies": {
     "concurrently": "^10.0.5",
